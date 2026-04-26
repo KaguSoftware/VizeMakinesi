@@ -1,0 +1,36 @@
+import { TEAM_MEMBERS } from './constants';
+
+export default function TeamGrid() {
+  return (
+    <section className="py-24 border-b border-border">
+      <div className="container">
+        <div className="mb-14">
+          <h2 className="font-serif font-bold text-[clamp(36px,5vw,56px)] leading-none tracking-[-0.025em]">
+            The people who<br />read your file.
+          </h2>
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted mt-4">
+            12 consultants · 4 partners
+          </div>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 border-t border-border">
+          {TEAM_MEMBERS.map((m) => (
+            <div
+              key={m.initials}
+              className="p-10 border-r border-b border-border last:border-r-0 hover:bg-cream transition-colors duration-200"
+            >
+              <div className="w-[72px] h-[72px] border border-navy rounded-full flex items-center justify-center font-serif italic font-normal text-[26px] tracking-[-0.02em] mb-7">
+                {m.initials}
+              </div>
+              <h4 className="font-serif font-semibold text-[22px] mb-2 tracking-[-0.015em]">
+                {m.name}
+              </h4>
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                {m.role}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

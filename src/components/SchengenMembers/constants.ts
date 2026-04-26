@@ -1,0 +1,41 @@
+import type { SchengenMember } from './types';
+
+export const SCHENGEN_MEMBERS: SchengenMember[] = [
+  { flag: '🇦🇹', name: 'Austria' },
+  { flag: '🇧🇪', name: 'Belgium' },
+  { flag: '🇧🇬', name: 'Bulgaria' },
+  { flag: '🇭🇷', name: 'Croatia' },
+  { flag: '🇨🇿', name: 'Czechia' },
+  { flag: '🇩🇰', name: 'Denmark' },
+  { flag: '🇪🇪', name: 'Estonia' },
+  { flag: '🇫🇮', name: 'Finland' },
+  { flag: '🇫🇷', name: 'France' },
+  { flag: '🇩🇪', name: 'Germany' },
+  { flag: '🇬🇷', name: 'Greece' },
+  { flag: '🇭🇺', name: 'Hungary' },
+  { flag: '🇮🇸', name: 'Iceland' },
+  { flag: '🇮🇹', name: 'Italy' },
+  { flag: '🇱🇻', name: 'Latvia' },
+  { flag: '🇱🇮', name: 'Liechtenstein' },
+  { flag: '🇱🇹', name: 'Lithuania' },
+  { flag: '🇱🇺', name: 'Luxembourg' },
+  { flag: '🇲🇹', name: 'Malta' },
+  { flag: '🇳🇱', name: 'Netherlands' },
+  { flag: '🇳🇴', name: 'Norway' },
+  { flag: '🇵🇱', name: 'Poland' },
+  { flag: '🇵🇹', name: 'Portugal' },
+  { flag: '🇷🇴', name: 'Romania' },
+  { flag: '🇸🇰', name: 'Slovakia' },
+  { flag: '🇸🇮', name: 'Slovenia' },
+  { flag: '🇪🇸', name: 'Spain' },
+  { flag: '🇸🇪', name: 'Sweden' },
+  { flag: '🇨🇭', name: 'Switzerland' },
+];
+
+export const SCHENGEN_REJECTION_REASONS = [
+  { title: 'Doubt over intent to return', desc: 'Insufficient proof of ties to home country — employment, property, family.' },
+  { title: 'Inconsistent itinerary',      desc: 'Hotel and flight dates that don\'t align with stated purpose of visit.' },
+  { title: 'Insufficient funds',          desc: 'Bank balance does not credibly cover the trip plus a buffer.' },
+  { title: 'Insurance below threshold',   desc: 'Travel insurance below €30,000 or excluding the Schengen area.' },
+  { title: 'Past overstay or violation',  desc: 'Previous Schengen breaches must be addressed candidly in the cover letter.' },
+];

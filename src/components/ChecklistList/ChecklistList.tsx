@@ -1,0 +1,19 @@
+import type { ChecklistListProps } from './types';
+
+export default function ChecklistList({ items }: ChecklistListProps) {
+  return (
+    <ul className="list-none">
+      {items.map((item, i) => (
+        <li
+          key={i}
+          className="grid grid-cols-[60px_1fr] gap-4 py-[18px] border-t border-border text-base leading-relaxed last:border-b"
+        >
+          <div className="font-mono text-[11px] tracking-[0.15em] text-coral font-medium pt-[5px]">
+            — {String(i + 1).padStart(2, '0')}
+          </div>
+          <div>{item}</div>
+        </li>
+      ))}
+    </ul>
+  );
+}

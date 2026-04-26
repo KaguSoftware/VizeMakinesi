@@ -1,0 +1,25 @@
+import type { Metadata } from 'next';
+import PageHead from '@/components/PageHead/PageHead';
+import FeesTable from '@/components/FeesTable/FeesTable';
+import BigCTA from '@/components/BigCTA/BigCTA';
+
+export const metadata: Metadata = {
+  title: 'Fees & Pricing — Visa.Office',
+  description: 'Transparent, fixed-quote pricing for visa filing, passport services, and more.',
+};
+
+export default function FeesPage() {
+  return (
+    <>
+      <PageHead
+        eyebrow="— Visa fees"
+        title={<>Transparent pricing. <em className="font-normal italic text-coral">No surprises.</em></>}
+        lede="Our fees cover consultation, document preparation, filing, and tracking. Government and consulate fees are billed at cost with receipts."
+      />
+      <section className="container">
+        <FeesTable />
+      </section>
+      <BigCTA title={<>Want a <em className="font-normal italic text-coral">fixed quote</em> on your case?</>} />
+    </>
+  );
+}

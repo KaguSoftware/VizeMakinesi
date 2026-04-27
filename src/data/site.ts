@@ -10,9 +10,6 @@ export const SITE = {
     city: '34330 Beşiktaş',
   },
   hours: [
-    { day: 'Pzt – Per',   time: '09:00 – 18:00' },
-    { day: 'Cuma',        time: '09:00 – 17:00' },
-    { day: 'Cumartesi',   time: '10:00 – 14:00' },
-    { day: 'Pazar',       time: 'Kapalı' },
+    { day: 'Pzt – Cum', time: '10:00 – 18:00' },
   ],
 } as const;

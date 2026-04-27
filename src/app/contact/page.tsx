@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import PageHead from '@/components/PageHead/PageHead';
 import MapFrame from '@/components/MapFrame/MapFrame';
 import { SITE } from '@/data/site';
 
@@ -11,11 +10,6 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <PageHead
-        eyebrow="— Bize ulaşın"
-        title={<>Gelin. <em className="font-normal italic text-coral">Ya da önceden arayın.</em></>}
-        lede="Ofisimiz haftada altı gün açık. Öğlene kadar randevusuz kabul; öğleden sonra randevu ile."
-      />
 
       <section className="container">
         <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] py-20 border-b border-border">
@@ -28,7 +22,6 @@ export default function ContactPage() {
             {[
               { k: 'Adres',    v: `${SITE.address.street},\n${SITE.address.suite}\n${SITE.address.city}`, isAddress: true },
               { k: 'Telefon',  v: SITE.phone,   href: SITE.phoneHref,    serif: true },
-              { k: 'WhatsApp', v: 'wa.me/905307753131', href: SITE.whatsappHref, external: true },
               { k: 'E-posta',  v: SITE.email,   href: `mailto:${SITE.email}` },
             ].map((row) => (
               <div key={row.k} className="grid grid-cols-[130px_1fr] gap-5 py-[22px] border-t border-border items-baseline">

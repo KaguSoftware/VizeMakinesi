@@ -75,11 +75,10 @@ export default function Nav() {
                             onMouseEnter={() => handleEnter(i)}
                         >
                             <button
-                                className={`font-sans font-medium text-[11.5px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${
-                                    activeMega === i
-                                        ? "text-coral"
-                                        : "text-white/70 hover:text-coral"
-                                }`}
+                                className={`font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${activeMega === i
+                                    ? "text-coral"
+                                    : "text-white/70 hover:text-coral"
+                                    }`}
                             >
                                 {group.label}
                                 <span
@@ -98,7 +97,7 @@ export default function Nav() {
                     ))}
                     <Link
                         href="/contact"
-                        className="ml-4 font-sans font-medium text-[11.5px] uppercase tracking-widest px-5.5 py-3.5 bg-coral border border-coral text-navy hover:bg-navy hover:text-white hover:border-white/30 transition-all duration-200 inline-flex items-center"
+                        className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral text-navy border border-coral hover:bg-navy hover:text-white hover:border-coral transition-all duration-200 inline-flex items-center"
                     >
                         {"Danışma Al →"}
                     </Link>
@@ -142,15 +141,15 @@ export default function Nav() {
                                         <Link
                                             key={ci}
                                             href={col.feature!.to}
-                                            className="mega-feature flex flex-col justify-between p-7 bg-[#1a3a52] text-white min-h-55 border border-border"
+                                            className="mega-feature flex flex-col justify-between p-7 bg-navy text-white min-h-55 border border-coral/30 hover:border-coral transition-colors duration-200"
                                         >
                                             <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase relative z-10">
                                                 — {col.feature!.eyebrow}
                                             </div>
-                                            <div className="font-serif font-semibold text-[22px] leading-tight tracking-[-0.015em] mt-3 mb-4 relative z-10">
+                                            <div className="font-serif font-semibold text-[22px] leading-tight tracking-[-0.015em] mt-3 mb-4 relative z-10 text-white">
                                                 {col.feature!.title}
                                             </div>
-                                            <div className="text-[13px] text-white/78 leading-relaxed flex-1 relative z-10">
+                                            <div className="text-[13px] text-white/90 leading-relaxed flex-1 relative z-10">
                                                 {col.feature!.body}
                                             </div>
                                             <div className="font-sans text-[11px] tracking-widest uppercase text-coral mt-4 relative z-10">
@@ -221,11 +220,10 @@ export default function Nav() {
                             <Link
                                 key={l.to}
                                 href={l.to}
-                                className={`font-serif text-[32px] font-semibold py-4 border-b border-border flex justify-between items-center ${
-                                    pathname === l.to
-                                        ? "text-coral"
-                                        : "text-navy"
-                                }`}
+                                className={`font-serif text-[32px] font-semibold py-4 border-b border-border flex justify-between items-center ${pathname === l.to
+                                    ? "text-coral"
+                                    : "text-navy"
+                                    }`}
                             >
                                 {l.label}
                                 <span className="text-[22px] text-muted/60">

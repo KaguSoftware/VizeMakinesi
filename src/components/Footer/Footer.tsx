@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
     FOOTER_COLUMNS,
     FOOTER_TAGLINE,
@@ -66,11 +67,13 @@ export default function Footer() {
                     <div className="flex flex-col items-end gap-1.5">
                         <span>{FOOTER_REG}</span>
                         <span className="flex items-center gap-2 text-white/25">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                <path d="M2 17l10 5 10-5"/>
-                                <path d="M2 12l10 5 10-5"/>
-                            </svg>
+                            <Image
+                                src="/KaguSoftwareLogo.png"
+                                alt="Kagu Software"
+                                width={100}
+                                height={100}
+                                className="invert"
+                            />
                             Built by Kagu Software
                         </span>
                     </div>

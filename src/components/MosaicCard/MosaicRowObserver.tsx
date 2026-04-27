@@ -7,10 +7,9 @@ export default function MosaicRowObserver() {
         if (!window.matchMedia("(hover: none)").matches) return;
 
         const rowMap = new Map<string, HTMLElement[]>();
-        document.querySelectorAll<HTMLElement>("[data-mosaic-row]").forEach((el) => {
-            const row = el.dataset.mosaicRow!;
-            if (!rowMap.has(row)) rowMap.set(row, []);
-            rowMap.get(row)!.push(el);
+        document.querySelectorAll<HTMLElement>("[data-mosaic-row]").forEach((el, i) => {
+            const key = String(i);
+            rowMap.set(key, [el]);
         });
 
         const observers: IntersectionObserver[] = [];
@@ -22,13 +21,13 @@ export default function MosaicRowObserver() {
             const observer = new IntersectionObserver(
                 (entries) => {
                     entries.forEach((e) => {
-                        if (e.intersectionRatio >= 0.50) visibleSet.add(e.target);
+                        if (e.intersectionRatio >= 0.70) visibleSet.add(e.target);
                         else visibleSet.delete(e.target);
                     });
                     const active = visibleSet.size > 0;
                     cards.forEach((c) => c.classList.toggle("is-active", active));
                 },
-                { threshold: [0, 0.50] }
+                { threshold: [0, 0.70] }
             );
 
             // Observe every card in the row

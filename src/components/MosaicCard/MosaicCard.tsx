@@ -16,7 +16,8 @@ export default function MosaicCard({
             className={`mosaic-cell ${span} border-b border-r border-border flex flex-col justify-between min-h-90 cursor-pointer relative bg-white overflow-hidden`}
         >
             <FlagBG slug={country.slug as CountrySlug} className="flag-svg" />
-            <div className="flag-overlay" />
+            <div className="flag-overlay-light" />
+            <div className="flag-overlay-dark" />
 
             <div className="absolute top-7 right-8 font-mono text-[11px] tracking-[0.18em] text-muted uppercase z-10 hv-white transition-colors duration-700">
                 — {String(index + 1).padStart(2, "0")} / 10

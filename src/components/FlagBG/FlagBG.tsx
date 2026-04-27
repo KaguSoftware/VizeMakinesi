@@ -36,7 +36,7 @@ export default function FlagBG({ slug, className }: FlagBGProps) {
     case 'france':
       return (
         <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="1" height="2" x="0" fill="#0055A4" />
+          <rect width="3" height="2" fill="#0055A4" />
           <rect width="1" height="2" x="1" fill="#FFFFFF" />
           <rect width="1" height="2" x="2" fill="#EF4135" />
         </svg>
@@ -44,8 +44,8 @@ export default function FlagBG({ slug, className }: FlagBGProps) {
     case 'italy':
       return (
         <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="1" height="2" x="0" fill="#008C45" />
-          <rect width="1" height="2" x="1" fill="#F4F5F0" />
+          <rect width="3" height="2" fill="#008C45" />
+          <rect width="1" height="2" x="1" fill="#FFFFFF" />
           <rect width="1" height="2" x="2" fill="#CD212A" />
         </svg>
       );

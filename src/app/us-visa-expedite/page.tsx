@@ -4,13 +4,12 @@ import { EXPEDITE_STATS } from '@/components/StatsGrid/constants';
 import NumberedList from '@/components/NumberedList/NumberedList';
 import ChecklistList from '@/components/ChecklistList/ChecklistList';
 import FAQ from '@/components/FAQ/FAQ';
-import BigCTA from '@/components/BigCTA/BigCTA';
 import type { FAQItem } from '@/data/countries.types';
 import type { NumberedListItem } from '@/components/NumberedList/types';
 import { SITE } from '@/data/site';
 
 export const metadata: Metadata = {
-  title: 'US Visa Expediting — Visa.Office',
+  title: 'US Visa Expediting — Vize Makinesi',
   description: 'Get a US visa interview in 5–10 days. We handle DS-160, expedite requests, and slot booking.',
 };
 
@@ -79,7 +78,6 @@ export default function USExpeditePage() {
       </section>
 
       <FAQ items={FAQS} title={<>Expediting — <em className="font-normal italic text-coral">common questions.</em></>} />
-      <BigCTA title={<>Travel <em className="font-normal italic text-coral">this month?</em><br />Let&apos;s start today.</>} />
     </>
   );
 }

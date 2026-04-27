@@ -13,7 +13,7 @@
   --font-mono:  var(--font-jetbrains);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; }
 
 html, body {
   background: #EFEDE8;
@@ -123,7 +123,8 @@ q::before, q::after { content: ""; }
   transition: background 1.1s cubic-bezier(.4,0,.2,1);
   z-index: 1;
 }
-.mosaic-cell:hover .flag-overlay {
+.mosaic-cell:hover .flag-overlay,
+.mosaic-cell.is-active .flag-overlay {
   background: linear-gradient(180deg,rgba(255,255,255,.05) 0%,rgba(13,37,53,.7) 100%);
 }
 .mosaic-cell .flag-svg {
@@ -137,15 +138,19 @@ q::before, q::after { content: ""; }
               transform 1.6s cubic-bezier(.2,.8,.2,1);
   transform: scale(1.08);
 }
-.mosaic-cell:hover .flag-svg {
+.mosaic-cell:hover .flag-svg,
+.mosaic-cell.is-active .flag-svg {
   filter: saturate(1) contrast(1);
   opacity: .88;
   transform: scale(1);
 }
-/* text colour flips on hover */
-.mosaic-cell:hover .hv-white   { color: #fff; }
-.mosaic-cell:hover .hv-coral   { color: #C4A265; }
-.mosaic-cell:hover .cell-price-row { border-color: rgba(255,255,255,.25); }
+/* text colour flips on hover / scroll-into-view (touch) */
+.mosaic-cell:hover .hv-white,
+.mosaic-cell.is-active .hv-white   { color: #fff; }
+.mosaic-cell:hover .hv-coral,
+.mosaic-cell.is-active .hv-coral   { color: #C4A265; }
+.mosaic-cell:hover .cell-price-row,
+.mosaic-cell.is-active .cell-price-row { border-color: rgba(255,255,255,.25); }
 
 /* ── CTA CIRCLES ── */
 .cta-block { position: relative; overflow: hidden; }

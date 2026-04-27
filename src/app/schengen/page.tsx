@@ -4,11 +4,10 @@ import SchengenMembers from '@/components/SchengenMembers/SchengenMembers';
 import WarningList from '@/components/WarningList/WarningList';
 import { SCHENGEN_REJECTION_REASONS } from '@/components/SchengenMembers/constants';
 import FAQ from '@/components/FAQ/FAQ';
-import BigCTA from '@/components/BigCTA/BigCTA';
 import type { FAQItem } from '@/data/countries.types';
 
 export const metadata: Metadata = {
-  title: 'Schengen Visa — Visa.Office',
+  title: 'Schengen Visa — Vize Makinesi',
   description: 'One visa, 29 countries. We file across every Schengen consulate.',
 };
 
@@ -60,7 +59,6 @@ export default function SchengenPage() {
       </section>
 
       <FAQ items={SCHENGEN_FAQS} title={<>Schengen — <em className="font-normal italic text-coral">common questions.</em></>} />
-      <BigCTA title={<>Apply for your <em className="font-normal italic text-coral">Schengen visa</em> with us.</>} />
     </>
   );
 }

@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import PageHead from '@/components/PageHead/PageHead';
 import PassportRow from '@/components/PassportRow/PassportRow';
-import BigCTA from '@/components/BigCTA/BigCTA';
 
 export const metadata: Metadata = {
-  title: 'Passport Services — Visa.Office',
+  title: 'Passport Services — Vize Makinesi',
   description: 'New passports, renewals, lost or stolen replacements, and child passports.',
 };
 
@@ -19,7 +18,6 @@ export default function PassportPage() {
       <section className="container pt-6">
         <PassportRow />
       </section>
-      <BigCTA title={<>Need a passport <em className="font-normal italic text-coral">fast?</em></>} />
     </>
   );
 }

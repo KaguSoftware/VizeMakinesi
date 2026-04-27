@@ -7,16 +7,14 @@ export default function Marquee() {
     <section className="border-t border-b border-border bg-cream py-8 overflow-hidden">
       <div className="strip-track font-serif">
         {doubled.map((item, i) => (
-          <>
+          <span key={i} className="contents">
             {item.italic ? (
-              <em key={`text-${i}`}>{item.text}</em>
+              <em>{item.text}</em>
             ) : (
-              <span key={`text-${i}`}>{item.text}</span>
+              <span>{item.text}</span>
             )}
-            <span key={`dot-${i}`} className="text-coral mx-3 not-italic text-sm">
-              —
-            </span>
-          </>
+            <span className="text-coral mx-3 not-italic text-sm">—</span>
+          </span>
         ))}
       </div>
     </section>

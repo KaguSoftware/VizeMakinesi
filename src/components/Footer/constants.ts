@@ -30,5 +30,5 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
 ];
 
 export const FOOTER_TAGLINE = '— A QUIET PRACTICE FOR LOUD ITINERARIES ——';
-export const FOOTER_COPYRIGHT = '© 2008–2026 Visa.Office Consultancy. All rights reserved.';
+export const FOOTER_COPYRIGHT = '© 2008–2026 Vize Makinesi Consultancy. All rights reserved.';
 export const FOOTER_REG = 'Licensed Migration Advisors · Reg. 0987-MA';

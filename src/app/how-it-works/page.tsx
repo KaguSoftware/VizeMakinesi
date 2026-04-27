@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import PageHead from '@/components/PageHead/PageHead';
 import Timeline from '@/components/Timeline/Timeline';
-import BigCTA from '@/components/BigCTA/BigCTA';
 
 export const metadata: Metadata = {
-  title: 'How It Works — Visa.Office',
+  title: 'How It Works — Vize Makinesi',
   description: 'Our five-step visa practice: intake, documents, submission, tracking, and result.',
 };
 
@@ -19,7 +18,6 @@ export default function HowItWorksPage() {
       <section className="container">
         <Timeline />
       </section>
-      <BigCTA />
     </>
   );
 }

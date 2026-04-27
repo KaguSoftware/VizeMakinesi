@@ -5,7 +5,6 @@ import CountryHero from '@/components/CountryHero/CountryHero';
 import ChecklistList from '@/components/ChecklistList/ChecklistList';
 import NumberedList from '@/components/NumberedList/NumberedList';
 import FAQ from '@/components/FAQ/FAQ';
-import BigCTA from '@/components/BigCTA/BigCTA';
 import { SITE } from '@/data/site';
 
 interface Props {
@@ -21,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const country = COUNTRIES_DATA.find((c) => c.slug === countrySlug);
   if (!country) return {};
   return {
-    title: `${country.name} Visa — Visa.Office`,
+    title: `${country.name} Visa — Vize Makinesi`,
     description: country.summary,
   };
 }

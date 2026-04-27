@@ -4,7 +4,7 @@ import MapFrame from '@/components/MapFrame/MapFrame';
 import { SITE } from '@/data/site';
 
 export const metadata: Metadata = {
-  title: 'Contact — Visa.Office',
+  title: 'Contact — Vize Makinesi',
   description: 'Walk in or call ahead. 142 Whitfield Lane, Suite 612. Open Mon–Sat.',
 };
 
@@ -22,7 +22,7 @@ export default function ContactPage() {
           {/* Left */}
           <div className="pr-0 lg:pr-16">
             <h2 className="font-serif font-bold text-[56px] leading-none tracking-[-0.03em] mb-10">
-              Visa.Office<br />Downtown Branch.
+              Vize Makinesi<br />Downtown Branch.
             </h2>
 
             {[

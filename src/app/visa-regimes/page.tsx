@@ -2,10 +2,9 @@ import type { Metadata } from 'next';
 import PageHead from '@/components/PageHead/PageHead';
 import RegimeRow from '@/components/RegimeRow/RegimeRow';
 import { REGIMES } from '@/components/RegimeRow/constants';
-import BigCTA from '@/components/BigCTA/BigCTA';
 
 export const metadata: Metadata = {
-  title: 'Visa Regimes — Visa.Office',
+  title: 'Visa Regimes — Vize Makinesi',
   description: 'Tourist, business, student, work, and transit visa regimes explained.',
 };
 
@@ -22,7 +21,6 @@ export default function VisaRegimesPage() {
           <RegimeRow key={r.n} regime={r} />
         ))}
       </section>
-      <BigCTA title={<>Not sure which regime <em className="font-normal italic text-coral">fits you?</em></>} />
     </>
   );
 }

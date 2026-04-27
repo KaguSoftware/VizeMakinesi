@@ -5,7 +5,8 @@ function star(cx: number, cy: number, ro: number, ri: number): string {
   for (let i = 0; i < 10; i++) {
     const a = (i / 10) * Math.PI * 2 - Math.PI / 2;
     const r = i % 2 === 0 ? ro : ri;
-    pts.push(`${cx + Math.cos(a) * r},${cy + Math.sin(a) * r}`);
+    // Round to 4 decimal places to prevent server/client floating-point mismatch
+    pts.push(`${Math.round((cx + Math.cos(a) * r) * 1e4) / 1e4},${Math.round((cy + Math.sin(a) * r) * 1e4) / 1e4}`);
   }
   return pts.join(' ');
 }
@@ -60,10 +61,31 @@ export default function FlagBG({ slug, className }: FlagBGProps) {
       return (
         <svg viewBox="0 0 190 100" {...shared}>
           <rect width="190" height="100" fill="#FFFFFF" />
-          {[0, 2, 4, 6, 8, 10, 12].map((i) => (
-            <rect key={i} width="190" height={100 / 13} y={(100 / 13) * i} fill="#B22234" />
+          {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+            <rect key={i} width="190" height={100 / 13} y={(100 / 13) * i * 2} fill="#B22234" />
           ))}
+          {/* Canton (blue field) covers top 7 stripes */}
           <rect width="76" height={(100 / 13) * 7} fill="#3C3B6E" />
+          {/* 50 stars: 5 rows of 6 + 4 rows of 5, alternating, all inside canton */}
+          {Array.from({ length: 50 }).map((_, i) => {
+            let row: number, col: number, totalCols: number;
+            if (i < 30) {
+              row = Math.floor(i / 6) * 2;
+              col = i % 6;
+              totalCols = 6;
+            } else {
+              row = Math.floor((i - 30) / 5) * 2 + 1;
+              col = (i - 30) % 5;
+              totalCols = 5;
+            }
+            const cantonH = (100 / 13) * 7;
+            const rowH = cantonH / 10;
+            const x = totalCols === 6 ? 6 + col * 11 : 11 + col * 11;
+            const y = row * rowH + rowH / 2;
+            return (
+              <text key={i} x={x} y={y} fontSize="4" fill="#FFFFFF" textAnchor="middle" dominantBaseline="middle">★</text>
+            );
+          })}
         </svg>
       );
     case 'canada':
@@ -72,8 +94,9 @@ export default function FlagBG({ slug, className }: FlagBGProps) {
           <rect width="6" height="12" x="0" fill="#FF0000" />
           <rect width="12" height="12" x="6" fill="#FFFFFF" />
           <rect width="6" height="12" x="18" fill="#FF0000" />
+          {/* Maple leaf */}
           <path
-            d="M12,3 L12.5,4.5 L14,4 L13,5.5 L14.5,6 L13,6.5 L13.5,8 L12.3,7.2 L12,8.5 L11.7,7.2 L10.5,8 L11,6.5 L9.5,6 L11,5.5 L10,4 L11.5,4.5 Z"
+            d="M12,1.8 L12.55,3.6 L14.2,2.9 L13.3,4.5 L15,4.5 L13.6,5.7 L14.3,7.1 L12.7,6.5 L12.7,8.5 L11.3,8.5 L11.3,6.5 L9.7,7.1 L10.4,5.7 L9,4.5 L10.7,4.5 L9.8,2.9 L11.45,3.6 Z"
             fill="#FF0000"
           />
         </svg>
@@ -82,13 +105,19 @@ export default function FlagBG({ slug, className }: FlagBGProps) {
       return (
         <svg viewBox="0 0 60 30" {...shared}>
           <rect width="60" height="30" fill="#00247D" />
-          <path d="M0,0 L30,15 M30,0 L0,15 M30,0 L60,15 M60,0 L30,15" stroke="#FFF" strokeWidth="2" />
-          <path d="M15,0 V15 M0,7.5 H30" stroke="#FFF" strokeWidth="3" />
-          <path d="M15,0 V15 M0,7.5 H30" stroke="#CF142B" strokeWidth="1.5" />
-          <circle cx="45" cy="22" r="2" fill="#FFF" />
-          <circle cx="50" cy="18" r="1.2" fill="#FFF" />
-          <circle cx="52" cy="24" r="1.2" fill="#FFF" />
-          <circle cx="46" cy="27" r="1.2" fill="#FFF" />
+          {/* Union Jack in top-left quarter */}
+          <path d="M0,0 L30,15 M30,0 L0,15" stroke="#FFF" strokeWidth="4" />
+          <path d="M0,0 L30,15 M30,0 L0,15" stroke="#CF142B" strokeWidth="2" />
+          <path d="M15,0 V15 M0,7.5 H30" stroke="#FFF" strokeWidth="6" />
+          <path d="M15,0 V15 M0,7.5 H30" stroke="#CF142B" strokeWidth="3" />
+          {/* Commonwealth Star below Union Jack */}
+          <text x="8" y="24" fontSize="6" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
+          {/* Southern Cross: 5 stars on right half */}
+          <text x="45" y="8"  fontSize="5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
+          <text x="52" y="13" fontSize="3.5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
+          <text x="49" y="20" fontSize="4.5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
+          <text x="40" y="22" fontSize="4.5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
+          <text x="38" y="14" fontSize="4.5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
         </svg>
       );
     case 'uae':

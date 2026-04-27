@@ -3,10 +3,9 @@ import PageHead from '@/components/PageHead/PageHead';
 import TeamGrid from '@/components/TeamGrid/TeamGrid';
 import StatsGrid from '@/components/StatsGrid/StatsGrid';
 import { ABOUT_STATS } from '@/components/StatsGrid/constants';
-import BigCTA from '@/components/BigCTA/BigCTA';
 
 export const metadata: Metadata = {
-  title: 'About Us — Visa.Office',
+  title: 'About Us — Vize Makinesi',
   description: 'Eighteen years, twelve consultants, 42,000+ visas processed.',
 };
 
@@ -49,7 +48,7 @@ export default function AboutPage() {
           </div>
           <div className="text-[16px] leading-[1.85] text-muted space-y-5">
             <p>
-              Visa.Office began in 2008 as a one-person practice serving the diaspora community in our home city. By 2013 we had three consultants and a license to act as authorised agents for two consulates.
+              Vize Makinesi began in 2008 as a one-person practice serving the diaspora community in our home city. By 2013 we had three consultants and a license to act as authorised agents for two consulates.
             </p>
             <p>
               Today we operate a multi-jurisdiction practice with twelve full-time consultants, in-house translators, and partnerships with VFS, TLS Contact, BLS, and CGI worldwide.
@@ -61,7 +60,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <BigCTA />
     </>
   );
 }

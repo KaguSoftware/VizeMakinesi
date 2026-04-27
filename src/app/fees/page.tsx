@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import PageHead from '@/components/PageHead/PageHead';
 import FeesTable from '@/components/FeesTable/FeesTable';
-import BigCTA from '@/components/BigCTA/BigCTA';
 
 export const metadata: Metadata = {
-  title: 'Fees & Pricing — Visa.Office',
+  title: 'Fees & Pricing — Vize Makinesi',
   description: 'Transparent, fixed-quote pricing for visa filing, passport services, and more.',
 };
 
@@ -19,7 +18,6 @@ export default function FeesPage() {
       <section className="container">
         <FeesTable />
       </section>
-      <BigCTA title={<>Want a <em className="font-normal italic text-coral">fixed quote</em> on your case?</>} />
     </>
   );
 }

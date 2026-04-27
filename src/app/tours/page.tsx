@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import PageHead from '@/components/PageHead/PageHead';
 import TourFilters from '@/components/TourFilters/TourFilters';
-import BigCTA from '@/components/BigCTA/BigCTA';
 
 export const metadata: Metadata = {
-  title: 'Curated Tours — Visa.Office',
+  title: 'Curated Tours — Vize Makinesi',
   description: 'Small-group itineraries built around the documents we already prepared for you.',
 };
 
@@ -19,7 +18,6 @@ export default function ToursPage() {
       <section className="container pb-16">
         <TourFilters />
       </section>
-      <BigCTA title={<>Travel with us <em className="font-normal italic text-coral">this season.</em></>} />
     </>
   );
 }

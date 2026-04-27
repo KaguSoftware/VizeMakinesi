@@ -4,4 +4,5 @@ export interface MosaicCardProps {
   country: Country;
   index: number;
   span: string;
+  rowIndex: number;
 }

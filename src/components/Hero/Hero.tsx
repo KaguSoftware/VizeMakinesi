@@ -1,5 +1,60 @@
+"use client";
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 import { HERO_EYEBROW, HERO_META } from './constants';
+
+function useCountUp(target: number, decimals: number, duration = 1400) {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || started.current) return;
+        started.current = true;
+        const start = performance.now();
+        const tick = (now: number) => {
+          const t = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - t, 3);
+          setValue(parseFloat((eased * target).toFixed(decimals)));
+          if (t < 1) requestAnimationFrame(tick);
+          else setValue(target);
+        };
+        requestAnimationFrame(tick);
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [target, decimals, duration]);
+
+  return { ref, value };
+}
+
+function AnimatedStat({ num, unit, label }: { num: string; unit: string; label: string }) {
+  const parsed = parseFloat(num.replace(/[^0-9.]/g, ''));
+  const decimals = num.includes('.') ? num.split('.')[1].length : 0;
+  const { ref, value } = useCountUp(isNaN(parsed) ? 0 : parsed, decimals);
+
+  const display = isNaN(parsed) ? num : value.toFixed(decimals);
+
+  return (
+    <div ref={ref}>
+      <div className="font-serif font-bold text-navy text-[56px] leading-none mb-3 tracking-[-0.02em] flex items-baseline gap-1.5">
+        {display}
+        <span className="font-mono text-[14px] text-coral font-medium tracking-wider">
+          {unit}
+        </span>
+      </div>
+      <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+        {label}
+      </div>
+    </div>
+  );
+}
 
 export default function Hero() {
   return (
@@ -16,7 +71,7 @@ export default function Hero() {
         </div>
 
         {/* Main grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-[60px] items-end relative">
+        <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-15 items-end relative">
           {/* Left: headline */}
           <div className="relative">
             <div className="absolute -top-2 left-0 font-mono text-[11px] tracking-[0.15em] text-coral uppercase">
@@ -35,7 +90,7 @@ export default function Hero() {
             <div className="absolute -top-6 -left-px w-7 h-7 bg-coral flex items-center justify-center font-mono text-[11px] font-medium text-white">
               ¶
             </div>
-            <p className="font-serif italic text-[19px] leading-[1.55] text-navy max-w-[380px] mb-8">
+            <p className="font-serif italic text-[19px] leading-[1.55] text-navy max-w-95 mb-8">
               <span className="not-italic font-mono text-[11px] text-muted tracking-[0.12em] uppercase block mb-4">
                 — Editor&apos;s note
               </span>
@@ -43,7 +98,7 @@ export default function Hero() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-[0.1em] px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200"
+              className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200"
             >
               Book a Consultation →
             </Link>
@@ -53,17 +108,7 @@ export default function Hero() {
         {/* Meta row */}
         <div className="grid grid-cols-2 md:grid-cols-4 border-t border-border mt-20 pt-9 gap-6">
           {HERO_META.map((m) => (
-            <div key={m.label}>
-              <div className="font-serif font-bold text-navy text-[56px] leading-none mb-3 tracking-[-0.02em] flex items-baseline gap-1.5">
-                {m.num}
-                <span className="font-mono text-[14px] text-coral font-medium tracking-[0.05em]">
-                  {m.unit}
-                </span>
-              </div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-                {m.label}
-              </div>
-            </div>
+            <AnimatedStat key={m.label} {...m} />
           ))}
         </div>
       </div>

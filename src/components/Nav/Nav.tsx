@@ -95,12 +95,14 @@ export default function Nav() {
                             </button>
                         </div>
                     ))}
-                    <Link
-                        href="/contact"
-                        className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral text-navy border border-coral hover:bg-navy hover:text-white hover:border-coral transition-all duration-200 inline-flex items-center"
-                    >
-                        {"Danışma Al →"}
-                    </Link>
+                    <button className="text-navy hover:text-coral">
+                        <Link
+                            href="/contact"
+                            className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral text-navy border border-coral hover:bg-navy hover:text-white hover:border-coral transition-all duration-200 inline-flex items-center"
+                        >
+                            {"Danışma Al →"}
+                        </Link>
+                    </button>
                 </nav>
 
                 {/* Hamburger */}

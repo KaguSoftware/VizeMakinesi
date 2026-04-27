@@ -22,14 +22,13 @@ export default function MosaicRowObserver() {
             const observer = new IntersectionObserver(
                 (entries) => {
                     entries.forEach((e) => {
-                        if (e.isIntersecting) visibleSet.add(e.target);
+                        if (e.intersectionRatio >= 0.30) visibleSet.add(e.target);
                         else visibleSet.delete(e.target);
                     });
-                    // Activate the whole row if any card is on screen
                     const active = visibleSet.size > 0;
                     cards.forEach((c) => c.classList.toggle("is-active", active));
                 },
-                { threshold: 0.15 }
+                { threshold: [0, 0.30] }
             );
 
             // Observe every card in the row

@@ -4,11 +4,11 @@ export const TICKER_ITEMS = [
   '— Bugün 18:00\'a kadar açık',
   '· Schengen işlem süresi 12 iş günü',
   '· ABD hızlandırma %91 onay',
-  '· +1 555 123 4567',
+  '· +90 530 775 31 31',
   '— Bugün 18:00\'a kadar açık',
   '· Schengen işlem süresi 12 iş günü',
   '· ABD hızlandırma %91 onay',
-  '· +1 555 123 4567',
+  '· +90 530 775 31 31',
 ];
 
 export const MEGA_MENU: MegaMenuGroup[] = [
@@ -95,7 +95,7 @@ export const MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Ziyaret',
         items: [
-          { to: '/contact', label: 'Şehir Merkezi Ofisi', desc: '142 Whitfield Lane · Suite 612' },
+          { to: '/contact', label: 'Levent Ofisi', desc: 'Selvili Sokağı · D:Kat:1 Daire:1' },
           { to: '/contact', label: 'Çalışma Saatleri',    desc: 'Pts–Cts · Randevusuz kabul' },
         ],
       },

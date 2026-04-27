@@ -75,13 +75,13 @@ export default function Hero() {
           {/* Left: headline */}
           <div className="relative">
             <div className="absolute -top-2 left-0 font-mono text-[11px] tracking-[0.15em] text-coral uppercase">
-              — Brief #47
+              — Bülten #47
             </div>
             <h1 className="font-serif font-bold text-[clamp(52px,8vw,124px)] leading-[0.96] tracking-[-0.035em]">
-              Your visa.<br />
-              Our{' '}
-              <em className="text-coral font-normal italic">mission</em>,<br />
-              <span className="hero-underline">quietly</span> done.
+              Vizeniz.<br />
+              Bizim{' '}
+              <em className="text-coral font-normal italic">misyonumuz</em>,<br />
+              <span className="hero-underline">sessizce</span> tamamlandı.
             </h1>
           </div>
 
@@ -92,15 +92,15 @@ export default function Hero() {
             </div>
             <p className="font-serif italic text-[19px] leading-[1.55] text-navy max-w-95 mb-8">
               <span className="not-italic font-mono text-[11px] text-muted tracking-[0.12em] uppercase block mb-4">
-                — Editor&apos;s note
+                — Editör notu
               </span>
-              We prepare, submit and track visa applications for travellers, families and businesses across sixty-plus jurisdictions — with the rigour of a legal practice and the patience of a librarian.
+              Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
             </p>
             <Link
               href="/contact"
               className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200"
             >
-              Book a Consultation →
+              Danışma Al →
             </Link>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MEGA_MENU, MOBILE_LINKS, TICKER_ITEMS } from "./constants";
+import { SITE } from "@/data/site";
 
 export default function Nav() {
     const [open, setOpen] = useState(false);
@@ -45,7 +46,7 @@ export default function Nav() {
                 {/* Logo */}
                 <Link
                     href="/"
-                    className="flex items-baseline gap-4 font-serif text-coral"
+                    className="flex items-center gap-3 font-serif text-coral"
                 >
                     <span className="italic font-bold flex flex-col items-center text-[26px] tracking-[-0.02em]">
                         <span className="text-coral">
@@ -60,6 +61,9 @@ export default function Nav() {
                         <span className="hidden lg:block font-mono text-[9px] tracking-[0.18em] text-white/55 uppercase font-normal not-italic">
                             — Est. 2008 ——
                         </span>
+                    </span>
+                    <span className="font-serif font-bold italic text-[26px] tracking-[-0.02em] text-white leading-none">
+                        Vize Makinesi
                     </span>
                 </Link>
 
@@ -100,7 +104,7 @@ export default function Nav() {
                         className="ml-4 font-sans font-medium text-[11.5px] uppercase tracking-widest  bg-coral border border-coral text-navy hover:bg-navy hover:text-white hover:border-white/30 transition-all duration-200 inline-flex items-center"
                     >
                         <p className="hover:text-white w-full px-5.5 py-3.5 h-full duration-200">
-                            {"Book a Consultation →"}
+                            {"Danışma Al →"}
                         </p>
                     </Link>
                 </nav>
@@ -236,9 +240,9 @@ export default function Nav() {
                         ))}
                     </nav>
                     <div className="mt-8 flex gap-6 font-mono text-[12px] tracking-widest uppercase pt-6 border-t border-border">
-                        <a href="tel:+15551234567">+1 555 123 4567</a>
+                        <a href={SITE.phoneHref}>{SITE.phone}</a>
                         <a
-                            href="https://wa.me/15551234567"
+                            href={SITE.whatsappHref}
                             target="_blank"
                             rel="noopener noreferrer"
                         >

@@ -58,9 +58,22 @@ export default function Footer() {
                 </div>
 
                 {/* Rule */}
-                <div className="border-t border-border/60 mt-[72px] pt-6 font-mono text-[10px] tracking-[0.12em] uppercase text-white/40 flex justify-between flex-wrap gap-2 relative z-10">
-                    <span>{FOOTER_COPYRIGHT}</span>
-                    <span>{FOOTER_REG}</span>
+                <div className="border-t border-border/60 mt-[72px] pt-6 font-mono text-[10px] tracking-[0.12em] uppercase text-white/40 flex justify-between flex-wrap gap-4 relative z-10">
+                    <div className="flex flex-col gap-1.5">
+                        <span>{FOOTER_COPYRIGHT}</span>
+                        <span>Tüm hakları saklıdır · Kagu Software</span>
+                    </div>
+                    <div className="flex flex-col items-end gap-1.5">
+                        <span>{FOOTER_REG}</span>
+                        <span className="flex items-center gap-2 text-white/25">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                            Built by Kagu Software
+                        </span>
+                    </div>
                 </div>
             </div>
 

@@ -8,15 +8,15 @@ import {
 
 export default function BigCTA({ title }: BigCTAProps) {
     return (
-        <section className="cta-block mt-[120px] bg-navy text-white">
+        <section className="cta-block mt-[120px] bg-cream text-navy border-t border-border">
             <div className="container">
                 <div className="cta-inner py-[120px] relative z-10">
-                    <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-12 pb-4 border-b border-white/30">
+                    <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-12 pb-4 border-b border-border">
                         {CTA_EYEBROW}
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-20 items-end">
                         <div>
-                            <h2 className="font-serif font-bold text-[clamp(48px,6vw,96px)] leading-[0.96] tracking-[-0.035em] text-white">
+                            <h2 className="font-serif font-bold text-[clamp(48px,6vw,96px)] leading-[0.96] tracking-[-0.035em] text-navy">
                                 {title ?? (
                                     <>
                                         Bu öğleden sonra{" "}
@@ -28,18 +28,18 @@ export default function BigCTA({ title }: BigCTAProps) {
                             </h2>
                         </div>
                         <div>
-                            <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-white/65 mb-4">
+                            <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted mb-4">
                                 — Hemen arayın
                             </div>
                             <a
                                 href={CTA_PHONE_HREF}
-                                className="block font-serif font-bold text-[48px] tracking-[-0.025em] text-white mb-9 hover:text-coral transition-colors duration-200 leading-none"
+                                className="block font-serif font-bold text-[48px] tracking-[-0.025em] text-navy mb-9 hover:text-coral transition-colors duration-200 leading-none"
                             >
                                 {CTA_PHONE}
                             </a>
-                            <div className="flex flex-col gap-3 items-start">
+                            <div className="flex flex-col gap-3 w-full max-w-xs">
                                 <a
-                                    className="inline-flex items-center gap-3 font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] bg-[#25D366] border border-[#25D366] text-white hover:bg-transparent hover:text-[#25D366] transition-all duration-200"
+                                    className="inline-flex items-center justify-center gap-3 font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] bg-[#25D366] border border-[#25D366] text-white hover:bg-transparent hover:text-[#25D366] transition-all duration-200"
                                     href={CTA_WHATSAPP_HREF}
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -51,7 +51,7 @@ export default function BigCTA({ title }: BigCTAProps) {
                                     Ofisimize WhatsApp Yazın →
                                 </a>
                                 <a
-                                    className="inline-flex items-center gap-2 font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] border border-white/55 text-white hover:bg-coral hover:text-navy hover:border-coral transition-all duration-200"
+                                    className="inline-flex items-center justify-center gap-2 font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] border border-navy text-navy hover:bg-navy hover:text-white hover:border-navy transition-all duration-200"
                                     href={CTA_PHONE_HREF}
                                 >
                                     Ara: {CTA_PHONE}

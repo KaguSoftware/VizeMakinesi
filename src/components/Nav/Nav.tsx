@@ -58,9 +58,6 @@ export default function Nav() {
                                 className="w-auto h-auto "
                             />
                         </span>
-                        <span className="hidden lg:block font-mono text-[9px] tracking-[0.18em] text-white/55 uppercase font-normal not-italic">
-                            — Est. 2008 ——
-                        </span>
                     </span>
                     <span className="font-serif font-bold italic text-[26px] tracking-[-0.02em] text-white leading-none">
                         Vize Makinesi
@@ -101,11 +98,9 @@ export default function Nav() {
                     ))}
                     <Link
                         href="/contact"
-                        className="ml-4 font-sans font-medium text-[11.5px] uppercase tracking-widest  bg-coral border border-coral text-navy hover:bg-navy hover:text-white hover:border-white/30 transition-all duration-200 inline-flex items-center"
+                        className="ml-4 font-sans font-medium text-[11.5px] uppercase tracking-widest px-5.5 py-3.5 bg-coral border border-coral text-navy hover:bg-navy hover:text-white hover:border-white/30 transition-all duration-200 inline-flex items-center"
                     >
-                        <p className="hover:text-white w-full px-5.5 py-3.5 h-full duration-200">
-                            {"Danışma Al →"}
-                        </p>
+                        {"Danışma Al →"}
                     </Link>
                 </nav>
 

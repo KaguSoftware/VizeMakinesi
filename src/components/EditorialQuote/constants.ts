@@ -1,10 +1,10 @@
 export const EDITORIAL_QUOTE = {
-  quote: 'They turned what felt like an immovable bureaucracy into a five-step calendar. The visa was waiting in our hands a week before the flight.',
-  by: 'Margaret O., Repeat Client · UK & Schengen',
-  eyebrow: '— Practice memo, March 2026',
-  title: 'An old craft, practised quietly.',
+  quote: 'Bürokratik duvarlar gibi görünen engeli beş adımlı bir takvime dönüştürdüler. Vize, uçuş tarihimizden bir hafta önce elimizdeydi.',
+  by: 'Margaret O., Tekrarlayan Müşteri · İngiltere & Schengen',
+  eyebrow: '— Ofis notu, Mart 2026',
+  title: 'Eski bir zanaat, sessizce icra edilir.',
   paragraphs: [
-    'Vize Makinesi is not a portal. There is no algorithm reading your file. Every application that leaves our office has been read by a human consultant — twice — before it lands on a consular officer\'s desk.',
-    'That is slower than the apps. It is also why our approval rate sits five points above the published averages, and why we have never advertised on television.',
+    'Vize Makinesi bir portal değildir. Dosyanızı okuyan bir algoritma yoktur. Ofisimizden çıkan her başvuru, bir konsolosluk memurunun masasına ulaşmadan önce bir insan danışman tarafından iki kez okunmuş olur.',
+    'Bu, uygulamalardan daha yavaştır. Aynı zamanda onaylama oranımızın yayımlanan ortalamaların beş puan üzerinde kalmasının ve hiç televizyonda reklam vermemiş olmamızın da sebebidir.',
   ],
 } as const;

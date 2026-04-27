@@ -1,2 +1,2 @@
-export const MAP_LABEL = '142 Whitfield Lane · Downtown';
-export const MAP_NOTE  = '— Subway: Downtown / Whitfield (Lines 4, 6). Validated parking available in the building garage. Wheelchair accessible.';
+export const MAP_LABEL = '142 Whitfield Lane · Şehir Merkezi';
+export const MAP_NOTE  = '— Metro: Şehir Merkezi / Whitfield (4. ve 6. hatlar). Binada onaylı otopark mevcuttur. Tekerlekli sandalye erişimi uygundur.';

@@ -14,24 +14,24 @@ export default function HomePage() {
         <>
             <Hero />
 
-            {/* Mosaic index */}
+            {/* Mozaik dizini */}
             <section className="container">
                 <div className="flex justify-between items-end flex-wrap gap-4 border-b border-border pb-7 mb-14 mt-30">
                     <div className="font-mono text-[11px] tracking-[0.18em] text-coral uppercase">
-                        — 02 / Index
+                        — 02 / Dizin
                     </div>
                     <h2 className="font-serif font-bold text-[clamp(36px,5.5vw,72px)] leading-none tracking-[-0.03em]">
-                        Countries we serve,{" "}
+                        Hizmet verdiğimiz ülkeler,{" "}
                         <em className="font-normal italic text-muted">
-                            from the obvious to the obscure.
+                            açıktan gizliye.
                         </em>
                     </h2>
                     <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted whitespace-nowrap">
-                        10 of 60+ jurisdictions —
+                        60+ yetki alanından 10'u —
                     </div>
                 </div>
 
-                {/* Mosaic grid */}
+                {/* Mozaik grid */}
                 <div className="grid grid-cols-12 border-t border-border">
                     {COUNTRIES_DATA.map((country, i) => (
                         <MosaicCard
@@ -49,23 +49,23 @@ export default function HomePage() {
             <Marquee />
             <EditorialQuote />
 
-            {/* Process section */}
+            {/* Süreç bölümü */}
             <section className="container">
                 <div className="grid grid-cols-1 md:grid-cols-[80px_1fr_auto] gap-8 items-end border-b border-border pb-7 mb-0 mt-30">
                     <div className="font-mono text-[11px] tracking-[0.18em] text-coral uppercase">
-                        — 03 / Method
+                        — 03 / Yöntem
                     </div>
                     <h2 className="font-serif font-bold text-[clamp(36px,5.5vw,72px)] leading-none tracking-[-0.03em]">
-                        How an application moves{" "}
+                        Bir başvurunun nasıl ilerlediği{" "}
                         <em className="font-normal italic text-muted">
-                            through our office.
+                            ofisimizde.
                         </em>
                     </h2>
                     <Link
                         href="/how-it-works"
                         className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral whitespace-nowrap hover:underline"
                     >
-                        Full process →
+                        Tam süreç →
                     </Link>
                 </div>
                 <ProcessThreeUp />

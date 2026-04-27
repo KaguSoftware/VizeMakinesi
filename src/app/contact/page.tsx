@@ -4,32 +4,32 @@ import MapFrame from '@/components/MapFrame/MapFrame';
 import { SITE } from '@/data/site';
 
 export const metadata: Metadata = {
-  title: 'Contact — Vize Makinesi',
-  description: 'Walk in or call ahead. 142 Whitfield Lane, Suite 612. Open Mon–Sat.',
+  title: 'İletişim — Vize Makinesi',
+  description: 'Gelin ya da önceden arayın. 142 Whitfield Lane, Suite 612. Pzt–Cts arası açık.',
 };
 
 export default function ContactPage() {
   return (
     <>
       <PageHead
-        eyebrow="— Contact us"
-        title={<>Walk in. <em className="font-normal italic text-coral">Or call ahead.</em></>}
-        lede="Our office is open six days a week. Walk-ins welcome before noon; afternoon slots are by appointment."
+        eyebrow="— Bize ulaşın"
+        title={<>Gelin. <em className="font-normal italic text-coral">Ya da önceden arayın.</em></>}
+        lede="Ofisimiz haftada altı gün açık. Öğlene kadar randevusuz kabul; öğleden sonra randevu ile."
       />
 
       <section className="container">
         <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] py-20 border-b border-border">
-          {/* Left */}
+          {/* Sol */}
           <div className="pr-0 lg:pr-16">
             <h2 className="font-serif font-bold text-[56px] leading-none tracking-[-0.03em] mb-10">
-              Vize Makinesi<br />Downtown Branch.
+              Vize Makinesi<br />Şehir Merkezi Şubesi.
             </h2>
 
             {[
-              { k: 'Address', v: `${SITE.address.street},\n${SITE.address.suite}\n${SITE.address.city}`, isAddress: true },
-              { k: 'Phone',   v: SITE.phone,   href: SITE.phoneHref,    serif: true },
+              { k: 'Adres',    v: `${SITE.address.street},\n${SITE.address.suite}\n${SITE.address.city}`, isAddress: true },
+              { k: 'Telefon',  v: SITE.phone,   href: SITE.phoneHref,    serif: true },
               { k: 'WhatsApp', v: 'wa.me/15551234567', href: SITE.whatsappHref, external: true },
-              { k: 'Email',   v: SITE.email,   href: `mailto:${SITE.email}` },
+              { k: 'E-posta',  v: SITE.email,   href: `mailto:${SITE.email}` },
             ].map((row) => (
               <div key={row.k} className="grid grid-cols-[130px_1fr] gap-5 py-[22px] border-t border-border items-baseline">
                 <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">{row.k}</div>
@@ -52,9 +52,9 @@ export default function ContactPage() {
               </div>
             ))}
 
-            {/* Hours */}
+            {/* Çalışma Saatleri */}
             <div className="grid grid-cols-[130px_1fr] gap-5 py-[22px] border-t border-b border-border items-start">
-              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">Hours</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">Çalışma Saatleri</div>
               <table className="w-full border-collapse">
                 <tbody>
                   {SITE.hours.map((h) => (
@@ -74,18 +74,18 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] bg-coral border border-coral text-navy hover:bg-transparent hover:text-coral transition-all duration-200"
               >
-                WhatsApp Us →
+                WhatsApp'tan Yazın →
               </a>
               <a
                 href={SITE.phoneHref}
                 className="inline-flex items-center font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200"
               >
-                Call the Office
+                Ofisi Arayın
               </a>
             </div>
           </div>
 
-          {/* Right: map */}
+          {/* Sağ: harita */}
           <div className="pl-0 lg:pl-16 lg:border-l border-border mt-12 lg:mt-0">
             <MapFrame />
           </div>

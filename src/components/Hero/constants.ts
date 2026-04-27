@@ -1,14 +1,14 @@
 import type { HeroMetaItem, HeroEyebrowItem } from './types';
 
 export const HERO_EYEBROW: HeroEyebrowItem[] = [
-  { key: 'No. 001', text: 'The practice' },
-  { key: '—',       text: 'Founded MMVIII · Eighteen years on the desk' },
-  { text: "Issue 47 / Spring '26" },
+  { key: 'No. 001', text: 'Ofisimiz' },
+  { key: '—',       text: 'Kuruluş MMVIII · On sekiz yıllık deneyim' },
+  { text: "Sayı 47 / İlkbahar '26" },
 ];
 
 export const HERO_META: HeroMetaItem[] = [
-  { num: '18',   unit: 'YRS',  label: '— In Practice' },
-  { num: '42',   unit: 'K+',   label: '— Applications Filed' },
-  { num: '63',   unit: '/195', label: '— Countries Served' },
-  { num: '96.4', unit: '%',    label: '— Approval Rate' },
+  { num: '18',   unit: 'YIL',  label: '— Aktif Süre' },
+  { num: '42',   unit: 'B+',   label: '— Tamamlanan Başvuru' },
+  { num: '63',   unit: '/195', label: '— Hizmet Verilen Ülke' },
+  { num: '96.4', unit: '%',    label: '— Onaylama Oranı' },
 ];

@@ -9,56 +9,56 @@ import type { NumberedListItem } from '@/components/NumberedList/types';
 import { SITE } from '@/data/site';
 
 export const metadata: Metadata = {
-  title: 'US Visa Expediting — Vize Makinesi',
-  description: 'Get a US visa interview in 5–10 days. We handle DS-160, expedite requests, and slot booking.',
+  title: 'ABD Vize Hızlandırma — Vize Makinesi',
+  description: '5–10 günde ABD vize mülakatı ayarlayın. DS-160, hızlandırma talepleri ve slot rezervasyonu.',
 };
 
 const EXPEDITE_STEPS: NumberedListItem[] = [
-  { title: 'Eligibility check',  text: 'We confirm your reason qualifies — medical, business, urgent travel, student visa appointment.' },
-  { title: 'Request submission', text: 'We file the expedite request with your full justification packet within 24 hours.' },
-  { title: 'Slot booking',       text: 'We monitor consulate calendars in 30-minute intervals and grab the earliest available.' },
+  { title: 'Uygunluk kontrolü',  text: 'Gerekçenizin uygun olduğunu doğrularız — tıbbi, iş, acil seyahat, öğrenci vize randevusu.' },
+  { title: 'Talep başvurusu',    text: 'Hızlandırma talebinizi tam gerekçe paketiyle 24 saat içinde göndeririz.' },
+  { title: 'Slot rezervasyonu',  text: 'Konsolosluk takvimlerini 30 dakikada bir takip eder, en erken uygun slotu alırız.' },
 ];
 
 const REQUIREMENTS = [
-  'Approved DS-160 confirmation',
-  'MRV fee receipt (paid)',
-  'Documented urgency — medical, business, or academic',
-  'Original interview appointment confirmation',
-  'Supporting letter (we draft it)',
+  'Onaylı DS-160 doğrulama sayfası',
+  'MRV ücret makbuzu (ödenmiş)',
+  'Belgelenmiş acil durum — tıbbi, iş veya akademik',
+  'Orijinal mülakat randevu onayı',
+  'Destek mektubu (tarafımızca hazırlanır)',
 ];
 
 const FAQS: FAQItem[] = [
-  { q: 'How fast can you actually get an interview?',  a: 'For qualifying cases we frequently secure interviews within 5–10 working days, sometimes the next day in medical emergencies.' },
-  { q: 'What if my expedite request is denied?',       a: 'We appeal once at no extra cost. If still denied we hold your slot and monitor for cancellation slots daily.' },
-  { q: 'Does this work in every consulate?',           a: 'Yes — we operate across all US consulates worldwide. Some posts are faster than others; we\'ll be honest in the eligibility memo.' },
+  { q: 'Gerçekten ne kadar hızlı mülakat ayarlayabilirsiniz?',  a: 'Uygun durumlarda sıklıkla 5–10 iş günü içinde mülakat sağlıyoruz; tıbbi acillerde ertesi gün bile mümkün olabilir.' },
+  { q: 'Hızlandırma talebim reddedilirse ne olur?',             a: 'Ek ücret almadan bir kez itiraz ediyoruz. Yine reddedilirse slotunuzu tutup her gün iptal slotu takibi yapıyoruz.' },
+  { q: 'Bu her konsoloslukta işe yarar mı?',                    a: 'Evet — tüm ABD konsolosluklarında çalışıyoruz. Bazı birimler daha hızlıdır; uygunluk notunda dürüst oluruz.' },
 ];
 
 export default function USExpeditePage() {
   return (
     <>
       <Urgency
-        eyebrow="— US visa appointment expediting"
+        eyebrow="— ABD vize randevu hızlandırma"
         headline={
           <>
-            The interview is in{' '}
-            <em className="text-coral font-normal italic">twelve months.</em>
+            Mülakat{' '}
+            <em className="text-coral font-normal italic">on iki ay sonraya.</em>
             <br />
-            You leave in{' '}
-            <em className="text-coral font-normal italic">three weeks.</em>
+            Siz{' '}
+            <em className="text-coral font-normal italic">üç hafta sonra yola çıkıyorsunuz.</em>
           </>
         }
-        lede="When the regular calendar doesn't fit your travel, our expediting practice gets you in front of a consular officer in days, not months."
-        ctaPrimary={{ label: 'Start an Expedite Request →', href: `${SITE.whatsappHref}?text=Hello%2C%20I%20need%20US%20visa%20expediting` }}
-        ctaSecondary={{ label: `Call ${SITE.phone}`, href: SITE.phoneHref }}
+        lede="Normal takvim seyahat planınıza uymadığında, hızlandırma pratiğimiz sizi günler içinde konsolosluk görevlisinin karşısına çıkarır."
+        ctaPrimary={{ label: 'Hızlandırma Talebini Başlat →', href: `${SITE.whatsappHref}?text=Merhaba%2C%20ABD%20vize%20h%C4%B1zland%C4%B1rma%20istiyorum` }}
+        ctaSecondary={{ label: `${SITE.phone} Ara`, href: SITE.phoneHref }}
         stats={EXPEDITE_STATS}
       />
 
       <section className="container">
         <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-20 py-20 border-b border-border">
           <div>
-            <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">— How it works</div>
+            <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">— Nasıl çalışır</div>
             <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
-              Three steps.<br />Often three days.
+              Üç adım.<br />Çoğunlukla üç gün.
             </h2>
           </div>
           <NumberedList items={EXPEDITE_STEPS} />
@@ -68,16 +68,16 @@ export default function USExpeditePage() {
       <section className="container">
         <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-20 py-20 border-b border-border">
           <div>
-            <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">— Requirements</div>
+            <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">— Gereksinimler</div>
             <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
-              What we need<br />from you.
+              Bizden<br />isteyeceklerimiz.
             </h2>
           </div>
           <ChecklistList items={REQUIREMENTS} />
         </div>
       </section>
 
-      <FAQ items={FAQS} title={<>Expediting — <em className="font-normal italic text-coral">common questions.</em></>} />
+      <FAQ items={FAQS} title={<>Hızlandırma — <em className="font-normal italic text-coral">sık sorulan sorular.</em></>} />
     </>
   );
 }

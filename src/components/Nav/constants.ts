@@ -1,110 +1,110 @@
 import type { MegaMenuGroup, MobileLink } from './types';
 
 export const TICKER_ITEMS = [
-  '— Open today until 18:00',
-  '· Schengen processing 12 working days',
-  '· US expediting 91% approval',
+  '— Bugün 18:00\'a kadar açık',
+  '· Schengen işlem süresi 12 iş günü',
+  '· ABD hızlandırma %91 onay',
   '· +1 555 123 4567',
-  '— Open today until 18:00',
-  '· Schengen processing 12 working days',
-  '· US expediting 91% approval',
+  '— Bugün 18:00\'a kadar açık',
+  '· Schengen işlem süresi 12 iş günü',
+  '· ABD hızlandırma %91 onay',
   '· +1 555 123 4567',
 ];
 
 export const MEGA_MENU: MegaMenuGroup[] = [
   {
-    label: 'Visas',
+    label: 'Vizeler',
     columns: [
       {
-        title: 'Europe',
+        title: 'Avrupa',
         items: [
-          { to: '/visa/uk',          label: 'United Kingdom', flag: '🇬🇧' },
-          { to: '/visa/germany',     label: 'Germany',        flag: '🇩🇪' },
-          { to: '/visa/france',      label: 'France',         flag: '🇫🇷' },
-          { to: '/visa/italy',       label: 'Italy',          flag: '🇮🇹' },
-          { to: '/visa/netherlands', label: 'Netherlands',    flag: '🇳🇱' },
-          { to: '/schengen',         label: 'Schengen Area',  flag: '🇪🇺' },
+          { to: '/visa/uk',          label: 'Birleşik Krallık', flag: '🇬🇧' },
+          { to: '/visa/germany',     label: 'Almanya',          flag: '🇩🇪' },
+          { to: '/visa/france',      label: 'Fransa',           flag: '🇫🇷' },
+          { to: '/visa/italy',       label: 'İtalya',           flag: '🇮🇹' },
+          { to: '/visa/netherlands', label: 'Hollanda',         flag: '🇳🇱' },
+          { to: '/schengen',         label: 'Schengen Bölgesi', flag: '🇪🇺' },
         ],
       },
       {
-        title: 'Americas',
+        title: 'Amerika',
         items: [
-          { to: '/visa/usa',        label: 'United States', flag: '🇺🇸' },
-          { to: '/visa/canada',     label: 'Canada',        flag: '🇨🇦' },
-          { to: '/us-visa-expedite', label: 'US Expediting', flag: '⚡' },
+          { to: '/visa/usa',         label: 'Amerika Birleşik Devletleri', flag: '🇺🇸' },
+          { to: '/visa/canada',      label: 'Kanada',                      flag: '🇨🇦' },
+          { to: '/us-visa-expedite', label: 'ABD Hızlandırma',             flag: '⚡' },
         ],
       },
       {
-        title: 'Asia & Pacific',
+        title: 'Asya ve Pasifik',
         items: [
-          { to: '/visa/australia', label: 'Australia',          flag: '🇦🇺' },
-          { to: '/visa/uae',       label: 'United Arab Emirates', flag: '🇦🇪' },
+          { to: '/visa/australia', label: 'Avustralya',              flag: '🇦🇺' },
+          { to: '/visa/uae',       label: 'Birleşik Arap Emirlikleri', flag: '🇦🇪' },
         ],
       },
       {
         kind: 'feature',
         feature: {
-          eyebrow: 'This week',
-          title: 'Schengen multi-entry, 5-year',
-          body: 'Long-validity Schengen tourist visas are processing in 12 working days at our partner consulates.',
+          eyebrow: 'Bu hafta',
+          title: 'Schengen çoklu giriş, 5 yıl',
+          body: 'Uzun geçerlilik süreli Schengen turist vizeleri, ortak konsolosluklarımızda 12 iş günü içinde işleme alınmaktadır.',
           to: '/schengen',
         },
       },
     ],
   },
   {
-    label: 'Services',
+    label: 'Hizmetler',
     columns: [
       {
-        title: 'Visa Services',
+        title: 'Vize Hizmetleri',
         items: [
-          { to: '/visa-regimes',  label: 'Visa Regimes', desc: 'Tourist, business, student, work, transit' },
-          { to: '/how-it-works',  label: 'How We Work',  desc: 'Our five-step practice method' },
-          { to: '/fees',          label: 'Fees & Pricing', desc: 'Standard · Express · Premium tiers' },
+          { to: '/visa-regimes',  label: 'Vize Rejimleri',         desc: 'Turist, iş, öğrenci, çalışma, transit' },
+          { to: '/how-it-works',  label: 'Nasıl Çalışırız',        desc: 'Beş adımlı ofis metodumuz' },
+          { to: '/fees',          label: 'Ücretler ve Fiyatlandırma', desc: 'Standart · Ekspres · Premium kademeler' },
         ],
       },
       {
-        title: 'Beyond Visas',
+        title: 'Vize Ötesi',
         items: [
-          { to: '/passport',         label: 'Passport Services', desc: 'Issue, renewal, replacement' },
-          { to: '/tours',            label: 'Curated Tours',     desc: 'Small-group itineraries' },
-          { to: '/us-visa-expedite', label: 'US Expediting',     desc: 'Interviews in 5–10 days' },
+          { to: '/passport',         label: 'Pasaport Hizmetleri', desc: 'Çıkarma, yenileme, kayıp' },
+          { to: '/tours',            label: 'Özel Turlar',         desc: 'Küçük gruplu güzergahlar' },
+          { to: '/us-visa-expedite', label: 'ABD Hızlandırma',     desc: '5–10 günde mülakat' },
         ],
       },
       {
         kind: 'feature',
         feature: {
-          eyebrow: 'Practice memo',
-          title: 'Why fixed quotes?',
-          body: 'We commit to a number on day one. No hourly billing, no creep, no surprises in week six.',
+          eyebrow: 'Ofis notu',
+          title: 'Neden sabit fiyat?',
+          body: 'İlk günden rakam veririz. Saatlik faturalama yok, sürpriz yok, altıncı haftada şok yok.',
           to: '/fees',
         },
       },
     ],
   },
   {
-    label: 'Office',
+    label: 'Ofis',
     columns: [
       {
-        title: 'About Us',
+        title: 'Hakkımızda',
         items: [
-          { to: '/about', label: 'Our Practice', desc: 'Eighteen years, twelve consultants' },
-          { to: '/about', label: 'The Team',     desc: 'Partners and consultants' },
+          { to: '/about', label: 'Ofisimiz', desc: 'On sekiz yıl, on iki danışman' },
+          { to: '/about', label: 'Ekip',     desc: 'Ortaklar ve danışmanlar' },
         ],
       },
       {
-        title: 'Visit',
+        title: 'Ziyaret',
         items: [
-          { to: '/contact', label: 'Downtown Office',    desc: '142 Whitfield Lane · Suite 612' },
-          { to: '/contact', label: 'Hours & Directions', desc: 'Mon–Sat · Walk-ins welcome' },
+          { to: '/contact', label: 'Şehir Merkezi Ofisi', desc: '142 Whitfield Lane · Suite 612' },
+          { to: '/contact', label: 'Çalışma Saatleri',    desc: 'Pts–Cts · Randevusuz kabul' },
         ],
       },
       {
         kind: 'feature',
         feature: {
-          eyebrow: 'Open today',
-          title: 'Walk-ins until noon.',
-          body: 'No appointment needed before midday Monday through Saturday. Afternoons by booking.',
+          eyebrow: 'Bugün açık',
+          title: 'Öğlene kadar randevusuz.',
+          body: 'Pazartesiden Cumartesiye öğlene kadar randevu gerekmez. Öğleden sonra için rezervasyon alınır.',
           to: '/contact',
         },
       },
@@ -113,14 +113,14 @@ export const MEGA_MENU: MegaMenuGroup[] = [
 ];
 
 export const MOBILE_LINKS: MobileLink[] = [
-  { to: '/',                label: 'Home',        end: true },
-  { to: '/visa-regimes',    label: 'Visa Regimes' },
-  { to: '/how-it-works',    label: 'How It Works' },
-  { to: '/about',           label: 'About' },
-  { to: '/fees',            label: 'Fees' },
+  { to: '/',                label: 'Ana Sayfa',      end: true },
+  { to: '/visa-regimes',    label: 'Vize Rejimleri' },
+  { to: '/how-it-works',    label: 'Nasıl Çalışırız' },
+  { to: '/about',           label: 'Hakkımızda' },
+  { to: '/fees',            label: 'Ücretler' },
   { to: '/schengen',        label: 'Schengen' },
-  { to: '/passport',        label: 'Passport' },
-  { to: '/tours',           label: 'Tours' },
-  { to: '/us-visa-expedite', label: 'US Expediting' },
-  { to: '/contact',         label: 'Contact' },
+  { to: '/passport',        label: 'Pasaport' },
+  { to: '/tours',           label: 'Turlar' },
+  { to: '/us-visa-expedite', label: 'ABD Hızlandırma' },
+  { to: '/contact',         label: 'İletişim' },
 ];

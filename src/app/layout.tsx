@@ -24,9 +24,9 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Vize Makinesi — Independent Visa Consultancy",
+    title: "Vize Makinesi — Bağımsız Vize Danışmanlığı",
     description:
-        "We prepare, submit and track visa applications for travellers, families and businesses across 60+ jurisdictions.",
+        "60'tan fazla yetki alanında seyahat edenlerin, ailelerin ve işletmelerin vize başvurularını hazırlar, sunar ve takip ederiz.",
 };
 
 export default function RootLayout({
@@ -36,7 +36,7 @@ export default function RootLayout({
 }) {
     return (
         <html
-            lang="en"
+            lang="tr"
             className={`${playfair.variable} ${dmSans.variable} ${jetbrains.variable}`}
         >
             <body className="min-h-screen flex flex-col bg-cream text-navy">

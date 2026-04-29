@@ -3,17 +3,17 @@ import PageHead from '@/components/PageHead/PageHead';
 import TourFilters from '@/components/TourFilters/TourFilters';
 
 export const metadata: Metadata = {
-  title: 'Curated Tours — Vize Makinesi',
-  description: 'Small-group itineraries built around the documents we already prepared for you.',
+  title: 'Özel Turlar — Vize Makinesi',
+  description: 'Sizin için hazırladığımız belgeler üzerine kurulu küçük gruplu güzergahlar.',
 };
 
 export default function ToursPage() {
   return (
     <>
       <PageHead
-        eyebrow="— Tours we organise"
-        title={<>Small groups. <em className="font-normal italic text-coral">Considered routes.</em></>}
-        lede="A side practice that grew out of our visa work — fully-handled itineraries built around the documents we already prepared for you."
+        eyebrow="— Düzenlediğimiz turlar"
+        title={<>Küçük gruplar. <em className="font-normal italic text-coral">Düşünceli güzergahlar.</em></>}
+        lede="Vize çalışmamızdan doğan bir yan pratik — sizin için hazırladığımız belgelerin üzerine kurulu, tam yönetimli güzergahlar."
       />
       <section className="container pb-16">
         <TourFilters />

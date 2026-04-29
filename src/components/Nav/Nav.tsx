@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MEGA_MENU, MOBILE_LINKS, TICKER_ITEMS } from "./constants";
+import { SITE } from "@/data/site";
 
 export default function Nav() {
     const [open, setOpen] = useState(false);
@@ -45,7 +46,7 @@ export default function Nav() {
                 {/* Logo */}
                 <Link
                     href="/"
-                    className="flex items-baseline gap-4 font-serif text-coral"
+                    className="flex items-center gap-3 font-serif text-coral"
                 >
                     <span className="italic font-bold flex flex-col items-center text-[26px] tracking-[-0.02em]">
                         <span className="text-coral">
@@ -57,9 +58,9 @@ export default function Nav() {
                                 className="w-auto h-auto "
                             />
                         </span>
-                        <span className="hidden lg:block font-mono text-[9px] tracking-[0.18em] text-white/55 uppercase font-normal not-italic">
-                            — Est. 2008 ——
-                        </span>
+                    </span>
+                    <span className="font-serif font-bold italic text-[26px] tracking-[-0.02em] text-white leading-none">
+                        Vize Makinesi
                     </span>
                 </Link>
 
@@ -74,11 +75,10 @@ export default function Nav() {
                             onMouseEnter={() => handleEnter(i)}
                         >
                             <button
-                                className={`font-sans font-medium text-[11.5px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${
-                                    activeMega === i
-                                        ? "text-coral"
-                                        : "text-white/70 hover:text-coral"
-                                }`}
+                                className={`font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${activeMega === i
+                                    ? "text-coral"
+                                    : "text-white/70 hover:text-coral"
+                                    }`}
                             >
                                 {group.label}
                                 <span
@@ -95,14 +95,14 @@ export default function Nav() {
                             </button>
                         </div>
                     ))}
-                    <Link
-                        href="/contact"
-                        className="ml-4 font-sans font-medium text-[11.5px] uppercase tracking-widest  bg-coral border border-coral text-navy hover:bg-navy hover:text-white hover:border-white/30 transition-all duration-200 inline-flex items-center"
-                    >
-                        <p className="hover:text-white w-full px-5.5 py-3.5 h-full duration-200">
-                            {"Book a Consultation →"}
-                        </p>
-                    </Link>
+                    <button className="text-navy hover:text-coral">
+                        <Link
+                            href="/contact"
+                            className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral text-navy border border-coral hover:bg-navy hover:text-white hover:border-coral transition-all duration-200 inline-flex items-center"
+                        >
+                            {"Danışma Al →"}
+                        </Link>
+                    </button>
                 </nav>
 
                 {/* Hamburger */}
@@ -143,15 +143,15 @@ export default function Nav() {
                                         <Link
                                             key={ci}
                                             href={col.feature!.to}
-                                            className="mega-feature flex flex-col justify-between p-7 bg-[#1a3a52] text-white min-h-55 border border-border"
+                                            className="mega-feature flex flex-col justify-between p-7 bg-navy text-white min-h-55 border border-coral/30 hover:border-coral transition-colors duration-200"
                                         >
                                             <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase relative z-10">
                                                 — {col.feature!.eyebrow}
                                             </div>
-                                            <div className="font-serif font-semibold text-[22px] leading-tight tracking-[-0.015em] mt-3 mb-4 relative z-10">
+                                            <div className="font-serif font-semibold text-[22px] leading-tight tracking-[-0.015em] mt-3 mb-4 relative z-10 text-white">
                                                 {col.feature!.title}
                                             </div>
-                                            <div className="text-[13px] text-white/78 leading-relaxed flex-1 relative z-10">
+                                            <div className="text-[13px] text-white/90 leading-relaxed flex-1 relative z-10">
                                                 {col.feature!.body}
                                             </div>
                                             <div className="font-sans text-[11px] tracking-widest uppercase text-coral mt-4 relative z-10">
@@ -222,11 +222,10 @@ export default function Nav() {
                             <Link
                                 key={l.to}
                                 href={l.to}
-                                className={`font-serif text-[32px] font-semibold py-4 border-b border-border flex justify-between items-center ${
-                                    pathname === l.to
-                                        ? "text-coral"
-                                        : "text-navy"
-                                }`}
+                                className={`font-serif text-[32px] font-semibold py-4 border-b border-border flex justify-between items-center ${pathname === l.to
+                                    ? "text-coral"
+                                    : "text-navy"
+                                    }`}
                             >
                                 {l.label}
                                 <span className="text-[22px] text-muted/60">
@@ -236,9 +235,9 @@ export default function Nav() {
                         ))}
                     </nav>
                     <div className="mt-8 flex gap-6 font-mono text-[12px] tracking-widest uppercase pt-6 border-t border-border">
-                        <a href="tel:+15551234567">+1 555 123 4567</a>
+                        <a href={SITE.phoneHref}>{SITE.phone}</a>
                         <a
-                            href="https://wa.me/15551234567"
+                            href={SITE.whatsappHref}
                             target="_blank"
                             rel="noopener noreferrer"
                         >

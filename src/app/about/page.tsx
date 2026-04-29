@@ -5,28 +5,28 @@ import StatsGrid from '@/components/StatsGrid/StatsGrid';
 import { ABOUT_STATS } from '@/components/StatsGrid/constants';
 
 export const metadata: Metadata = {
-  title: 'About Us — Vize Makinesi',
-  description: 'Eighteen years, twelve consultants, 42,000+ visas processed.',
+  title: 'Hakkımızda — Vize Makinesi',
+  description: 'On sekiz yıl, on iki danışman, 42.000\'den fazla işlenmiş vize.',
 };
 
 export default function AboutPage() {
   return (
     <>
       <PageHead
-        eyebrow="— About the office"
-        title={<>An old craft, <em className="font-normal italic text-coral">practised quietly.</em></>}
+        eyebrow="— Ofis hakkında"
+        title={<>Eski bir zanaat, <em className="font-normal italic text-coral">sessizce icra edilir.</em></>}
       />
 
-      {/* Quote + Stats */}
+      {/* Alıntı + İstatistikler */}
       <section className="container">
         <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-20 py-24 border-b border-border items-start">
           <div className="relative pl-16">
             <span className="about-quote-mark font-serif" aria-hidden="true">&ldquo;</span>
             <blockquote className="font-serif italic text-[clamp(32px,3.6vw,52px)] leading-[1.18] tracking-[-0.015em]">
-              &ldquo;We treat a visa file the way a good lawyer treats a brief — every page in its right place, every claim corroborated, every gap explained before it is asked about.&rdquo;
+              &ldquo;Bir vize dosyasına iyi bir avukatın dilekçesine baktığı gibi bakıyoruz — her sayfa doğru yerinde, her iddia desteklenmiş, her boşluk sorulmadan açıklanmış.&rdquo;
             </blockquote>
             <cite className="not-italic font-mono text-[11px] uppercase tracking-[0.18em] text-muted block mt-10">
-              — Marina Aslan, Founding Partner
+              — Marina Aslan, Kurucu Ortak
             </cite>
           </div>
           <StatsGrid items={ABOUT_STATS} />
@@ -35,26 +35,26 @@ export default function AboutPage() {
 
       <TeamGrid />
 
-      {/* History */}
+      {/* Tarihçe */}
       <section className="container py-20 border-b border-border">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           <div>
             <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-4">
-              — Our history
+              — Tarihimiz
             </div>
             <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
-              From a single<br />desk in 2008.
+              Tek bir<br />masadan, 2008'de.
             </h2>
           </div>
           <div className="text-[16px] leading-[1.85] text-muted space-y-5">
             <p>
-              Vize Makinesi began in 2008 as a one-person practice serving the diaspora community in our home city. By 2013 we had three consultants and a license to act as authorised agents for two consulates.
+              Vize Makinesi, 2008 yılında şehrimizde diaspora topluluğuna hizmet veren tek kişilik bir ofis olarak başladı. 2013 yılına kadar üç danışmanımız ve iki konsolosluk için yetkili acente lisansımız vardı.
             </p>
             <p>
-              Today we operate a multi-jurisdiction practice with twelve full-time consultants, in-house translators, and partnerships with VFS, TLS Contact, BLS, and CGI worldwide.
+              Bugün, on iki tam zamanlı danışman, bünyemizde tercüman ve VFS, TLS Contact, BLS ile CGI dünya genelinde ortaklıklarımızla çok yargı bölgeli bir uygulama yürütüyoruz.
             </p>
             <p>
-              We have never advertised on television. Every client comes from a referral, a returning case, or a quiet recommendation between friends.
+              Hiç televizyonda reklam vermedik. Her müşteri bir tavsiye, geri dönen bir dava ya da arkadaşlar arasındaki sessiz bir öneri sayesinde bize ulaşır.
             </p>
           </div>
         </div>

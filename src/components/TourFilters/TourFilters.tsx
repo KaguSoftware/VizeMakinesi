@@ -5,8 +5,8 @@ import { TOURS, TOUR_FILTER_OPTIONS } from './constants';
 import type { TourRegion } from './constants';
 
 export default function TourFilters() {
-  const [active, setActive] = useState<TourRegion>('All');
-  const filtered = active === 'All' ? TOURS : TOURS.filter((t) => t.region === active);
+  const [active, setActive] = useState<TourRegion>('Tümü');
+  const filtered = active === 'Tümü' ? TOURS : TOURS.filter((t) => t.region === active);
 
   return (
     <>
@@ -45,19 +45,19 @@ export default function TourFilters() {
             </div>
             <div>
               <strong className="block font-mono font-medium text-[10px] uppercase tracking-[0.18em] text-muted mb-1">
-                Duration
+                Süre
               </strong>
               <span className="text-[14px]">{t.days}</span>
             </div>
             <div>
               <strong className="block font-mono font-medium text-[10px] uppercase tracking-[0.18em] text-muted mb-1">
-                Group
+                Grup
               </strong>
               <span className="text-[14px]">{t.group}</span>
             </div>
             <div>
               <strong className="block font-mono font-medium text-[10px] uppercase tracking-[0.18em] text-muted mb-1">
-                From
+                İtibaren
               </strong>
               <div className="font-serif font-bold text-[26px] text-coral tracking-[-0.015em]">
                 {t.price}

@@ -3,17 +3,17 @@ import PageHead from '@/components/PageHead/PageHead';
 import Timeline from '@/components/Timeline/Timeline';
 
 export const metadata: Metadata = {
-  title: 'How It Works — Vize Makinesi',
-  description: 'Our five-step visa practice: intake, documents, submission, tracking, and result.',
+  title: 'Nasıl Çalışırız — Vize Makinesi',
+  description: 'Beş adımlı vize sürecimiz: başvuru, belgeler, teslim, takip ve sonuç.',
 };
 
 export default function HowItWorksPage() {
   return (
     <>
       <PageHead
-        eyebrow="— How our agency works"
-        title={<>From first call to <em className="font-normal italic text-coral">passport in hand.</em></>}
-        lede="A predictable five-step process that has carried more than forty thousand applicants through the world's consulates."
+        eyebrow="— Ajansımız nasıl çalışır"
+        title={<>İlk aramadan <em className="font-normal italic text-coral">pasaport elinizde.</em></>}
+        lede="Kırk binden fazla başvuruyu dünyanın konsolosluklarından geçiren öngörülebilir bir beş adımlı süreç."
       />
       <section className="container">
         <Timeline />

@@ -1,1 +1,1 @@
-export const BREADCRUMB_HOME = 'Visas';
+export const BREADCRUMB_HOME = 'Vizeler';

@@ -1,18 +1,15 @@
 export const SITE = {
-  phone: '+1 555 123 4567',
-  phoneHref: 'tel:+15551234567',
-  whatsappHref: 'https://wa.me/15551234567',
-  whatsappText: 'Hello%2C%20I%20need%20visa%20help',
-  email: 'hello@visa.office',
+  phone: '+90 530 775 31 31',
+  phoneHref: 'tel:+905307753131',
+  whatsappHref: 'https://wa.me/905307753131',
+  whatsappText: 'Merhaba%2C%20vize%20ba%C5%9Fvurusu%20konusunda%20yard%C4%B1m%20istiyorum',
+  email: 'vizemakinesi@gezimakinesi.com',
   address: {
-    street: '142 Whitfield Lane',
-    suite: 'Suite 612, Sixth Floor',
-    city: 'Downtown · 10001',
+    street: 'Konaklar Emlak Bankası Apartmanı Selvili Sokağı',
+    suite: 'D:Kat:1 Daire:1',
+    city: '34330 Beşiktaş',
   },
   hours: [
-    { day: 'Mon – Thu', time: '09:00 – 18:00' },
-    { day: 'Friday',    time: '09:00 – 17:00' },
-    { day: 'Saturday',  time: '10:00 – 14:00' },
-    { day: 'Sunday',    time: 'Closed' },
+    { day: 'Pzt – Cum', time: '10:00 – 18:00' },
   ],
 } as const;

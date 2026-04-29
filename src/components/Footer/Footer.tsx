@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
     FOOTER_COLUMNS,
     FOOTER_TAGLINE,
@@ -20,6 +21,8 @@ export default function Footer() {
                         {FOOTER_TAGLINE}
                     </div>
                 </div>
+
+
 
                 {/* Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
@@ -58,9 +61,24 @@ export default function Footer() {
                 </div>
 
                 {/* Rule */}
-                <div className="border-t border-border/60 mt-[72px] pt-6 font-mono text-[10px] tracking-[0.12em] uppercase text-white/40 flex justify-between flex-wrap gap-2 relative z-10">
-                    <span>{FOOTER_COPYRIGHT}</span>
-                    <span>{FOOTER_REG}</span>
+                <div className="border-t border-border/60 mt-[72px] pt-6 font-mono text-[10px] tracking-[0.12em] uppercase text-white/40 flex justify-between flex-wrap gap-4 relative z-10">
+                    <div className="flex flex-col gap-1.5">
+                        <span>{FOOTER_COPYRIGHT}</span>
+                        <span>Tüm hakları saklıdır · Kagu Software</span>
+                    </div>
+                    <div className="flex flex-col items-end gap-1.5">
+                        <span>{FOOTER_REG}</span>
+                        <span className="flex items-center gap-2 text-white/25">
+                            <Image
+                                src="/KaguSoftwareLogo.png"
+                                alt="Kagu Software"
+                                width={100}
+                                height={100}
+                                className="invert"
+                            />
+                            Built by Kagu Software
+                        </span>
+                    </div>
                 </div>
             </div>
 

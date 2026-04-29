@@ -2,23 +2,23 @@ import type { PassportService } from './types';
 
 export const PASSPORT_SERVICES: PassportService[] = [
   {
-    title: 'New Passport',
-    desc: 'First-issue applications for adults — appointment booking, document review, biometric photo studio referral.',
-    time: '4–6 wks', label: 'Standard',
+    title: 'Yeni Pasaport',
+    desc: 'Yetişkinler için ilk başvuru — randevu rezervasyonu, belge incelemesi, biyometrik fotoğraf stüdyosu yönlendirmesi.',
+    time: '4–6 hafta', label: 'Standart',
   },
   {
-    title: 'Renewal',
-    desc: 'Mail-in or in-person renewal of existing passports, including damaged or near-expiry documents.',
-    time: '2–3 wks', label: 'Standard',
+    title: 'Yenileme',
+    desc: 'Mevcut pasaportların posta veya yüz yüze yenilenmesi; hasarlı veya geçerlilik süresi yaklaşan belgeler dahil.',
+    time: '2–3 hafta', label: 'Standart',
   },
   {
-    title: 'Lost or Stolen',
-    desc: 'Police report coordination, emergency travel document filing, expedited replacement.',
-    time: '5–7 days', label: 'Expedited',
+    title: 'Kayıp veya Çalıntı',
+    desc: 'Polis tutanağı koordinasyonu, acil seyahat belgesi başvurusu, hızlandırılmış yenileme.',
+    time: '5–7 gün', label: 'Hızlandırılmış',
   },
   {
-    title: 'Child Passport',
-    desc: 'First-time minor passports — both-parent consent handling, court-order management for separated parents.',
-    time: '3–5 wks', label: 'Standard',
+    title: 'Çocuk Pasaportu',
+    desc: 'İlk kez küçük pasaportları — her iki ebeveyn onayı yönetimi, ayrı yaşayan ebeveynler için mahkeme kararı takibi.',
+    time: '3–5 hafta', label: 'Standart',
   },
 ];

@@ -3,17 +3,17 @@ import type { ProcessStep } from './types';
 export const PROCESS_STEPS: ProcessStep[] = [
   {
     num: 'i.',
-    title: 'Intake & strategy',
-    body: 'A 30-minute consultation, a written eligibility memo, and a fixed quote — before any paperwork begins.',
+    title: 'Başvuru ve strateji',
+    body: '30 dakikalık danışma, yazılı uygunluk notu ve sabit fiyat teklifi — evrak işlemleri başlamadan önce.',
   },
   {
     num: 'ii.',
-    title: 'Drafting & filing',
-    body: 'We assemble the file, translate where needed, and book your biometrics or consular interview.',
+    title: 'Hazırlık ve başvuru',
+    body: 'Dosyayı hazırlar, gerektiğinde çeviriyi yapar, biyometrik randevunuzu veya konsolosluk mülakatınızı ayarlarız.',
   },
   {
     num: 'iii.',
-    title: 'Tracking to decision',
-    body: 'We liaise with the consulate and notify you the moment a decision is on its way back.',
+    title: 'Karar takibi',
+    body: 'Konsoloslukla irtibat kurar ve karar açıklandığı an sizi bilgilendiririz.',
   },
 ];

@@ -1,1 +1,1 @@
-export const FAQ_EYEBROW = '— Frequently asked';
+export const FAQ_EYEBROW = '— Sık sorulan sorular';

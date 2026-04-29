@@ -22,6 +22,7 @@ export default function Footer() {
                     </div>
                 </div>
 
+
                 {/* Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
                     {FOOTER_COLUMNS.map((col) => (

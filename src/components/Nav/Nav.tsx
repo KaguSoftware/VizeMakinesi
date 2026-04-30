@@ -95,14 +95,18 @@ export default function Nav() {
                             </button>
                         </div>
                     ))}
-                    <button className="text-navy hover:text-coral">
-                        <Link
-                            href="/contact"
-                            className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral text-navy border border-coral hover:bg-navy hover:text-white hover:border-coral transition-all duration-200 inline-flex items-center"
-                        >
-                            {"Danışma Al →"}
-                        </Link>
-                    </button>
+                    <Link
+                        href="/contact"
+                        className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral border border-coral text-navy hover:bg-transparent hover:text-coral transition-colors duration-200 inline-flex items-center"
+                    >
+                        Bize Ulaşın
+                    </Link>
+                    <Link
+                        href="/danisma-al"
+                        className="ml-2 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral text-navy border border-coral hover:bg-transparent hover:text-coral hover:border-coral transition-colors duration-200 inline-flex items-center"
+                    >
+                        Danışma Al →
+                    </Link>
                 </nav>
 
                 {/* Hamburger */}

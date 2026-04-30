@@ -97,7 +97,7 @@ export default function Hero() {
               Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
             </p>
             <Link
-              href="/contact"
+              href="/danisma-al"
               className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200"
             >
               Danışma Al →

@@ -55,14 +55,6 @@ export default function TourFilters() {
               </strong>
               <span className="text-[14px]">{t.group}</span>
             </div>
-            <div>
-              <strong className="block font-mono font-medium text-[10px] uppercase tracking-[0.18em] text-muted mb-1">
-                İtibaren
-              </strong>
-              <div className="font-serif font-bold text-[26px] text-coral tracking-[-0.015em]">
-                {t.price}
-              </div>
-            </div>
           </div>
         ))}
       </div>

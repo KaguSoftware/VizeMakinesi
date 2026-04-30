@@ -7,14 +7,15 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
       { label: 'Ülke Vizeleri', href: '/' },
       { label: 'Schengen',      href: '/schengen' },
       { label: 'Pasaport',      href: '/passport' },
-      { label: 'Turlar',        href: '/tours' },
+      { label: 'Blog',          href: '/blog' },
+      { label: 'Ortaklıklar',   href: '/partnerships' },
     ],
   },
   {
     eyebrow: '— 02 / Ofis',
     links: [
       { label: 'Hakkımızda', href: '/about' },
-      { label: 'Ücretler',   href: '/fees' },
+      { label: 'Hizmetler',  href: '/fees' },
       { label: 'Süreç',      href: '/how-it-works' },
       { label: 'İletişim',   href: '/contact' },
     ],

@@ -88,17 +88,16 @@ export default function Nav() {
                     <Link
                         href="/contact"
                     >
-                        <p className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-2xl">
+                        <span className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-2xl">
                             Bize Ulaşın
-                        </p>
+                        </span>
                     </Link>
                     <Link
                         href="/danisma-al"
                     >
-                        <p className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-2xl">
-
+                        <span className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-2xl">
                             Danışma Al →
-                        </p>
+                        </span>
                     </Link>
                 </nav>
 
@@ -114,7 +113,7 @@ export default function Nav() {
             {/* Mega panel */}
             {activeMega !== null && (
                 <div
-                    className="mega-panel absolute left-0 right-0 top-full bg-[#E5E2DB] border-t border-b border-border text-navy"
+                    className="mega-panel absolute left-0 right-0 top-full bg-cream border-t border-b border-border text-navy"
                     onMouseEnter={() => handleEnter(activeMega)}
                     onMouseLeave={handleLeave}
                 >

@@ -67,7 +67,7 @@ export default function Nav() {
                             <button
                                 className={`font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${activeMega === i
                                     ? "text-coral"
-                                    : "text-white/70 hover:text-coral"
+                                    : "text-white hover:text-coral"
                                     }`}
                             >
                                 {group.label}
@@ -87,15 +87,18 @@ export default function Nav() {
                     ))}
                     <Link
                         href="/contact"
-                        className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral border border-coral text-navy hover:bg-transparent hover:text-coral transition-colors duration-200 inline-flex items-center rounded-2xl"
                     >
-                        Bize Ulaşın
+                        <p className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-2xl">
+                            Bize Ulaşın
+                        </p>
                     </Link>
                     <Link
                         href="/danisma-al"
-                        className="ml-2 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral text-navy border border-coral hover:bg-transparent hover:text-coral hover:border-coral transition-colors duration-200 inline-flex items-center rounded-2xl"
                     >
-                        Danışma Al →
+                        <p className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-2xl">
+
+                            Danışma Al →
+                        </p>
                     </Link>
                 </nav>
 

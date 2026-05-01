@@ -44,24 +44,14 @@ export default function Nav() {
             {/* Main bar */}
             <div className="container flex items-center justify-between h-22 relative">
                 {/* Logo */}
-                <Link
-                    href="/"
-                    className="flex items-center gap-3 font-serif text-coral"
-                >
-                    <span className="italic font-bold flex flex-col items-center text-[26px] tracking-[-0.02em]">
-                        <span className="text-coral">
-                            <Image
-                                src="/logo.png"
-                                alt="Vize Makinesi"
-                                width={60}
-                                height={30}
-                                className="w-auto h-auto "
-                            />
-                        </span>
-                    </span>
-                    <span className="font-serif font-bold italic text-[26px] tracking-[-0.02em] text-white leading-none">
-                        Vize Makinesi
-                    </span>
+                <Link href="/" className="flex items-center">
+                    <Image
+                        src="/VizeMakinesiLogo.png"
+                        alt="Vize Makinesi"
+                        width={220}
+                        height={50}
+                        className="w-auto h-80"
+                    />
                 </Link>
 
                 {/* Desktop nav */}
@@ -97,13 +87,13 @@ export default function Nav() {
                     ))}
                     <Link
                         href="/contact"
-                        className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral border border-coral text-navy hover:bg-transparent hover:text-coral transition-colors duration-200 inline-flex items-center"
+                        className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral border border-coral text-navy hover:bg-transparent hover:text-coral transition-colors duration-200 inline-flex items-center rounded-2xl"
                     >
                         Bize Ulaşın
                     </Link>
                     <Link
                         href="/danisma-al"
-                        className="ml-2 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral text-navy border border-coral hover:bg-transparent hover:text-coral hover:border-coral transition-colors duration-200 inline-flex items-center"
+                        className="ml-2 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral text-navy border border-coral hover:bg-transparent hover:text-coral hover:border-coral transition-colors duration-200 inline-flex items-center rounded-2xl"
                     >
                         Danışma Al →
                     </Link>

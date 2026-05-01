@@ -34,7 +34,7 @@ export default function TourFilters() {
             key={t.id}
             className="grid grid-cols-1 md:grid-cols-[80px_3fr_2fr_1.5fr_1fr] gap-8 px-7 py-9 border-t border-border border-l-2 border-l-coral last:border-b hover:bg-cream transition-colors duration-200 items-center"
           >
-            <div className="font-serif italic font-normal text-[36px] text-coral tracking-[-0.02em]">
+            <div className="font-serif font-bold text-[36px] text-coral tracking-[-0.01em]">
               {String(i + 1).padStart(2, '0')}
             </div>
             <div>

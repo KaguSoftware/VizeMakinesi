@@ -10,7 +10,7 @@ export default function EditorialQuote() {
           {/* Pull-quote */}
           <div className="relative">
             <span
-              className="font-serif italic text-coral pointer-events-none select-none"
+              className="font-serif font-bold text-coral pointer-events-none select-none"
               style={{
                 position: 'absolute',
                 top: '-32px',
@@ -21,7 +21,7 @@ export default function EditorialQuote() {
             >
               &ldquo;
             </span>
-            <q className="block font-serif italic text-[clamp(28px,3vw,40px)] leading-[1.25] tracking-[-0.015em] relative pl-[60px]">
+            <q className="block font-serif font-semibold text-[clamp(28px,3vw,40px)] leading-[1.25] tracking-[-0.015em] relative pl-[60px]">
               {quote}
             </q>
             <div className="flex items-center gap-4 mt-9 pl-[60px] font-mono text-[11px] tracking-[0.15em] text-muted uppercase">

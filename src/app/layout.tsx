@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
-import { Playfair_Display, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Syne, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav/Nav";
 import Footer from "@/components/Footer/Footer";
 
-const playfair = Playfair_Display({
+const syne = Syne({
     variable: "--font-playfair",
     subsets: ["latin"],
-    weight: ["400", "500", "600", "700"],
-    style: ["normal", "italic"],
+    weight: ["400", "500", "600", "700", "800"],
 });
 
-const dmSans = DM_Sans({
+const inter = Inter({
     variable: "--font-dm-sans",
     subsets: ["latin"],
     weight: ["400", "500", "700"],
@@ -37,7 +36,7 @@ export default function RootLayout({
     return (
         <html
             lang="tr"
-            className={`${playfair.variable} ${dmSans.variable} ${jetbrains.variable}`}
+            className={`${syne.variable} ${inter.variable} ${jetbrains.variable}`}
         >
             <body className="min-h-screen flex flex-col bg-cream text-navy">
                 <Nav />

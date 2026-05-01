@@ -77,10 +77,10 @@ export default function Hero() {
             <div className="absolute -top-2 left-0 font-mono text-[11px] tracking-[0.15em] text-coral uppercase">
               — Bülten #47
             </div>
-            <h1 className="font-serif font-bold text-[clamp(52px,8vw,124px)] leading-[0.96] tracking-[-0.035em]">
+            <h1 className="font-serif font-bold text-[clamp(52px,8vw,124px)] leading-[1.0] tracking-[-0.02em]">
               Vizeniz.<br />
               Bizim{' '}
-              <em className="text-coral font-normal italic">misyonumuz</em>,<br />
+              <span className="text-coral">misyonumuz</span>,<br />
               <span className="hero-underline">sessizce</span> tamamlandı.
             </h1>
           </div>
@@ -90,7 +90,7 @@ export default function Hero() {
             <div className="absolute -top-6 -left-px w-7 h-7 bg-coral flex items-center justify-center font-mono text-[11px] font-medium text-white">
               ¶
             </div>
-            <p className="font-serif italic text-[19px] leading-[1.55] text-navy max-w-95 mb-8">
+            <p className="font-serif text-[19px] leading-[1.55] text-navy max-w-95 mb-8">
               <span className="not-italic font-mono text-[11px] text-muted tracking-[0.12em] uppercase block mb-4">
                 — Editör notu
               </span>
@@ -98,7 +98,7 @@ export default function Hero() {
             </p>
             <Link
               href="/danisma-al"
-              className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200"
+              className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200 rounded-2xl"
             >
               Danışma Al →
             </Link>

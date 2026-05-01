@@ -159,7 +159,7 @@ export default function DanismaAlForm() {
             <button
               type="submit"
               disabled={loading}
-              className="font-sans font-bold text-[13.8px] uppercase tracking-widest px-10 py-4 bg-coral text-navy border border-coral hover:bg-navy hover:text-white hover:border-coral transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="font-sans font-bold text-[13.8px] uppercase tracking-widest px-10 py-4 bg-coral text-navy border border-coral hover:bg-navy hover:text-white hover:border-coral transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-2xl"
             >
               {loading ? "Gönderiliyor…" : "Formu Gönder →"}
             </button>

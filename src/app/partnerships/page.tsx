@@ -75,7 +75,7 @@ export default function PartnershipsPage() {
           </div>
           <a
             href="/contact"
-            className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] border border-coral text-coral px-8 py-4 hover:bg-coral hover:text-white transition-colors duration-150 whitespace-nowrap"
+            className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] border border-coral text-coral px-8 py-4 hover:bg-coral hover:text-white transition-colors duration-150 whitespace-nowrap rounded-2xl"
           >
             İletişime Geç →
           </a>

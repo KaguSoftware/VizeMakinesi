@@ -39,7 +39,7 @@ export default function BigCTA({ title }: BigCTAProps) {
                             </a>
                             <div className="flex flex-col gap-3 w-full max-w-xs">
                                 <a
-                                    className="inline-flex items-center justify-center gap-3 font-sans font-medium text-[16px] uppercase tracking-[0.1em] px-10 py-[28px] bg-[#25D366] border border-[#25D366] text-white hover:bg-transparent hover:text-[#25D366] transition-all duration-200"
+                                    className="inline-flex items-center justify-center gap-3 font-sans font-medium text-[16px] uppercase tracking-[0.1em] px-10 py-[28px] bg-[#25D366] border border-[#25D366] text-white hover:bg-transparent hover:text-[#25D366] transition-all duration-200 rounded-2xl"
                                     href={CTA_WHATSAPP_HREF}
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -51,7 +51,7 @@ export default function BigCTA({ title }: BigCTAProps) {
                                     Ofisimize WhatsApp Yazın →
                                 </a>
                                 <a
-                                    className="inline-flex items-center justify-center gap-2 font-sans font-medium text-[16px] uppercase tracking-[0.1em] px-10 py-[28px] border border-navy text-navy hover:bg-navy hover:text-white hover:border-navy transition-all duration-200"
+                                    className="inline-flex items-center justify-center gap-2 font-sans font-medium text-[16px] uppercase tracking-[0.1em] px-10 py-[28px] border border-navy text-navy hover:bg-navy hover:text-white hover:border-navy transition-all duration-200 rounded-2xl"
                                     href={CTA_PHONE_HREF}
                                 >
                                     Ara: {CTA_PHONE}

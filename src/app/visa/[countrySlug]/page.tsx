@@ -110,13 +110,13 @@ export default async function CountryPage({ params }: Props) {
                     href={`${SITE.whatsappHref}?text=${waText}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] bg-coral border border-coral text-navy hover:bg-transparent hover:text-coral transition-all duration-200"
+                    className="inline-flex items-center font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] bg-coral border border-coral text-navy hover:bg-transparent hover:text-coral transition-all duration-200 rounded-2xl"
                   >
                     {country.name} için WhatsApp →
                   </a>
                   <a
                     href={SITE.phoneHref}
-                    className="inline-flex items-center font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] border border-white/55 text-white hover:bg-coral hover:text-navy hover:border-coral transition-all duration-200"
+                    className="inline-flex items-center font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] border border-white/55 text-white hover:bg-coral hover:text-navy hover:border-coral transition-all duration-200 rounded-2xl"
                   >
                     Ara: {SITE.phone}
                   </a>

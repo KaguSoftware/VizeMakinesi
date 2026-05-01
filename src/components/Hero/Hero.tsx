@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { HERO_EYEBROW, HERO_META } from './constants';
+import { HERO_META } from './constants';
 
 function useCountUp(target: number, decimals: number, duration = 1400) {
   const [value, setValue] = useState(0);
@@ -58,30 +58,16 @@ function AnimatedStat({ num, unit, label }: { num: string; unit: string; label: 
 
 export default function Hero() {
   return (
-    <section className="pt-24 pb-8 relative border-b border-border">
+    <section className="pt-16 pb-6 relative border-b border-border">
       <div className="container">
-        {/* Eyebrow */}
-        <div className="flex justify-between items-baseline flex-wrap gap-4 font-mono text-[10px] tracking-[0.2em] uppercase text-muted mb-14 pb-4 border-b border-border">
-          {HERO_EYEBROW.map((item, i) => (
-            <div key={i} className="flex gap-2 items-baseline">
-              {item.key && <span className="text-coral">{item.key}</span>}
-              <span>{item.text}</span>
-            </div>
-          ))}
-        </div>
-
         {/* Main grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-15 items-end relative">
           {/* Left: headline */}
           <div className="relative">
-            <div className="absolute -top-2 left-0 font-mono text-[11px] tracking-[0.15em] text-coral uppercase">
-              — Bülten #47
-            </div>
-            <h1 className="font-serif font-bold text-[clamp(52px,8vw,124px)] leading-[1.0] tracking-[-0.02em]">
-              Vizeniz.<br />
-              Bizim{' '}
-              <span className="text-coral">misyonumuz</span>,<br />
-              <span className="hero-underline">sessizce</span> tamamlandı.
+            <h1 className="font-serif font-bold text-[clamp(42px,6.5vw,100px)] leading-none tracking-[-0.02em]">
+              Evrakları biz halledelim,{' '}<br />
+              siz <span className="text-coral">valizinizi</span><br />
+              <span className="hero-underline">hazırlayın</span>.
             </h1>
           </div>
 
@@ -91,10 +77,7 @@ export default function Hero() {
               ¶
             </div>
             <p className="font-serif text-[19px] leading-[1.55] text-navy max-w-95 mb-8">
-              <span className="not-italic font-mono text-[11px] text-muted tracking-[0.12em] uppercase block mb-4">
-                — Editör notu
-              </span>
-              Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
+Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
             </p>
             <Link
               href="/danisma-al"

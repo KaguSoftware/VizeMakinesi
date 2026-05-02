@@ -14,10 +14,10 @@ export default function Footer() {
             <div className="container relative z-10">
                 {/* Mark */}
                 <div className="flex justify-between items-baseline flex-wrap gap-4 mb-16 pb-6 border-b border-border/60">
-                    <div className="font-serif font-bold text-[36px] tracking-[-0.01em] text-coral">
+                    <div className="font-serif font-bold text-[36px] tracking-[-0.01em] text-cream">
                         Vize Makinesi
                     </div>
-                    <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-white/55">
+                    <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-cream">
                         {FOOTER_TAGLINE}
                     </div>
                 </div>

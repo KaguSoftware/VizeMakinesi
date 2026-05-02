@@ -229,7 +229,7 @@ q::after {
 
 /* text colour flips on hover / scroll-into-view (touch) */
 .mosaic-cell .hv-white {
-  color: #f5f0e8;
+  color: #309c9b;
   transition: color 0.9s cubic-bezier(.4, 0, .2, 1);
 }
 

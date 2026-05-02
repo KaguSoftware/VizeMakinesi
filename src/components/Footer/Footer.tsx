@@ -28,7 +28,7 @@ export default function Footer() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
                     {FOOTER_COLUMNS.map((col) => (
                         <div key={col.eyebrow}>
-                            <h5 className="font-mono font-medium text-[10px] uppercase tracking-[0.18em] text-coral mb-6">
+                            <h5 className="font-mono font-bold text-[13px] uppercase tracking-[0.18em] text-coral mb-6">
                                 {col.eyebrow}
                             </h5>
                             <ul className="flex flex-col gap-2.5 list-none">
@@ -48,15 +48,20 @@ export default function Footer() {
 
                     {/* Address */}
                     <div>
-                        <h5 className="font-mono font-medium text-[10px] uppercase tracking-[0.18em] text-coral mb-6">
-                            — 04 / Address
+                        <h5 className="font-mono font-bold text-[13px] uppercase tracking-[0.18em] text-coral mb-6">
+                            — 04 / Adres
                         </h5>
-                        <p className="text-[14px] text-white/60 leading-[1.7]">
+                        <a
+                            href="https://maps.google.com/?q=Gezi+Makinesi,+Levent,+Istanbul"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[14px] text-white/60 leading-[1.7] hover:text-coral transition-colors duration-150"
+                        >
                             {SITE.address.street},<br />
                             {SITE.address.suite}
                             <br />
                             {SITE.address.city}
-                        </p>
+                        </a>
                     </div>
                 </div>
 

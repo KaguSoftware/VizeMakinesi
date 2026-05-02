@@ -30,12 +30,16 @@ export default function Nav() {
             {/* Ticker */}
             <div className="overflow-hidden font-mono text-[11px] tracking-[0.08em] uppercase py-2 bg-navy text-white/65">
                 <div className="nav-ticker-track">
-                    {TICKER_ITEMS.map((t, i) => (
-                        <span
-                            key={i}
-                            className={i === 0 || i === 4 ? "text-coral" : ""}
-                        >
-                            {t}
+                    {[0, 1, 2, 3].map((set) => (
+                        <span key={set} className="nav-ticker-set" aria-hidden={set > 0 ? "true" : undefined}>
+                            {TICKER_ITEMS.map((t, i) => (
+                                <span
+                                    key={i}
+                                    className={i === 0 ? "text-coral" : ""}
+                                >
+                                    {t}
+                                </span>
+                            ))}
                         </span>
                     ))}
                 </div>
@@ -126,7 +130,7 @@ export default function Nav() {
                                     /{" "}
                                     {String(MEGA_MENU.length).padStart(2, "0")}
                                 </div>
-                                <div className="font-serif italic font-bold text-[56px] leading-none tracking-tight">
+                                <div className="font-serif italic font-bold text-[40px] leading-none tracking-tight">
                                     {MEGA_MENU[activeMega].label}
                                 </div>
                                 <div className="w-20 h-px bg-coral mt-8" />

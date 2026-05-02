@@ -6,7 +6,6 @@ import ChecklistList from '@/components/ChecklistList/ChecklistList';
 import NumberedList from '@/components/NumberedList/NumberedList';
 import FAQ from '@/components/FAQ/FAQ';
 import { SITE } from '@/data/site';
-import Link from 'next/link';
 
 interface Props {
   params: Promise<{ countrySlug: string }>;
@@ -44,10 +43,10 @@ export default async function CountryPage({ params }: Props) {
             <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-6">
               — 01 / Gerekli belgeler
             </div>
-            <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
+            <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-tight">
               Masaya<br />getirdikleriniz.
             </h2>
-            <p className="font-serif italic text-[18px] text-navy mt-6 max-w-[360px] leading-relaxed">
+            <p className="font-serif italic text-[18px] text-navy mt-6 max-w-90 leading-relaxed">
               Eksiksiz bir dosya, vize kararının en önemli belirleyicisidir. Sizinkini satır satır inceliyoruz.
             </p>
           </div>
@@ -62,10 +61,10 @@ export default async function CountryPage({ params }: Props) {
             <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-6">
               — 02 / Ofisimizin üstlendiği
             </div>
-            <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
+            <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-tight">
               Sizin yerinize<br />hallettiklerimiz.
             </h2>
-            <p className="font-serif italic text-[18px] text-navy mt-6 max-w-[360px] leading-relaxed">
+            <p className="font-serif italic text-[18px] text-navy mt-6 max-w-90 leading-relaxed">
               Randevu rezervasyonundan pasaportunuzu kapınıza teslim etmeye kadar.
             </p>
           </div>
@@ -84,9 +83,9 @@ export default async function CountryPage({ params }: Props) {
       />
 
       {/* Ülkeye özel CTA */}
-      <section className="cta-block mt-[120px] bg-navy text-white">
+      <section className="cta-block mt-30 bg-navy text-white">
         <div className="container">
-          <div className="py-[120px] relative z-10">
+          <div className="py-30 relative z-10">
             <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-12 pb-4 border-b border-white/30">
               — Daha fazla bilgi alın
             </div>
@@ -102,7 +101,7 @@ export default async function CountryPage({ params }: Props) {
                 </div>
                 <a
                   href={SITE.phoneHref}
-                  className="block font-serif font-bold text-[48px] tracking-[-0.025em] text-white mb-9 hover:text-coral transition-colors duration-200 leading-none"
+                  className="block font-serif font-bold text-[48px] tracking-tight text-white mb-9 hover:text-coral transition-colors duration-200 leading-none"
                 >
                   {SITE.phone}
                 </a>

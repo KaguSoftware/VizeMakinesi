@@ -1,6 +1,6 @@
 import type { PageHeadProps } from './types';
 
-export default function PageHead({ eyebrow, title, lede }: PageHeadProps) {
+export default function PageHead({ title, lede }: PageHeadProps) {
   return (
     <section className="pt-24 pb-[72px] border-b border-border relative overflow-hidden">
       <div className="container">

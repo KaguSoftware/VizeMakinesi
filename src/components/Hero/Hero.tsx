@@ -67,7 +67,7 @@ export default function Hero() {
             <h1 className="font-serif font-bold text-[clamp(46px,7vw,110px)] leading-none tracking-[-0.02em]">
               Evrakları biz halledelim,{' '}<br />
               siz <span className="text-coral">valizinizi</span><br />
-              <span className="hero-underline">hazırlayın</span>.
+              <span className="text-coral">hazırlayın</span>.
             </h1>
           </div>
 
@@ -76,12 +76,12 @@ export default function Hero() {
             <div className="absolute -top-6 -left-px w-7 h-7 bg-coral flex items-center justify-center font-mono text-[11px] font-medium text-white">
               ¶
             </div>
-            <p className="font-serif text-[19px] leading-[1.55] text-navy max-w-95 mb-8">
+            <p className="font-serif text-[19px] leading-[1.55] text-coral max-w-95 mb-8">
 Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
             </p>
             <Link
               href="/danisma-al"
-              className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200 rounded-2xl"
+              className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-coral text-coral hover:bg-navy hover:text-white hover:border-cream transition-all duration-200 rounded-2xl"
             >
               Danışma Al →
             </Link>

@@ -8,7 +8,7 @@ export default function PageHead({ eyebrow, title, lede }: PageHeadProps) {
           {title}
         </h1>
         {lede && (
-          <p className="font-serif text-[22px] text-navy max-w-[620px] mt-9 leading-[1.45] border-l border-coral pl-6">
+          <p className="font-serif text-[22px] text-navy max-w-none whitespace-nowrap mt-9 leading-[1.45] border-l border-coral pl-6">
             {lede}
           </p>
         )}

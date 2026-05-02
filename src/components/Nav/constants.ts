@@ -5,10 +5,6 @@ export const TICKER_ITEMS = [
   '· Schengen işlem süresi 12 iş günü',
   '· ABD hızlandırma %91 onay',
   '· +90 530 775 31 31',
-  '— Bugün 18:00\'a kadar açık',
-  '· Schengen işlem süresi 12 iş günü',
-  '· ABD hızlandırma %91 onay',
-  '· +90 530 775 31 31',
 ];
 
 export const MEGA_MENU: MegaMenuGroup[] = [

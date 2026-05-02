@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { HERO_EYEBROW, HERO_META } from './constants';
+import { HERO_META } from './constants';
 
 function useCountUp(target: number, decimals: number, duration = 1400) {
   const [value, setValue] = useState(0);
@@ -58,30 +58,16 @@ function AnimatedStat({ num, unit, label }: { num: string; unit: string; label: 
 
 export default function Hero() {
   return (
-    <section className="pt-24 pb-8 relative border-b border-border">
+    <section className="pt-20 pb-10 relative border-b border-border">
       <div className="container">
-        {/* Eyebrow */}
-        <div className="flex justify-between items-baseline flex-wrap gap-4 font-mono text-[10px] tracking-[0.2em] uppercase text-muted mb-14 pb-4 border-b border-border">
-          {HERO_EYEBROW.map((item, i) => (
-            <div key={i} className="flex gap-2 items-baseline">
-              {item.key && <span className="text-coral">{item.key}</span>}
-              <span>{item.text}</span>
-            </div>
-          ))}
-        </div>
-
         {/* Main grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-15 items-end relative">
           {/* Left: headline */}
           <div className="relative">
-            <div className="absolute -top-2 left-0 font-mono text-[11px] tracking-[0.15em] text-coral uppercase">
-              — Bülten #47
-            </div>
-            <h1 className="font-serif font-bold text-[clamp(52px,8vw,124px)] leading-[0.96] tracking-[-0.035em]">
-              Vizeniz.<br />
-              Bizim{' '}
-              <em className="text-coral font-normal italic">misyonumuz</em>,<br />
-              <span className="hero-underline">sessizce</span> tamamlandı.
+            <h1 className="font-serif font-bold text-[clamp(46px,7vw,110px)] leading-none tracking-[-0.02em]">
+              Evrakları biz halledelim,{' '}<br />
+              siz <span className="text-coral">valizinizi</span><br />
+              <span className="text-coral">hazırlayın</span>.
             </h1>
           </div>
 
@@ -90,27 +76,18 @@ export default function Hero() {
             <div className="absolute -top-6 -left-px w-7 h-7 bg-coral flex items-center justify-center font-mono text-[11px] font-medium text-white">
               ¶
             </div>
-            <p className="font-serif italic text-[19px] leading-[1.55] text-navy max-w-95 mb-8">
-              <span className="not-italic font-mono text-[11px] text-muted tracking-[0.12em] uppercase block mb-4">
-                — Editör notu
-              </span>
-              Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
+            <p className="font-serif text-[19px] leading-[1.55] text-coral max-w-95 mb-8">
+Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
             </p>
             <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200"
+              href="/danisma-al"
+              className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-coral text-coral hover:bg-navy hover:text-white hover:border-cream transition-all duration-200 rounded-2xl"
             >
               Danışma Al →
             </Link>
           </div>
         </div>
 
-        {/* Meta row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 border-t border-border mt-20 pt-9 gap-6">
-          {HERO_META.map((m) => (
-            <AnimatedStat key={m.label} {...m} />
-          ))}
-        </div>
       </div>
     </section>
   );

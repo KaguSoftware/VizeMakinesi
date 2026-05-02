@@ -13,7 +13,7 @@ export default function MosaicCard({
         <Link
             href={`/visa/${country.slug}`}
             data-mosaic-row={rowIndex}
-            className={`mosaic-cell ${span} border-b border-r border-border flex flex-col justify-between min-h-90 cursor-pointer relative bg-white overflow-hidden`}
+            className={`mosaic-cell ${span} border-b border-r border-border flex flex-col justify-between min-h-90 cursor-pointer relative bg-cream overflow-hidden`}
         >
             <FlagBG slug={country.slug as CountrySlug} className="flag-svg" />
             <div className="flag-overlay-light" />
@@ -35,15 +35,7 @@ export default function MosaicCard({
                 </p>
             </div>
 
-            <div className="cell-price-row relative z-10 p-2 flex justify-between items-baseline border-t border-border pt-5 transition-colors duration-700">
-                <div>
-                    <span className="block font-mono text-[10px] uppercase tracking-[0.18em] text-muted mb-1 hv-white transition-colors duration-700">
-                        — Starting from
-                    </span>
-                    <div className="font-serif font-bold text-[28px] text-coral tracking-[-0.01em] hv-coral transition-colors duration-700">
-                        {country.startingPrice}
-                    </div>
-                </div>
+            <div className="cell-price-row relative z-10 p-2 flex justify-end items-baseline border-t border-border pt-5 transition-colors duration-700">
                 <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-navy hv-white transition-colors duration-700">
                     View →
                 </div>

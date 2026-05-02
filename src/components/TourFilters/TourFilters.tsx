@@ -34,7 +34,7 @@ export default function TourFilters() {
             key={t.id}
             className="grid grid-cols-1 md:grid-cols-[80px_3fr_2fr_1.5fr_1fr] gap-8 px-7 py-9 border-t border-border border-l-2 border-l-coral last:border-b hover:bg-cream transition-colors duration-200 items-center"
           >
-            <div className="font-serif italic font-normal text-[36px] text-coral tracking-[-0.02em]">
+            <div className="font-serif font-bold text-[36px] text-coral tracking-[-0.01em]">
               {String(i + 1).padStart(2, '0')}
             </div>
             <div>
@@ -54,14 +54,6 @@ export default function TourFilters() {
                 Grup
               </strong>
               <span className="text-[14px]">{t.group}</span>
-            </div>
-            <div>
-              <strong className="block font-mono font-medium text-[10px] uppercase tracking-[0.18em] text-muted mb-1">
-                İtibaren
-              </strong>
-              <div className="font-serif font-bold text-[26px] text-coral tracking-[-0.015em]">
-                {t.price}
-              </div>
             </div>
           </div>
         ))}

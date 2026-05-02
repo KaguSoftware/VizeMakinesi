@@ -6,6 +6,7 @@ import ChecklistList from '@/components/ChecklistList/ChecklistList';
 import NumberedList from '@/components/NumberedList/NumberedList';
 import FAQ from '@/components/FAQ/FAQ';
 import { SITE } from '@/data/site';
+import Link from 'next/link';
 
 interface Props {
   params: Promise<{ countrySlug: string }>;
@@ -105,20 +106,24 @@ export default async function CountryPage({ params }: Props) {
                 >
                   {SITE.phone}
                 </a>
-                <div className="flex flex-col gap-3 items-start">
+                <div className="flex flex-col gap-3 items-start w-full">
                   <a
                     href={`${SITE.whatsappHref}?text=${waText}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] bg-coral border border-coral text-navy hover:bg-transparent hover:text-coral transition-all duration-200"
+                    className="w-full"
                   >
-                    {country.name} için WhatsApp →
+                    <span className="w-full block text-center font-sans font-medium text-[13px] uppercase tracking-widest px-8 py-5.5 bg-cream border border-cream text-coral hover:bg-navy hover:text-cream hover:border-cream transition-all duration-200 rounded-2xl">
+                      {country.name} için WhatsApp →
+                    </span>
                   </a>
                   <a
                     href={SITE.phoneHref}
-                    className="inline-flex items-center font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] border border-white/55 text-white hover:bg-coral hover:text-navy hover:border-coral transition-all duration-200"
+                    className="w-full"
                   >
-                    Ara: {SITE.phone}
+                    <span className="w-full block text-center font-sans font-medium text-[13px] uppercase tracking-widest px-8 py-5.5 bg-cream border border-cream text-coral hover:bg-navy hover:text-cream hover:border-cream transition-all duration-200 rounded-2xl">
+                      Ara: {SITE.phone}
+                    </span>
                   </a>
                 </div>
               </div>

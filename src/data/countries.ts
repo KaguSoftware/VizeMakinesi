@@ -6,7 +6,6 @@ export const COUNTRIES_DATA: Country[] = [
     name: 'Birleşik Krallık',
     flag: '🇬🇧',
     visaType: 'Standart Ziyaretçi Vizesi',
-    startingPrice: '$185',
     summary: 'Altı aya kadar turizm veya iş ziyareti. Birleşik Krallık Vize Başvuru Merkezi\'nde biyometrik alınması zorunludur.',
     requirements: [
       'En az 6 ay geçerliliği olan pasaport',
@@ -35,7 +34,6 @@ export const COUNTRIES_DATA: Country[] = [
     name: 'Almanya',
     flag: '🇩🇪',
     visaType: 'Schengen / Ulusal Vize',
-    startingPrice: '$120',
     summary: '90 güne kadar kısa süreli Schengen ya da eğitim ve çalışma için ulusal D vizesi.',
     requirements: [
       'Dönüşten 3 ay sonrasına kadar geçerli pasaport',
@@ -62,7 +60,6 @@ export const COUNTRIES_DATA: Country[] = [
     name: 'Fransa',
     flag: '🇫🇷',
     visaType: 'Schengen Kısa Süreli',
-    startingPrice: '$110',
     summary: 'Fransa ve Schengen bölgesinde turizm, aile ziyareti veya iş amaçlı seyahat.',
     requirements: [
       'İki boş sayfası olan pasaport',
@@ -89,7 +86,6 @@ export const COUNTRIES_DATA: Country[] = [
     name: 'İtalya',
     flag: '🇮🇹',
     visaType: 'Schengen Turist Vizesi',
-    startingPrice: '$110',
     summary: 'İtalya\'da turizm, konferans veya aile amaçlı kısa süreli ziyaret.',
     requirements: [
       'Geçerli pasaport (dönüşten 3+ ay sonrasına kadar)',
@@ -114,7 +110,6 @@ export const COUNTRIES_DATA: Country[] = [
     name: 'Hollanda',
     flag: '🇳🇱',
     visaType: 'Schengen / MVV',
-    startingPrice: '$115',
     summary: 'Schengen ziyareti veya ikamet ve eğitim için uzun süreli MVV.',
     requirements: [
       'Dönüşten 3 ay sonrasına kadar geçerli pasaport',
@@ -139,7 +134,6 @@ export const COUNTRIES_DATA: Country[] = [
     name: 'Amerika Birleşik Devletleri',
     flag: '🇺🇸',
     visaType: 'B1/B2 Ziyaretçi Vizesi',
-    startingPrice: '$280',
     summary: 'Amerika Birleşik Devletleri\'nde turizm, tıbbi tedavi veya iş toplantıları.',
     requirements: [
       'Konaklamanın 6 ay ötesine kadar geçerli pasaport',
@@ -166,7 +160,6 @@ export const COUNTRIES_DATA: Country[] = [
     name: 'Kanada',
     flag: '🇨🇦',
     visaType: 'Ziyaretçi Kaydı / TRV',
-    startingPrice: '$165',
     summary: 'Turizm, aile veya iş amaçlı Geçici Oturma Vizesi — tek veya çoklu giriş.',
     requirements: [
       'Konaklamanın tüm süresi boyunca geçerli pasaport',
@@ -191,7 +184,6 @@ export const COUNTRIES_DATA: Country[] = [
     name: 'Avustralya',
     flag: '🇦🇺',
     visaType: 'Ziyaretçi Vizesi Alt Sınıf 600',
-    startingPrice: '$210',
     summary: 'Avustralya\'da turizm, iş veya aile ziyareti; tam çevrimiçi başvuru.',
     requirements: [
       'Geçerli pasaport',
@@ -215,7 +207,6 @@ export const COUNTRIES_DATA: Country[] = [
     name: 'Birleşik Arap Emirlikleri',
     flag: '🇦🇪',
     visaType: '30 / 60 Günlük Turist Vizesi',
-    startingPrice: '$95',
     summary: 'Tek veya çoklu girişli turist vizesi; tamamen elektronik, hızlı işlem.',
     requirements: [
       '6 ay geçerli pasaport',
@@ -238,7 +229,6 @@ export const COUNTRIES_DATA: Country[] = [
     name: 'Schengen Bölgesi',
     flag: '🇪🇺',
     visaType: 'Schengen Kısa Süreli (Type C)',
-    startingPrice: '$110',
     summary: 'Tek vize, 29 ülke — ana varış ülkenizin konsolosluğuna başvurun.',
     requirements: [
       'Son 10 yılda düzenlenmiş pasaport',

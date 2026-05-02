@@ -5,7 +5,6 @@ export interface Tour {
   sub: string;
   days: string;
   group: string;
-  price: string;
 }
 
 export interface TourFiltersProps {

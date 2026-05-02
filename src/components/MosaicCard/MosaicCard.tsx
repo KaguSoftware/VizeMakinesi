@@ -13,7 +13,7 @@ export default function MosaicCard({
         <Link
             href={`/visa/${country.slug}`}
             data-mosaic-row={rowIndex}
-            className={`mosaic-cell ${span} border-b border-r border-border flex flex-col justify-between min-h-90 cursor-pointer relative bg-white overflow-hidden`}
+            className={`mosaic-cell ${span} border-b border-r border-border flex flex-col justify-between min-h-90 cursor-pointer relative bg-cream overflow-hidden`}
         >
             <FlagBG slug={country.slug as CountrySlug} className="flag-svg" />
             <div className="flag-overlay-light" />

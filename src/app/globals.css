@@ -178,7 +178,7 @@ q::after {
 .mosaic-cell .flag-overlay-light {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, .55) 0%, rgba(255, 255, 255, .95) 100%);
+  background: linear-gradient(180deg, rgba(253, 251, 229, .55) 0%, rgba(253, 251, 229, 1) 100%);
   opacity: 1;
   transition: opacity 1.1s cubic-bezier(.4, 0, .2, 1);
   z-index: 1;

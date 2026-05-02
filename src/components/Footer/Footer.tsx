@@ -79,6 +79,7 @@ export default function Footer() {
                                 alt="Kagu Software"
                                 width={100}
                                 height={100}
+                                sizes="100px"
                                 className="invert"
                             />
                             Built by Kagu Software

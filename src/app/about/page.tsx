@@ -43,7 +43,7 @@ export default function AboutPage() {
               — Tarihimiz
             </div>
             <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
-              Tek bir<br />masadan, 2008'de.
+              Tek bir<br />masadan, 2008&rsquo;de.
             </h2>
           </div>
           <div className="text-[16px] leading-[1.85] text-muted space-y-5">

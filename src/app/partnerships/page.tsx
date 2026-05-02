@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import PageHead from '@/components/PageHead/PageHead';
 
 export const metadata: Metadata = {
@@ -6,79 +7,63 @@ export const metadata: Metadata = {
   description: 'Seyahat acenteleri, kurumsal firmalar ve sivil toplum kuruluşları için toplu vize çözümleri.',
 };
 
-const PARTNERS = [
-  {
-    name: 'Seyahat Acenteleri',
-    eyebrow: '— 01',
-    body:
-      'Müşterilerinizin vize süreçlerini tamamen bizim üstlenmemize izin verin. Ajansınız için özel fiyatlandırma, öncelikli randevu ve ayrılmış danışman ataması sunuyoruz.',
-  },
-  {
-    name: 'Kurumsal Firmalar',
-    eyebrow: '— 02',
-    body:
-      'İş seyahati yoğun olan şirketler için yıllık anlaşmalı hizmet paketleri. Çalışan başına sabit maliyet, toplu başvuru takibi ve aylık raporlama dahildir.',
-  },
-  {
-    name: 'Üniversiteler & Okullar',
-    eyebrow: '— 03',
-    body:
-      'Yurt dışı eğitim programları, değişim öğrencileri ve akademik heyetler için öğrenci vize koordinasyonu. Oryantasyon süreçlerine entegre çalışıyoruz.',
-  },
-  {
-    name: 'STK & Vakıflar',
-    eyebrow: '— 04',
-    body:
-      'İnsani yardım, konferans ve uluslararası proje seyahatleri için özel kategoriler ve indirimli ücretler. Resmi davet mektubu hazırlığında da destek veriyoruz.',
-  },
-];
-
 export default function PartnershipsPage() {
   return (
     <>
       <PageHead
         eyebrow="— Kurumsal ortaklıklar"
-        title={<>Tek dosya değil, <em className="font-normal italic text-coral">tam bir program.</em></>}
-        lede="Toplu vize ihtiyacı olan kurumlar için adanmış ekip, öncelikli işlem ve şeffaf fiyatlandırma."
+        title={<>Güvenilir <em className="font-normal italic text-coral">iş ortaklarımız.</em></>}
+        lede="Vize süreçlerinizi güvence altına alan küresel ağlarla çalışıyoruz."
       />
 
-      {/* Partner types */}
       <section className="container pb-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px border border-border">
-          {PARTNERS.map((p) => (
-            <div key={p.name} className="p-10">
-              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-4">
-                {p.eyebrow}
-              </div>
-              <h2 className="font-serif font-bold text-[clamp(22px,2.2vw,30px)] tracking-[-0.015em] mb-5">
-                {p.name}
-              </h2>
-              <p className="text-[15px] leading-[1.85] text-muted">{p.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      {/* CTA */}
-      <section className="container pb-24">
-        <div className="border border-border p-12 lg:p-16 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 items-center">
-          <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-4">
-              — Teklif alın
+          {/* VFS Global */}
+          <div className="p-12 flex flex-col gap-8">
+            <div className="h-16 flex items-center">
+              <Image
+                src="/vfs_logo.png"
+                alt="VFS Global"
+                width={160}
+                height={64}
+                className="object-contain object-left"
+              />
             </div>
-            <h2 className="font-serif font-bold text-[clamp(28px,3vw,42px)] tracking-[-0.02em] leading-snug">
-              Kurumunuz için bir görüşme ayarlayalım.
-            </h2>
-            <p className="text-[15px] leading-[1.85] text-muted mt-4 max-w-lg">
-              İhtiyacınızı anlatın — hacim, sıklık, varış noktaları. Size 24 saat içinde yazılı bir teklif iletiyoruz.
-            </p>
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-3">— Vize Başvuru Merkezi</div>
+              <h2 className="font-serif font-bold text-[clamp(20px,2vw,26px)] tracking-[-0.015em] mb-4">VFS Global</h2>
+              <p className="text-[15px] leading-[1.85] text-muted">
+                Dünyanın en büyük vize dış kaynak hizmetleri şirketi olan VFS Global, 150'den fazla ülkede 3.000'i aşkın
+                başvuru merkezi işletmektedir. Vize Makinesi olarak VFS Global altyapısını kullanarak başvurularınızı
+                doğrudan yetkili kanallar üzerinden takip ediyor, randevu süreçlerini hızlandırıyor ve evrak
+                kontrolünü eksiksiz yürütüyoruz.
+              </p>
+            </div>
           </div>
-          <a
-            href="/contact"
-            className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] border border-coral text-coral px-8 py-4 hover:bg-coral hover:text-white transition-colors duration-150 whitespace-nowrap rounded-2xl"
-          >
-            İletişime Geç →
-          </a>
+
+          {/* Kosmos */}
+          <div className="p-12 flex flex-col gap-8 border-t border-border md:border-t-0 md:border-l">
+            <div className="h-16 flex items-center">
+              <Image
+                src="/kosmos_logo.png"
+                alt="Kosmos"
+                width={160}
+                height={64}
+                className="object-contain object-left"
+              />
+            </div>
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-3">— Seyahat & Lojistik</div>
+              <h2 className="font-serif font-bold text-[clamp(20px,2vw,26px)] tracking-[-0.015em] mb-4">Kosmos</h2>
+              <p className="text-[15px] leading-[1.85] text-muted">
+                Kosmos, uluslararası seyahat lojistiği ve kurumsal seyahat yönetimi alanında köklü bir deneyime sahiptir.
+                Bu ortaklık sayesinde vize süreçlerinizi uçuş, konaklama ve transfer planlamasıyla tek çatı altında
+                yönetebiliyorsunuz. Eksiksiz bir seyahat deneyimi için Kosmos ile koordineli çalışıyoruz.
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
     </>

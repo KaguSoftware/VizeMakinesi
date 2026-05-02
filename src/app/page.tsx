@@ -4,7 +4,7 @@ import MosaicCard from "@/components/MosaicCard/MosaicCard";
 import { MOSAIC_SPANS, MOSAIC_ROW_INDEX } from "@/components/MosaicCard/constants";
 import MosaicRowObserver from "@/components/MosaicCard/MosaicRowObserver";
 import Marquee from "@/components/Marquee/Marquee";
-import ProcessThreeUp from "@/components/ProcessThreeUp/ProcessThreeUp";
+import Timeline from "@/components/Timeline/Timeline";
 import BigCTA from "@/components/BigCTA/BigCTA";
 import { COUNTRIES_DATA } from "@/data/countries";
 
@@ -51,7 +51,7 @@ export default function HomePage() {
                         Tam süreç →
                     </Link>
                 </div>
-                <ProcessThreeUp />
+                <Timeline />
             </section>
 
             <BigCTA />

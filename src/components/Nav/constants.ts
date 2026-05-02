@@ -63,7 +63,7 @@ export const MEGA_MENU: MegaMenuGroup[] = [
         title: 'Vize Ötesi',
         items: [
           { to: '/passport',         label: 'Pasaport Hizmetleri', desc: 'Çıkarma, yenileme, kayıp' },
-          { to: '/partnerships',     label: 'Kurumsal Ortaklıklar', desc: 'Acenteler, firmalar, STK\'lar' },
+          { to: '/partnerships',     label: 'Kurumsal Ortaklıklar', desc: 'Ortaklarımız' },
           { to: '/us-visa-expedite', label: 'ABD Hızlandırma',     desc: '5–10 günde mülakat' },
         ],
       },
@@ -84,16 +84,14 @@ export const MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Hakkımızda',
         items: [
-          { to: '/about',        label: 'Ofisimiz', desc: 'On sekiz yıl, on iki danışman' },
-          { to: '/about',        label: 'Ekip',     desc: 'Ortaklar ve danışmanlar' },
-          { to: '/blog',         label: 'Blog',     desc: 'Vize ve seyahat yazıları' },
+          { to: '/about',        label: 'Ofisimiz', desc: 'Ekip ve danışmanlar' },
           { to: '/partnerships', label: 'Ortaklıklar', desc: 'Kurumsal çözümler' },
         ],
       },
       {
         title: 'Ziyaret',
         items: [
-          { to: '/contact', label: 'Levent Ofisi', desc: 'Selvili Sokağı · D:Kat:1 Daire:1' },
+          { to: '/contact', label: '4.Levent Ofisi', desc: 'Selvili Sokağı · D:Kat:1 Daire:1' },
           { to: '/contact', label: 'Çalışma Saatleri',    desc: 'Pts–Cts · Randevusuz kabul' },
         ],
       },

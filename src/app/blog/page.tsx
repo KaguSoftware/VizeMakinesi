@@ -8,6 +8,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    date: 'Mayıs 2026',
+    category: 'Ülke Rehberleri',
+    title: 'Hangi Ülkede Ne Yapılır?',
+    excerpt:
+      "Birleşik Krallık'tan Avustralya'ya, ABD'den Almanya'ya — ülkeye göre değişen vize süreçleri, kritik belgeler ve dikkat edilmesi gereken farklılıklar.",
+    slug: '/blog/hangi-ulkede-ne-yapilir',
+  },
+  {
     date: 'Nisan 2026',
     category: 'Schengen',
     title: 'Schengen Çoklu Giriş Vizesi: 2026 Güncel Rehber',

@@ -56,14 +56,14 @@ export const MEGA_MENU: MegaMenuGroup[] = [
         items: [
           { to: '/visa-regimes',  label: 'Vize Rejimleri',         desc: 'Turist, iş, öğrenci, çalışma, transit' },
           { to: '/how-it-works',  label: 'Nasıl Çalışırız',        desc: 'Beş adımlı ofis metodumuz' },
-          { to: '/fees',          label: 'Ücretler ve Fiyatlandırma', desc: 'Standart · Ekspres · Premium kademeler' },
+          { to: '/fees',          label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
         ],
       },
       {
         title: 'Vize Ötesi',
         items: [
           { to: '/passport',         label: 'Pasaport Hizmetleri', desc: 'Çıkarma, yenileme, kayıp' },
-          { to: '/tours',            label: 'Özel Turlar',         desc: 'Küçük gruplu güzergahlar' },
+          { to: '/partnerships',     label: 'Kurumsal Ortaklıklar', desc: 'Acenteler, firmalar, STK\'lar' },
           { to: '/us-visa-expedite', label: 'ABD Hızlandırma',     desc: '5–10 günde mülakat' },
         ],
       },
@@ -84,8 +84,10 @@ export const MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Hakkımızda',
         items: [
-          { to: '/about', label: 'Ofisimiz', desc: 'On sekiz yıl, on iki danışman' },
-          { to: '/about', label: 'Ekip',     desc: 'Ortaklar ve danışmanlar' },
+          { to: '/about',        label: 'Ofisimiz', desc: 'On sekiz yıl, on iki danışman' },
+          { to: '/about',        label: 'Ekip',     desc: 'Ortaklar ve danışmanlar' },
+          { to: '/blog',         label: 'Blog',     desc: 'Vize ve seyahat yazıları' },
+          { to: '/partnerships', label: 'Ortaklıklar', desc: 'Kurumsal çözümler' },
         ],
       },
       {
@@ -116,7 +118,8 @@ export const MOBILE_LINKS: MobileLink[] = [
   { to: '/fees',            label: 'Ücretler' },
   { to: '/schengen',        label: 'Schengen' },
   { to: '/passport',        label: 'Pasaport' },
-  { to: '/tours',           label: 'Turlar' },
+  { to: '/blog',             label: 'Blog' },
+  { to: '/partnerships',     label: 'Ortaklıklar' },
   { to: '/us-visa-expedite', label: 'ABD Hızlandırma' },
   { to: '/contact',         label: 'İletişim' },
 ];

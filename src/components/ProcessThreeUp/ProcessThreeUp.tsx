@@ -8,10 +8,10 @@ export default function ProcessThreeUp() {
           key={step.num}
           className={`p-10 ${i < PROCESS_STEPS.length - 1 ? 'md:border-r border-border' : ''} border-b md:border-b-0`}
         >
-          <div className="font-serif font-normal italic text-[88px] leading-[0.85] text-coral mb-7 tracking-[-0.04em]">
+          <div className="font-serif font-bold text-[88px] leading-[0.9] text-coral mb-7 tracking-[-0.02em]">
             {step.num}
           </div>
-          <div className="font-serif font-semibold text-[26px] mb-4 tracking-[-0.015em]">
+          <div className="font-serif font-bold text-[26px] mb-4 tracking-[-0.01em]">
             {step.title}
           </div>
           <div className="text-muted text-[15px] leading-[1.7] max-w-[320px]">

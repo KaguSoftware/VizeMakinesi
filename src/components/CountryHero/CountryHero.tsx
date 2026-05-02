@@ -37,15 +37,9 @@ export default function CountryHero({ country }: CountryHeroProps) {
             </h1>
           </div>
           <div>
-            <p className="font-serif italic text-[20px] leading-relaxed mb-9 text-navy">
+            <p className="font-serif italic text-[20px] leading-relaxed text-navy">
               {country.summary}
             </p>
-            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted mb-3">
-              — Starting from
-            </div>
-            <div className="font-serif font-bold text-[80px] text-coral leading-[0.9] tracking-[-0.025em]">
-              {country.startingPrice}
-            </div>
           </div>
         </div>
       </div>

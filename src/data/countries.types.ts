@@ -20,7 +20,6 @@ export interface Country {
   name: string;
   flag: string;
   visaType: string;
-  startingPrice: string;
   summary: string;
   requirements: string[];
   handles: string[];

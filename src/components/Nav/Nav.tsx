@@ -48,24 +48,14 @@ export default function Nav() {
             {/* Main bar */}
             <div className="container flex items-center justify-between h-22 relative">
                 {/* Logo */}
-                <Link
-                    href="/"
-                    className="flex items-center gap-3 font-serif text-coral"
-                >
-                    <span className="italic font-bold flex flex-col items-center text-[26px] tracking-[-0.02em]">
-                        <span className="text-coral">
-                            <Image
-                                src="/logo.png"
-                                alt="Vize Makinesi"
-                                width={60}
-                                height={30}
-                                className="w-auto h-auto "
-                            />
-                        </span>
-                    </span>
-                    <span className="font-serif font-bold italic text-[26px] tracking-[-0.02em] text-white leading-none">
-                        Vize Makinesi
-                    </span>
+                <Link href="/" className="flex items-center">
+                    <Image
+                        src="/VizeMakinesiLogo.png"
+                        alt="Vize Makinesi"
+                        width={220}
+                        height={50}
+                        className="w-auto h-80"
+                    />
                 </Link>
 
                 {/* Desktop nav */}
@@ -81,7 +71,7 @@ export default function Nav() {
                             <button
                                 className={`font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${activeMega === i
                                     ? "text-coral"
-                                    : "text-white/70 hover:text-coral"
+                                    : "text-white hover:text-coral"
                                     }`}
                             >
                                 {group.label}
@@ -99,14 +89,20 @@ export default function Nav() {
                             </button>
                         </div>
                     ))}
-                    <button className="text-navy hover:text-coral">
-                        <Link
-                            href="/contact"
-                            className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-coral text-navy border border-coral hover:bg-navy hover:text-white hover:border-coral transition-all duration-200 inline-flex items-center"
-                        >
-                            {"Danışma Al →"}
-                        </Link>
-                    </button>
+                    <Link
+                        href="/contact"
+                    >
+                        <span className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-2xl">
+                            Bize Ulaşın
+                        </span>
+                    </Link>
+                    <Link
+                        href="/danisma-al"
+                    >
+                        <span className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-2xl">
+                            Danışma Al →
+                        </span>
+                    </Link>
                 </nav>
 
                 {/* Hamburger */}
@@ -121,7 +117,7 @@ export default function Nav() {
             {/* Mega panel */}
             {activeMega !== null && (
                 <div
-                    className="mega-panel absolute left-0 right-0 top-full bg-[#E5E2DB] border-t border-b border-border text-navy"
+                    className="mega-panel absolute left-0 right-0 top-full bg-cream border-t border-b border-border text-navy"
                     onMouseEnter={() => handleEnter(activeMega)}
                     onMouseLeave={handleLeave}
                 >

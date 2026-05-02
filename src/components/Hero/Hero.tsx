@@ -58,13 +58,13 @@ function AnimatedStat({ num, unit, label }: { num: string; unit: string; label: 
 
 export default function Hero() {
   return (
-    <section className="pt-16 pb-6 relative border-b border-border">
+    <section className="pt-20 pb-10 relative border-b border-border">
       <div className="container">
         {/* Main grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-15 items-end relative">
           {/* Left: headline */}
           <div className="relative">
-            <h1 className="font-serif font-bold text-[clamp(42px,6.5vw,100px)] leading-none tracking-[-0.02em]">
+            <h1 className="font-serif font-bold text-[clamp(46px,7vw,110px)] leading-none tracking-[-0.02em]">
               Evrakları biz halledelim,{' '}<br />
               siz <span className="text-coral">valizinizi</span><br />
               <span className="hero-underline">hazırlayın</span>.
@@ -88,12 +88,6 @@ Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurul
           </div>
         </div>
 
-        {/* Meta row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 border-t border-border mt-20 pt-9 gap-6">
-          {HERO_META.map((m) => (
-            <AnimatedStat key={m.label} {...m} />
-          ))}
-        </div>
       </div>
     </section>
   );

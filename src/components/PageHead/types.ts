@@ -6,4 +6,5 @@ export interface PageHeadProps {
   title: ReactNode;
   lede?: ReactNode;
   flagSlug?: CountrySlug;
+  titleClassName?: string;
 }

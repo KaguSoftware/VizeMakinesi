@@ -2,7 +2,7 @@ import { MARQUEE_ITEMS } from './constants';
 
 export default function Marquee() {
   return (
-    <section className="border-t border-b border-border bg-cream py-8 overflow-hidden">
+    <section className="border-t border-b border-border bg-cream py-8 overflow-hidden text-coral">
       <div className="strip-track font-serif">
         {[0, 1].map((setIdx) => (
           <div key={setIdx} className="strip-set" aria-hidden={setIdx === 1 ? true : undefined}>

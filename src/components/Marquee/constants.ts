@@ -1,12 +1,12 @@
 import type { MarqueeItem } from './types';
 
 export const MARQUEE_ITEMS: MarqueeItem[] = [
-  { text: 'UK Visitor' },
-  { text: 'Schengen',        italic: true },
-  { text: 'US B1/B2' },
-  { text: 'Canada TRV' },
-  { text: 'Australia 600',   italic: true },
-  { text: 'UAE E-visa' },
-  { text: 'Germany National' },
-  { text: 'Netherlands MVV', italic: true },
+  { text: 'İngiltere Ziyaretçi Vizesi' },
+  { text: 'Schengen Vizesi',             italic: true },
+  { text: 'ABD B1/B2 Vizesi' },
+  { text: 'Kanada Geçici Oturma',        italic: true },
+  { text: 'Avustralya Turist Vizesi' },
+  { text: 'BAE E-Vizesi',                italic: true },
+  { text: 'Almanya Ulusal Vizesi' },
+  { text: 'Hollanda MVV',                italic: true },
 ];

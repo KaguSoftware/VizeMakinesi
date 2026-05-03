@@ -5,8 +5,8 @@ export default function TeamGrid() {
     <section className="py-24 border-b border-border">
       <div className="container">
         <div className="mb-14">
-          <h2 className="font-serif font-bold text-[clamp(36px,5vw,56px)] leading-none tracking-[-0.025em]">
-            Dosyanızı okuyan<br />danışmanlarımız.
+          <h2 className="font-serif font-bold text-[clamp(36px,5vw,56px)] leading-none tracking-[-0.025em] whitespace-nowrap text-navy">
+            Dosyanızı okuyan danışmanlarımız.
           </h2>
           <div className="font-mono text-[13px] uppercase tracking-[0.18em] text-muted mt-4">
             8 danışman

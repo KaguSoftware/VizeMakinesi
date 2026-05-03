@@ -89,11 +89,6 @@ export default function Nav() {
                             </button>
                         </div>
                     ))}
-                    <Link href="/blog">
-                        <span className="font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center transition-colors duration-200 text-white hover:text-coral">
-                            Blog
-                        </span>
-                    </Link>
                     <Link
                         href="/contact"
                     >

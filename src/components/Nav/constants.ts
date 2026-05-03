@@ -79,6 +79,17 @@ export const MEGA_MENU: MegaMenuGroup[] = [
     ],
   },
   {
+    label: 'Blog',
+    columns: [
+      {
+        title: 'Rehberler',
+        items: [
+          { to: '/blog', label: 'Gezi Rehberi', desc: 'Ülke ülke turistik tavsiyeler' },
+        ],
+      },
+    ],
+  },
+  {
     label: 'Ofis',
     columns: [
       {

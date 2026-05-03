@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Urgency from '@/components/Urgency/Urgency';
-import { EXPEDITE_STATS } from '@/components/StatsGrid/constants';
 import NumberedList from '@/components/NumberedList/NumberedList';
 import ChecklistList from '@/components/ChecklistList/ChecklistList';
 import FAQ from '@/components/FAQ/FAQ';
@@ -37,20 +36,16 @@ export default function USExpeditePage() {
   return (
     <>
       <Urgency
-        eyebrow="— ABD vize randevu hızlandırma"
-        headline={
+headline={
           <>
-            Mülakat{' '}
-            <em className="text-coral font-normal italic">on iki ay sonraya.</em>
-            <br />
-            Siz{' '}
-            <em className="text-coral font-normal italic">üç hafta sonra yola çıkıyorsunuz.</em>
+            Amerika Vizesi{' '}
+            <em className="text-coral font-normal italic">Hızla Cebinizde!</em>
           </>
         }
         lede="Normal takvim seyahat planınıza uymadığında, hızlandırma pratiğimiz sizi günler içinde konsolosluk görevlisinin karşısına çıkarır."
         ctaPrimary={{ label: 'Hızlandırma Talebini Başlat →', href: `${SITE.whatsappHref}?text=Merhaba%2C%20ABD%20vize%20h%C4%B1zland%C4%B1rma%20istiyorum` }}
         ctaSecondary={{ label: `${SITE.phone} Ara`, href: SITE.phoneHref }}
-        stats={EXPEDITE_STATS}
+        variant="cream"
       />
 
       <section className="container">

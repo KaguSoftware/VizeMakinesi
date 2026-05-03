@@ -17,13 +17,13 @@ export default function PartnershipsPage() {
       />
 
       <section className="container pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px border border-border">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px border border-border">
 
           {/* VFS Global */}
           <div className="p-12 flex flex-col gap-8">
             <div className="h-16 flex items-center">
               <Image
-                src="/vfs_logo.png"
+                src="/vfs_global.png"
                 alt="VFS Global"
                 width={160}
                 height={64}
@@ -43,10 +43,10 @@ export default function PartnershipsPage() {
           </div>
 
           {/* Kosmos */}
-          <div className="p-12 flex flex-col gap-8 border-t border-border md:border-t-0 md:border-l">
+          <div className="p-12 flex flex-col gap-8 border-t border-border md:border-t-0 md:border-l md:border-r">
             <div className="h-16 flex items-center">
               <Image
-                src="/kosmos_logo.png"
+                src="/kosmos.png"
                 alt="Kosmos"
                 width={160}
                 height={64}
@@ -60,6 +60,28 @@ export default function PartnershipsPage() {
                 Kosmos, uluslararası seyahat lojistiği ve kurumsal seyahat yönetimi alanında köklü bir deneyime sahiptir.
                 Bu ortaklık sayesinde vize süreçlerinizi uçuş, konaklama ve transfer planlamasıyla tek çatı altında
                 yönetebiliyorsunuz. Eksiksiz bir seyahat deneyimi için Kosmos ile koordineli çalışıyoruz.
+              </p>
+            </div>
+          </div>
+
+          {/* Gezi Makinesi */}
+          <div className="p-12 flex flex-col gap-8 border-t border-border md:border-t-0">
+            <div className="h-16 flex items-center">
+              <Image
+                src="/Gezi-Makinesi-Yatay-Logo-siyah.png"
+                alt="Gezi Makinesi"
+                width={200}
+                height={64}
+                className="object-contain object-left"
+              />
+            </div>
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-3">— Turizm Acentesi</div>
+              <h2 className="font-serif font-bold text-[clamp(20px,2vw,26px)] tracking-[-0.015em] mb-4">Gezi Makinesi</h2>
+              <p className="text-[15px] leading-[1.85] text-muted">
+                Gezi Makinesi, yurt içi ve yurt dışı tur organizasyonlarında uzmanlaşmış bir turizm acentesidir.
+                Bu ortaklık sayesinde vize süreçlerinizi tur paketlerinizle entegre bir şekilde yönetebilir,
+                seyahat planlamanızı baştan sona tek elden takip edebilirsiniz.
               </p>
             </div>
           </div>

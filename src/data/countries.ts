@@ -28,6 +28,26 @@ export const COUNTRIES_DATA: Country[] = [
       { q: 'Birleşik Krallık içinde kalış süresini uzatabilir miyim?', a: 'Ziyaretçi vizeleri 6 ayın ötesine uzatılamaz. Birleşik Krallık dışından yeni başvuru yapılması gerekmektedir.' },
       { q: 'Birikimimi göstermem gerekiyor mu?', a: 'Sabit bir tutar yoktur; ancak başarılı başvuru sahiplerinin büyük çoğunluğu seyahati karşılayacak düzenli gelir ve birikim göstermektedir.' },
     ],
+    tourism: {
+      intro: [
+        'Birleşik Krallık, tarih kokan taş sokaklarıyla ve modern metropol enerjisini bir arada barındıran nadir destinasyonlardan biri. Londra\'nın çok kültürlü dokusu, Edinburgh\'un orta çağ silueti ve İskoç Yaylaları\'nın sisli manzaraları aynı seyahatte yaşanabilir.',
+        'Şehir içi ulaşım son derece gelişmiş; treni, metrosu ve çift katlı otobüsleriyle planlamayı kolaylaştırır. Müzelerin büyük çoğunluğu ücretsizdir, bu da kültürel keşfi bütçe dostu kılar.',
+      ],
+      highlights: [
+        'Londra: British Museum, Tower Bridge, Westminster ve Tate Modern',
+        'Edinburgh Kalesi ve Royal Mile yürüyüşü',
+        'Stonehenge ve Bath\'ın Roma hamamları',
+        'Cotswolds\'un masalsı köyleri',
+        'Lake District ve İskoç Yaylaları\'nda doğa rotaları',
+      ],
+      tips: [
+        'Yağmur her mevsim olası — yanınıza her zaman ince bir su geçirmez ceket alın',
+        'Şehirler arası seyahatte erken alınan tren biletleri yarı fiyatına düşebilir',
+        'Oyster Card ya da temassız banka kartı Londra ulaşımını ciddi ucuzlatır',
+        'Restoran hesabında servis ücreti dahil olabilir; iki kez ödememek için kontrol edin',
+      ],
+      bestTime: 'Mayıs–Eylül arası en açık ve ılıman dönemdir.',
+    },
   },
   {
     slug: 'germany',
@@ -54,6 +74,26 @@ export const COUNTRIES_DATA: Country[] = [
       { q: 'Almanya vizesiyle diğer Schengen ülkelerini ziyaret edebilir miyim?', a: 'Evet — vize verildikten sonra, ana varış ülkesi kuralına tabi olarak tüm 29 Schengen devletinde geçerlidir.' },
       { q: 'Ne kadar erken başvurmalıyım?', a: 'Seyahatten 6 hafta önce başvurmanızı öneririz. Başvurular en fazla 6 ay öncesinden yapılabilir.' },
     ],
+    tourism: {
+      intro: [
+        'Almanya, Berlin\'in çağdaş sanat sahnesinden Bavyera Alpleri\'nin masalsı şatolarına uzanan geniş bir yelpaze sunar. Her bölgenin kendine özgü mutfağı, bira geleneği ve mimari kimliği vardır.',
+        'Demir yolu ağı Avrupa\'nın en gelişmişlerinden biridir; ICE hızlı trenleriyle ülkeyi uçtan uca rahatlıkla gezebilirsiniz.',
+      ],
+      highlights: [
+        'Berlin: Brandenburg Kapısı, Doğu Yakası Galerisi ve Müze Adası',
+        'Münih ve Bavyera: Marienplatz, Neuschwanstein Şatosu',
+        'Köln Katedrali ve Ren Vadisi şarap rotası',
+        'Hamburg liman gezisi ve Speicherstadt depoları',
+        'Romantische Straße üzerinde Rothenburg ve Würzburg',
+      ],
+      tips: [
+        'Pazar günleri marketler büyük çoğunlukla kapalıdır; alışverişi cumartesi tamamlayın',
+        'Nakit hâlâ yaygın — küçük kafelerde kart geçmeyebilir',
+        'Otobanlarda hız limiti olmayan bölümler vardır ama yağmurlu havalarda dikkatli olun',
+        'Eylül sonu–Ekim başı Oktoberfest için Münih\'te konaklama erken tükenir',
+      ],
+      bestTime: 'Mayıs–Eylül arası şehir gezileri, Aralık ise Noel pazarları için ideal.',
+    },
   },
   {
     slug: 'france',
@@ -80,6 +120,26 @@ export const COUNTRIES_DATA: Country[] = [
       { q: 'Biyometrik her zaman gerekli midir?', a: 'Evet, son 59 ay içinde Schengen vizesi için biyometrik vermediyseniz gereklidir.' },
       { q: 'Başarı oranı nedir?', a: 'Fransa, dosyaları eksiksiz ve tutarlı olan kısa süreli başvuruların yaklaşık yüzde seksen altısını onaylamaktadır.' },
     ],
+    tourism: {
+      intro: [
+        'Fransa; Paris\'in zarafeti, Provence\'ın lavanta tarlaları ve Côte d\'Azur\'un Akdeniz koylarıyla her seyyaha farklı bir hikâye sunar. Mutfağı, şarabı ve sanat tarihi başlı başına seyahat sebebidir.',
+        'Şehirler arası TGV trenleriyle Paris\'ten Lyon\'a iki, Marsilya\'ya üç saatte ulaşabilirsiniz. Küçük kasabalar için araç kiralamak özgürlük sağlar.',
+      ],
+      highlights: [
+        'Paris: Louvre, Eiffel Kulesi, Montmartre ve Seine kıyısı',
+        'Versailles Sarayı ve bahçeleri',
+        'Mont Saint-Michel ve Normandiya kıyıları',
+        'Provence: Avignon, Aix-en-Provence ve lavanta rotası',
+        'Nice, Cannes ve Saint-Tropez Akdeniz hattı',
+      ],
+      tips: [
+        'Müzelerde önceden online bilet alın; özellikle Louvre kuyruğu çok uzun olabilir',
+        'Restoranlarda menü "formule" seçimi tek tek sipariş etmekten ucuzdur',
+        'Bonjour ile başlamak servisi belirgin biçimde değiştirir',
+        'Ağustos\'ta yerel halkın çoğu tatildedir; bazı küçük işletmeler kapanır',
+      ],
+      bestTime: 'Nisan–Haziran ve Eylül–Ekim hem hava hem kalabalık açısından en dengeli dönem.',
+    },
   },
   {
     slug: 'italy',
@@ -104,6 +164,26 @@ export const COUNTRIES_DATA: Country[] = [
     faqs: [
       { q: 'İtalya\'nın işlem süresi ne kadar?', a: 'Biyometrik tesliminden sonra genellikle 10 ila 15 iş günü.' },
     ],
+    tourism: {
+      intro: [
+        'İtalya, açık hava müzesi gibidir; Roma\'da antik forumdan Floransa\'da Rönesans atölyelerine, Venedik\'te kanal yolculuklarından Amalfi\'nin uçurumlu kıyılarına uzanır. Her bölgenin mutfağı belirgin biçimde farklıdır — kuzeyde tereyağı ve risotto, güneyde zeytinyağı ve domates hâkimdir.',
+        'Trenitalia ve Italo hızlı trenleri büyük şehirleri verimli biçimde bağlar; küçük köyler içinse bölgesel trenler ve otobüsler kullanılır.',
+      ],
+      highlights: [
+        'Roma: Kolezyum, Vatikan, Trevi Çeşmesi ve Pantheon',
+        'Floransa: Uffizi, Duomo ve Ponte Vecchio',
+        'Venedik: San Marco Meydanı ve gondol turu',
+        'Amalfi Kıyısı: Positano, Ravello ve Capri',
+        'Toskana kırsalı ve Cinque Terre köyleri',
+      ],
+      tips: [
+        'Restorana oturduğunuzda "coperto" denilen masa ücreti normaldir, şikâyet konusu değildir',
+        'Roma ve Floransa\'da kilise ziyaretlerinde omuz ve diz örtmek zorunludur',
+        'Tren öncesi platformdaki sarı makineye bilet damgalatmayı unutmayın, ceza yazılır',
+        'Bir cappuccino sabah 11\'den sonra ısmarlanmaz; öğleden sonra espresso tercih edin',
+      ],
+      bestTime: 'Nisan–Haziran ve Eylül–Ekim; Ağustos sıcak ve kalabalıktır.',
+    },
   },
   {
     slug: 'netherlands',
@@ -128,6 +208,26 @@ export const COUNTRIES_DATA: Country[] = [
     faqs: [
       { q: 'MVV nedir?', a: '90 günü aşan konaklamalar için gerekli olan, çoğunlukla oturma izniyle birleştirilen uzun süreli giriş vizesidir.' },
     ],
+    tourism: {
+      intro: [
+        'Hollanda, kanalları, bisiklet kültürü ve düz yatay ufuklarıyla Avrupa\'nın en kompakt seyahat ülkelerinden biri. Amsterdam dışındaki Utrecht, Rotterdam ve Lahey gibi şehirler de kendi karakterleriyle keşfetmeye değer.',
+        'Tüm ülkeyi birkaç saatte trenle dolaşabilirsiniz. Bisiklet kiralamak çoğu şehirde turist olmanın en doğal yoludur.',
+      ],
+      highlights: [
+        'Amsterdam: Rijksmuseum, Van Gogh Müzesi ve kanal turu',
+        'Anne Frank Evi (bilet haftalar öncesinden açılır)',
+        'Keukenhof lale bahçeleri (Mart sonu–Mayıs ortası)',
+        'Rotterdam\'ın modern mimarisi ve Cube Houses',
+        'Zaanse Schans yel değirmenleri ve Giethoorn köyü',
+      ],
+      tips: [
+        'Bisiklet yolu kaldırımdan ayrıdır; üzerinde durmak çarpışmaya neden olabilir',
+        'Anne Frank Evi gibi popüler müzelerde bilet kapıdan satılmaz, online alın',
+        'Kahve dükkânı (coffee shop) ile café farklıdır; ikincisi kahve içmek içindir',
+        'Rüzgâr sürekli — şemsiye yerine kapüşonlu su geçirmez ceket pratiktir',
+      ],
+      bestTime: 'Lale mevsimi için Nisan; genel turizm için Mayıs–Eylül.',
+    },
   },
   {
     slug: 'usa',
@@ -154,6 +254,26 @@ export const COUNTRIES_DATA: Country[] = [
       { q: 'Mülakat nasıl işliyor?', a: 'Amaç ve bağlara odaklanan, genellikle 2 ila 5 dakika süren bir konsolosluk görevlisi görüşmesidir.' },
       { q: 'Acil randevu başvurusu yapabilir miyim?', a: 'Evet, tıbbi, iş veya acil seyahat durumları için. Talebi sizin adınıza biz göndeririz.' },
     ],
+    tourism: {
+      intro: [
+        'Amerika Birleşik Devletleri, kıta ölçeğinde bir seyahat olanağı sunar — Doğu Yakası\'nın metropollerinden Orta Batı\'nın milli parklarına, Kaliforniya kıyılarından New Orleans caz sahnesine kadar. Tek bir gezide her şeyi görmek zordur; bölgesel rotalar planlamak daha verimlidir.',
+        'Şehir içi mesafeler yürünebilirken, eyaletler arası ulaşımda iç hat uçuş çoğunlukla en mantıklı seçenektir. Araç kiralamak Batı Yakası ve milli park rotaları için zorunlu denecek kadar pratiktir.',
+      ],
+      highlights: [
+        'New York: Manhattan, Central Park, Broadway ve müzeler',
+        'Washington D.C.: Smithsonian müzeleri ve anıtlar',
+        'San Francisco, Yosemite ve Big Sur kıyısı',
+        'Las Vegas üzerinden Grand Canyon ve Antelope Canyon',
+        'Florida: Miami sahilleri, Orlando temalı parklar ve Keys',
+      ],
+      tips: [
+        'Restoran ve taksilerde %15–20 bahşiş yazılı olmasa da beklenir',
+        'Etiket fiyatlarına eyalet vergisi eklenir; gerçek tutar kasada netleşir',
+        'ESTA değil, vize ile giriş yapacaksınız — pasaportta vizenin görünür olduğundan emin olun',
+        'Hava durumu kıtanın bir ucundan diğerine ciddi değişir; kapsamlı bagaj planlayın',
+      ],
+      bestTime: 'Mayıs–Ekim; ancak Florida ve Kaliforniya yıl boyu uygundur.',
+    },
   },
   {
     slug: 'canada',
@@ -178,6 +298,26 @@ export const COUNTRIES_DATA: Country[] = [
     faqs: [
       { q: 'Kanada ziyaretçi vizesi ne kadar süre geçerlidir?', a: 'Pasaport geçerliliğine kadar veya en fazla 10 yıl; her girişte 6 aya kadar kalış hakkıyla.' },
     ],
+    tourism: {
+      intro: [
+        'Kanada; Vancouver\'ın okyanus-dağ buluşmasından Quebec\'in Fransız mirasına, Toronto metropolünden Banff\'ın turkuaz göllerine uzanan dev bir doğa coğrafyasıdır. Yaz aylarında trekking, kış aylarında kayak için dünyanın önde gelen destinasyonlarından biri.',
+        'Mesafeler büyüktür; Doğu ve Batı Yakası iki ayrı seyahat olarak planlanır. VIA Rail ile yapılan panoramik tren yolculuğu Kanada\'yı yavaşça keşfetmenin ayrı bir biçimidir.',
+      ],
+      highlights: [
+        'Banff ve Jasper milli parkları, Lake Louise',
+        'Vancouver, Whistler ve Vancouver Adası',
+        'Toronto, CN Tower ve Niagara Şelaleleri',
+        'Quebec City\'nin tarihi sokakları ve Old Montreal',
+        'Kuzey ışıkları için Yukon ve Northwest Territories',
+      ],
+      tips: [
+        'İçecek fiyatlarına vergi ve gerekirse bahşiş eklenir; menü fiyatı son fiyat değildir',
+        'Milli parklara giriş için Parks Canada günlük veya yıllık geçişi gerekir',
+        'Ayı uyarılarına ciddi yaklaşın; rotalarda yiyecek koklatmamak önemli',
+        'Kışın -20°C altındaki sıcaklıklar normaldir; katmanlı giyinin',
+      ],
+      bestTime: 'Doğa için Haziran–Eylül; kış sporları için Aralık–Mart.',
+    },
   },
   {
     slug: 'australia',
@@ -201,6 +341,26 @@ export const COUNTRIES_DATA: Country[] = [
     faqs: [
       { q: 'Tıbbi muayene gerekiyor mu?', a: 'Yalnızca 6 ayı aşan konaklamalar veya İçişleri Bakanlığı tarafından işaretlenen durumlar için.' },
     ],
+    tourism: {
+      intro: [
+        'Avustralya, kıta-büyüklüğünde bir ada — Sidney\'in ikonik liman silüetinden Büyük Mercan Resifi\'nin sualtı dünyasına, Outback\'in kızıl topraklarından Tazmanya\'nın el değmemiş yaylalarına. Mesafeler abartılı boyuttadır; iç hat uçuşlar planlamanın merkezindedir.',
+        'Sahil şehirleri Türkiye saatine göre tersine bir mevsim takvimine sahiptir; Aralık–Şubat yaz, Haziran–Ağustos kıştır. Bu, planlamanızı tamamen değiştirecek tek detaydır.',
+      ],
+      highlights: [
+        'Sidney: Opera Binası, Bondi Plajı ve Liman Köprüsü',
+        'Büyük Mercan Resifi\'nde dalış veya snorkel',
+        'Uluru / Ayers Rock ve Kızıl Merkez',
+        'Melbourne kafe kültürü ve Great Ocean Road',
+        'Tazmanya\'da Cradle Mountain ve Hobart',
+      ],
+      tips: [
+        'Güneş aşırı kuvvetlidir — yüksek SPF\'li güneş kremi ve şapka şart',
+        'Plajlarda yalnızca sarı-kırmızı bayrak arası yüzülmesi tavsiye edilir',
+        'Yaban hayatı yakınlığı uyarılara her zaman uyun, özellikle yılan ve örümcek için',
+        'Mesafeleri saatle değil, uçuşla hesaplayın; iç hat ucuza alınabilir',
+      ],
+      bestTime: 'Sidney/Melbourne için Eylül–Kasım ve Mart–Mayıs; resif için Haziran–Ekim.',
+    },
   },
   {
     slug: 'uae',
@@ -223,6 +383,26 @@ export const COUNTRIES_DATA: Country[] = [
     faqs: [
       { q: 'BAE e-vizesi ne kadar hızlı çıkar?', a: 'Genellikle 48 ila 72 saat. 24 saat içinde ekspres hizmet mevcuttur.' },
     ],
+    tourism: {
+      intro: [
+        'Birleşik Arap Emirlikleri, çölün ortasında yükselmiş ultra-modern bir destinasyondur. Dubai\'nin gökdelenleri ve alışveriş merkezleriyle Abu Dabi\'nin sanat ve kültür yatırımları birbirini tamamlar.',
+        'Şehir içi metro ve taksi sistemi son derece düzenlidir; Uber ve Careem yaygındır. Çölde safari turları neredeyse her ziyaretçinin programına girer.',
+      ],
+      highlights: [
+        'Burj Khalifa ve Dubai Mall çevresi',
+        'Eski Dubai: Al Fahidi tarihi mahallesi ve baharat çarşısı',
+        'Palm Jumeirah ve Atlantis adası',
+        'Abu Dabi: Şeyh Zayed Camii ve Louvre Abu Dabi',
+        'Çöl safarisi, deve turu ve dune-bashing deneyimi',
+      ],
+      tips: [
+        'Halka açık alanlarda kıyafet kuralı vardır; omuz ve diz örtülmelidir',
+        'Ramazan ayında gündüz yeme-içme yalnızca otel içinde mümkündür',
+        'Alkol yalnızca lisanslı otel ve restoranlarda servis edilir',
+        'Yaz aylarında dış mekân sıcaklığı 45°C\'yi geçer; aktiviteleri sabah ve akşam planlayın',
+      ],
+      bestTime: 'Kasım–Mart arası en konforlu dönemdir.',
+    },
   },
   {
     slug: 'schengen',

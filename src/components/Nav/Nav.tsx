@@ -147,17 +147,11 @@ export default function Nav() {
                                             href={col.feature!.to}
                                             className="mega-feature flex flex-col justify-between p-7 bg-navy text-white min-h-55 border border-coral/30 hover:border-coral transition-colors duration-200"
                                         >
-                                            <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase relative z-10">
-                                                — {col.feature!.eyebrow}
-                                            </div>
-                                            <div className="font-serif font-semibold text-[22px] leading-tight tracking-[-0.015em] mt-3 mb-4 relative z-10 text-white">
+                                            <div className="font-serif font-semibold text-[22px] leading-tight tracking-[-0.015em] mb-4 relative z-10 text-white">
                                                 {col.feature!.title}
                                             </div>
                                             <div className="text-[13px] text-white/90 leading-relaxed flex-1 relative z-10">
                                                 {col.feature!.body}
-                                            </div>
-                                            <div className="font-sans text-[11px] tracking-widest uppercase text-coral mt-4 relative z-10">
-                                                Read more →
                                             </div>
                                         </Link>
                                     ) : (

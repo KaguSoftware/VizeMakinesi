@@ -83,6 +83,29 @@ export default function PartnershipsPage() {
                 Bu ortaklık sayesinde vize süreçlerinizi tur paketlerinizle entegre bir şekilde yönetebilir,
                 seyahat planlamanızı baştan sona tek elden takip edebilirsiniz.
               </p>
+              <a
+                href="https://www.instagram.com/gezimakinesicom"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-2 text-[15px] transition-opacity hover:opacity-80"
+                style={{ color: '#E1306C' }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="url(#ig-gradient)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <defs>
+                    <linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#F58529"/>
+                      <stop offset="50%" stopColor="#DD2A7B"/>
+                      <stop offset="100%" stopColor="#8134AF"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="0.5" fill="#DD2A7B" stroke="none"/>
+                </svg>
+                <span style={{ background: 'linear-gradient(45deg, #F58529, #DD2A7B, #8134AF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                  @gezimakinesicom
+                </span>
+              </a>
             </div>
           </div>
 

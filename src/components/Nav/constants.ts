@@ -1,10 +1,14 @@
+
 import type { MegaMenuGroup, MobileLink } from './types';
 
 export const TICKER_ITEMS = [
-  '— Bugün 18:00\'a kadar açık',
+  '— Hafta içi 18:00\'a kadar açık',
   '· Schengen işlem süresi 12 iş günü',
-  '· ABD hızlandırma %91 onay',
+  '· ABD hızlandırma ',
+  '· Bu gün arayın ',
   '· +90 530 775 31 31',
+  '· Sekreterımızle görüşün',
+
 ];
 
 export const MEGA_MENU: MegaMenuGroup[] = [
@@ -14,35 +18,35 @@ export const MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Avrupa',
         items: [
-          { to: '/visa/uk',          label: 'Birleşik Krallık', flag: '🇬🇧' },
-          { to: '/visa/germany',     label: 'Almanya',          flag: '🇩🇪' },
-          { to: '/visa/france',      label: 'Fransa',           flag: '🇫🇷' },
-          { to: '/visa/italy',       label: 'İtalya',           flag: '🇮🇹' },
-          { to: '/visa/netherlands', label: 'Hollanda',         flag: '🇳🇱' },
-          { to: '/schengen',         label: 'Schengen Bölgesi', flag: '🇪🇺' },
+          { to: '/visa/uk', label: 'Birleşik Krallık', flag: '🇬🇧' },
+          { to: '/visa/germany', label: 'Almanya', flag: '🇩🇪' },
+          { to: '/visa/france', label: 'Fransa', flag: '🇫🇷' },
+          { to: '/visa/italy', label: 'İtalya', flag: '🇮🇹' },
+          { to: '/visa/netherlands', label: 'Hollanda', flag: '🇳🇱' },
+          { to: '/schengen', label: 'Schengen Bölgesi', flag: '🇪🇺' },
         ],
       },
       {
         title: 'Amerika',
         items: [
-          { to: '/visa/usa',         label: 'Amerika Birleşik Devletleri', flag: '🇺🇸' },
-          { to: '/visa/canada',      label: 'Kanada',                      flag: '🇨🇦' },
-          { to: '/us-visa-expedite', label: 'ABD Hızlandırma',             flag: '⚡' },
+          { to: '/visa/usa', label: 'Amerika Birleşik Devletleri', flag: '🇺🇸' },
+          { to: '/visa/canada', label: 'Kanada', flag: '🇨🇦' },
+          { to: '/us-visa-expedite', label: 'ABD Hızlandırma', flag: '⚡' },
         ],
       },
       {
         title: 'Asya ve Pasifik',
         items: [
-          { to: '/visa/australia', label: 'Avustralya',              flag: '🇦🇺' },
-          { to: '/visa/uae',       label: 'Birleşik Arap Emirlikleri', flag: '🇦🇪' },
+          { to: '/visa/australia', label: 'Avustralya', flag: '🇦🇺' },
+          { to: '/visa/uae', label: 'Birleşik Arap Emirlikleri', flag: '🇦🇪' },
         ],
       },
       {
         kind: 'feature',
         feature: {
-          eyebrow: 'Bu hafta',
-          title: 'Schengen çoklu giriş, 5 yıl',
-          body: 'Uzun geçerlilik süreli Schengen turist vizeleri, ortak konsolosluklarımızda 12 iş günü içinde işleme alınmaktadır.',
+          eyebrow: '',
+          title: 'Hangi Vizeye ihtiyacınız var?',
+          body: 'Hangi vizeye ihtiyacınız olduğunu seçin ve gerekli dokümanları görüntüleyin',
           to: '/schengen',
         },
       },
@@ -54,25 +58,25 @@ export const MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Vize Hizmetleri',
         items: [
-          { to: '/visa-regimes',  label: 'Vize Rejimleri',         desc: 'Turist, iş, öğrenci, çalışma, transit' },
-          { to: '/how-it-works',  label: 'Nasıl Çalışırız',        desc: 'Beş adımlı ofis metodumuz' },
-          { to: '/fees',          label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
+          { to: '/visa-regimes', label: 'Vize Rejimleri', desc: 'Turist, iş, öğrenci, çalışma, transit' },
+          { to: '/how-it-works', label: 'Nasıl Çalışırız', desc: 'Beş adımlı ofis metodumuz' },
+          { to: '/fees', label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
         ],
       },
       {
         title: 'Vize Ötesi',
         items: [
-          { to: '/passport',         label: 'Pasaport Hizmetleri', desc: 'Çıkarma, yenileme, kayıp' },
-          { to: '/partnerships',     label: 'Kurumsal Ortaklıklar', desc: 'Ortaklarımız' },
-          { to: '/us-visa-expedite', label: 'ABD Hızlandırma',     desc: '5–10 günde mülakat' },
+          { to: '/passport', label: 'Pasaport Hizmetleri', desc: 'Çıkarma, yenileme, kayıp' },
+          { to: '/partnerships', label: 'Kurumsal Ortaklıklar', desc: 'Ortaklarımız' },
+          { to: '/us-visa-expedite', label: 'ABD Hızlandırma', desc: '5–10 günde mülakat' },
         ],
       },
       {
         kind: 'feature',
         feature: {
-          eyebrow: 'Ofis notu',
-          title: 'Neden sabit fiyat?',
-          body: 'İlk günden rakam veririz. Saatlik faturalama yok, sürpriz yok, altıncı haftada şok yok.',
+          eyebrow: '',
+          title: 'Hizmetlerimizle ilgili bilgi alın',
+          body: 'Hizmetlerimiz, ofisimiz ve işleyişimizle ilgili bilgi alın',
           to: '/fees',
         },
       },
@@ -87,6 +91,15 @@ export const MEGA_MENU: MegaMenuGroup[] = [
           { to: '/blog', label: 'Gezi Rehberi', desc: 'Ülke ülke turistik tavsiyeler' },
         ],
       },
+      {
+        kind: 'feature',
+        feature: {
+          eyebrow: '',
+          title: 'Ülkelerle ilgili bilgi edinin',
+          body: 'Gideceğiniz ülkenin turistik yerleri ile ilgili bilgi öğrenin',
+          to: '/blog',
+        },
+      },
     ],
   },
   {
@@ -95,7 +108,7 @@ export const MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Hakkımızda',
         items: [
-          { to: '/about',        label: 'Ofisimiz', desc: 'Ekip ve danışmanlar' },
+          { to: '/about', label: 'Ofisimiz', desc: 'Ekip ve danışmanlar' },
           { to: '/partnerships', label: 'Ortaklıklar', desc: 'Kurumsal çözümler' },
         ],
       },
@@ -103,15 +116,15 @@ export const MEGA_MENU: MegaMenuGroup[] = [
         title: 'Ziyaret',
         items: [
           { to: '/contact', label: '4.Levent Ofisi', desc: 'Selvili Sokağı · D:Kat:1 Daire:1' },
-          { to: '/contact', label: 'Çalışma Saatleri',    desc: 'Pts–Cts · Randevusuz kabul' },
+          { to: '/contact', label: 'Çalışma Saatleri', desc: 'Pts–Cts · Randevusuz kabul' },
         ],
       },
       {
         kind: 'feature',
         feature: {
-          eyebrow: 'Bugün açık',
-          title: 'Öğlene kadar randevusuz.',
-          body: 'Pazartesiden Cumartesiye öğlene kadar randevu gerekmez. Öğleden sonra için rezervasyon alınır.',
+          eyebrow: '',
+          title: 'Ofisimizle İlgili bilgi alın',
+          body: 'Çalışma Saatlerimizi, ortaklıklarımızı ve konumumuzu öğrenin',
           to: '/contact',
         },
       },
@@ -120,15 +133,15 @@ export const MEGA_MENU: MegaMenuGroup[] = [
 ];
 
 export const MOBILE_LINKS: MobileLink[] = [
-  { to: '/',                label: 'Ana Sayfa',      end: true },
-  { to: '/visa-regimes',    label: 'Vize Rejimleri' },
-  { to: '/how-it-works',    label: 'Nasıl Çalışırız' },
-  { to: '/about',           label: 'Hakkımızda' },
-  { to: '/fees',            label: 'Ücretler' },
-  { to: '/schengen',        label: 'Schengen' },
-  { to: '/passport',        label: 'Pasaport' },
-  { to: '/blog',             label: 'Blog' },
-  { to: '/partnerships',     label: 'Ortaklıklar' },
+  { to: '/', label: 'Ana Sayfa', end: true },
+  { to: '/visa-regimes', label: 'Vize Rejimleri' },
+  { to: '/how-it-works', label: 'Nasıl Çalışırız' },
+  { to: '/about', label: 'Hakkımızda' },
+  { to: '/fees', label: 'Ücretler' },
+  { to: '/schengen', label: 'Schengen' },
+  { to: '/passport', label: 'Pasaport' },
+  { to: '/blog', label: 'Blog' },
+  { to: '/partnerships', label: 'Ortaklıklar' },
   { to: '/us-visa-expedite', label: 'ABD Hızlandırma' },
-  { to: '/contact',         label: 'İletişim' },
+  { to: '/contact', label: 'İletişim' },
 ];

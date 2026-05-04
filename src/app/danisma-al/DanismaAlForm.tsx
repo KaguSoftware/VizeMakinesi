@@ -29,7 +29,7 @@ export default function DanismaAlForm() {
         <PageHead
           eyebrow="— Teşekkürler"
           title={<>Formunuz <em className="font-normal italic text-coral">alındı.</em></>}
-          lede="En geç 1 iş günü içinde size dönüş yapacağız."
+          lede="En geç 2 iş günü içinde size dönüş yapacağız."
         />
         <section className="container pb-24">
           <div className="border border-border p-12 max-w-lg">
@@ -53,7 +53,7 @@ export default function DanismaAlForm() {
       <PageHead
         eyebrow="— Danışma formu"
         title={<>Bize anlatın, <em className="font-normal italic text-coral">biz halledelim.</em></>}
-        lede="Seyahat planınızı ve ihtiyacınızı kısaca paylaşın — 1 iş günü içinde size dönelim."
+        lede="Seyahat planınızı ve ihtiyacınızı kısaca paylaşın — 2 iş günü içinde size dönelim."
       />
 
       <section className="container pb-24">
@@ -90,7 +90,7 @@ export default function DanismaAlForm() {
           </div>
 
           {/* E-posta */}
-          <div className="p-8 border-b border-border lg:border-r">
+          <div className="p-8 border-b border-border lg:col-span-2">
             <label className="block font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-3">
               E-posta <span className="text-coral">*</span>
             </label>
@@ -103,15 +103,27 @@ export default function DanismaAlForm() {
             />
           </div>
 
-          {/* Seyahat Tarihi */}
-          <div className="p-8 border-b border-border">
+          {/* Planlanan Seyahat Tarihi */}
+          <div className="p-8 border-b border-border lg:border-r">
             <label className="block font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-3">
-              Seyahat Tarihi <span className="text-coral">*</span>
+              Planlanan Gidiş Tarihi <span className="text-coral">*</span>
             </label>
             <input
               type="date"
               name="travelDate"
               required
+              className="w-full bg-transparent border-b border-border pb-2 font-serif text-[18px] text-navy focus:outline-none focus:border-coral transition-colors duration-150"
+            />
+          </div>
+
+          {/* Planlanan Dönüş Tarihi */}
+          <div className="p-8 border-b border-border">
+            <label className="block font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-3">
+              Planlanan Dönüş Tarihi
+            </label>
+            <input
+              type="date"
+              name="returnDate"
               className="w-full bg-transparent border-b border-border pb-2 font-serif text-[18px] text-navy focus:outline-none focus:border-coral transition-colors duration-150"
             />
           </div>

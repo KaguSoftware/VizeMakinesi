@@ -15,6 +15,13 @@ export interface FAQItem {
   a: string;
 }
 
+export interface TourismInfo {
+  intro: string[];
+  highlights: string[];
+  tips: string[];
+  bestTime?: string;
+}
+
 export interface Country {
   slug: CountrySlug;
   name: string;
@@ -24,4 +31,5 @@ export interface Country {
   requirements: string[];
   handles: string[];
   faqs: FAQItem[];
+  tourism?: TourismInfo;
 }

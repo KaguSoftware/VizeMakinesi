@@ -24,6 +24,8 @@ export default function SchengenPage() {
         eyebrow="— Schengen vizesi"
         title={<>Tek vize.<br /><em className="font-normal italic text-coral">Yirmi dokuz ülke.</em></>}
         lede="Schengen vizesi, bir Avrupa devletleri gümrük birliğinde geçerli kısa süreli (Type C) bir izindir. Her konsolosluğa başvurusu yapıyoruz."
+        flagSlug="schengen"
+        titleClassName="font-serif font-bold text-[clamp(43px,5.04vw,86px)] leading-[1.05] tracking-[-0.02em] wrap-break-word hyphens-auto"
       />
 
       {/* Üye devletler */}
@@ -31,7 +33,7 @@ export default function SchengenPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-20 py-20 border-b border-border">
           <div>
             <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">— Üye devletler</div>
-            <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
+            <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-tight">
               Kapıları açan ülkeler.
             </h2>
             <p className="font-serif italic text-[18px] text-navy mt-6 leading-relaxed">
@@ -47,7 +49,7 @@ export default function SchengenPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-20 py-20 border-b border-border">
           <div>
             <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">— Yaygın ret nedenleri</div>
-            <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
+            <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-tight">
               Dosyalar neden reddedilir.
             </h2>
             <p className="font-serif italic text-[18px] text-navy mt-6 leading-relaxed">

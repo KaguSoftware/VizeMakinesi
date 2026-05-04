@@ -1,17 +1,25 @@
+import FlagBG from '@/components/FlagBG/FlagBG';
 import type { PageHeadProps } from './types';
 
-export default function PageHead({ eyebrow, title, lede }: PageHeadProps) {
+export default function PageHead({ title, lede, flagSlug, titleClassName }: PageHeadProps) {
   return (
     <section className="pt-24 pb-[72px] border-b border-border relative overflow-hidden">
-      <div className="container">
-        <h1 className="font-serif font-bold text-[clamp(56px,9vw,144px)] leading-none tracking-[-0.02em] max-w-[1200px]">
-          {title}
-        </h1>
-        {lede && (
-          <p className="font-serif text-[22px] text-navy max-w-none whitespace-nowrap mt-9 leading-[1.45] border-l border-coral pl-6">
-            {lede}
-          </p>
-        )}
+      {flagSlug && (
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-[120%] opacity-[0.12] pointer-events-none hidden lg:block">
+          <FlagBG slug={flagSlug} className="w-full h-full" />
+        </div>
+      )}
+      <div className="container relative z-10">
+        <div className="lg:w-1/2 lg:pr-8">
+          <h1 className={titleClassName ?? "font-serif font-bold text-[clamp(48px,6.6vw,106px)] leading-[0.95] tracking-[-0.02em] wrap-break-word hyphens-auto"}>
+            {title}
+          </h1>
+          {lede && (
+            <p className="font-serif text-[20px] text-navy mt-9 leading-[1.45] border-l border-coral pl-6 break-words">
+              {lede}
+            </p>
+          )}
+        </div>
       </div>
     </section>
   );

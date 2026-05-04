@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Syne, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Nav from "@/components/Nav/Nav";
-import Footer from "@/components/Footer/Footer";
+import Nav from "@/components/global/Nav/Nav";
+import Footer from "@/components/global/Footer/Footer";
 
 const syne = Syne({
     variable: "--font-playfair",

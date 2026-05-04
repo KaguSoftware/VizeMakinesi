@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import PageHead from '@/components/PageHead/PageHead';
-import Timeline from '@/components/Timeline/Timeline';
+import PageHead from '@/components/shared/PageHead/PageHead';
+import Timeline from '@/components/shared/Timeline/Timeline';
 
 export const metadata: Metadata = {
   title: 'Nasıl Çalışırız — Vize Makinesi',

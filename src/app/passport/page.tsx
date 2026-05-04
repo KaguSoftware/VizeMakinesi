@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import PageHead from '@/components/PageHead/PageHead';
-import PassportRow from '@/components/PassportRow/PassportRow';
+import PageHead from '@/components/shared/PageHead/PageHead';
+import PassportRow from '@/components/passport/PassportRow/PassportRow';
 
 export const metadata: Metadata = {
   title: 'Pasaport Hizmetleri — Vize Makinesi',

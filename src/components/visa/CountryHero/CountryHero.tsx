@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import FlagBG from '@/components/FlagBG/FlagBG';
+import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import type { CountryHeroProps } from './types';
 import type { CountrySlug } from '@/data/countries.types';
 

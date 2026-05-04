@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import PageHead from '@/components/PageHead/PageHead';
+import PageHead from '@/components/shared/PageHead/PageHead';
 
 export const metadata: Metadata = {
   title: 'Ortaklıklar — Vize Makinesi',

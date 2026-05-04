@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import PageHead from '@/components/PageHead/PageHead';
-import SchengenMembers from '@/components/SchengenMembers/SchengenMembers';
-import WarningList from '@/components/WarningList/WarningList';
-import { SCHENGEN_REJECTION_REASONS } from '@/components/SchengenMembers/constants';
-import FAQ from '@/components/FAQ/FAQ';
+import PageHead from '@/components/shared/PageHead/PageHead';
+import SchengenMembers from '@/components/schengen/SchengenMembers/SchengenMembers';
+import WarningList from '@/components/schengen/WarningList/WarningList';
+import { SCHENGEN_REJECTION_REASONS } from '@/components/schengen/SchengenMembers/constants';
+import FAQ from '@/components/shared/FAQ/FAQ';
 import type { FAQItem } from '@/data/countries.types';
 
 export const metadata: Metadata = {

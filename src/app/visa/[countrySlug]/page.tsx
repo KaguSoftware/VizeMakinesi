@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { COUNTRIES_DATA, COUNTRY_SLUGS } from '@/data/countries';
-import CountryHero from '@/components/CountryHero/CountryHero';
-import ChecklistList from '@/components/ChecklistList/ChecklistList';
-import NumberedList from '@/components/NumberedList/NumberedList';
-import FAQ from '@/components/FAQ/FAQ';
+import CountryHero from '@/components/visa/CountryHero/CountryHero';
+import ChecklistList from '@/components/shared/ChecklistList/ChecklistList';
+import NumberedList from '@/components/shared/NumberedList/NumberedList';
+import FAQ from '@/components/shared/FAQ/FAQ';
 import { SITE } from '@/data/site';
 
 interface Props {

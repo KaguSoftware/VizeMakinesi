@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { COUNTRIES_DATA } from '@/data/countries';
-import FlagBG from '@/components/FlagBG/FlagBG';
-import ChecklistList from '@/components/ChecklistList/ChecklistList';
-import NumberedList from '@/components/NumberedList/NumberedList';
+import FlagBG from '@/components/shared/FlagBG/FlagBG';
+import ChecklistList from '@/components/shared/ChecklistList/ChecklistList';
+import NumberedList from '@/components/shared/NumberedList/NumberedList';
 import type { CountrySlug } from '@/data/countries.types';
 
 interface Props {

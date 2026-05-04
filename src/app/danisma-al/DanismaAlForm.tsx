@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import PageHead from "@/components/PageHead/PageHead";
+import PageHead from "@/components/shared/PageHead/PageHead";
 
 const COUNTRIES = [
   "Almanya", "Amerika Birleşik Devletleri", "Avustralya", "Avusturya",

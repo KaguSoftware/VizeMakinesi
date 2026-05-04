@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { FlagBGProps } from './types';
 
 function star(cx: number, cy: number, ro: number, ri: number): string {
@@ -89,18 +90,7 @@ export default function FlagBG({ slug, className }: FlagBGProps) {
         </svg>
       );
     case 'canada':
-      return (
-        <svg viewBox="0 0 24 12" {...shared}>
-          <rect width="6" height="12" x="0" fill="#FF0000" />
-          <rect width="12" height="12" x="6" fill="#FFFFFF" />
-          <rect width="6" height="12" x="18" fill="#FF0000" />
-          {/* Maple leaf */}
-          <path
-            d="M12,1.8 L12.55,3.6 L14.2,2.9 L13.3,4.5 L15,4.5 L13.6,5.7 L14.3,7.1 L12.7,6.5 L12.7,8.5 L11.3,8.5 L11.3,6.5 L9.7,7.1 L10.4,5.7 L9,4.5 L10.7,4.5 L9.8,2.9 L11.45,3.6 Z"
-            fill="#FF0000"
-          />
-        </svg>
-      );
+      return <Image src="/canada_flag.svg" alt="" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'australia':
       return (
         <svg viewBox="0 0 60 30" {...shared}>

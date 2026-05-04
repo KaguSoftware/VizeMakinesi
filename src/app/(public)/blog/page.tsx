@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { getTourismCountries } from '@/lib/data/countries';
 
 export const metadata: Metadata = {
@@ -8,15 +9,6 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   const countries = await getTourismCountries();
-
-  const posts = countries.map((c) => ({
-    date: 'Gezi Rehberi',
-    category: c.name,
-    title: `${c.name} Gezi Rehberi`,
-    excerpt: (c.tourism_intro ?? [])[0] ?? '',
-    slug: `/blog/${c.slug}`,
-    flag: c.flag_emoji,
-  }));
 
   return (
     <>
@@ -44,30 +36,55 @@ export default async function BlogPage() {
 
       {/* Country blog posts grid */}
       <section className="container pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px border border-border">
-          {posts.map((post) => (
-            <article
-              key={post.title}
-              className="p-10 border-border hover:bg-[hsl(var(--color-navy)/0.03)] transition-colors duration-150 group"
-            >
-              <div className="flex items-center gap-3 mb-6">
-                {post.flag && <span className="text-[22px] leading-none">{post.flag}</span>}
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral">
-                  {post.category}
-                </span>
-                <span className="font-mono text-[10px] text-muted">·</span>
-                <span className="font-mono text-[10px] text-muted">{post.date}</span>
-              </div>
-              <h2 className="font-serif font-bold text-[clamp(20px,2vw,26px)] leading-snug tracking-[-0.015em] mb-4 group-hover:text-coral transition-colors duration-150">
-                <a href={post.slug}>{post.title}</a>
-              </h2>
-              <p className="text-[15px] leading-[1.75] text-muted">{post.excerpt}</p>
-              <a href={post.slug} className="mt-8 block font-mono text-[11px] uppercase tracking-[0.14em] text-coral">
-                Devamını oku →
-              </a>
-            </article>
-          ))}
-        </div>
+        {countries.length === 0 ? (
+          <div className="py-24 text-center">
+            <p className="font-serif italic text-[22px] text-navy/40">Henüz blog yazısı yok.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px border border-border">
+            {countries.map((country) => {
+              const slug = `/blog/${country.slug}`;
+              const excerpt = (country.tourism_intro ?? [])[0] ?? '';
+              return (
+                <article
+                  key={country.slug}
+                  className="flex flex-col border-border hover:bg-[hsl(var(--color-navy)/0.03)] transition-colors duration-150 group"
+                >
+                  {country.tourism_hero_image_url && (
+                    <a href={slug} className="block overflow-hidden">
+                      <div className="relative w-full aspect-video">
+                        <Image
+                          src={country.tourism_hero_image_url}
+                          alt={country.name}
+                          fill
+                          className="object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      </div>
+                    </a>
+                  )}
+                  <div className="p-10 flex flex-col flex-1">
+                    <div className="flex items-center gap-3 mb-6">
+                      {country.flag_emoji && <span className="text-[22px] leading-none">{country.flag_emoji}</span>}
+                      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral">
+                        {country.name}
+                      </span>
+                      <span className="font-mono text-[10px] text-muted">·</span>
+                      <span className="font-mono text-[10px] text-muted">Gezi Rehberi</span>
+                    </div>
+                    <h2 className="font-serif font-bold text-[clamp(20px,2vw,26px)] leading-snug tracking-[-0.015em] mb-4 group-hover:text-coral transition-colors duration-150">
+                      <a href={slug}>{country.name} Gezi Rehberi</a>
+                    </h2>
+                    {excerpt && <p className="text-[15px] leading-[1.75] text-muted">{excerpt}</p>}
+                    <a href={slug} className="mt-8 block font-mono text-[11px] uppercase tracking-[0.14em] text-coral">
+                      Devamını oku →
+                    </a>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
       </section>
     </>
   );

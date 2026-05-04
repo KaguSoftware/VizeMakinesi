@@ -17,7 +17,7 @@ export default function AdminLoginPage() {
     setLoading(true)
 
     const supabase = createClient()
-    const { error: authError } = await supabase.auth.signInWithPassword({
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
@@ -28,7 +28,24 @@ export default function AdminLoginPage() {
       return
     }
 
+    const userId = authData.user?.id
+    const { data: adminProfile, error: adminError } = userId
+      ? await supabase
+          .from('admin_profiles')
+          .select('id')
+          .eq('id', userId)
+          .maybeSingle()
+      : { data: null, error: null }
+
+    if (adminError || !adminProfile) {
+      await supabase.auth.signOut()
+      setError('Bu hesap admin olarak yetkilendirilmemiş.')
+      setLoading(false)
+      return
+    }
+
     router.push('/admin')
+    router.refresh()
   }
 
   return (

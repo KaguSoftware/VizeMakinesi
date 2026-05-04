@@ -23,18 +23,24 @@ export default async function HomePage() {
                 </div>
 
                 {/* Mozaik grid */}
-                <div className="grid grid-cols-12 border-t border-border">
-                    {countries.map((country, i) => (
-                        <MosaicCard
-                            key={country.slug}
-                            country={country}
-                            index={i}
-                            span={country.mosaic_span ?? 'col-span-12'}
-                            rowIndex={Math.floor(i / 2)}
-                        />
-                    ))}
-                    <MosaicRowObserver />
-                </div>
+                {countries.length === 0 ? (
+                    <div className="border-t border-border py-20 text-center">
+                        <p className="font-serif italic text-[22px] text-navy/40">Yakında — ülkeler yükleniyor.</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-12 border-t border-border">
+                        {countries.map((country, i) => (
+                            <MosaicCard
+                                key={country.slug}
+                                country={country}
+                                index={i}
+                                span={country.mosaic_span ?? 'col-span-12'}
+                                rowIndex={Math.floor(i / 2)}
+                            />
+                        ))}
+                        <MosaicRowObserver />
+                    </div>
+                )}
             </section>
 
             <Marquee />

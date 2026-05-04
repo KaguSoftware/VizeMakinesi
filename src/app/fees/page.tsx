@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import PageHead from '@/components/PageHead/PageHead';
-import FeesTable from '@/components/FeesTable/FeesTable';
+import PageHead from '@/components/shared/PageHead/PageHead';
+import FeesTable from '@/components/fees/FeesTable/FeesTable';
 
 export const metadata: Metadata = {
   title: 'Ücrete Dahil Hizmetler — Vize Makinesi',

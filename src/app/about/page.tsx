@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import TeamGrid from '@/components/TeamGrid/TeamGrid';
+import TeamGrid from '@/components/about/TeamGrid/TeamGrid';
 
 export const metadata: Metadata = {
   title: 'Hakkımızda — Vize Makinesi',

@@ -1,4 +1,4 @@
-import FlagBG from '@/components/FlagBG/FlagBG';
+import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import type { PageHeadProps } from './types';
 
 export default function PageHead({ title, lede, flagSlug, titleClassName }: PageHeadProps) {

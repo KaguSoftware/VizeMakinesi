@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import PageHead from '@/components/PageHead/PageHead';
-import RegimeRow from '@/components/RegimeRow/RegimeRow';
-import { REGIMES } from '@/components/RegimeRow/constants';
+import PageHead from '@/components/shared/PageHead/PageHead';
+import RegimeRow from '@/components/visa-regimes/RegimeRow/RegimeRow';
+import { REGIMES } from '@/components/visa-regimes/RegimeRow/constants';
 
 export const metadata: Metadata = {
   title: 'Vize Rejimleri — Vize Makinesi',

@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Urgency from '@/components/Urgency/Urgency';
-import NumberedList from '@/components/NumberedList/NumberedList';
-import ChecklistList from '@/components/ChecklistList/ChecklistList';
-import FAQ from '@/components/FAQ/FAQ';
+import Urgency from '@/components/us-visa-expedite/Urgency/Urgency';
+import NumberedList from '@/components/shared/NumberedList/NumberedList';
+import ChecklistList from '@/components/shared/ChecklistList/ChecklistList';
+import FAQ from '@/components/shared/FAQ/FAQ';
 import type { FAQItem } from '@/data/countries.types';
-import type { NumberedListItem } from '@/components/NumberedList/types';
+import type { NumberedListItem } from '@/components/shared/NumberedList/types';
 import { SITE } from '@/data/site';
 
 export const metadata: Metadata = {

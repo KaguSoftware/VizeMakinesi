@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import MapFrame from '@/components/MapFrame/MapFrame';
+import MapFrame from '@/components/contact/MapFrame/MapFrame';
 import { SITE } from '@/data/site';
 
 export const metadata: Metadata = {

@@ -1,11 +1,11 @@
 import Link from "next/link";
-import Hero from "@/components/Hero/Hero";
-import MosaicCard from "@/components/MosaicCard/MosaicCard";
-import { MOSAIC_SPANS, MOSAIC_ROW_INDEX } from "@/components/MosaicCard/constants";
-import MosaicRowObserver from "@/components/MosaicCard/MosaicRowObserver";
-import Marquee from "@/components/Marquee/Marquee";
-import Timeline from "@/components/Timeline/Timeline";
-import BigCTA from "@/components/BigCTA/BigCTA";
+import Hero from "@/components/home/Hero/Hero";
+import MosaicCard from "@/components/home/MosaicCard/MosaicCard";
+import { MOSAIC_SPANS, MOSAIC_ROW_INDEX } from "@/components/home/MosaicCard/constants";
+import MosaicRowObserver from "@/components/home/MosaicCard/MosaicRowObserver";
+import Marquee from "@/components/home/Marquee/Marquee";
+import Timeline from "@/components/shared/Timeline/Timeline";
+import BigCTA from "@/components/home/BigCTA/BigCTA";
 import { COUNTRIES_DATA } from "@/data/countries";
 
 export default function HomePage() {

@@ -241,15 +241,6 @@ q::after {
   transform: scale(1);
 }
 
-/* Mobile: black overlay, white text */
-@media (max-width: 1023px) {
-  .mosaic-cell .flag-overlay-light { opacity: 0 !important; }
-  .mosaic-cell .flag-overlay-dark {
-    background: rgba(0, 0, 0, .45);
-    opacity: 1 !important;
-  }
-  .mosaic-cell .hv-white { color: #fff !important; }
-}
 
 /* text colour flips on hover / scroll-into-view (touch) */
 .mosaic-cell .hv-white {

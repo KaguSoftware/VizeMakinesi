@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npx tsc *)",
       "Bash(grep -v \"^$\")",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "WebFetch(domain:maz-eight.vercel.app)",
+      "Bash(git checkout *)"
     ]
   }
 }

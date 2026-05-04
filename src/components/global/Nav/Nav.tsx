@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MEGA_MENU, MOBILE_LINKS, TICKER_ITEMS } from "./constants";
@@ -12,8 +12,19 @@ export default function Nav() {
     // automatically closes them — no effect or ref access during render needed.
     const [openSince, setOpenSince] = useState<string | null>(null);
     const [activeMegaSince, setActiveMegaSince] = useState<[number, string] | null>(null);
+    const [navHeight, setNavHeight] = useState(0);
     const pathname = usePathname();
     const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const headerRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        const el = headerRef.current;
+        if (!el) return;
+        const ro = new ResizeObserver(() => setNavHeight(el.offsetHeight));
+        ro.observe(el);
+        setNavHeight(el.offsetHeight);
+        return () => ro.disconnect();
+    }, []);
 
     const open = openSince === pathname;
     const activeMega = activeMegaSince?.[1] === pathname ? activeMegaSince[0] : null;
@@ -27,7 +38,8 @@ export default function Nav() {
     };
 
     return (
-        <header className="sticky top-0 z-50 bg-navy border-b border-border">
+        <>
+        <header ref={headerRef} className="sticky top-0 z-110 bg-navy border-b border-border">
             {/* Ticker */}
             <div className="overflow-hidden font-mono text-[11px] tracking-[0.08em] uppercase py-2 bg-navy text-white/65">
                 <div className="nav-ticker-track">
@@ -106,16 +118,31 @@ export default function Nav() {
                     </Link>
                 </nav>
 
-                {/* Hamburger */}
+                {/* Hamburger / X toggle */}
                 <button
-                    aria-label="Menüyü aç"
+                    aria-label={open ? "Menüyü kapat" : "Menüyü aç"}
                     aria-expanded={open}
-                    className="lg:hidden flex flex-col justify-center items-center gap-1.25 w-10 h-10"
-                    onClick={() => setOpenSince(pathname)}
+                    className="lg:hidden flex flex-col justify-center items-center w-10 h-10 relative"
+                    onClick={() => open ? setOpenSince(null) : setOpenSince(pathname)}
                 >
-                    <span className="block w-6 h-0.5 bg-white" />
-                    <span className="block w-6 h-0.5 bg-white" />
-                    <span className="block w-6 h-0.5 bg-white" />
+                    <motion.span
+                        initial={{ y: -6, rotate: 0 }}
+                        animate={{ rotate: open ? 45 : 0, y: open ? 0 : -6 }}
+                        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                        className="block w-6 h-0.5 bg-white absolute"
+                    />
+                    <motion.span
+                        initial={{ opacity: 1, scaleX: 1 }}
+                        animate={{ opacity: open ? 0 : 1, scaleX: open ? 0 : 1 }}
+                        transition={{ duration: 0.2 }}
+                        className="block w-6 h-0.5 bg-white absolute"
+                    />
+                    <motion.span
+                        initial={{ y: 6, rotate: 0 }}
+                        animate={{ rotate: open ? -45 : 0, y: open ? 0 : 6 }}
+                        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                        className="block w-6 h-0.5 bg-white absolute"
+                    />
                 </button>
             </div>
 
@@ -202,75 +229,50 @@ export default function Nav() {
                 </div>
             )}
 
-            {/* Mobile overlay */}
-            <AnimatePresence>
-                {open && (
-                    <motion.div
-                        key="mobile-overlay"
-                        initial={{ x: "100%" }}
-                        animate={{ x: 0 }}
-                        exit={{ x: "100%" }}
-                        transition={{ type: "tween", duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
-                        className="fixed inset-0 bg-paper z-100 px-7 py-8 flex flex-col overflow-y-auto"
-                    >
-                        <motion.div
-                            initial={{ opacity: 0, y: -8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.15, duration: 0.25 }}
-                            className="flex justify-between items-center pb-6 border-b border-border"
-                        >
-                            <span className="font-serif italic font-bold text-[26px] tracking-[-0.02em] text-coral">
-                                Visa<span className="text-coral">.</span>Office
-                            </span>
-                            <button
-                                aria-label="Menüyü kapat"
-                                onClick={() => setOpenSince(null)}
-                                className="flex flex-col justify-center items-center w-10 h-10 relative"
-                            >
-                                <motion.span
-                                    initial={{ rotate: 0, y: -6 }}
-                                    animate={{ rotate: 45, y: 0 }}
-                                    transition={{ duration: 0.25 }}
-                                    className="block w-6 h-0.5 bg-navy absolute"
-                                />
-                                <motion.span
-                                    initial={{ rotate: 0, y: 6 }}
-                                    animate={{ rotate: -45, y: 0 }}
-                                    transition={{ duration: 0.25 }}
-                                    className="block w-6 h-0.5 bg-navy absolute"
-                                />
-                            </button>
-                        </motion.div>
-                        <nav aria-label="Mobil navigasyon" className="flex flex-col mt-7 flex-1">
-                            {MOBILE_LINKS.map((l, i) => (
-                                <motion.div
-                                    key={l.to}
-                                    initial={{ opacity: 0, x: 24 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.18 + i * 0.06, duration: 0.28 }}
-                                >
-                                    <Link
-                                        href={l.to}
-                                        className={`font-serif text-[32px] font-semibold py-4 border-b border-border flex justify-between items-center ${pathname === l.to ? "text-coral" : "text-navy"}`}
-                                    >
-                                        {l.label}
-                                        <span aria-hidden="true" className="text-[22px] text-muted/60">→</span>
-                                    </Link>
-                                </motion.div>
-                            ))}
-                        </nav>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.35, duration: 0.25 }}
-                            className="mt-8 flex gap-6 font-mono text-[12px] tracking-widest uppercase pt-6 border-t border-border"
-                        >
-                            <a href={SITE.phoneHref}>{SITE.phone}</a>
-                            <a href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer">WhatsApp</a>
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </header>
+
+        {/* Mobile overlay — sibling of header so header z-index is never competing with its own child */}
+        <AnimatePresence>
+            {open && (
+                <motion.div
+                    key="mobile-overlay"
+                    initial={{ x: "100%" }}
+                    animate={{ x: 0 }}
+                    exit={{ x: "100%" }}
+                    transition={{ type: "tween", duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                    style={{ top: navHeight }}
+                    className="fixed inset-x-0 bottom-0 bg-paper z-100 px-7 py-8 flex flex-col overflow-y-auto"
+                >
+                    <nav aria-label="Mobil navigasyon" className="flex flex-col flex-1">
+                        {MOBILE_LINKS.map((l, i) => (
+                            <motion.div
+                                key={l.to}
+                                initial={{ opacity: 0, x: 24 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.18 + i * 0.06, duration: 0.28 }}
+                            >
+                                <Link
+                                    href={l.to}
+                                    className={`font-serif text-[32px] font-semibold py-4 border-b border-border flex justify-between items-center ${pathname === l.to ? "text-coral" : "text-navy"}`}
+                                >
+                                    {l.label}
+                                    <span aria-hidden="true" className="text-[22px] text-muted/60">→</span>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </nav>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.35, duration: 0.25 }}
+                        className="mt-8 flex gap-6 font-mono text-[12px] tracking-widest uppercase pt-6 border-t border-border"
+                    >
+                        <a href={SITE.phoneHref}>{SITE.phone}</a>
+                        <a href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+        </>
     );
 }

@@ -1,6 +1,8 @@
-import { TEAM_MEMBERS } from './constants';
+import { getTeamMembers } from '@/lib/data/team';
 
-export default function TeamGrid() {
+export default async function TeamGrid() {
+  const members = await getTeamMembers();
+
   return (
     <section className="py-24 border-b border-border">
       <div className="container">
@@ -9,11 +11,11 @@ export default function TeamGrid() {
             Dosyanızı okuyan danışmanlarımız.
           </h2>
           <div className="font-mono text-[13px] uppercase tracking-[0.18em] text-muted mt-4">
-            8 danışman
+            {members.length} danışman
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 border-t border-border">
-          {TEAM_MEMBERS.map((m, i) => (
+          {members.map((m, i) => (
             <div
               key={i}
               className="p-10 border-r border-b border-border last:border-r-0 hover:bg-cream transition-colors duration-200"

@@ -1,57 +1,9 @@
 
 import type { MegaMenuGroup, MobileLink } from './types';
 
-export const TICKER_ITEMS = [
-  '— Hafta içi 18:00\'a kadar açık',
-  '· Schengen işlem süresi 12 iş günü',
-  '· ABD hızlandırma ',
-  '· Bu gün arayın ',
-  '· +90 530 775 31 31',
-  '· Sekreterımızle görüşün',
-
-];
-
-export const MEGA_MENU: MegaMenuGroup[] = [
-  {
-    label: 'Vizeler',
-    columns: [
-      {
-        title: 'Avrupa',
-        items: [
-          { to: '/visa/uk', label: 'Birleşik Krallık', flag: '🇬🇧' },
-          { to: '/visa/germany', label: 'Almanya', flag: '🇩🇪' },
-          { to: '/visa/france', label: 'Fransa', flag: '🇫🇷' },
-          { to: '/visa/italy', label: 'İtalya', flag: '🇮🇹' },
-          { to: '/visa/netherlands', label: 'Hollanda', flag: '🇳🇱' },
-          { to: '/schengen', label: 'Schengen Bölgesi', flag: '🇪🇺' },
-        ],
-      },
-      {
-        title: 'Amerika',
-        items: [
-          { to: '/visa/usa', label: 'Amerika Birleşik Devletleri', flag: '🇺🇸' },
-          { to: '/visa/canada', label: 'Kanada', flag: '🇨🇦' },
-          { to: '/us-visa-expedite', label: 'ABD Hızlandırma', flag: '⚡' },
-        ],
-      },
-      {
-        title: 'Asya ve Pasifik',
-        items: [
-          { to: '/visa/australia', label: 'Avustralya', flag: '🇦🇺' },
-          { to: '/visa/uae', label: 'Birleşik Arap Emirlikleri', flag: '🇦🇪' },
-        ],
-      },
-      {
-        kind: 'feature',
-        feature: {
-          eyebrow: '',
-          title: 'Hangi Vizeye ihtiyacınız var?',
-          body: 'Hangi vizeye ihtiyacınız olduğunu seçin ve gerekli dokümanları görüntüleyin',
-          to: '/schengen',
-        },
-      },
-    ],
-  },
+// The Hizmetler, Blog, and Ofis groups — static, DB-independent.
+// Vizeler is built dynamically from DB in NavServer.tsx.
+export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
   {
     label: 'Hizmetler',
     columns: [

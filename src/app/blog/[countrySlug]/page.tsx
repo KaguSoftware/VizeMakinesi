@@ -1,38 +1,40 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { COUNTRIES_DATA } from '@/data/countries';
+import { getCountryBySlug, getTourismSlugsStatic } from '@/lib/data/countries';
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import ChecklistList from '@/components/shared/ChecklistList/ChecklistList';
 import NumberedList from '@/components/shared/NumberedList/NumberedList';
-import type { CountrySlug } from '@/data/countries.types';
 
 interface Props {
   params: Promise<{ countrySlug: string }>;
 }
 
-const BLOG_COUNTRIES = COUNTRIES_DATA.filter((c) => c.tourism);
-
 export async function generateStaticParams() {
-  return BLOG_COUNTRIES.map((c) => ({ countrySlug: c.slug }));
+  const slugs = await getTourismSlugsStatic();
+  return slugs.map((slug) => ({ countrySlug: slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { countrySlug } = await params;
-  const country = BLOG_COUNTRIES.find((c) => c.slug === countrySlug);
-  if (!country || !country.tourism) return {};
+  const country = await getCountryBySlug(countrySlug);
+  if (!country?.has_tourism) return {};
   return {
     title: `${country.name} Gezi Rehberi — Vize Makinesi Blog`,
-    description: country.tourism.intro[0],
+    description: (country.tourism_intro ?? [])[0] ?? '',
   };
 }
 
 export default async function CountryBlogPage({ params }: Props) {
   const { countrySlug } = await params;
-  const country = BLOG_COUNTRIES.find((c) => c.slug === countrySlug);
-  if (!country || !country.tourism) notFound();
+  const country = await getCountryBySlug(countrySlug);
+  if (!country?.has_tourism) notFound();
 
-  const { intro, highlights, tips, bestTime } = country.tourism;
+  const intro = country.tourism_intro ?? [];
+  const highlights = country.tourism_highlights ?? [];
+  const tips = country.tourism_tips ?? [];
+  const bestTime = country.tourism_best_time;
+
   const first = country.name.split(' ')[0];
   const rest = country.name.split(' ').slice(1).join(' ');
 
@@ -41,7 +43,7 @@ export default async function CountryBlogPage({ params }: Props) {
       {/* Hero */}
       <section className="pt-16 pb-14 border-b border-border relative overflow-hidden">
         <div className="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[60%] h-[110%] opacity-[0.12] pointer-events-none">
-          <FlagBG slug={country.slug as CountrySlug} className="w-full h-full" />
+          <FlagBG presetKey={country.flag_preset_key} imageUrl={country.flag_image_url} className="w-full h-full" />
         </div>
 
         <div className="container relative z-10">
@@ -55,7 +57,7 @@ export default async function CountryBlogPage({ params }: Props) {
 
           <div className="grid grid-cols-1 lg:grid-cols-[8fr_4fr] gap-[60px] items-end">
             <div>
-              <div className="text-[80px] leading-none mb-7">{country.flag}</div>
+              <div className="text-[80px] leading-none mb-7">{country.flag_emoji}</div>
               <div className="inline-block border border-navy px-4 py-2 font-mono font-medium text-[10px] uppercase tracking-[0.15em] mb-7">
                 — Turistik rehber
               </div>

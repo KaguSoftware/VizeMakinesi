@@ -1,14 +1,15 @@
 import Link from "next/link";
 import Hero from "@/components/home/Hero/Hero";
 import MosaicCard from "@/components/home/MosaicCard/MosaicCard";
-import { MOSAIC_SPANS, MOSAIC_ROW_INDEX } from "@/components/home/MosaicCard/constants";
 import MosaicRowObserver from "@/components/home/MosaicCard/MosaicRowObserver";
 import Marquee from "@/components/home/Marquee/Marquee";
 import Timeline from "@/components/shared/Timeline/Timeline";
 import BigCTA from "@/components/home/BigCTA/BigCTA";
-import { COUNTRIES_DATA } from "@/data/countries";
+import { getAllCountries } from "@/lib/data/countries";
 
-export default function HomePage() {
+export default async function HomePage() {
+    const countries = await getAllCountries();
+
     return (
         <>
             <Hero />
@@ -23,13 +24,13 @@ export default function HomePage() {
 
                 {/* Mozaik grid */}
                 <div className="grid grid-cols-12 border-t border-border">
-                    {COUNTRIES_DATA.map((country, i) => (
+                    {countries.map((country, i) => (
                         <MosaicCard
                             key={country.slug}
                             country={country}
                             index={i}
-                            span={MOSAIC_SPANS[i]}
-                            rowIndex={MOSAIC_ROW_INDEX[i]}
+                            span={country.mosaic_span ?? 'col-span-12'}
+                            rowIndex={Math.floor(i / 2)}
                         />
                     ))}
                     <MosaicRowObserver />

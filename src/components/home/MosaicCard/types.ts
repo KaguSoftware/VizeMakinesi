@@ -1,7 +1,7 @@
-import type { Country } from '@/data/countries.types';
+import type { CountryWithRelations } from '@/lib/data/countries';
 
 export interface MosaicCardProps {
-  country: Country;
+  country: CountryWithRelations;
   index: number;
   span: string;
   rowIndex: number;

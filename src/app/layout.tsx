@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Syne, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Nav from "@/components/global/Nav/Nav";
+import NavServer from "@/components/global/Nav/NavServer";
 import Footer from "@/components/global/Footer/Footer";
 
 const syne = Syne({
@@ -39,7 +39,7 @@ export default function RootLayout({
             className={`${syne.variable} ${inter.variable} ${jetbrains.variable}`}
         >
             <body className="min-h-screen flex flex-col bg-cream text-navy">
-                <Nav />
+                <NavServer />
                 <main className="flex-1">{children}</main>
                 <Footer />
             </body>

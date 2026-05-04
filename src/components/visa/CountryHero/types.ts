@@ -1,5 +1,5 @@
-import type { Country } from '@/data/countries.types';
+import type { CountryWithRelations } from '@/lib/data/countries';
 
 export interface CountryHeroProps {
-  country: Country;
+  country: CountryWithRelations;
 }

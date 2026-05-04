@@ -3,13 +3,48 @@ import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MEGA_MENU, MOBILE_LINKS, TICKER_ITEMS } from "./constants";
+import { MOBILE_LINKS, STATIC_MEGA_MENU } from "./constants";
 import { SITE } from "@/data/site";
 import { AnimatePresence, motion } from "framer-motion";
+import type { MegaMenuGroup } from "./types";
+import type { MegaMenuCategory } from "@/lib/data/megaMenu";
 
-export default function Nav() {
-    // Store the pathname at the time each overlay was opened so navigation
-    // automatically closes them — no effect or ref access during render needed.
+interface NavProps {
+  dbCategories: MegaMenuCategory[];
+  tickerItems: { text: string; url: string | null }[];
+}
+
+function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
+  return {
+    label: 'Vizeler',
+    columns: [
+      ...dbCategories.map((cat) => ({
+        title: cat.name,
+        items: cat.items.map((it) => ({
+          to: `/visa/${it.country.slug}`,
+          label: it.country.name,
+          flag: it.country.flag_emoji ?? undefined,
+        })),
+      })),
+      {
+        kind: 'feature' as const,
+        feature: {
+          eyebrow: '',
+          title: 'Hangi Vizeye ihtiyacınız var?',
+          body: 'Hangi vizeye ihtiyacınız olduğunu seçin ve gerekli dokümanları görüntüleyin',
+          to: '/schengen',
+        },
+      },
+    ],
+  };
+}
+
+export default function Nav({ dbCategories, tickerItems }: NavProps) {
+    const megaMenu: MegaMenuGroup[] = [
+      buildVizelarGroup(dbCategories),
+      ...STATIC_MEGA_MENU,
+    ];
+
     const [openSince, setOpenSince] = useState<string | null>(null);
     const [activeMegaSince, setActiveMegaSince] = useState<[number, string] | null>(null);
     const [navHeight, setNavHeight] = useState(0);
@@ -29,7 +64,6 @@ export default function Nav() {
         return () => ro.disconnect();
     }, []);
 
-    // Lock body scroll when menu is open
     useEffect(() => {
         document.body.style.overflow = open ? "hidden" : "";
         return () => { document.body.style.overflow = ""; };
@@ -51,12 +85,12 @@ export default function Nav() {
                 <div className="nav-ticker-track">
                     {[0, 1, 2, 3].map((set) => (
                         <span key={set} className="nav-ticker-set" aria-hidden={set > 0 ? "true" : undefined}>
-                            {TICKER_ITEMS.map((t, i) => (
+                            {tickerItems.map((t, i) => (
                                 <span
                                     key={i}
                                     className={i === 0 ? "text-coral" : ""}
                                 >
-                                    {t}
+                                    {t.text}
                                 </span>
                             ))}
                         </span>
@@ -85,7 +119,7 @@ export default function Nav() {
                     className="hidden lg:flex gap-1 items-center"
                     onMouseLeave={handleLeave}
                 >
-                    {MEGA_MENU.map((group, i) => (
+                    {megaMenu.map((group, i) => (
                         <div
                             key={group.label}
                             onMouseEnter={() => handleEnter(i)}
@@ -108,16 +142,12 @@ export default function Nav() {
                             </button>
                         </div>
                     ))}
-                    <Link
-                        href="/contact"
-                    >
+                    <Link href="/contact">
                         <span className="ml-3 font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
                             Bize Ulaşın
                         </span>
                     </Link>
-                    <Link
-                        href="/danisma-al"
-                    >
+                    <Link href="/danisma-al">
                         <span className="ml-2 font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
                             Danışma Al →
                         </span>
@@ -166,17 +196,17 @@ export default function Nav() {
                                 <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">
                                     — {String(activeMega + 1).padStart(2, "0")}{" "}
                                     /{" "}
-                                    {String(MEGA_MENU.length).padStart(2, "0")}
+                                    {String(megaMenu.length).padStart(2, "0")}
                                 </div>
                                 <div className="font-serif italic font-bold text-[40px] leading-none tracking-tight">
-                                    {MEGA_MENU[activeMega].label}
+                                    {megaMenu[activeMega].label}
                                 </div>
                                 <div className="w-20 h-px bg-coral mt-8" />
                             </div>
 
                             {/* Columns */}
                             <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-12">
-                                {MEGA_MENU[activeMega].columns.map((col, ci) =>
+                                {megaMenu[activeMega].columns.map((col, ci) =>
                                     col.kind === "feature" ? (
                                         <Link
                                             key={ci}
@@ -213,9 +243,7 @@ export default function Nav() {
                                                                 </span>
                                                                 {it.desc && (
                                                                     <span className="block text-[12px] text-muted mt-0.5">
-                                                                        {
-                                                                            it.desc
-                                                                        }
+                                                                        {it.desc}
                                                                     </span>
                                                                 )}
                                                             </span>
@@ -237,7 +265,7 @@ export default function Nav() {
 
         </header>
 
-        {/* Mobile overlay — sibling of header so header z-index is never competing with its own child */}
+        {/* Mobile overlay */}
         <AnimatePresence>
             {open && (
                 <motion.div

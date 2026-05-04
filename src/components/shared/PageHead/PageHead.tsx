@@ -1,12 +1,12 @@
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import type { PageHeadProps } from './types';
 
-export default function PageHead({ title, lede, flagSlug, titleClassName }: PageHeadProps) {
+export default function PageHead({ title, lede, flagPresetKey, flagImageUrl, titleClassName }: PageHeadProps) {
   return (
     <section className="pt-24 pb-[72px] border-b border-border relative overflow-hidden">
-      {flagSlug && (
+      {(flagPresetKey || flagImageUrl) && (
         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-[120%] opacity-[0.12] pointer-events-none hidden lg:block">
-          <FlagBG slug={flagSlug} className="w-full h-full" />
+          <FlagBG presetKey={flagPresetKey} imageUrl={flagImageUrl} className="w-full h-full" />
         </div>
       )}
       <div className="container relative z-10">

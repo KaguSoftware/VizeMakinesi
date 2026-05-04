@@ -6,16 +6,19 @@ function star(cx: number, cy: number, ro: number, ri: number): string {
   for (let i = 0; i < 10; i++) {
     const a = (i / 10) * Math.PI * 2 - Math.PI / 2;
     const r = i % 2 === 0 ? ro : ri;
-    // Round to 4 decimal places to prevent server/client floating-point mismatch
     pts.push(`${Math.round((cx + Math.cos(a) * r) * 1e4) / 1e4},${Math.round((cy + Math.sin(a) * r) * 1e4) / 1e4}`);
   }
   return pts.join(' ');
 }
 
-export default function FlagBG({ slug, className }: FlagBGProps) {
+export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) {
+  if (imageUrl) {
+    return <Image src={imageUrl} alt="" fill className={className} style={{ objectFit: 'cover' }} />;
+  }
+
   const shared = { preserveAspectRatio: 'xMidYMid slice', className };
 
-  switch (slug) {
+  switch (presetKey) {
     case 'uk':
       return (
         <svg viewBox="0 0 60 30" {...shared}>
@@ -65,9 +68,7 @@ export default function FlagBG({ slug, className }: FlagBGProps) {
           {[0, 1, 2, 3, 4, 5, 6].map((i) => (
             <rect key={i} width="190" height={100 / 13} y={(100 / 13) * i * 2} fill="#B22234" />
           ))}
-          {/* Canton (blue field) covers top 7 stripes */}
           <rect width="76" height={(100 / 13) * 7} fill="#3C3B6E" />
-          {/* 50 stars: 5 rows of 6 + 4 rows of 5, alternating, all inside canton */}
           {Array.from({ length: 50 }).map((_, i) => {
             let row: number, col: number, totalCols: number;
             if (i < 30) {
@@ -95,14 +96,11 @@ export default function FlagBG({ slug, className }: FlagBGProps) {
       return (
         <svg viewBox="0 0 60 30" {...shared}>
           <rect width="60" height="30" fill="#00247D" />
-          {/* Union Jack in top-left quarter */}
           <path d="M0,0 L30,15 M30,0 L0,15" stroke="#FFF" strokeWidth="4" />
           <path d="M0,0 L30,15 M30,0 L0,15" stroke="#CF142B" strokeWidth="2" />
           <path d="M15,0 V15 M0,7.5 H30" stroke="#FFF" strokeWidth="6" />
           <path d="M15,0 V15 M0,7.5 H30" stroke="#CF142B" strokeWidth="3" />
-          {/* Commonwealth Star below Union Jack */}
           <text x="8" y="24" fontSize="6" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
-          {/* Southern Cross: 5 stars on right half */}
           <text x="45" y="8"  fontSize="5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
           <text x="52" y="13" fontSize="3.5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
           <text x="49" y="20" fontSize="4.5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>

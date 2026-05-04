@@ -1,7 +1,6 @@
 import Link from "next/link";
 import FlagBG from "@/components/shared/FlagBG/FlagBG";
 import type { MosaicCardProps } from "./types";
-import type { CountrySlug } from "@/data/countries.types";
 
 export default function MosaicCard({
     country,
@@ -15,7 +14,7 @@ export default function MosaicCard({
             data-mosaic-row={rowIndex}
             className={`mosaic-cell ${span} border-b border-r border-border flex flex-col justify-between min-h-90 cursor-pointer relative bg-cream overflow-hidden`}
         >
-            <FlagBG slug={country.slug as CountrySlug} className="flag-svg" />
+            <FlagBG presetKey={country.flag_preset_key} imageUrl={country.flag_image_url} className="flag-svg" />
             <div className="flag-overlay-light" />
             <div className="flag-overlay-dark" />
 
@@ -27,7 +26,7 @@ export default function MosaicCard({
                     {country.name}
                 </h3>
                 <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-5 hv-coral transition-colors duration-700">
-                    — {country.visaType}
+                    — {country.visa_type}
                 </div>
                 <p className="text-[14.5px] text-muted leading-[1.65] mb-6 max-w-95 hv-white transition-colors duration-700">
                     {country.summary}

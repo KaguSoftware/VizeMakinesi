@@ -1,35 +1,26 @@
 import type { Metadata } from 'next';
-import { COUNTRIES_DATA } from '@/data/countries';
+import { getTourismCountries } from '@/lib/data/countries';
 
 export const metadata: Metadata = {
   title: 'Blog — Vize Makinesi',
   description: 'Vize süreçleri, seyahat tavsiyeleri ve göç hukuku hakkında güncel yazılar.',
 };
 
-type Post = {
-  date: string;
-  category: string;
-  title: string;
-  excerpt: string;
-  slug: string;
-  flag?: string;
-};
+export default async function BlogPage() {
+  const countries = await getTourismCountries();
 
-const POSTS: Post[] = COUNTRIES_DATA
-  .filter((c) => c.tourism)
-  .map((c) => ({
+  const posts = countries.map((c) => ({
     date: 'Gezi Rehberi',
     category: c.name,
     title: `${c.name} Gezi Rehberi`,
-    excerpt: c.tourism!.intro[0],
+    excerpt: (c.tourism_intro ?? [])[0] ?? '',
     slug: `/blog/${c.slug}`,
-    flag: c.flag,
+    flag: c.flag_emoji,
   }));
 
-export default function BlogPage() {
   return (
     <>
-      {/* Hero: Hangi Ülkede Ne Yapılır? */}
+      {/* Hero */}
       <section className="pt-24 pb-[72px] border-b border-border">
         <div className="container">
           <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-6">
@@ -54,7 +45,7 @@ export default function BlogPage() {
       {/* Country blog posts grid */}
       <section className="container pb-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px border border-border">
-          {POSTS.map((post) => (
+          {posts.map((post) => (
             <article
               key={post.title}
               className="p-10 border-border hover:bg-[hsl(var(--color-navy)/0.03)] transition-colors duration-150 group"

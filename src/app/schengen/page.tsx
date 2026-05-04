@@ -24,7 +24,7 @@ export default function SchengenPage() {
         eyebrow="— Schengen vizesi"
         title={<>Tek vize.<br /><em className="font-normal italic text-coral">Yirmi dokuz ülke.</em></>}
         lede="Schengen vizesi, bir Avrupa devletleri gümrük birliğinde geçerli kısa süreli (Type C) bir izindir. Her konsolosluğa başvurusu yapıyoruz."
-        flagSlug="schengen"
+        flagPresetKey="schengen"
         titleClassName="font-serif font-bold text-[clamp(43px,5.04vw,86px)] leading-[1.05] tracking-[-0.02em] wrap-break-word hyphens-auto"
       />
 

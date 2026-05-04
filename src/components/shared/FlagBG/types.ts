@@ -1,6 +1,5 @@
-import type { CountrySlug } from '@/data/countries.types';
-
 export interface FlagBGProps {
-  slug: CountrySlug;
+  presetKey?: string | null;
+  imageUrl?: string | null;
   className?: string;
 }

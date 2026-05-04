@@ -34,3 +34,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Supabase setup
+
+1. **Create a Supabase project** at [supabase.com](https://supabase.com).
+
+2. **Configure environment variables** — copy `.env.example` to `.env.local` and fill in the values from your Supabase project settings:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=
+   SUPABASE_SERVICE_ROLE_KEY=
+   ```
+
+3. **Run migrations** — in the Supabase dashboard open the SQL editor and paste + run each file in order:
+   - `supabase/migrations/0001_initial_schema.sql`
+   - `supabase/migrations/0002_storage.sql`
+
+4. **Create the first admin** — in the Supabase dashboard create a user via Authentication → Users, then run this in the SQL editor (replace the email):
+   ```sql
+   INSERT INTO admin_profiles (id, email)
+   SELECT id, email FROM auth.users WHERE email = 'YOUR_EMAIL';
+   ```
+
+> **Note:** `npm run build` will fail with missing environment variable errors until `.env.local` is populated. This is expected behaviour — the build requires valid Supabase credentials at build time.

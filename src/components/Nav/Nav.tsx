@@ -1,28 +1,28 @@
 "use client";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MEGA_MENU, MOBILE_LINKS, TICKER_ITEMS } from "./constants";
 import { SITE } from "@/data/site";
 
 export default function Nav() {
-    const [open, setOpen] = useState(false);
-    const [activeMega, setActiveMega] = useState<number | null>(null);
+    // Store the pathname at the time each overlay was opened so navigation
+    // automatically closes them — no effect or ref access during render needed.
+    const [openSince, setOpenSince] = useState<string | null>(null);
+    const [activeMegaSince, setActiveMegaSince] = useState<[number, string] | null>(null);
     const pathname = usePathname();
     const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    useEffect(() => {
-        setOpen(false);
-        setActiveMega(null);
-    }, [pathname]);
+    const open = openSince === pathname;
+    const activeMega = activeMegaSince?.[1] === pathname ? activeMegaSince[0] : null;
 
     const handleEnter = (idx: number) => {
         if (closeTimer.current) clearTimeout(closeTimer.current);
-        setActiveMega(idx);
+        setActiveMegaSince([idx, pathname]);
     };
     const handleLeave = () => {
-        closeTimer.current = setTimeout(() => setActiveMega(null), 120);
+        closeTimer.current = setTimeout(() => setActiveMegaSince(null), 120);
     };
 
     return (
@@ -54,12 +54,15 @@ export default function Nav() {
                         alt="Vize Makinesi"
                         width={220}
                         height={50}
+                        priority
+                        sizes="220px"
                         className="w-auto h-80"
                     />
                 </Link>
 
                 {/* Desktop nav */}
                 <nav
+                    aria-label="Ana navigasyon"
                     className="hidden lg:flex gap-1 items-center"
                     onMouseLeave={handleLeave}
                 >
@@ -69,6 +72,8 @@ export default function Nav() {
                             onMouseEnter={() => handleEnter(i)}
                         >
                             <button
+                                aria-haspopup="true"
+                                aria-expanded={activeMega === i}
                                 className={`font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${activeMega === i
                                     ? "text-coral"
                                     : "text-white hover:text-coral"
@@ -76,13 +81,8 @@ export default function Nav() {
                             >
                                 {group.label}
                                 <span
-                                    className="text-sm opacity-50 transition-transform duration-200"
-                                    style={{
-                                        transform:
-                                            activeMega === i
-                                                ? "rotate(180deg)"
-                                                : "none",
-                                    }}
+                                    aria-hidden="true"
+                                    className={`text-sm opacity-50 transition-transform duration-200 ${activeMega === i ? "rotate-180" : ""}`}
                                 >
                                     ↓
                                 </span>
@@ -92,14 +92,14 @@ export default function Nav() {
                     <Link
                         href="/contact"
                     >
-                        <span className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-2xl">
+                        <span className="ml-3 font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
                             Bize Ulaşın
                         </span>
                     </Link>
                     <Link
                         href="/danisma-al"
                     >
-                        <span className="ml-4 font-sans font-bold text-[13.8px] uppercase tracking-widest px-5.5 py-3.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-2xl">
+                        <span className="ml-2 font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
                             Danışma Al →
                         </span>
                     </Link>
@@ -107,8 +107,10 @@ export default function Nav() {
 
                 {/* Hamburger */}
                 <button
+                    aria-label="Menüyü aç"
+                    aria-expanded={open}
                     className="lg:hidden font-sans font-medium text-[12px] uppercase tracking-widest text-white"
-                    onClick={() => setOpen(true)}
+                    onClick={() => setOpenSince(pathname)}
                 >
                     Menu ↗
                 </button>
@@ -117,7 +119,7 @@ export default function Nav() {
             {/* Mega panel */}
             {activeMega !== null && (
                 <div
-                    className="mega-panel absolute left-0 right-0 top-full bg-cream border-t border-b border-border text-navy"
+                    className="mega-panel absolute left-0 right-0 top-full bg-cream border-t-2 border-b-2 border-navy text-navy"
                     onMouseEnter={() => handleEnter(activeMega)}
                     onMouseLeave={handleLeave}
                 >
@@ -145,17 +147,11 @@ export default function Nav() {
                                             href={col.feature!.to}
                                             className="mega-feature flex flex-col justify-between p-7 bg-navy text-white min-h-55 border border-coral/30 hover:border-coral transition-colors duration-200"
                                         >
-                                            <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase relative z-10">
-                                                — {col.feature!.eyebrow}
-                                            </div>
-                                            <div className="font-serif font-semibold text-[22px] leading-tight tracking-[-0.015em] mt-3 mb-4 relative z-10 text-white">
+                                            <div className="font-serif font-semibold text-[22px] leading-tight tracking-[-0.015em] mb-4 relative z-10 text-white">
                                                 {col.feature!.title}
                                             </div>
                                             <div className="text-[13px] text-white/90 leading-relaxed flex-1 relative z-10">
                                                 {col.feature!.body}
-                                            </div>
-                                            <div className="font-sans text-[11px] tracking-widest uppercase text-coral mt-4 relative z-10">
-                                                Read more →
                                             </div>
                                         </Link>
                                     ) : (
@@ -211,13 +207,14 @@ export default function Nav() {
                             Visa<span className="text-coral">.</span>Office
                         </span>
                         <button
+                            aria-label="Menüyü kapat"
                             className="font-sans font-medium text-[12px] uppercase tracking-widest text-navy"
-                            onClick={() => setOpen(false)}
+                            onClick={() => setOpenSince(null)}
                         >
                             Close ↗
                         </button>
                     </div>
-                    <nav className="flex flex-col mt-7 flex-1">
+                    <nav aria-label="Mobil navigasyon" className="flex flex-col mt-7 flex-1">
                         {MOBILE_LINKS.map((l) => (
                             <Link
                                 key={l.to}
@@ -228,7 +225,7 @@ export default function Nav() {
                                     }`}
                             >
                                 {l.label}
-                                <span className="text-[22px] text-muted/60">
+                                <span aria-hidden="true" className="text-[22px] text-muted/60">
                                     →
                                 </span>
                             </Link>

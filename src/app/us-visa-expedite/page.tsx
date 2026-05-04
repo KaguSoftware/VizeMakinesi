@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Urgency from '@/components/Urgency/Urgency';
-import { EXPEDITE_STATS } from '@/components/StatsGrid/constants';
 import NumberedList from '@/components/NumberedList/NumberedList';
 import ChecklistList from '@/components/ChecklistList/ChecklistList';
 import FAQ from '@/components/FAQ/FAQ';
@@ -36,22 +36,46 @@ const FAQS: FAQItem[] = [
 export default function USExpeditePage() {
   return (
     <>
-      <Urgency
-        eyebrow="— ABD vize randevu hızlandırma"
-        headline={
-          <>
-            Mülakat{' '}
-            <em className="text-coral font-normal italic">on iki ay sonraya.</em>
-            <br />
-            Siz{' '}
-            <em className="text-coral font-normal italic">üç hafta sonra yola çıkıyorsunuz.</em>
-          </>
-        }
-        lede="Normal takvim seyahat planınıza uymadığında, hızlandırma pratiğimiz sizi günler içinde konsolosluk görevlisinin karşısına çıkarır."
-        ctaPrimary={{ label: 'Hızlandırma Talebini Başlat →', href: `${SITE.whatsappHref}?text=Merhaba%2C%20ABD%20vize%20h%C4%B1zland%C4%B1rma%20istiyorum` }}
-        ctaSecondary={{ label: `${SITE.phone} Ara`, href: SITE.phoneHref }}
-        stats={EXPEDITE_STATS}
-      />
+      <section className="bg-cream py-[120px] overflow-hidden">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h1 className="font-serif font-bold text-[clamp(56px,7vw,112px)] leading-none tracking-[-0.02em] text-navy">
+                Amerika Vizesi{' '}
+                <em className="text-coral font-normal italic">Hızla Cebinizde!</em>
+              </h1>
+              <p className="font-serif text-[22px] max-w-[520px] mt-9 leading-[1.45] border-l border-coral pl-6 text-navy">
+                Normal takvim seyahat planınıza uymadığında, hızlandırma pratiğimiz sizi günler içinde konsolosluk görevlisinin karşısına çıkarır.
+              </p>
+              <div className="mt-10 flex flex-col gap-3 max-w-[520px]">
+                <a
+                  className="inline-flex items-center justify-center w-full font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] bg-coral border border-coral text-white hover:bg-navy hover:text-white hover:border-navy transition-all duration-200 rounded-2xl"
+                  href={`${SITE.whatsappHref}?text=Merhaba%2C%20ABD%20vize%20h%C4%B1zland%C4%B1rma%20istiyorum`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="text-lg">⚡</span> Hızlandırma Talebini Başlat →
+                </a>
+                <a
+                  className="inline-flex items-center justify-center w-full font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] border border-navy/40 text-navy hover:bg-navy hover:text-white hover:border-navy transition-all duration-200 rounded-2xl"
+                  href={SITE.phoneHref}
+                >
+                  {SITE.phone} Ara
+                </a>
+              </div>
+            </div>
+            <div className="relative h-[420px] lg:h-[520px] rounded-3xl overflow-hidden shadow-2xl">
+              <Image
+                src="/american_vize.jpg"
+                alt="Amerika Birleşik Devletleri vizesi"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="container">
         <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-20 py-20 border-b border-border">

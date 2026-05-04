@@ -1,8 +1,5 @@
 import type { Metadata } from 'next';
-import PageHead from '@/components/PageHead/PageHead';
 import TeamGrid from '@/components/TeamGrid/TeamGrid';
-import StatsGrid from '@/components/StatsGrid/StatsGrid';
-import { ABOUT_STATS } from '@/components/StatsGrid/constants';
 
 export const metadata: Metadata = {
   title: 'Hakkımızda — Vize Makinesi',
@@ -12,24 +9,16 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <PageHead
-        eyebrow="— Ofis hakkında"
-        title={<>Eski bir zanaat, <em className="font-normal italic text-coral">sessizce icra edilir.</em></>}
-      />
-
-      {/* Alıntı + İstatistikler */}
+      {/* Alıntı */}
       <section className="container">
-        <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-20 py-24 border-b border-border items-start">
+        <div className="py-24 border-b border-border">
           <div className="relative pl-16">
             <span className="about-quote-mark font-serif" aria-hidden="true">&ldquo;</span>
-            <blockquote className="font-serif italic text-[clamp(32px,3.6vw,52px)] leading-[1.18] tracking-[-0.015em]">
-              &ldquo;Bir vize dosyasına iyi bir avukatın dilekçesine baktığı gibi bakıyoruz — her sayfa doğru yerinde, her iddia desteklenmiş, her boşluk sorulmadan açıklanmış.&rdquo;
+            <blockquote className="font-serif italic text-[clamp(28px,3vw,48px)] leading-[1.25] tracking-[-0.015em]">
+              Vizemakinesi olarak, dünya genelindeki vize başvurularınızda size kesintisiz ve güvenilir bir hizmet sunmaktan gurur duyuyoruz. Yılların deneyimi ve uzman ekibimizle, vize sürecinizin her adımında yanınızda olmayı hedefliyoruz.
             </blockquote>
-            <cite className="not-italic font-mono text-[11px] uppercase tracking-[0.18em] text-muted block mt-10">
-              — Marina Aslan, Kurucu Ortak
-            </cite>
+            <span className="font-serif text-[120px] text-coral leading-none absolute -bottom-10 right-0 opacity-30 select-none" aria-hidden="true">&rdquo;</span>
           </div>
-          <StatsGrid items={ABOUT_STATS} />
         </div>
       </section>
 
@@ -43,7 +32,7 @@ export default function AboutPage() {
               — Tarihimiz
             </div>
             <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
-              Tek bir<br />masadan, 2008'de.
+              Tek bir<br />masadan, 2008&rsquo;de.
             </h2>
           </div>
           <div className="text-[16px] leading-[1.85] text-muted space-y-5">
@@ -59,7 +48,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
     </>
   );
 }

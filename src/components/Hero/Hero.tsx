@@ -1,65 +1,20 @@
 "use client";
+import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { HERO_META } from './constants';
-
-function useCountUp(target: number, decimals: number, duration = 1400) {
-  const [value, setValue] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const started = useRef(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting || started.current) return;
-        started.current = true;
-        const start = performance.now();
-        const tick = (now: number) => {
-          const t = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - t, 3);
-          setValue(parseFloat((eased * target).toFixed(decimals)));
-          if (t < 1) requestAnimationFrame(tick);
-          else setValue(target);
-        };
-        requestAnimationFrame(tick);
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [target, decimals, duration]);
-
-  return { ref, value };
-}
-
-function AnimatedStat({ num, unit, label }: { num: string; unit: string; label: string }) {
-  const parsed = parseFloat(num.replace(/[^0-9.]/g, ''));
-  const decimals = num.includes('.') ? num.split('.')[1].length : 0;
-  const { ref, value } = useCountUp(isNaN(parsed) ? 0 : parsed, decimals);
-
-  const display = isNaN(parsed) ? num : value.toFixed(decimals);
-
-  return (
-    <div ref={ref}>
-      <div className="font-serif font-bold text-navy text-[56px] leading-none mb-3 tracking-[-0.02em] flex items-baseline gap-1.5">
-        {display}
-        <span className="font-mono text-[14px] text-coral font-medium tracking-wider">
-          {unit}
-        </span>
-      </div>
-      <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-        {label}
-      </div>
-    </div>
-  );
-}
 
 export default function Hero() {
   return (
-    <section className="pt-20 pb-10 relative border-b border-border">
-      <div className="container">
+    <section className="pt-20 pb-10 relative border-b border-border overflow-hidden">
+      {/* Background map */}
+      <Image
+        src="/Dunya_haritasi.png"
+        alt=""
+        fill
+        className="object-cover blur-sm scale-105 opacity-50"
+        priority
+        aria-hidden="true"
+      />
+      <div className="container relative z-10">
         {/* Main grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-15 items-end relative">
           {/* Left: headline */}
@@ -77,7 +32,7 @@ export default function Hero() {
               ¶
             </div>
             <p className="font-serif text-[19px] leading-[1.55] text-coral max-w-95 mb-8">
-Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
+              Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
             </p>
             <Link
               href="/danisma-al"

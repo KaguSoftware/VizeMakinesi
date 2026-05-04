@@ -1,30 +1,52 @@
-import { TIMELINE_STEPS, TIMELINE_ACTIVE_INDEX } from './constants';
+"use client";
+
+import { useState } from 'react';
+import { TIMELINE_STEPS } from './constants';
 
 export default function Timeline() {
+  const [active, setActive] = useState<number | null>(null);
+  const activeStep = active !== null ? TIMELINE_STEPS[active] : null;
+
   return (
     <div className="py-[120px] relative">
       {/* dashed line */}
-      <div className="hidden md:block absolute top-1/2 left-[8%] right-[8%] border-t border-dashed border-border" />
+      <div className="hidden md:block absolute top-40 left-[8%] right-[8%] border-t border-dashed border-border" />
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
-        {TIMELINE_STEPS.map((step, i) => (
-          <div key={step.n} className="text-center md:text-center px-3">
-            <div
-              className={`w-20 h-20 rounded-full flex items-center justify-center font-serif italic font-normal text-[28px] tracking-[-0.02em] mx-auto mb-7 relative z-10 border transition-colors ${
-                i === TIMELINE_ACTIVE_INDEX
-                  ? 'bg-coral border-coral text-white'
-                  : 'bg-paper border-navy text-navy'
-              }`}
-            >
-              {step.n}
+        {TIMELINE_STEPS.map((step, i) => {
+          const isActive = active === i;
+          return (
+            <div key={step.n} className="text-center px-3">
+              <button
+                onClick={() => setActive(isActive ? null : i)}
+                aria-expanded={isActive}
+                className={`w-20 h-20 rounded-full flex items-center justify-center font-serif italic font-normal text-[28px] tracking-[-0.02em] mx-auto mb-7 relative z-10 border transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-coral ${
+                  isActive
+                    ? 'bg-coral border-coral text-white'
+                    : 'bg-paper border-navy text-navy hover:border-coral hover:text-coral'
+                }`}
+              >
+                {step.n}
+              </button>
+              <div className="font-serif font-semibold text-[22px] mb-3 tracking-[-0.015em]">
+                {step.title}
+              </div>
+              <div className="text-[14px] text-muted leading-[1.65]">{step.body}</div>
             </div>
-            <div className="font-serif font-semibold text-[22px] mb-3 tracking-[-0.015em]">
-              {step.title}
-            </div>
-            <div className="text-[14px] text-muted leading-[1.65]">{step.body}</div>
-          </div>
-        ))}
+          );
+        })}
       </div>
+
+      {/* Full-width detail panel */}
+      {activeStep && (
+        <div className="mt-12 border border-border rounded-2xl px-10 py-8 bg-paper">
+          <div className="flex items-baseline gap-4 mb-4">
+            <span className="font-serif italic text-[28px] text-coral">{activeStep.n}</span>
+            <h3 className="font-serif font-semibold text-[24px] tracking-[-0.015em]">{activeStep.title}</h3>
+          </div>
+          <p className="text-[16px] leading-[1.75] text-foreground max-w-3xl">{activeStep.detail}</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -22,7 +22,6 @@ export default function MosaicCard({
             <div className="absolute top-7 right-8 font-mono text-[11px] tracking-[0.18em] text-muted uppercase z-10 hv-white transition-colors duration-700">
                 — {String(index + 1).padStart(2, "0")} / 10
             </div>
-
             <div className="relative z-10 p-2 pt-20">
                 <h3 className="font-serif font-semibold text-[32px] leading-[1.05] mb-1.5 tracking-[-0.02em] hv-white transition-colors duration-700">
                     {country.name}

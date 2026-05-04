@@ -1,0 +1,321 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export interface Database {
+  public: {
+    Tables: {
+      countries: {
+        Row: {
+          id: string
+          slug: string
+          name: string
+          flag_emoji: string | null
+          flag_type: 'preset' | 'image' | null
+          flag_preset_key: string | null
+          flag_image_url: string | null
+          visa_type: string | null
+          summary: string | null
+          mosaic_visible: boolean
+          mosaic_order: number | null
+          mosaic_span: string | null
+          has_tourism: boolean
+          tourism_intro: string[] | null
+          tourism_highlights: string[] | null
+          tourism_tips: string[] | null
+          tourism_best_time: string | null
+          tourism_hero_image_url: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          slug: string
+          name: string
+          flag_emoji?: string | null
+          flag_type?: 'preset' | 'image' | null
+          flag_preset_key?: string | null
+          flag_image_url?: string | null
+          visa_type?: string | null
+          summary?: string | null
+          mosaic_visible?: boolean
+          mosaic_order?: number | null
+          mosaic_span?: string | null
+          has_tourism?: boolean
+          tourism_intro?: string[] | null
+          tourism_highlights?: string[] | null
+          tourism_tips?: string[] | null
+          tourism_best_time?: string | null
+          tourism_hero_image_url?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          slug?: string
+          name?: string
+          flag_emoji?: string | null
+          flag_type?: 'preset' | 'image' | null
+          flag_preset_key?: string | null
+          flag_image_url?: string | null
+          visa_type?: string | null
+          summary?: string | null
+          mosaic_visible?: boolean
+          mosaic_order?: number | null
+          mosaic_span?: string | null
+          has_tourism?: boolean
+          tourism_intro?: string[] | null
+          tourism_highlights?: string[] | null
+          tourism_tips?: string[] | null
+          tourism_best_time?: string | null
+          tourism_hero_image_url?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      country_requirements: {
+        Row: {
+          id: string
+          country_id: string
+          text: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          country_id: string
+          text: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          country_id?: string
+          text?: string
+          sort_order?: number
+        }
+      }
+      country_handles: {
+        Row: {
+          id: string
+          country_id: string
+          text: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          country_id: string
+          text: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          country_id?: string
+          text?: string
+          sort_order?: number
+        }
+      }
+      country_faqs: {
+        Row: {
+          id: string
+          country_id: string
+          question: string
+          answer: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          country_id: string
+          question: string
+          answer: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          country_id?: string
+          question?: string
+          answer?: string
+          sort_order?: number
+        }
+      }
+      mega_menu_categories: {
+        Row: {
+          id: string
+          name: string
+          sort_order: number
+          visible: boolean
+        }
+        Insert: {
+          id?: string
+          name: string
+          sort_order?: number
+          visible?: boolean
+        }
+        Update: {
+          id?: string
+          name?: string
+          sort_order?: number
+          visible?: boolean
+        }
+      }
+      mega_menu_items: {
+        Row: {
+          id: string
+          category_id: string
+          country_id: string
+          sort_order: number
+          visible: boolean
+        }
+        Insert: {
+          id?: string
+          category_id: string
+          country_id: string
+          sort_order?: number
+          visible?: boolean
+        }
+        Update: {
+          id?: string
+          category_id?: string
+          country_id?: string
+          sort_order?: number
+          visible?: boolean
+        }
+      }
+      marquee_items: {
+        Row: {
+          id: string
+          location: 'home' | 'nav_ticker'
+          text: string
+          url: string | null
+          visible: boolean
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          location: 'home' | 'nav_ticker'
+          text: string
+          url?: string | null
+          visible?: boolean
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          location?: 'home' | 'nav_ticker'
+          text?: string
+          url?: string | null
+          visible?: boolean
+          sort_order?: number
+        }
+      }
+      marquee_settings: {
+        Row: {
+          id: string
+          location: 'home' | 'nav_ticker'
+          enabled: boolean
+        }
+        Insert: {
+          id?: string
+          location: 'home' | 'nav_ticker'
+          enabled?: boolean
+        }
+        Update: {
+          id?: string
+          location?: 'home' | 'nav_ticker'
+          enabled?: boolean
+        }
+      }
+      partnerships: {
+        Row: {
+          id: string
+          name: string
+          eyebrow: string | null
+          description: string | null
+          logo_url: string | null
+          external_url: string | null
+          visible: boolean
+          sort_order: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          eyebrow?: string | null
+          description?: string | null
+          logo_url?: string | null
+          external_url?: string | null
+          visible?: boolean
+          sort_order?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          eyebrow?: string | null
+          description?: string | null
+          logo_url?: string | null
+          external_url?: string | null
+          visible?: boolean
+          sort_order?: number
+          created_at?: string
+        }
+      }
+      team_members: {
+        Row: {
+          id: string
+          name: string
+          initials: string
+          role: string
+          photo_url: string | null
+          visible: boolean
+          sort_order: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          initials: string
+          role: string
+          photo_url?: string | null
+          visible?: boolean
+          sort_order?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          initials?: string
+          role?: string
+          photo_url?: string | null
+          visible?: boolean
+          sort_order?: number
+          created_at?: string
+        }
+      }
+      admin_profiles: {
+        Row: {
+          id: string
+          email: string
+          name: string | null
+          created_at: string
+        }
+        Insert: {
+          id: string
+          email: string
+          name?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          name?: string | null
+          created_at?: string
+        }
+      }
+    }
+    Views: Record<string, never>
+    Functions: Record<string, never>
+    Enums: Record<string, never>
+  }
+}

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import AdminSidebar from '@/components/admin/AdminSidebar'
+import { ToastProvider } from '@/components/admin/ui/Toast'
 
 export default async function AuthedAdminLayout({
   children,
@@ -21,15 +22,19 @@ export default async function AuthedAdminLayout({
     .single()
 
   if (!adminProfile) {
+    // User exists in auth but not in admin_profiles — sign out and redirect
+    await supabase.auth.signOut()
     redirect('/admin/login')
   }
 
   return (
-    <div className="min-h-screen flex bg-cream text-navy">
-      <AdminSidebar email={user.email} />
-      <main className="flex-1 min-w-0 p-12 overflow-auto">
-        {children}
-      </main>
-    </div>
+    <ToastProvider>
+      <div className="min-h-screen flex bg-cream text-navy">
+        <AdminSidebar email={user.email} />
+        <main className="flex-1 min-w-0 p-12 overflow-auto">
+          {children}
+        </main>
+      </div>
+    </ToastProvider>
   )
 }

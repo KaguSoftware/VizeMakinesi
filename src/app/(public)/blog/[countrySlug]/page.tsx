@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getCountryBySlug, getTourismSlugsStatic } from '@/lib/data/countries';
@@ -54,6 +55,19 @@ export default async function CountryBlogPage({ params }: Props) {
             </Link>
             &nbsp;/&nbsp;Ülke Rehberi&nbsp;/&nbsp;{country.name}
           </div>
+
+          {country.tourism_hero_image_url && (
+            <div className="relative w-full max-h-[280px] md:max-h-[480px] overflow-hidden mb-10">
+              <Image
+                src={country.tourism_hero_image_url}
+                alt={country.name}
+                width={1360}
+                height={480}
+                className="w-full h-[280px] md:h-[480px] object-cover"
+                priority
+              />
+            </div>
+          )}
 
           <div className="grid grid-cols-1 lg:grid-cols-[8fr_4fr] gap-[60px] items-end">
             <div>

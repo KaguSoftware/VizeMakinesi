@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react'
 
-interface AdminCardProps extends HTMLAttributes<HTMLDivElement> {}
+type AdminCardProps = HTMLAttributes<HTMLDivElement>
 
 export function AdminCard({ className = '', children, ...props }: AdminCardProps) {
   return (

@@ -1,6 +1,6 @@
 import type { LabelHTMLAttributes } from 'react'
 
-interface AdminLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
+type AdminLabelProps = LabelHTMLAttributes<HTMLLabelElement>
 
 export function AdminLabel({ className = '', children, ...props }: AdminLabelProps) {
   return (

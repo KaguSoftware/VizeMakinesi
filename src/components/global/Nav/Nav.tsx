@@ -17,6 +17,9 @@ export default function Nav() {
     const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const headerRef = useRef<HTMLElement>(null);
 
+    const open = openSince === pathname;
+    const activeMega = activeMegaSince?.[1] === pathname ? activeMegaSince[0] : null;
+
     useEffect(() => {
         const el = headerRef.current;
         if (!el) return;
@@ -26,8 +29,11 @@ export default function Nav() {
         return () => ro.disconnect();
     }, []);
 
-    const open = openSince === pathname;
-    const activeMega = activeMegaSince?.[1] === pathname ? activeMegaSince[0] : null;
+    // Lock body scroll when menu is open
+    useEffect(() => {
+        document.body.style.overflow = open ? "hidden" : "";
+        return () => { document.body.style.overflow = ""; };
+    }, [open]);
 
     const handleEnter = (idx: number) => {
         if (closeTimer.current) clearTimeout(closeTimer.current);

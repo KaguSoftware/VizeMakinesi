@@ -116,7 +116,6 @@ function CountryPickerModal({
 function SortableItem({
   item,
   countries,
-  categoryId,
   onUpdate,
   onDelete,
   onToggleVisible,
@@ -278,7 +277,6 @@ function SortableCategory({
                     key={item.id}
                     item={item}
                     countries={countries}
-                    categoryId={cat.id}
                     onUpdate={onUpdateItem}
                     onDelete={onDeleteItem}
                     onToggleVisible={onToggleItemVisible}

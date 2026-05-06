@@ -45,6 +45,7 @@ export default async function HomePage() {
 
             <Marquee />
 
+
             {/* Süreç bölümü */}
             <section className="container">
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-end border-b border-border pb-7 mb-0 mt-30">

@@ -35,26 +35,6 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
     ],
   },
   {
-    label: 'Blog',
-    columns: [
-      {
-        title: 'Rehberler',
-        items: [
-          { to: '/blog', label: 'Gezi Rehberi', desc: 'Ülke ülke turistik tavsiyeler' },
-        ],
-      },
-      {
-        kind: 'feature',
-        feature: {
-          eyebrow: '',
-          title: 'Ülkelerle ilgili bilgi edinin',
-          body: 'Gideceğiniz ülkenin turistik yerleri ile ilgili bilgi öğrenin',
-          to: '/blog',
-        },
-      },
-    ],
-  },
-  {
     label: 'Ofis',
     columns: [
       {

@@ -88,6 +88,15 @@ a {
   }
 }
 
+@keyframes stepGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  40%, 60% {
+    box-shadow: 0 0 18px 6px rgba(48, 156, 155, 0.45);
+  }
+}
+
 /* ── NAV TICKER ── */
 /* 4× duplicate sets in DOM for seamless loop; do NOT reduce the count */
 .nav-ticker-track {

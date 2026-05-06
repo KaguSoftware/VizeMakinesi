@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vize Makinesi
 
-## Getting Started
+Turkish visa consultation website. Next.js 16 (App Router) + TypeScript + Tailwind CSS 4 + Supabase.
 
-First, run the development server:
+For full architecture details see [CLAUDE.md](./CLAUDE.md).
+
+---
+
+## Quick start
 
 ```bash
+cp .env.example .env.local
+# Fill in the three Supabase variables (see below)
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
+Admin panel at [http://localhost:3000/admin](http://localhost:3000/admin).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Supabase project setup
 
-## Learn More
+### 1. Create a project
 
-To learn more about Next.js, take a look at the following resources:
+[supabase.com/dashboard](https://supabase.com/dashboard) → New project.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Run migrations
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+In the SQL editor, run each file in `supabase/migrations/` in order:
+- `0001_initial_schema.sql`
+- `0002_storage.sql`
 
-## Deploy on Vercel
+### 3. Configure Storage buckets
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create these four buckets in Storage → Buckets (set each to **Public**):
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Bucket | Purpose |
+|---|---|
+| `country-flags` | Country flag images |
+| `country-tourism` | Blog / tourism hero images |
+| `partnership-logos` | Partnership logo images |
+| `team-photos` | Team member photos |
+
+### 4. Create the first admin user
+
+1. Authentication → Users → Add user (email + password)
+2. In SQL editor:
+   ```sql
+   INSERT INTO admin_profiles (id, email)
+   SELECT id, email FROM auth.users WHERE email = 'your@email.com';
+   ```
+
+---
+
+## Environment variables
+
+Copy `.env.example` to `.env.local` and fill in:
+
+| Variable | Where to find |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Project Settings → API → Project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Project Settings → API → anon/public key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Project Settings → API → service_role key (keep secret, server-only) |
+
+> `npm run build` will error with "supabaseUrl is required" if `.env.local` is missing — this is expected. The build requires live Supabase credentials.
+
+---
+
+## Vercel deployment
+
+1. Import the repo in the Vercel dashboard
+2. Add the three env vars in Project Settings → Environment Variables (Production + Preview + Development)
+3. Deploy — Vercel runs `npm run build` automatically
+
+---
+
+## Development commands
+
+```bash
+npm run dev      # Dev server at http://localhost:3000
+npm run build    # Production build (requires env vars)
+npm run lint     # ESLint
+npm start        # Serve production build locally
+```

@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { TIMELINE_STEPS } from './constants';
 
 export default function Timeline() {
-  const [active, setActive] = useState<number | null>(null);
+  const [active, setActive] = useState<number | null>(0);
   const activeStep = active !== null ? TIMELINE_STEPS[active] : null;
+  const nextStep = active !== null && active < TIMELINE_STEPS.length - 1 ? active + 1 : null;
 
   return (
     <div className="py-[120px] relative">
@@ -15,19 +17,34 @@ export default function Timeline() {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
         {TIMELINE_STEPS.map((step, i) => {
           const isActive = active === i;
+          const isNext = nextStep === i;
           return (
             <div key={step.n} className="text-center px-3">
-              <button
+              <motion.button
                 onClick={() => setActive(isActive ? null : i)}
                 aria-expanded={isActive}
-                className={`w-20 h-20 rounded-full flex items-center justify-center font-serif italic font-normal text-[28px] tracking-[-0.02em] mx-auto mb-7 relative z-10 border transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-coral ${
+                animate={isNext ? {
+                  boxShadow: [
+                    '0 0 0px 0px rgba(48,156,155,0)',
+                    '0 0 22px 8px rgba(48,156,155,0.55)',
+                    '0 0 0px 0px rgba(48,156,155,0)',
+                  ],
+                } : { boxShadow: '0 0 0px 0px rgba(48,156,155,0)' }}
+                transition={isNext ? {
+                  duration: 1.4,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                } : undefined}
+                className={`w-20 h-20 rounded-full flex items-center justify-center font-serif italic font-normal text-[28px] tracking-[-0.02em] mx-auto mb-7 relative z-10 border cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-coral ${
                   isActive
                     ? 'bg-coral border-coral text-white'
+                    : isNext
+                    ? 'bg-paper border-coral text-coral'
                     : 'bg-paper border-navy text-navy hover:border-coral hover:text-coral'
                 }`}
               >
                 {step.n}
-              </button>
+              </motion.button>
               <div className="font-serif font-semibold text-[22px] mb-3 tracking-[-0.015em]">
                 {step.title}
               </div>

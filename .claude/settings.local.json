@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(grep -v \"^$\")",
+      "Bash(npm install *)",
+      "WebFetch(domain:maz-eight.vercel.app)",
+      "Bash(git checkout *)",
+      "Bash(npm run *)",
+      "Bash(Get-Content \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\\\\src\\\\components\\\\shared\\\\FlagBG\\\\FlagBG.tsx\")",
+      "Bash(Select-Object -First 3)"
+    ]
+  }
+}

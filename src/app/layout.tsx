@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Syne, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Nav from "@/components/Nav/Nav";
-import Footer from "@/components/Footer/Footer";
 
 const syne = Syne({
     variable: "--font-playfair",
@@ -38,11 +36,7 @@ export default function RootLayout({
             lang="tr"
             className={`${syne.variable} ${inter.variable} ${jetbrains.variable}`}
         >
-            <body className="min-h-screen flex flex-col bg-cream text-navy">
-                <Nav />
-                <main className="flex-1">{children}</main>
-                <Footer />
-            </body>
+            <body>{children}</body>
         </html>
     );
 }

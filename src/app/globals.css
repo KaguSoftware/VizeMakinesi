@@ -241,6 +241,7 @@ q::after {
   transform: scale(1);
 }
 
+
 /* text colour flips on hover / scroll-into-view (touch) */
 .mosaic-cell .hv-white {
   color: #309c9b;

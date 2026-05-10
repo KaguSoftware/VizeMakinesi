@@ -130,6 +130,232 @@ export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) 
           })}
         </svg>
       );
+    // ── Schengen member flags ──
+    case 'austria':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="3" height="2" fill="#ED2939" />
+          <rect width="3" height="0.667" y="0.667" fill="#FFFFFF" />
+        </svg>
+      );
+    case 'belgium':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="1" height="2" fill="#000000" />
+          <rect width="1" height="2" x="1" fill="#FAE042" />
+          <rect width="1" height="2" x="2" fill="#EF3340" />
+        </svg>
+      );
+    case 'bulgaria':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="3" height="2" fill="#FFFFFF" />
+          <rect width="3" height="0.667" y="0.667" fill="#00966E" />
+          <rect width="3" height="0.667" y="1.333" fill="#D62612" />
+        </svg>
+      );
+    case 'croatia':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="3" height="0.667" fill="#FF0000" />
+          <rect width="3" height="0.667" y="0.667" fill="#FFFFFF" />
+          <rect width="3" height="0.667" y="1.333" fill="#0093DD" />
+          {/* simplified checkerboard shield */}
+          {[0,1,2,3,4].map((col) =>
+            [0,1,2,3,4].map((row) => (
+              <rect key={`${col}-${row}`} x={1.2 + col * 0.12} y={0.55 + row * 0.12} width="0.12" height="0.12"
+                fill={(col + row) % 2 === 0 ? '#FF0000' : '#FFFFFF'} />
+            ))
+          )}
+        </svg>
+      );
+    case 'czech':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="3" height="1" fill="#FFFFFF" />
+          <rect width="3" height="1" y="1" fill="#D7141A" />
+          <polygon points="0,0 1.2,1 0,2" fill="#11457E" />
+        </svg>
+      );
+    case 'denmark':
+      return (
+        <svg viewBox="0 0 37 28" {...shared}>
+          <rect width="37" height="28" fill="#C60C30" />
+          <rect width="4" height="28" x="9" fill="#FFFFFF" />
+          <rect width="37" height="4" y="12" fill="#FFFFFF" />
+        </svg>
+      );
+    case 'estonia':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="3" height="0.667" fill="#0072CE" />
+          <rect width="3" height="0.667" y="0.667" fill="#000000" />
+          <rect width="3" height="0.667" y="1.333" fill="#FFFFFF" />
+        </svg>
+      );
+    case 'finland':
+      return (
+        <svg viewBox="0 0 18 11" {...shared}>
+          <rect width="18" height="11" fill="#FFFFFF" />
+          <rect width="3" height="11" x="5" fill="#003580" />
+          <rect width="18" height="3" y="4" fill="#003580" />
+        </svg>
+      );
+    case 'greece':
+      return (
+        <svg viewBox="0 0 27 18" {...shared}>
+          {[0,1,2,3,4,5,6,7,8].map((i) => (
+            <rect key={i} width="27" height="2" y={i * 2} fill={i % 2 === 0 ? '#0D5EAF' : '#FFFFFF'} />
+          ))}
+          <rect width="10" height="10" fill="#0D5EAF" />
+          <rect width="2" height="10" x="4" fill="#FFFFFF" />
+          <rect width="10" height="2" y="4" fill="#FFFFFF" />
+        </svg>
+      );
+    case 'hungary':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="3" height="0.667" fill="#CE2939" />
+          <rect width="3" height="0.667" y="0.667" fill="#FFFFFF" />
+          <rect width="3" height="0.667" y="1.333" fill="#477050" />
+        </svg>
+      );
+    case 'iceland':
+      return (
+        <svg viewBox="0 0 25 18" {...shared}>
+          <rect width="25" height="18" fill="#003897" />
+          <rect width="5" height="18" x="7" fill="#FFFFFF" />
+          <rect width="25" height="5" y="6.5" fill="#FFFFFF" />
+          <rect width="3" height="18" x="8" fill="#D72828" />
+          <rect width="25" height="3" y="7.5" fill="#D72828" />
+        </svg>
+      );
+    case 'latvia':
+      return (
+        <svg viewBox="0 0 2 1" {...shared}>
+          <rect width="2" height="1" fill="#9E3039" />
+          <rect width="2" height="0.2" y="0.4" fill="#FFFFFF" />
+        </svg>
+      );
+    case 'liechtenstein':
+      return (
+        <svg viewBox="0 0 5 3" {...shared}>
+          <rect width="5" height="1.5" fill="#002B7F" />
+          <rect width="5" height="1.5" y="1.5" fill="#CE1126" />
+          {/* simplified crown */}
+          <rect x="0.3" y="0.7" width="0.8" height="0.5" fill="#FFD700" rx="0.1" />
+          <rect x="0.45" y="0.5" width="0.5" height="0.3" fill="#FFD700" rx="0.1" />
+        </svg>
+      );
+    case 'lithuania':
+      return (
+        <svg viewBox="0 0 5 3" {...shared}>
+          <rect width="5" height="1" fill="#FDB913" />
+          <rect width="5" height="1" y="1" fill="#006A44" />
+          <rect width="5" height="1" y="2" fill="#C1272D" />
+        </svg>
+      );
+    case 'luxembourg':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="3" height="0.667" fill="#EF3340" />
+          <rect width="3" height="0.667" y="0.667" fill="#FFFFFF" />
+          <rect width="3" height="0.667" y="1.333" fill="#00A3E0" />
+        </svg>
+      );
+    case 'malta':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="1.5" height="2" fill="#FFFFFF" />
+          <rect width="1.5" height="2" x="1.5" fill="#CF142B" />
+          {/* George Cross outline */}
+          <rect x="0.15" y="0.3" width="0.9" height="0.9" fill="none" stroke="#CF142B" strokeWidth="0.06" />
+        </svg>
+      );
+    case 'norway':
+      return (
+        <svg viewBox="0 0 22 16" {...shared}>
+          <rect width="22" height="16" fill="#EF2B2D" />
+          <rect width="4" height="16" x="6" fill="#FFFFFF" />
+          <rect width="22" height="4" y="6" fill="#FFFFFF" />
+          <rect width="2" height="16" x="7" fill="#002868" />
+          <rect width="22" height="2" y="7" fill="#002868" />
+        </svg>
+      );
+    case 'poland':
+      return (
+        <svg viewBox="0 0 8 5" {...shared}>
+          <rect width="8" height="2.5" fill="#FFFFFF" />
+          <rect width="8" height="2.5" y="2.5" fill="#DC143C" />
+        </svg>
+      );
+    case 'portugal':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="3" height="2" fill="#FF0000" />
+          <rect width="1.2" height="2" fill="#006600" />
+          {/* simplified coat of arms circle */}
+          <circle cx="1.2" cy="1" r="0.3" fill="#FFD700" stroke="#000080" strokeWidth="0.05" />
+        </svg>
+      );
+    case 'romania':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="1" height="2" fill="#002B7F" />
+          <rect width="1" height="2" x="1" fill="#FCD116" />
+          <rect width="1" height="2" x="2" fill="#CE1126" />
+        </svg>
+      );
+    case 'slovakia':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="3" height="0.667" fill="#FFFFFF" />
+          <rect width="3" height="0.667" y="0.667" fill="#0B4EA2" />
+          <rect width="3" height="0.667" y="1.333" fill="#EE1C25" />
+          {/* simplified double cross on blue/red */}
+          <rect x="0.2" y="0.5" width="0.55" height="1.1" fill="#FFFFFF" rx="0.05" />
+          <rect x="0.1" y="0.75" width="0.75" height="0.2" fill="#FFFFFF" />
+          <rect x="0.1" y="1.05" width="0.75" height="0.2" fill="#FFFFFF" />
+        </svg>
+      );
+    case 'slovenia':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="3" height="0.667" fill="#FFFFFF" />
+          <rect width="3" height="0.667" y="0.667" fill="#003DA5" />
+          <rect width="3" height="0.667" y="1.333" fill="#EE2436" />
+          {/* simplified triglav + stars */}
+          <polygon points="0.25,1.1 0.5,0.55 0.75,1.1" fill="#FFFFFF" />
+          <polygon points="0.35,0.95 0.5,0.65 0.65,0.95" fill="#003DA5" />
+          <circle cx="0.35" cy="0.35" r="0.08" fill="#FFCB00" />
+          <circle cx="0.5" cy="0.2" r="0.08" fill="#FFCB00" />
+          <circle cx="0.65" cy="0.35" r="0.08" fill="#FFCB00" />
+        </svg>
+      );
+    case 'spain':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="3" height="0.5" fill="#AA151B" />
+          <rect width="3" height="1" y="0.5" fill="#F1BF00" />
+          <rect width="3" height="0.5" y="1.5" fill="#AA151B" />
+        </svg>
+      );
+    case 'sweden':
+      return (
+        <svg viewBox="0 0 16 10" {...shared}>
+          <rect width="16" height="10" fill="#006AA7" />
+          <rect width="2" height="10" x="5" fill="#FECC02" />
+          <rect width="16" height="2" y="4" fill="#FECC02" />
+        </svg>
+      );
+    case 'switzerland':
+      return (
+        <svg viewBox="0 0 32 32" {...shared}>
+          <rect width="32" height="32" fill="#FF0000" />
+          <rect width="6" height="20" x="13" y="6" fill="#FFFFFF" />
+          <rect width="20" height="6" x="6" y="13" fill="#FFFFFF" />
+        </svg>
+      );
     default:
       return null;
   }

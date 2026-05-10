@@ -1,13 +1,14 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getCountryBySlug, getCountrySlugsStatic } from '@/lib/data/countries';
 import CountryHero from '@/components/visa/CountryHero/CountryHero';
 import FAQ from '@/components/shared/FAQ/FAQ';
 import SchengenStubHero from '@/components/visa/SchengenStubHero/SchengenStubHero';
+import SchengenCountryGrid from '@/components/visa/SchengenCountryGrid/SchengenCountryGrid';
 import BasvuruSureci from '@/components/visa/BasvuruSureci/BasvuruSureci';
 import MasayaGetirdikleriniz from '@/components/visa/MasayaGetirdikleriniz/MasayaGetirdikleriniz';
 import { SITE } from '@/data/site';
-import { SCHENGEN_SLUG_MAP } from '@/data/schengen';
+import { SCHENGEN_SLUG_MAP, SCHENGEN_NAME_TO_SLUG } from '@/data/schengen';
 
 export const revalidate = 60;
 
@@ -44,6 +45,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CountryPage({ params }: Props) {
   const { countrySlug } = await params;
   const country = await getCountryBySlug(countrySlug);
+
+  if (country) {
+    const turkishSlug = SCHENGEN_NAME_TO_SLUG.get(country.name);
+    if (turkishSlug && turkishSlug !== countrySlug) {
+      redirect(`/visa/${turkishSlug}`);
+    }
+  }
 
   if (!country) {
     const stub = SCHENGEN_SLUG_MAP.get(countrySlug);
@@ -129,6 +137,8 @@ export default async function CountryPage({ params }: Props) {
   return (
     <>
       <CountryHero country={country} />
+
+      {countrySlug === 'schengen' && <SchengenCountryGrid />}
 
       <BasvuruSureci />
 

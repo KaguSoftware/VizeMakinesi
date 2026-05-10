@@ -6,9 +6,14 @@ import Marquee from "@/components/home/Marquee/Marquee";
 import Timeline from "@/components/shared/Timeline/Timeline";
 import BigCTA from "@/components/home/BigCTA/BigCTA";
 import { getAllCountries } from "@/lib/data/countries";
+import { SCHENGEN_NAME_TO_SLUG } from "@/data/schengen";
 
 export default async function HomePage() {
-    const countries = await getAllCountries();
+    const rawCountries = await getAllCountries();
+    const countries = rawCountries.map((c) => {
+        const turkishSlug = SCHENGEN_NAME_TO_SLUG.get(c.name);
+        return turkishSlug && turkishSlug !== c.slug ? { ...c, slug: turkishSlug } : c;
+    });
 
     return (
         <>

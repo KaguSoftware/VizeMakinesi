@@ -174,3 +174,4 @@ export const SCHENGEN_MEMBERS: SchengenMemberMeta[] = [
 ];
 
 export const SCHENGEN_SLUG_MAP = new Map(SCHENGEN_MEMBERS.map((m) => [m.slug, m]));
+export const SCHENGEN_NAME_TO_SLUG = new Map(SCHENGEN_MEMBERS.map((m) => [m.name, m.slug]));

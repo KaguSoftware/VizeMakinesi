@@ -105,6 +105,25 @@ export async function getCountrySlugsStatic(): Promise<string[]> {
   return ((data ?? []) as { slug: string }[]).map((c) => c.slug);
 }
 
+export interface CountrySlim {
+  slug: string;
+  name: string;
+  flag_emoji: string | null;
+  flag_type: 'preset' | 'image' | null;
+  flag_preset_key: string | null;
+  flag_image_url: string | null;
+}
+
+export async function getAllCountriesSlim(): Promise<CountrySlim[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('countries')
+    .select('slug, name, flag_emoji, flag_type, flag_preset_key, flag_image_url')
+    .order('name');
+  if (error) throw error;
+  return (data ?? []) as CountrySlim[];
+}
+
 export async function getTourismSlugsStatic(): Promise<string[]> {
   const supabase = createStaticClient();
   const { data, error } = await supabase

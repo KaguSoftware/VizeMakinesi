@@ -49,7 +49,7 @@ export default function SchengenCountryGrid({ hideHeader }: Props) {
           {visibleCards.map((member) => (
             <Link
               key={member.slug}
-              href={`/visa/${member.slug}`}
+              href={`/vize/${member.slug}`}
               className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden"
             >
               <FlagBG presetKey={member.presetKey} className="flag-svg" />

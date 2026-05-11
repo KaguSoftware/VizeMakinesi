@@ -10,17 +10,17 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Vize Hizmetleri',
         items: [
-          { to: '/visa-regimes', label: 'Vize Rejimleri', desc: 'Turist, iş, öğrenci, çalışma, transit' },
-          { to: '/how-it-works', label: 'Nasıl Çalışırız', desc: 'Beş adımlı ofis metodumuz' },
-          { to: '/fees', label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
+          { to: '/vize-rejimleri', label: 'Vize Rejimleri', desc: 'Turist, iş, öğrenci, çalışma, transit' },
+          { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız', desc: 'Beş adımlı ofis metodumuz' },
+          { to: '/ucretler', label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
         ],
       },
       {
         title: 'Vize Ötesi',
         items: [
-          { to: '/passport', label: 'Pasaport Hizmetleri', desc: 'Çıkarma, yenileme, kayıp' },
-          { to: '/partnerships', label: 'Kurumsal Ortaklıklar', desc: 'Ortaklarımız' },
-          { to: '/us-visa-expedite', label: 'ABD Hızlandırma', desc: '5–10 günde mülakat' },
+          { to: '/pasaport', label: 'Pasaport Hizmetleri', desc: 'Çıkarma, yenileme, kayıp' },
+          { to: '/ortakliklar', label: 'Kurumsal Ortaklıklar', desc: 'Ortaklarımız' },
+          { to: '/abd-hizlandirma', label: 'ABD Hızlandırma', desc: '5–10 günde mülakat' },
         ],
       },
       {
@@ -29,7 +29,7 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
           eyebrow: '',
           title: 'Hizmetlerimizle ilgili bilgi alın',
           body: 'Hizmetlerimiz, ofisimiz ve işleyişimizle ilgili bilgi alın',
-          to: '/fees',
+          to: '/ucretler',
         },
       },
     ],
@@ -40,15 +40,15 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Hakkımızda',
         items: [
-          { to: '/about', label: 'Ofisimiz', desc: 'Ekip ve danışmanlar' },
-          { to: '/partnerships', label: 'Ortaklıklar', desc: 'Kurumsal çözümler' },
+          { to: '/hakkimizda', label: 'Ofisimiz', desc: 'Ekip ve danışmanlar' },
+          { to: '/ortakliklar', label: 'Ortaklıklar', desc: 'Kurumsal çözümler' },
         ],
       },
       {
         title: 'Ziyaret',
         items: [
-          { to: '/contact', label: '4.Levent Ofisi', desc: 'Selvili Sokağı · D:Kat:1 Daire:1' },
-          { to: '/contact', label: 'Çalışma Saatleri', desc: 'Pts–Cts · Randevusuz kabul' },
+          { to: '/iletisim', label: '4.Levent Ofisi', desc: 'Selvili Sokağı · D:Kat:1 Daire:1' },
+          { to: '/iletisim', label: 'Çalışma Saatleri', desc: 'Pts–Cts · Randevusuz kabul' },
         ],
       },
       {
@@ -66,14 +66,14 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
 
 export const MOBILE_LINKS: MobileLink[] = [
   { to: '/', label: 'Ana Sayfa', end: true },
-  { to: '/visa-regimes', label: 'Vize Rejimleri' },
-  { to: '/how-it-works', label: 'Nasıl Çalışırız' },
-  { to: '/about', label: 'Hakkımızda' },
-  { to: '/fees', label: 'Ücretler' },
-  { to: '/schengen', label: 'Schengen' },
-  { to: '/passport', label: 'Pasaport' },
+  { to: '/vize-rejimleri', label: 'Vize Rejimleri' },
+  { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız' },
+  { to: '/hakkimizda', label: 'Hakkımızda' },
+  { to: '/ucretler', label: 'Ücretler' },
+  { to: '/vize/schengen', label: 'Schengen' },
+  { to: '/pasaport', label: 'Pasaport' },
   { to: '/blog', label: 'Blog' },
-  { to: '/partnerships', label: 'Ortaklıklar' },
-  { to: '/us-visa-expedite', label: 'ABD Hızlandırma' },
-  { to: '/contact', label: 'İletişim' },
+  { to: '/ortakliklar', label: 'Ortaklıklar' },
+  { to: '/abd-hizlandirma', label: 'ABD Hızlandırma' },
+  { to: '/iletisim', label: 'İletişim' },
 ];

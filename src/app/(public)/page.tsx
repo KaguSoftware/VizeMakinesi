@@ -7,14 +7,14 @@ import SchengenCountryGrid from "@/components/visa/SchengenCountryGrid/SchengenC
 import RegionGrid from "@/components/home/RegionGrid/RegionGrid";
 
 const AMERICA_ENTRIES = [
-    { name: 'Amerika', href: '/visa/usa', presetKey: 'usa', subtitle: 'Vize Bilgisi' },
-    { name: 'Kanada', href: '/visa/canada', presetKey: 'canada', subtitle: 'Vize Bilgisi' },
+    { name: 'Amerika', href: '/vize/abd', presetKey: 'usa', subtitle: 'Vize Bilgisi' },
+    { name: 'Kanada', href: '/vize/kanada', presetKey: 'canada', subtitle: 'Vize Bilgisi' },
 ];
 
 const ASIA_PACIFIC_ENTRIES = [
-    { name: 'Çin', href: '/visa/cin', presetKey: 'china', subtitle: 'Vize Bilgisi' },
-    { name: 'Arap Emirlikleri', href: '/visa/uae', presetKey: 'uae', subtitle: 'Vize Bilgisi' },
-    { name: 'Avustralya', href: '/visa/australia', presetKey: 'australia', subtitle: 'Vize Bilgisi' },
+    { name: 'Çin', href: '/vize/cin', presetKey: 'china', subtitle: 'Vize Bilgisi' },
+    { name: 'Arap Emirlikleri', href: '/vize/bae', presetKey: 'uae', subtitle: 'Vize Bilgisi' },
+    { name: 'Avustralya', href: '/vize/avustralya', presetKey: 'australia', subtitle: 'Vize Bilgisi' },
 ];
 
 export default function HomePage() {
@@ -38,7 +38,7 @@ export default function HomePage() {
                         Avrupa ve Schengen
                     </h2>
                     <Link
-                        href="/visa/schengen"
+                        href="/vize/schengen"
                         className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200 rounded-2xl whitespace-nowrap"
                     >
                         Schengen hakkında →
@@ -77,7 +77,7 @@ export default function HomePage() {
                         Bir başvuru ofisimizde nasıl işliyor
                     </h2>
                     <Link
-                        href="/how-it-works"
+                        href="/nasil-calisiyoruz"
                         className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200 rounded-2xl whitespace-nowrap"
                     >
                         Tam süreç →

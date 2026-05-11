@@ -51,7 +51,7 @@ function NavSearch() {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex((i) => Math.min(i + 1, results.length - 1)); }
         else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex((i) => Math.max(i - 1, -1)); }
-        else if (e.key === 'Enter' && activeIndex >= 0) { router.push(`/visa/${results[activeIndex].slug}`); setExpanded(false); }
+        else if (e.key === 'Enter' && activeIndex >= 0) { router.push(`/vize/${results[activeIndex].slug}`); setExpanded(false); }
         else if (e.key === 'Escape') setExpanded(false);
     };
 
@@ -97,7 +97,7 @@ function NavSearch() {
                                 {results.map((c, i) => (
                                     <li key={c.slug}>
                                         <Link
-                                            href={`/visa/${c.slug}`}
+                                            href={`/vize/${c.slug}`}
                                             onClick={() => setExpanded(false)}
                                             className={`flex items-center gap-3 px-4 py-2.5 font-sans text-[13px] text-navy border-b border-coral/10 last:border-0 hover:text-coral transition-colors ${i === activeIndex ? 'text-coral' : ''}`}
                                         >
@@ -131,22 +131,22 @@ function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
                         kind: 'region-group' as const,
                         title: cat.name,
                         regions: [
-                            { label: 'Schengen Bölgelesi', to: '/visa/schengen', flag: '🇪🇺' },
-                            { label: 'İngiltere', to: '/visa/uk', flag: '🇬🇧' },
-                            { label: 'İrlanda', to: '/visa/irlanda', flag: '🇮🇪' },
+                            { label: 'Schengen Bölgelesi', to: '/vize/schengen', flag: '🇪🇺' },
+                            { label: 'İngiltere', to: '/vize/ingiltere', flag: '🇬🇧' },
+                            { label: 'İrlanda', to: '/vize/irlanda', flag: '🇮🇪' },
                         ],
                     };
                 }
                 const isAmerica = /amerika|america/i.test(cat.name);
                 const baseItems = cat.items.map((it) => ({
-                    to: `/visa/${it.country.slug}`,
+                    to: `/vize/${it.country.slug}`,
                     label: it.country.name,
                     flag: it.country.flag_emoji ?? undefined,
                 }));
                 return {
                     title: cat.name,
                     items: isAmerica
-                        ? [...baseItems, { to: '/us-visa-expedite', label: 'ABD Hızlandırma', flag: '⚡' }]
+                        ? [...baseItems, { to: '/abd-hizlandirma', label: 'ABD Hızlandırma', flag: '⚡' }]
                         : baseItems,
                 };
             }),
@@ -156,7 +156,7 @@ function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
                     eyebrow: '',
                     title: 'Hangi Vizeye ihtiyacınız var?',
                     body: 'Hangi vizeye ihtiyacınız olduğunu seçin ve gerekli dokümanları görüntüleyin',
-                    to: '/schengen',
+                    to: '/vize/schengen',
                 },
             },
         ],
@@ -273,7 +273,7 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                             Blog
                         </Link>
                         <NavSearch />
-                        <Link href="/contact">
+                        <Link href="/iletisim">
                             <span className="ml-3 font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
                                 Bize Ulaşın
                             </span>

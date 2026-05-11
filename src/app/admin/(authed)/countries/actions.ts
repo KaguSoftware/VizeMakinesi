@@ -9,7 +9,7 @@ import type { CountryFormData } from './validation'
 
 function revalidateAll() {
   revalidatePath('/')
-  revalidatePath('/visa', 'layout')
+  revalidatePath('/vize', 'layout')
   revalidatePath('/blog', 'layout')
 }
 
@@ -133,7 +133,7 @@ export async function updateCountry(id: string, data: CountryFormData): Promise<
 
   await upsertChildren(supabase, id, data)
   revalidateAll()
-  revalidatePath(`/visa/${data.slug}`)
+  revalidatePath(`/vize/${data.slug}`)
   revalidatePath(`/blog/${data.slug}`)
   return {}
 }

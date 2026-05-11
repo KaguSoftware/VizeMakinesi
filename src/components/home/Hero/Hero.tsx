@@ -47,14 +47,14 @@ export default function Hero() {
     if (!open) return;
     if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex((i) => Math.min(i + 1, results.length - 1)); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex((i) => Math.max(i - 1, -1)); }
-    else if (e.key === 'Enter' && activeIndex >= 0) { e.preventDefault(); router.push(`/visa/${results[activeIndex].slug}`); setOpen(false); }
+    else if (e.key === 'Enter' && activeIndex >= 0) { e.preventDefault(); router.push(`/vize/${results[activeIndex].slug}`); setOpen(false); }
     else if (e.key === 'Escape') setOpen(false);
   };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (activeIndex >= 0 && results[activeIndex]) {
-      router.push(`/visa/${results[activeIndex].slug}`);
+      router.push(`/vize/${results[activeIndex].slug}`);
       setOpen(false);
     }
   };
@@ -117,7 +117,7 @@ export default function Hero() {
                   {results.map((country, i) => (
                     <li key={country.slug}>
                       <Link
-                        href={`/visa/${country.slug}`}
+                        href={`/vize/${country.slug}`}
                         onClick={() => setOpen(false)}
                         className={`flex items-center gap-3 px-4 py-3 font-sans text-[14px] text-navy hover:bg-coral/10 transition-colors ${i === activeIndex ? 'bg-coral/10' : ''}`}
                       >

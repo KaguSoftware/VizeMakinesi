@@ -51,7 +51,7 @@ export default async function CountryPage({ params }: Props) {
   if (country) {
     const turkishSlug = SCHENGEN_NAME_TO_SLUG.get(country.name);
     if (turkishSlug && turkishSlug !== countrySlug) {
-      redirect(`/visa/${turkishSlug}`);
+      redirect(`/vize/${turkishSlug}`);
     }
   }
 

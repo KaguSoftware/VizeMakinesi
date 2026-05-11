@@ -12,7 +12,7 @@ function tbl(supabase: SB, table: string): any {
 }
 
 function revalidate() {
-  revalidatePath('/about')
+  revalidatePath('/hakkimizda')
 }
 
 export interface TeamMemberFormData {

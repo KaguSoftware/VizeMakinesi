@@ -2,12 +2,118 @@
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MOBILE_LINKS, STATIC_MEGA_MENU } from "./constants";
 import { SITE } from "@/data/site";
 import { AnimatePresence, motion } from "framer-motion";
 import type { MegaMenuGroup } from "./types";
 import type { MegaMenuCategory } from "@/lib/data/megaMenu";
+
+interface CountryResult { name: string; slug: string; flag_emoji: string | null; }
+
+function NavSearch() {
+    const [expanded, setExpanded] = useState(false);
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState<CountryResult[]>([]);
+    const [activeIndex, setActiveIndex] = useState(-1);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
+
+    useEffect(() => {
+        if (expanded) inputRef.current?.focus();
+        else { setQuery(''); setResults([]); setActiveIndex(-1); }
+    }, [expanded]);
+
+    useEffect(() => {
+        const q = query.trim();
+        if (!q) { setResults([]); return; }
+        const controller = new AbortController();
+        const timer = setTimeout(() => {
+            fetch(`/api/countries/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
+                .then((r) => r.json())
+                .then((data) => { setResults(data); setActiveIndex(-1); })
+                .catch((e) => { if (e.name !== 'AbortError') console.error(e); });
+        }, 200);
+        return () => { clearTimeout(timer); controller.abort(); };
+    }, [query]);
+
+    useEffect(() => {
+        const handleClick = (e: MouseEvent) => {
+            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+                setExpanded(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, []);
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex((i) => Math.min(i + 1, results.length - 1)); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex((i) => Math.max(i - 1, -1)); }
+        else if (e.key === 'Enter' && activeIndex >= 0) { router.push(`/vize/${results[activeIndex].slug}`); setExpanded(false); }
+        else if (e.key === 'Escape') setExpanded(false);
+    };
+
+    return (
+        <div ref={containerRef} className="relative flex items-center">
+            <button
+                onClick={() => setExpanded((v) => !v)}
+                aria-label="Ülke ara"
+                className={`p-2 transition-colors duration-200 ${expanded ? 'text-coral' : 'text-white/70 hover:text-white'}`}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                </svg>
+            </button>
+
+            <AnimatePresence>
+                {expanded && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                        className="absolute right-0 top-[calc(100%+16px)] w-80 z-50"
+                    >
+                        <div className="flex items-center bg-white border border-coral/40 rounded-2xl overflow-hidden focus-within:border-coral transition-colors">
+                            <svg className="ml-3 shrink-0 text-navy/40" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                            </svg>
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                                placeholder="✈️ Yolculuk Nereye !?"
+                                autoComplete="off"
+                                className="flex-1 bg-transparent px-3 py-3 font-sans text-[14px] text-navy placeholder:text-navy/50 focus:outline-none"
+                            />
+                        </div>
+
+                        {results.length > 0 && (
+                            <ul className="mt-1 bg-white border border-coral/40 rounded-2xl overflow-hidden">
+                                {results.map((c, i) => (
+                                    <li key={c.slug}>
+                                        <Link
+                                            href={`/vize/${c.slug}`}
+                                            onClick={() => setExpanded(false)}
+                                            className={`flex items-center gap-3 px-4 py-2.5 font-sans text-[13px] text-navy border-b border-coral/10 last:border-0 hover:text-coral transition-colors ${i === activeIndex ? 'text-coral' : ''}`}
+                                        >
+                                            <span className="text-[16px]">{c.flag_emoji ?? '🌍'}</span>
+                                            {c.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+}
 
 interface NavProps {
     dbCategories: MegaMenuCategory[];
@@ -25,19 +131,23 @@ function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
                         kind: 'region-group' as const,
                         title: cat.name,
                         regions: [
-                            { label: 'Schengen Bölgelesi', to: '/visa/schengen', flag: '🇪🇺' },
-                            { label: 'İngiltere', to: '/visa/uk', flag: '🇬🇧' },
-                            { label: 'İrlanda', to: '/visa/irlanda', flag: '🇮🇪' },
+                            { label: 'Schengen Bölgelesi', to: '/vize/schengen', flag: '🇪🇺' },
+                            { label: 'İngiltere', to: '/vize/ingiltere', flag: '🇬🇧' },
+                            { label: 'İrlanda', to: '/vize/irlanda', flag: '🇮🇪' },
                         ],
                     };
                 }
+                const isAmerica = /amerika|america/i.test(cat.name);
+                const baseItems = cat.items.map((it) => ({
+                    to: `/vize/${it.country.slug}`,
+                    label: it.country.name,
+                    flag: it.country.flag_emoji ?? undefined,
+                }));
                 return {
                     title: cat.name,
-                    items: cat.items.map((it) => ({
-                        to: `/visa/${it.country.slug}`,
-                        label: it.country.name,
-                        flag: it.country.flag_emoji ?? undefined,
-                    })),
+                    items: isAmerica
+                        ? [...baseItems, { to: '/abd-hizlandirma', label: 'ABD Hızlandırma', flag: '⚡' }]
+                        : baseItems,
                 };
             }),
             {
@@ -46,7 +156,7 @@ function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
                     eyebrow: '',
                     title: 'Hangi Vizeye ihtiyacınız var?',
                     body: 'Hangi vizeye ihtiyacınız olduğunu seçin ve gerekli dokümanları görüntüleyin',
-                    to: '/schengen',
+                    to: '/vize/schengen',
                 },
             },
         ],
@@ -162,7 +272,8 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                         >
                             Blog
                         </Link>
-                        <Link href="/contact">
+                        <NavSearch />
+                        <Link href="/iletisim">
                             <span className="ml-3 font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
                                 Bize Ulaşın
                             </span>

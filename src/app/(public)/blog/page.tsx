@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { getTourismCountries } from '@/lib/data/countries';
+import { getAllCountriesForBlog } from '@/lib/data/countries';
 
 export const metadata: Metadata = {
   title: 'Blog — Vize Makinesi',
@@ -8,7 +8,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const countries = await getTourismCountries();
+  const allCountries = await getAllCountriesForBlog();
+  const countries = allCountries.filter((c) => c.slug !== 'schengen');
 
   return (
     <>
@@ -41,7 +42,7 @@ export default async function BlogPage() {
             <p className="font-serif italic text-[22px] text-navy/40">Henüz blog yazısı yok.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px border border-border">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px border border-border">
             {countries.map((country) => {
               const slug = `/blog/${country.slug}`;
               const excerpt = (country.tourism_intro ?? [])[0] ?? '';
@@ -58,7 +59,7 @@ export default async function BlogPage() {
                           alt={country.name}
                           fill
                           className="object-cover group-hover:scale-[1.02] transition-transform duration-300"
-                          sizes="(max-width: 768px) 100vw, 50vw"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
                       </div>
                     </a>

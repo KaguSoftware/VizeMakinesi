@@ -40,6 +40,7 @@ const PRESET_KEYS = [
   { key: 'australia', label: 'Avustralya' },
   { key: 'uae', label: 'BAE' },
   { key: 'schengen', label: 'Schengen' },
+  { key: 'ireland', label: 'İrlanda' },
 ]
 
 const MOSAIC_SPANS = [

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getCountryBySlug, getTourismSlugsStatic } from '@/lib/data/countries';
+import { getCountryBySlug, getCountrySlugsStatic as getTourismSlugsStatic } from '@/lib/data/countries';
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import ChecklistList from '@/components/shared/ChecklistList/ChecklistList';
 import NumberedList from '@/components/shared/NumberedList/NumberedList';
@@ -13,13 +13,13 @@ interface Props {
 
 export async function generateStaticParams() {
   const slugs = await getTourismSlugsStatic();
-  return slugs.map((slug) => ({ countrySlug: slug }));
+  return slugs.map((slug: string) => ({ countrySlug: slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { countrySlug } = await params;
   const country = await getCountryBySlug(countrySlug);
-  if (!country?.has_tourism) return {};
+  if (!country) return {};
   return {
     title: `${country.name} Gezi Rehberi — Vize Makinesi Blog`,
     description: (country.tourism_intro ?? [])[0] ?? '',
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CountryBlogPage({ params }: Props) {
   const { countrySlug } = await params;
   const country = await getCountryBySlug(countrySlug);
-  if (!country?.has_tourism) notFound();
+  if (!country) notFound();
 
   const intro = country.tourism_intro ?? [];
   const highlights = country.tourism_highlights ?? [];
@@ -167,10 +167,10 @@ export default async function CountryBlogPage({ params }: Props) {
               </h2>
               <div>
                 <Link
-                  href={`/visa/${country.slug}`}
+                  href={`/vize/${country.slug}`}
                   className="block w-full text-center font-sans font-medium text-[13px] uppercase tracking-widest px-8 py-5.5 bg-cream border border-cream text-coral hover:bg-navy hover:text-cream hover:border-cream transition-all duration-200 rounded-2xl"
                 >
-                  {country.name} vize rehberini incele →
+                  {country.name} vizesini incele →
                 </Link>
                 <Link
                   href="/blog"

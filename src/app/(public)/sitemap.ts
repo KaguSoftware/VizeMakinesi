@@ -5,17 +5,16 @@ const BASE_URL = 'https://vizemakinesi.com';
 
 const STATIC_ROUTES = [
   '/',
-  '/about',
+  '/hakkimizda',
   '/blog',
-  '/contact',
+  '/iletisim',
   '/danisma-al',
-  '/fees',
-  '/how-it-works',
-  '/partnerships',
-  '/passport',
-  '/schengen',
-  '/us-visa-expedite',
-  '/visa-regimes',
+  '/ucretler',
+  '/nasil-calisiyoruz',
+  '/ortakliklar',
+  '/pasaport',
+  '/abd-hizlandirma',
+  '/vize-rejimleri',
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -31,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const countryEntries: MetadataRoute.Sitemap = slugs.map((slug) => ({
-    url: `${BASE_URL}/visa/${slug}`,
+    url: `${BASE_URL}/vize/${slug}`,
     changeFrequency: 'monthly',
     priority: 0.7,
   }));

@@ -22,7 +22,7 @@ export default function BasvuruSureci() {
             İlk görüşmeden pasaport teslimine kadar her adımı biz yönetiyoruz. Hiçbir ayrıntı gözden kaçmaz.
           </p>
           <Link
-            href="/how-it-works"
+            href="/nasil-calisiyoruz"
             className="inline-flex items-center gap-2 font-sans font-medium text-[13px] uppercase tracking-[0.15em] text-navy border-b border-navy/30 pb-1 hover:text-coral hover:border-coral transition-colors duration-200"
           >
             Sürecin tamamını görün →

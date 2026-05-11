@@ -10,5 +10,6 @@ export const FLAG_VIEW_BOXES: Record<CountrySlug, string> = {
   canada:      '0 0 24 12',
   australia:   '0 0 60 30',
   uae:         '0 0 12 6',
+  china:       '0 0 30 20',
   schengen:    '0 0 60 40',
 };

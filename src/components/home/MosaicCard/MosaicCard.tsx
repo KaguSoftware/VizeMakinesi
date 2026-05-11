@@ -10,7 +10,7 @@ export default function MosaicCard({
 }: MosaicCardProps) {
     return (
         <Link
-            href={`/visa/${country.slug}`}
+            href={`/vize/${country.slug}`}
             data-mosaic-row={rowIndex}
             className={`mosaic-cell ${span} border-b border-r border-border flex flex-col justify-between min-h-90 cursor-pointer relative bg-cream overflow-hidden`}
         >

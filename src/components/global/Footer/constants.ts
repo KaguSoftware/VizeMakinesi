@@ -5,19 +5,19 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     eyebrow: '— 01 / Keşfet',
     links: [
       { label: 'Ülke Vizeleri', href: '/' },
-      { label: 'Schengen',      href: '/schengen' },
-      { label: 'Pasaport',      href: '/passport' },
+      { label: 'Schengen',      href: '/vize/schengen' },
+      { label: 'Pasaport',      href: '/pasaport' },
       { label: 'Blog',          href: '/blog' },
-      { label: 'Ortaklıklar',   href: '/partnerships' },
+      { label: 'Ortaklıklar',   href: '/ortakliklar' },
     ],
   },
   {
     eyebrow: '— 02 / Ofis',
     links: [
-      { label: 'Hakkımızda', href: '/about' },
-      { label: 'Hizmetler',  href: '/fees' },
-      { label: 'Süreç',      href: '/how-it-works' },
-      { label: 'İletişim',   href: '/contact' },
+      { label: 'Hakkımızda', href: '/hakkimizda' },
+      { label: 'Hizmetler',  href: '/ucretler' },
+      { label: 'Süreç',      href: '/nasil-calisiyoruz' },
+      { label: 'İletişim',   href: '/iletisim' },
     ],
   },
   {

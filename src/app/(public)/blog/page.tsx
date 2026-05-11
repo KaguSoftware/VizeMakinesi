@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { getTourismCountries } from '@/lib/data/countries';
+import { getAllCountries } from '@/lib/data/countries';
 
 export const metadata: Metadata = {
   title: 'Blog — Vize Makinesi',
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const countries = await getTourismCountries();
+  const countries = await getAllCountries();
 
   return (
     <>

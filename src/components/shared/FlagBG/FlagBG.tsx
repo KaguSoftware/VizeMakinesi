@@ -369,6 +369,14 @@ export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) 
           <rect width="20" height="6" x="6" y="13" fill="#FFFFFF" />
         </svg>
       );
+    case 'ireland':
+      return (
+        <svg viewBox="0 0 3 2" {...shared}>
+          <rect width="1" height="2" fill="#169B62" />
+          <rect width="1" height="2" x="1" fill="#FFFFFF" />
+          <rect width="1" height="2" x="2" fill="#FF883E" />
+        </svg>
+      );
     default:
       return null;
   }

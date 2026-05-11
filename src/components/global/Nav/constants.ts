@@ -57,7 +57,7 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
           eyebrow: '',
           title: 'Ofisimizle İlgili bilgi alın',
           body: 'Çalışma Saatlerimizi, ortaklıklarımızı ve konumumuzu öğrenin',
-          to: '/contact',
+          to: '/iletisim',
         },
       },
     ],

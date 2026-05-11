@@ -37,6 +37,24 @@ export default function CountryHero({ country }: CountryHeroProps) {
           <p className="font-serif italic text-[20px] leading-relaxed text-navy">
             {country.summary}
           </p>
+
+          <div className="mt-10 flex flex-col gap-3 border-l-2 border-coral pl-5">
+            <p className="font-sans font-medium text-[15px] text-navy">
+              Vize sürecinde kendinizi yalnız hissetmenize gerek yok.
+            </p>
+            <ul className="flex flex-col gap-2">
+              {[
+                'Uzman danışmanlarımız her adımda yanınızda',
+                'Evraklarınızı birlikte hazırlıyoruz, eksik bırakmıyoruz',
+                'Onlarca başarılı başvuruyla kazanılmış deneyim',
+              ].map((item) => (
+                <li key={item} className="font-sans text-[14px] text-muted flex items-start gap-2">
+                  <span className="text-coral mt-0.5">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

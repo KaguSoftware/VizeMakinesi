@@ -1,0 +1,89 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import FlagBG from '@/components/shared/FlagBG/FlagBG';
+import { SCHENGEN_MEMBERS } from '@/data/schengen';
+
+const PINNED_SLUGS = ['fransa', 'ispanya', 'italya', 'almanya', 'yunanistan', 'avusturya', 'portekiz', 'hollanda', 'hirvatistan', 'macaristan', 'isvicre', 'cekya', 'danimarka', 'belcika', 'bulgaristan'];
+
+const ALL_ORDER = [
+  'avusturya','belcika','bulgaristan','hirvatistan','cekya',
+  'danimarka','estonya','finlandiya','fransa','almanya',
+  'yunanistan','macaristan','izlanda','italya','letonya',
+  'lihtenstayn','litvanya','luksemburg','malta','hollanda',
+  'norvec','polonya','portekiz','romanya','slovakya',
+  'slovenya','ispanya','isvec','isvicre',
+];
+
+const bySlug = Object.fromEntries(SCHENGEN_MEMBERS.map((m) => [m.slug, m]));
+
+const pinned = PINNED_SLUGS.map((s) => bySlug[s]);
+const rest = ALL_ORDER.filter((s) => !PINNED_SLUGS.includes(s)).map((s) => bySlug[s]);
+
+export default function SchengenCountryGrid() {
+  const [expanded, setExpanded] = useState(false);
+
+  const visibleCards = expanded ? [...pinned, ...rest] : pinned;
+
+  return (
+    <section className="border-t border-border">
+      <div className="container py-20">
+        <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
+          — Schengen bölgesi ülkeleri
+        </div>
+        <h2 className="font-serif font-bold text-[clamp(32px,4vw,56px)] leading-none tracking-[-0.03em] text-navy mb-12">
+          Hangi ülkeye{' '}
+          <em className="font-normal italic text-coral">vize almak istiyorsunuz?</em>
+        </h2>
+      </div>
+
+      <div className="container">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border">
+          {visibleCards.map((member) => (
+            <Link
+              key={member.slug}
+              href={`/visa/${member.slug}`}
+              className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden"
+            >
+              <FlagBG presetKey={member.presetKey} className="flag-svg" />
+              <div className="flag-overlay-light" />
+              <div className="flag-overlay-dark" />
+
+              <div className="relative z-10 flex flex-col justify-between h-full p-6 min-h-44">
+                <div className="font-mono text-[9px] tracking-[0.18em] uppercase hv-white transition-colors duration-700 text-muted">
+                  — Vize Bilgisi
+                </div>
+                <div>
+                  <h3 className="font-serif font-semibold text-[24px] leading-[1.1] tracking-[-0.01em] hv-white transition-colors duration-700 text-navy">
+                    {member.name}
+                  </h3>
+                  <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-coral hv-coral transition-colors duration-700 mt-1">
+                    Detay →
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+
+          {!expanded && (
+            <button
+              onClick={() => setExpanded(true)}
+              className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden group cursor-pointer"
+              aria-label={`${rest.length} ülke daha göster`}
+            >
+              <div className="relative z-10 flex flex-col items-center justify-center h-full min-h-44 gap-3">
+                <div className="w-14 h-14 rounded-full border-2 border-navy/30 group-hover:border-coral flex items-center justify-center transition-colors duration-300">
+                  <span className="font-serif text-[32px] leading-none text-navy/40 group-hover:text-coral transition-colors duration-300">+</span>
+                </div>
+                <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-navy/40 group-hover:text-coral transition-colors duration-300 text-center px-4">
+                  {rest.length} ülke daha
+                </div>
+              </div>
+            </button>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}

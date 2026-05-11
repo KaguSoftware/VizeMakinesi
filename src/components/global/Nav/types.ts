@@ -5,8 +5,14 @@ export interface NavItem {
   desc?: string;
 }
 
+export interface RegionButton {
+  label: string;
+  to: string;
+  flag?: string;
+}
+
 export interface MegaColumn {
-  kind?: 'feature';
+  kind?: 'feature' | 'region-group';
   title?: string;
   items?: NavItem[];
   feature?: {
@@ -15,6 +21,7 @@ export interface MegaColumn {
     body: string;
     to: string;
   };
+  regions?: RegionButton[];
 }
 
 export interface MegaMenuGroup {

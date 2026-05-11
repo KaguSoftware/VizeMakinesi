@@ -8,7 +8,6 @@ export default function SchengenMembers() {
           key={m.name}
           className="flex items-center gap-3 px-[22px] py-5 border-b border-r border-border font-serif font-medium text-base tracking-[-0.005em]"
         >
-          <span className="text-[20px]">{m.flag}</span>
           <span>{m.name}</span>
         </div>
       ))}

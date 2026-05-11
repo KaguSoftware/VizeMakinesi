@@ -1,55 +1,74 @@
 import Link from "next/link";
 import Hero from "@/components/home/Hero/Hero";
-import MosaicCard from "@/components/home/MosaicCard/MosaicCard";
-import MosaicRowObserver from "@/components/home/MosaicCard/MosaicRowObserver";
 import Marquee from "@/components/home/Marquee/Marquee";
 import Timeline from "@/components/shared/Timeline/Timeline";
 import BigCTA from "@/components/home/BigCTA/BigCTA";
-import { getAllCountries } from "@/lib/data/countries";
-import { SCHENGEN_NAME_TO_SLUG } from "@/data/schengen";
+import SchengenCountryGrid from "@/components/visa/SchengenCountryGrid/SchengenCountryGrid";
+import RegionGrid from "@/components/home/RegionGrid/RegionGrid";
 
-export default async function HomePage() {
-    const rawCountries = await getAllCountries();
-    const countries = rawCountries.map((c) => {
-        const turkishSlug = SCHENGEN_NAME_TO_SLUG.get(c.name);
-        return turkishSlug && turkishSlug !== c.slug ? { ...c, slug: turkishSlug } : c;
-    });
+const AMERICA_ENTRIES = [
+    { name: 'Amerika', href: '/visa/usa', presetKey: 'usa', subtitle: 'Vize Bilgisi' },
+    { name: 'Kanada', href: '/visa/canada', presetKey: 'canada', subtitle: 'Vize Bilgisi' },
+];
 
+const ASIA_PACIFIC_ENTRIES = [
+    { name: 'Çin', href: '/visa/cin', presetKey: 'china', subtitle: 'Vize Bilgisi' },
+    { name: 'Arap Emirlikleri', href: '/visa/uae', presetKey: 'uae', subtitle: 'Vize Bilgisi' },
+    { name: 'Avustralya', href: '/visa/australia', presetKey: 'australia', subtitle: 'Vize Bilgisi' },
+];
+
+export default function HomePage() {
     return (
         <>
             <Hero />
 
-            {/* Mozaik dizini */}
-            <section className="container">
-                <div className="flex justify-between items-end flex-wrap gap-4 border-b border-border pb-7 mb-14 mt-30">
+            {/* Ana başlık */}
+            <div className="container mt-20">
+                <div className="flex justify-between items-end flex-wrap gap-4 border-b border-border pb-7 mb-14">
                     <h2 className="font-serif font-bold text-[clamp(36px,5.5vw,72px)] leading-none tracking-[-0.03em]">
                         Hizmet verdiğimiz ülkeler
                     </h2>
                 </div>
+            </div>
 
-                {/* Mozaik grid */}
-                {countries.length === 0 ? (
-                    <div className="border-t border-border py-20 text-center">
-                        <p className="font-serif italic text-[22px] text-navy/40">Yakında — ülkeler yükleniyor.</p>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-12 border-t border-border">
-                        {countries.map((country, i) => (
-                            <MosaicCard
-                                key={country.slug}
-                                country={country}
-                                index={i}
-                                span={country.mosaic_span ?? 'col-span-12'}
-                                rowIndex={Math.floor(i / 2)}
-                            />
-                        ))}
-                        <MosaicRowObserver />
-                    </div>
-                )}
-            </section>
+            {/* ── 1. Schengen ── */}
+            <div className="container mt-0">
+                <div className="flex justify-between items-end flex-wrap gap-4 border-b border-border pb-7">
+                    <h2 className="font-serif font-bold text-[clamp(28px,4vw,56px)] leading-none tracking-[-0.03em]">
+                        Avrupa ve Schengen
+                    </h2>
+                    <Link
+                        href="/visa/schengen"
+                        className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200 rounded-2xl whitespace-nowrap"
+                    >
+                        Schengen hakkında →
+                    </Link>
+                </div>
+            </div>
+
+            <SchengenCountryGrid hideHeader />
+
+            {/* ── 2. Amerika Kıtası ── */}
+            <div className="container mt-20">
+                <div className="flex justify-between items-end flex-wrap gap-4 border-b border-border pb-7">
+                    <h2 className="font-serif font-bold text-[clamp(28px,4vw,56px)] leading-none tracking-[-0.03em]">
+                        Amerika Kıtası
+                    </h2>
+                </div>
+                <RegionGrid entries={AMERICA_ENTRIES} />
+            </div>
+
+            {/* ── 3. Asya ve Pasifik ── */}
+            <div className="container mt-20">
+                <div className="flex justify-between items-end flex-wrap gap-4 border-b border-border pb-7">
+                    <h2 className="font-serif font-bold text-[clamp(28px,4vw,56px)] leading-none tracking-[-0.03em]">
+                        Asya ve Pasifik
+                    </h2>
+                </div>
+                <RegionGrid entries={ASIA_PACIFIC_ENTRIES} />
+            </div>
 
             <Marquee />
-
 
             {/* Süreç bölümü */}
             <section className="container">

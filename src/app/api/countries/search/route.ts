@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
     .from('countries')
     .select('name, slug, flag_emoji')
     .order('name')
-    .limit(200);
+    .limit(200) as { data: { name: string; slug: string; flag_emoji: string | null }[] | null };
 
   // Merge DB countries + Schengen static members
   // Schengen entries take precedence (dedup by name), then remaining DB-only entries

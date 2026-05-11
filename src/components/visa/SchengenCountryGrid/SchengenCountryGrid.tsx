@@ -21,22 +21,28 @@ const bySlug = Object.fromEntries(SCHENGEN_MEMBERS.map((m) => [m.slug, m]));
 const pinned = PINNED_SLUGS.map((s) => bySlug[s]);
 const rest = ALL_ORDER.filter((s) => !PINNED_SLUGS.includes(s)).map((s) => bySlug[s]);
 
-export default function SchengenCountryGrid() {
+interface Props {
+  hideHeader?: boolean;
+}
+
+export default function SchengenCountryGrid({ hideHeader }: Props) {
   const [expanded, setExpanded] = useState(false);
 
   const visibleCards = expanded ? [...pinned, ...rest] : pinned;
 
   return (
     <section className="border-t border-border">
-      <div className="container py-20">
-        <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
-          — Schengen bölgesi ülkeleri
+      {!hideHeader && (
+        <div className="container py-20">
+          <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
+            — Schengen bölgesi ülkeleri
+          </div>
+          <h2 className="font-serif font-bold text-[clamp(32px,4vw,56px)] leading-none tracking-[-0.03em] text-navy mb-12">
+            Hangi ülkeye{' '}
+            <em className="font-normal italic text-coral">vize almak istiyorsunuz?</em>
+          </h2>
         </div>
-        <h2 className="font-serif font-bold text-[clamp(32px,4vw,56px)] leading-none tracking-[-0.03em] text-navy mb-12">
-          Hangi ülkeye{' '}
-          <em className="font-normal italic text-coral">vize almak istiyorsunuz?</em>
-        </h2>
-      </div>
+      )}
 
       <div className="container">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border">

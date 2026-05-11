@@ -108,6 +108,19 @@ export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) 
           <text x="38" y="14" fontSize="4.5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
         </svg>
       );
+    case 'china':
+      return (
+        <svg viewBox="0 0 30 20" {...shared}>
+          <rect width="30" height="20" fill="#DE2910" />
+          {/* large star */}
+          <polygon points={star(5, 5, 3, 1.2)} fill="#FFDE00" />
+          {/* four small stars */}
+          <polygon points={star(10, 2, 1, 0.4)} fill="#FFDE00" />
+          <polygon points={star(12, 4, 1, 0.4)} fill="#FFDE00" />
+          <polygon points={star(12, 7, 1, 0.4)} fill="#FFDE00" />
+          <polygon points={star(10, 9, 1, 0.4)} fill="#FFDE00" />
+        </svg>
+      );
     case 'uae':
       return (
         <svg viewBox="0 0 12 6" {...shared}>

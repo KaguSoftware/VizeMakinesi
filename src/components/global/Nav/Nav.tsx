@@ -137,13 +137,17 @@ function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
                         ],
                     };
                 }
+                const isAmerica = /amerika|america/i.test(cat.name);
+                const baseItems = cat.items.map((it) => ({
+                    to: `/visa/${it.country.slug}`,
+                    label: it.country.name,
+                    flag: it.country.flag_emoji ?? undefined,
+                }));
                 return {
                     title: cat.name,
-                    items: cat.items.map((it) => ({
-                        to: `/visa/${it.country.slug}`,
-                        label: it.country.name,
-                        flag: it.country.flag_emoji ?? undefined,
-                    })),
+                    items: isAmerica
+                        ? [...baseItems, { to: '/us-visa-expedite', label: 'ABD Hızlandırma', flag: '⚡' }]
+                        : baseItems,
                 };
             }),
             {

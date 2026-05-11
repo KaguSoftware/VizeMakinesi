@@ -170,7 +170,7 @@ export default async function CountryBlogPage({ params }: Props) {
                   href={`/vize/${country.slug}`}
                   className="block w-full text-center font-sans font-medium text-[13px] uppercase tracking-widest px-8 py-5.5 bg-cream border border-cream text-coral hover:bg-navy hover:text-cream hover:border-cream transition-all duration-200 rounded-2xl"
                 >
-                  {country.name} vize rehberini incele →
+                  {country.name} vizesini incele →
                 </Link>
                 <Link
                   href="/blog"

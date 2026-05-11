@@ -2,13 +2,21 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   async redirects() {
-    return [
-      {
-        source: '/vize/ingiltere',
-        destination: '/vize/uk',
-        permanent: true,
-      },
-    ];
+    const slugMap: Record<string, string> = {
+      uk:          'ingiltere',
+      germany:     'almanya',
+      france:      'fransa',
+      italy:       'italya',
+      netherlands: 'hollanda',
+      usa:         'abd',
+      canada:      'kanada',
+      australia:   'avustralya',
+      uae:         'bae',
+    };
+    return Object.entries(slugMap).flatMap(([en, tr]) => [
+      { source: `/vize/${en}`,  destination: `/vize/${tr}`,  permanent: true },
+      { source: `/blog/${en}`,  destination: `/blog/${tr}`,  permanent: true },
+    ]);
   },
   images: {
     formats: ['image/avif', 'image/webp'],

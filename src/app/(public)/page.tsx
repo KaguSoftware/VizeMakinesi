@@ -73,7 +73,7 @@ export default function HomePage() {
             {/* Süreç bölümü */}
             <section className="container">
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-end border-b border-border pb-7 mb-0 mt-30">
-                    <h2 className="font-serif font-bold text-[clamp(24px,4.2vw,56px)] leading-none tracking-[-0.03em] whitespace-nowrap">
+                    <h2 className="font-serif font-bold text-[clamp(18px,4.2vw,56px)] leading-tight tracking-[-0.03em] text-center md:text-left">
                         Bir başvuru ofisimizde nasıl işliyor
                     </h2>
                     <Link

@@ -9,7 +9,7 @@ const STATIC_ROUTES = [
   '/blog',
   '/iletisim',
   '/danisma-al',
-  '/ucretler',
+  '/ucrete-dahil-hizmetler',
   '/nasil-calisiyoruz',
   '/ortakliklar',
   '/pasaport',

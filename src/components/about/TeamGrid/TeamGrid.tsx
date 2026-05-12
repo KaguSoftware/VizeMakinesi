@@ -19,18 +19,18 @@ export default async function TeamGrid() {
           {members.map((m, i) => (
             <div
               key={i}
-              className="p-10 border-r border-b border-border last:border-r-0 hover:bg-cream transition-colors duration-200"
+              className="p-12 border-r border-b border-border last:border-r-0 hover:bg-cream transition-colors duration-200"
             >
               {m.photo_url ? (
                 <Image
                   src={m.photo_url}
                   alt={m.name}
-                  width={72}
-                  height={72}
-                  className="w-[72px] h-[72px] rounded-full object-cover border border-navy mb-7"
+                  width={120}
+                  height={120}
+                  className="w-30 h-30 rounded-full object-cover border border-navy mb-7"
                 />
               ) : (
-                <div className="w-[72px] h-[72px] border border-navy rounded-full flex items-center justify-center font-serif italic font-normal text-[26px] tracking-[-0.02em] mb-7">
+                <div className="w-30 h-30 border border-navy rounded-full flex items-center justify-center font-serif italic font-normal text-[40px] tracking-[-0.02em] mb-7">
                   {m.initials}
                 </div>
               )}

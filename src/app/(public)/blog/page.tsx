@@ -5,6 +5,22 @@ import { getAllCountriesForBlog } from '@/lib/data/countries';
 export const metadata: Metadata = {
   title: 'Blog — Vize Makinesi',
   description: 'Vize süreçleri, seyahat tavsiyeleri ve göç hukuku hakkında güncel yazılar.',
+  alternates: {
+    canonical: 'https://vizemakinesi.com/blog',
+  },
+  openGraph: {
+    title: 'Blog — Vize Makinesi',
+    description: 'Vize süreçleri, seyahat tavsiyeleri ve göç hukuku hakkında güncel yazılar.',
+    url: 'https://vizemakinesi.com/blog',
+    siteName: 'Vize Makinesi',
+    locale: 'tr_TR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog — Vize Makinesi',
+    description: 'Vize süreçleri, seyahat tavsiyeleri ve göç hukuku hakkında güncel yazılar.',
+  },
 };
 
 export default async function BlogPage() {

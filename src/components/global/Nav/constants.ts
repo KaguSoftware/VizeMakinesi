@@ -20,7 +20,7 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
         items: [
           { to: '/pasaport', label: 'Pasaport Hizmetleri', desc: 'Çıkarma, yenileme, kayıp' },
           { to: '/ortakliklar', label: 'Kurumsal Ortaklıklar', desc: 'Ortaklarımız' },
-          { to: '/abd-hizlandirma', label: 'ABD Hızlandırma', desc: '5–10 günde mülakat' },
+          { to: '/abd-hizlandirma', label: '⚡️ ABD Hızlandırma', desc: '5–10 günde mülakat' },
         ],
       },
       {

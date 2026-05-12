@@ -11,6 +11,7 @@ export type CountrySlug =
   | 'canada'
   | 'australia'
   | 'uae'
+  | 'china'
   | 'schengen';
 
 export interface FAQItem {

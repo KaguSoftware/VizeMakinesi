@@ -1,14 +1,16 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getCountryBySlug, getCountrySlugsStatic } from '@/lib/data/countries';
 import CountryHero from '@/components/visa/CountryHero/CountryHero';
 import FAQ from '@/components/shared/FAQ/FAQ';
 import SchengenStubHero from '@/components/visa/SchengenStubHero/SchengenStubHero';
 import SchengenCountryGrid from '@/components/visa/SchengenCountryGrid/SchengenCountryGrid';
+import WarningList from '@/components/schengen/WarningList/WarningList';
 import BasvuruSureci from '@/components/visa/BasvuruSureci/BasvuruSureci';
 import MasayaGetirdikleriniz from '@/components/visa/MasayaGetirdikleriniz/MasayaGetirdikleriniz';
 import { SITE } from '@/data/site';
-import { SCHENGEN_SLUG_MAP, SCHENGEN_NAME_TO_SLUG } from '@/data/schengen';
+import { SCHENGEN_SLUG_MAP } from '@/data/schengen';
+import { SCHENGEN_REJECTION_REASONS } from '@/components/schengen/SchengenMembers/constants';
 
 export const revalidate = 60;
 
@@ -45,13 +47,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CountryPage({ params }: Props) {
   const { countrySlug } = await params;
   const country = await getCountryBySlug(countrySlug);
-
-  if (country) {
-    const turkishSlug = SCHENGEN_NAME_TO_SLUG.get(country.name);
-    if (turkishSlug && turkishSlug !== countrySlug) {
-      redirect(`/visa/${turkishSlug}`);
-    }
-  }
 
   if (!country) {
     const stub = SCHENGEN_SLUG_MAP.get(countrySlug);
@@ -139,6 +134,41 @@ export default async function CountryPage({ params }: Props) {
       <CountryHero country={country} />
 
       {countrySlug === 'schengen' && <SchengenCountryGrid />}
+
+      {countrySlug === 'schengen' && (
+        <section className="border-t border-border">
+          <div className="container py-20">
+            <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
+              — Schengen vizesi nedir
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+              <h2 className="font-serif font-bold text-[clamp(32px,4vw,56px)] leading-none tracking-[-0.03em] text-navy">
+                Tek vize,{' '}
+                <em className="font-normal italic text-coral">29 ülke.</em>
+              </h2>
+              <div className="space-y-4 font-serif text-[17px] leading-relaxed text-navy/80">
+                <p>
+                  Schengen vizesi; Avrupa&apos;nın 29 üye ülkesini kapsayan tek tip kısa süreli vize türüdür. Bu vize ile Schengen bölgesinde her seyahatte en fazla 90 gün, herhangi bir 180 günlük dönem içinde toplamda 90 gün kalabilirsiniz.
+                </p>
+                <p>
+                  Vize başvurusu, seyahatinizin <strong>ana destinasyonu</strong> olan ülkenin konsolosluğuna yapılır. Birden fazla ülkeyi kapsayan turlar için en uzun kalış süresinin yaşandığı ülke yetkilidir.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-16">
+              <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
+                — Sık ret sebepleri
+              </div>
+              <h3 className="font-serif font-bold text-[clamp(24px,3vw,40px)] leading-none tracking-[-0.03em] text-navy mb-2">
+                Başvuruların reddedildiği{' '}
+                <em className="font-normal italic text-coral">en yaygın nedenler.</em>
+              </h3>
+              <WarningList items={SCHENGEN_REJECTION_REASONS} />
+            </div>
+          </div>
+        </section>
+      )}
 
       <BasvuruSureci />
 

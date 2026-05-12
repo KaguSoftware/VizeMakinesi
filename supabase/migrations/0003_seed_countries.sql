@@ -7,7 +7,7 @@
 INSERT INTO countries (slug, name, flag_emoji, flag_type, flag_preset_key, visa_type, summary, mosaic_visible, mosaic_order, mosaic_span, has_tourism, tourism_intro, tourism_highlights, tourism_tips, tourism_best_time)
 VALUES
   (
-    'uk',
+    'ingiltere',
     'Birleşik Krallık',
     '🇬🇧', 'preset', 'uk',
     'Standart Ziyaretçi Vizesi',
@@ -34,7 +34,7 @@ VALUES
     'Mayıs–Eylül arası en açık ve ılıman dönemdir.'
   ),
   (
-    'germany',
+    'almanya',
     'Almanya',
     '🇩🇪', 'preset', 'germany',
     'Schengen / Ulusal Vize',
@@ -61,7 +61,7 @@ VALUES
     'Mayıs–Eylül arası şehir gezileri, Aralık ise Noel pazarları için ideal.'
   ),
   (
-    'france',
+    'fransa',
     'Fransa',
     '🇫🇷', 'preset', 'france',
     'Schengen Kısa Süreli',
@@ -88,7 +88,7 @@ VALUES
     'Nisan–Haziran ve Eylül–Ekim hem hava hem kalabalık açısından en dengeli dönem.'
   ),
   (
-    'italy',
+    'italya',
     'İtalya',
     '🇮🇹', 'preset', 'italy',
     'Schengen Turist Vizesi',
@@ -115,7 +115,7 @@ VALUES
     'Nisan–Haziran ve Eylül–Ekim; Ağustos sıcak ve kalabalıktır.'
   ),
   (
-    'netherlands',
+    'hollanda',
     'Hollanda',
     '🇳🇱', 'preset', 'netherlands',
     'Schengen / MVV',
@@ -142,7 +142,7 @@ VALUES
     'Lale mevsimi için Nisan; genel turizm için Mayıs–Eylül.'
   ),
   (
-    'usa',
+    'abd',
     'Amerika Birleşik Devletleri',
     '🇺🇸', 'preset', 'usa',
     'B1/B2 Ziyaretçi Vizesi',
@@ -169,7 +169,7 @@ VALUES
     'Mayıs–Ekim; ancak Florida ve Kaliforniya yıl boyu uygundur.'
   ),
   (
-    'canada',
+    'kanada',
     'Kanada',
     '🇨🇦', 'preset', 'canada',
     'Ziyaretçi Kaydı / TRV',
@@ -196,7 +196,7 @@ VALUES
     'Doğa için Haziran–Eylül; kış sporları için Aralık–Mart.'
   ),
   (
-    'australia',
+    'avustralya',
     'Avustralya',
     '🇦🇺', 'preset', 'australia',
     'Ziyaretçi Vizesi Alt Sınıf 600',
@@ -223,7 +223,7 @@ VALUES
     'Sidney/Melbourne için Eylül–Kasım ve Mart–Mayıs; resif için Haziran–Ekim.'
   ),
   (
-    'uae',
+    'bae',
     'Birleşik Arap Emirlikleri',
     '🇦🇪', 'preset', 'uae',
     '30 / 60 Günlük Turist Vizesi',
@@ -270,298 +270,298 @@ ON CONFLICT (slug) DO NOTHING;
 DO $$ BEGIN
 
 -- uk requirements
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'uk')
-   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'uk'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'ingiltere')
+   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'ingiltere'))
 THEN
   INSERT INTO country_requirements (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'En az 6 ay geçerliliği olan pasaport', 0),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Son çekilmiş vesikalık fotoğraf', 1),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Son 6 aylık banka ekstreleri', 2),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Birleşik Krallık''ta konaklama kanıtı', 3),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Dönüş uçuşu rezervasyonu', 4),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Tüm konaklamayı kapsayan seyahat sigortası', 5),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Çalışma belgesi veya ticaret sicili', 6);
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'En az 6 ay geçerliliği olan pasaport', 0),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Son çekilmiş vesikalık fotoğraf', 1),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Son 6 aylık banka ekstreleri', 2),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Birleşik Krallık''ta konaklama kanıtı', 3),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Dönüş uçuşu rezervasyonu', 4),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Tüm konaklamayı kapsayan seyahat sigortası', 5),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Çalışma belgesi veya ticaret sicili', 6);
 END IF;
 
 -- uk handles
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'uk')
-   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'uk'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'ingiltere')
+   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'ingiltere'))
 THEN
   INSERT INTO country_handles (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Tüm belgelerin UKVI kontrol listelerine göre ön taraması', 0),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Çevrimiçi VAF randevusu ve biyometrik programlaması', 1),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Kapak mektubu ve güzergah taslağı hazırlama', 2),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Destekleyici belgelerin çevirisi ve noterden geçirilmesi', 3),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Karar açıklanana kadar durum takibi ve konsolosluk irtibatı', 4);
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Tüm belgelerin UKVI kontrol listelerine göre ön taraması', 0),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Çevrimiçi VAF randevusu ve biyometrik programlaması', 1),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Kapak mektubu ve güzergah taslağı hazırlama', 2),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Destekleyici belgelerin çevirisi ve noterden geçirilmesi', 3),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Karar açıklanana kadar durum takibi ve konsolosluk irtibatı', 4);
 END IF;
 
 -- uk faqs
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'uk')
-   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'uk'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'ingiltere')
+   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'ingiltere'))
 THEN
   INSERT INTO country_faqs (country_id, question, answer, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Birleşik Krallık ziyaretçi vizesi ne kadar sürer?', 'Biyometrikten itibaren standart işlem süresi 3 haftadır. Öncelikli hizmetle bu süre 5 iş gününe kısalır.', 0),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Birleşik Krallık içinde kalış süresini uzatabilir miyim?', 'Ziyaretçi vizeleri 6 ayın ötesine uzatılamaz. Birleşik Krallık dışından yeni başvuru yapılması gerekmektedir.', 1),
-    ((SELECT id FROM countries WHERE slug = 'uk'), 'Birikimimi göstermem gerekiyor mu?', 'Sabit bir tutar yoktur; ancak başarılı başvuru sahiplerinin büyük çoğunluğu seyahati karşılayacak düzenli gelir ve birikim göstermektedir.', 2);
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Birleşik Krallık ziyaretçi vizesi ne kadar sürer?', 'Biyometrikten itibaren standart işlem süresi 3 haftadır. Öncelikli hizmetle bu süre 5 iş gününe kısalır.', 0),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Birleşik Krallık içinde kalış süresini uzatabilir miyim?', 'Ziyaretçi vizeleri 6 ayın ötesine uzatılamaz. Birleşik Krallık dışından yeni başvuru yapılması gerekmektedir.', 1),
+    ((SELECT id FROM countries WHERE slug = 'ingiltere'), 'Birikimimi göstermem gerekiyor mu?', 'Sabit bir tutar yoktur; ancak başarılı başvuru sahiplerinin büyük çoğunluğu seyahati karşılayacak düzenli gelir ve birikim göstermektedir.', 2);
 END IF;
 
 -- germany requirements
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'germany')
-   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'germany'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'almanya')
+   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'almanya'))
 THEN
   INSERT INTO country_requirements (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'Dönüşten 3 ay sonrasına kadar geçerli pasaport', 0),
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'İki biyometrik fotoğraf', 1),
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'Onaylı uçuş ve otel rezervasyonları', 2),
-    ((SELECT id FROM countries WHERE slug = 'germany'), '30.000 Euro''luk seyahat sigortası', 3),
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'Maddi güç kanıtı (günlük 45 Euro)', 4),
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'Seyahat amacını belirten kapak mektubu', 5);
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'Dönüşten 3 ay sonrasına kadar geçerli pasaport', 0),
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'İki biyometrik fotoğraf', 1),
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'Onaylı uçuş ve otel rezervasyonları', 2),
+    ((SELECT id FROM countries WHERE slug = 'almanya'), '30.000 Euro''luk seyahat sigortası', 3),
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'Maddi güç kanıtı (günlük 45 Euro)', 4),
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'Seyahat amacını belirten kapak mektubu', 5);
 END IF;
 
 -- germany handles
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'germany')
-   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'germany'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'almanya')
+   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'almanya'))
 THEN
   INSERT INTO country_handles (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'Şehrinizde VFS Global randevu rezervasyonu', 0),
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'Gerektiğinde Almanca''ya belge çevirisi', 1),
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'Schengen kurallarıyla uyumlu sigorta temini', 2),
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'Başvuru formu doldurma ve inceleme', 3),
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'Kurye ve pasaport iade takibi', 4);
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'Şehrinizde VFS Global randevu rezervasyonu', 0),
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'Gerektiğinde Almanca''ya belge çevirisi', 1),
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'Schengen kurallarıyla uyumlu sigorta temini', 2),
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'Başvuru formu doldurma ve inceleme', 3),
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'Kurye ve pasaport iade takibi', 4);
 END IF;
 
 -- germany faqs
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'germany')
-   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'germany'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'almanya')
+   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'almanya'))
 THEN
   INSERT INTO country_faqs (country_id, question, answer, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'Almanya vizesiyle diğer Schengen ülkelerini ziyaret edebilir miyim?', 'Evet — vize verildikten sonra, ana varış ülkesi kuralına tabi olarak tüm 29 Schengen devletinde geçerlidir.', 0),
-    ((SELECT id FROM countries WHERE slug = 'germany'), 'Ne kadar erken başvurmalıyım?', 'Seyahatten 6 hafta önce başvurmanızı öneririz. Başvurular en fazla 6 ay öncesinden yapılabilir.', 1);
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'Almanya vizesiyle diğer Schengen ülkelerini ziyaret edebilir miyim?', 'Evet — vize verildikten sonra, ana varış ülkesi kuralına tabi olarak tüm 29 Schengen devletinde geçerlidir.', 0),
+    ((SELECT id FROM countries WHERE slug = 'almanya'), 'Ne kadar erken başvurmalıyım?', 'Seyahatten 6 hafta önce başvurmanızı öneririz. Başvurular en fazla 6 ay öncesinden yapılabilir.', 1);
 END IF;
 
 -- france requirements
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'france')
-   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'france'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'fransa')
+   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'fransa'))
 THEN
   INSERT INTO country_requirements (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'france'), 'İki boş sayfası olan pasaport', 0),
-    ((SELECT id FROM countries WHERE slug = 'france'), 'Schengen vize başvuru formu', 1),
-    ((SELECT id FROM countries WHERE slug = 'france'), 'Seyahat sağlık sigortası', 2),
-    ((SELECT id FROM countries WHERE slug = 'france'), 'Otel rezervasyonu veya davet mektubu', 3),
-    ((SELECT id FROM countries WHERE slug = 'france'), 'Çalışma ve maaş kanıtı', 4),
-    ((SELECT id FROM countries WHERE slug = 'france'), '3 aylık banka ekstresi', 5);
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'İki boş sayfası olan pasaport', 0),
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'Schengen vize başvuru formu', 1),
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'Seyahat sağlık sigortası', 2),
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'Otel rezervasyonu veya davet mektubu', 3),
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'Çalışma ve maaş kanıtı', 4),
+    ((SELECT id FROM countries WHERE slug = 'fransa'), '3 aylık banka ekstresi', 5);
 END IF;
 
 -- france handles
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'france')
-   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'france'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'fransa')
+   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'fransa'))
 THEN
   INSERT INTO country_handles (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'france'), 'TLS Contact randevu planlaması', 0),
-    ((SELECT id FROM countries WHERE slug = 'france'), 'Fransızca veya İngilizce kapak mektubu hazırlama', 1),
-    ((SELECT id FROM countries WHERE slug = 'france'), 'Konsolosluk beklentileriyle uyumlu güzergah planlaması', 2),
-    ((SELECT id FROM countries WHERE slug = 'france'), 'Teslim öncesi dosya denetimi', 3),
-    ((SELECT id FROM countries WHERE slug = 'france'), 'Teslim sonrası takip', 4);
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'TLS Contact randevu planlaması', 0),
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'Fransızca veya İngilizce kapak mektubu hazırlama', 1),
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'Konsolosluk beklentileriyle uyumlu güzergah planlaması', 2),
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'Teslim öncesi dosya denetimi', 3),
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'Teslim sonrası takip', 4);
 END IF;
 
 -- france faqs
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'france')
-   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'france'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'fransa')
+   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'fransa'))
 THEN
   INSERT INTO country_faqs (country_id, question, answer, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'france'), 'Biyometrik her zaman gerekli midir?', 'Evet, son 59 ay içinde Schengen vizesi için biyometrik vermediyseniz gereklidir.', 0),
-    ((SELECT id FROM countries WHERE slug = 'france'), 'Başarı oranı nedir?', 'Fransa, dosyaları eksiksiz ve tutarlı olan kısa süreli başvuruların yaklaşık yüzde seksen altısını onaylamaktadır.', 1);
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'Biyometrik her zaman gerekli midir?', 'Evet, son 59 ay içinde Schengen vizesi için biyometrik vermediyseniz gereklidir.', 0),
+    ((SELECT id FROM countries WHERE slug = 'fransa'), 'Başarı oranı nedir?', 'Fransa, dosyaları eksiksiz ve tutarlı olan kısa süreli başvuruların yaklaşık yüzde seksen altısını onaylamaktadır.', 1);
 END IF;
 
 -- italy requirements
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'italy')
-   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'italy'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'italya')
+   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'italya'))
 THEN
   INSERT INTO country_requirements (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'italy'), 'Geçerli pasaport (dönüşten 3+ ay sonrasına kadar)', 0),
-    ((SELECT id FROM countries WHERE slug = 'italy'), 'İki vesikalık fotoğraf', 1),
-    ((SELECT id FROM countries WHERE slug = 'italy'), 'Ayrıntılı seyahat güzergahı', 2),
-    ((SELECT id FROM countries WHERE slug = 'italy'), 'Konaklama kanıtı', 3),
-    ((SELECT id FROM countries WHERE slug = 'italy'), 'Schengen bölgesini kapsayan sigorta', 4),
-    ((SELECT id FROM countries WHERE slug = 'italy'), 'Banka ekstresi', 5);
+    ((SELECT id FROM countries WHERE slug = 'italya'), 'Geçerli pasaport (dönüşten 3+ ay sonrasına kadar)', 0),
+    ((SELECT id FROM countries WHERE slug = 'italya'), 'İki vesikalık fotoğraf', 1),
+    ((SELECT id FROM countries WHERE slug = 'italya'), 'Ayrıntılı seyahat güzergahı', 2),
+    ((SELECT id FROM countries WHERE slug = 'italya'), 'Konaklama kanıtı', 3),
+    ((SELECT id FROM countries WHERE slug = 'italya'), 'Schengen bölgesini kapsayan sigorta', 4),
+    ((SELECT id FROM countries WHERE slug = 'italya'), 'Banka ekstresi', 5);
 END IF;
 
 -- italy handles
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'italy')
-   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'italy'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'italya')
+   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'italya'))
 THEN
   INSERT INTO country_handles (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'italy'), 'İtalyan konsolosluğuna özel belge kontrol listesi', 0),
-    ((SELECT id FROM countries WHERE slug = 'italy'), 'Resmi portal üzerinden randevu rezervasyonu', 1),
-    ((SELECT id FROM countries WHERE slug = 'italy'), 'İtalyanca veya İngilizce vize formu doldurma', 2),
-    ((SELECT id FROM countries WHERE slug = 'italy'), 'Teslim öncesi mülakat hazırlığı', 3);
+    ((SELECT id FROM countries WHERE slug = 'italya'), 'İtalyan konsolosluğuna özel belge kontrol listesi', 0),
+    ((SELECT id FROM countries WHERE slug = 'italya'), 'Resmi portal üzerinden randevu rezervasyonu', 1),
+    ((SELECT id FROM countries WHERE slug = 'italya'), 'İtalyanca veya İngilizce vize formu doldurma', 2),
+    ((SELECT id FROM countries WHERE slug = 'italya'), 'Teslim öncesi mülakat hazırlığı', 3);
 END IF;
 
 -- italy faqs
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'italy')
-   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'italy'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'italya')
+   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'italya'))
 THEN
   INSERT INTO country_faqs (country_id, question, answer, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'italy'), 'İtalya''nın işlem süresi ne kadar?', 'Biyometrik tesliminden sonra genellikle 10 ila 15 iş günü.', 0);
+    ((SELECT id FROM countries WHERE slug = 'italya'), 'İtalya''nın işlem süresi ne kadar?', 'Biyometrik tesliminden sonra genellikle 10 ila 15 iş günü.', 0);
 END IF;
 
 -- netherlands requirements
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'netherlands')
-   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'netherlands'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'hollanda')
+   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'hollanda'))
 THEN
   INSERT INTO country_requirements (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'netherlands'), 'Dönüşten 3 ay sonrasına kadar geçerli pasaport', 0),
-    ((SELECT id FROM countries WHERE slug = 'netherlands'), 'Hollanda ICAO özelliklerine uygun fotoğraflar', 1),
-    ((SELECT id FROM countries WHERE slug = 'netherlands'), 'Seyahat amacı kanıtı', 2),
-    ((SELECT id FROM countries WHERE slug = 'netherlands'), 'En az 30.000 Euro''luk sağlık sigortası', 3),
-    ((SELECT id FROM countries WHERE slug = 'netherlands'), 'Yeterli maddi güç (günlük 55 Euro)', 4),
-    ((SELECT id FROM countries WHERE slug = 'netherlands'), 'Devam seyahati kanıtı', 5);
+    ((SELECT id FROM countries WHERE slug = 'hollanda'), 'Dönüşten 3 ay sonrasına kadar geçerli pasaport', 0),
+    ((SELECT id FROM countries WHERE slug = 'hollanda'), 'Hollanda ICAO özelliklerine uygun fotoğraflar', 1),
+    ((SELECT id FROM countries WHERE slug = 'hollanda'), 'Seyahat amacı kanıtı', 2),
+    ((SELECT id FROM countries WHERE slug = 'hollanda'), 'En az 30.000 Euro''luk sağlık sigortası', 3),
+    ((SELECT id FROM countries WHERE slug = 'hollanda'), 'Yeterli maddi güç (günlük 55 Euro)', 4),
+    ((SELECT id FROM countries WHERE slug = 'hollanda'), 'Devam seyahati kanıtı', 5);
 END IF;
 
 -- netherlands handles
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'netherlands')
-   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'netherlands'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'hollanda')
+   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'hollanda'))
 THEN
   INSERT INTO country_handles (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'netherlands'), 'VFS slot rezervasyonu', 0),
-    ((SELECT id FROM countries WHERE slug = 'netherlands'), 'IND kriterlerine göre belge incelemesi', 1),
-    ((SELECT id FROM countries WHERE slug = 'netherlands'), 'Nüfus cüzdanı belgelerinin çevirisi', 2),
-    ((SELECT id FROM countries WHERE slug = 'netherlands'), 'Uygulanabilir durumlarda MVV yönlendirme koordinasyonu', 3);
+    ((SELECT id FROM countries WHERE slug = 'hollanda'), 'VFS slot rezervasyonu', 0),
+    ((SELECT id FROM countries WHERE slug = 'hollanda'), 'IND kriterlerine göre belge incelemesi', 1),
+    ((SELECT id FROM countries WHERE slug = 'hollanda'), 'Nüfus cüzdanı belgelerinin çevirisi', 2),
+    ((SELECT id FROM countries WHERE slug = 'hollanda'), 'Uygulanabilir durumlarda MVV yönlendirme koordinasyonu', 3);
 END IF;
 
 -- netherlands faqs
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'netherlands')
-   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'netherlands'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'hollanda')
+   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'hollanda'))
 THEN
   INSERT INTO country_faqs (country_id, question, answer, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'netherlands'), 'MVV nedir?', '90 günü aşan konaklamalar için gerekli olan, çoğunlukla oturma izniyle birleştirilen uzun süreli giriş vizesidir.', 0);
+    ((SELECT id FROM countries WHERE slug = 'hollanda'), 'MVV nedir?', '90 günü aşan konaklamalar için gerekli olan, çoğunlukla oturma izniyle birleştirilen uzun süreli giriş vizesidir.', 0);
 END IF;
 
 -- usa requirements
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'usa')
-   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'usa'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'abd')
+   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'abd'))
 THEN
   INSERT INTO country_requirements (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'Konaklamanın 6 ay ötesine kadar geçerli pasaport', 0),
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'DS-160 onay sayfası', 1),
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'MRV ücret makbuzu', 2),
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'ABD Dışişleri Bakanlığı özelliklerine uygun fotoğraf', 3),
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'Ev ülkesiyle güçlü bağ kanıtı', 4),
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'Seyahati karşılayacak mali belgeler', 5);
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'Konaklamanın 6 ay ötesine kadar geçerli pasaport', 0),
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'DS-160 onay sayfası', 1),
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'MRV ücret makbuzu', 2),
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'ABD Dışişleri Bakanlığı özelliklerine uygun fotoğraf', 3),
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'Ev ülkesiyle güçlü bağ kanıtı', 4),
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'Seyahati karşılayacak mali belgeler', 5);
 END IF;
 
 -- usa handles
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'usa')
-   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'usa'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'abd')
+   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'abd'))
 THEN
   INSERT INTO country_handles (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'Eksiksiz DS-160 formu hazırlama', 0),
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'MRV ücret işlemleri', 1),
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'Danışmanlarımızla sahte mülakat koçluğu', 2),
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'Büyükelçilikte randevu planlaması', 3),
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'Uygun durumlarda hızlandırılmış randevu talepleri', 4);
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'Eksiksiz DS-160 formu hazırlama', 0),
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'MRV ücret işlemleri', 1),
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'Danışmanlarımızla sahte mülakat koçluğu', 2),
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'Büyükelçilikte randevu planlaması', 3),
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'Uygun durumlarda hızlandırılmış randevu talepleri', 4);
 END IF;
 
 -- usa faqs
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'usa')
-   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'usa'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'abd')
+   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'abd'))
 THEN
   INSERT INTO country_faqs (country_id, question, answer, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'Mülakat nasıl işliyor?', 'Amaç ve bağlara odaklanan, genellikle 2 ila 5 dakika süren bir konsolosluk görevlisi görüşmesidir.', 0),
-    ((SELECT id FROM countries WHERE slug = 'usa'), 'Acil randevu başvurusu yapabilir miyim?', 'Evet, tıbbi, iş veya acil seyahat durumları için. Talebi sizin adınıza biz göndeririz.', 1);
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'Mülakat nasıl işliyor?', 'Amaç ve bağlara odaklanan, genellikle 2 ila 5 dakika süren bir konsolosluk görevlisi görüşmesidir.', 0),
+    ((SELECT id FROM countries WHERE slug = 'abd'), 'Acil randevu başvurusu yapabilir miyim?', 'Evet, tıbbi, iş veya acil seyahat durumları için. Talebi sizin adınıza biz göndeririz.', 1);
 END IF;
 
 -- canada requirements
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'canada')
-   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'canada'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'kanada')
+   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'kanada'))
 THEN
   INSERT INTO country_requirements (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'canada'), 'Konaklamanın tüm süresi boyunca geçerli pasaport', 0),
-    ((SELECT id FROM countries WHERE slug = 'canada'), 'IMM 5257 başvuru formu', 1),
-    ((SELECT id FROM countries WHERE slug = 'canada'), 'IRCC özelliklerine uygun güncel fotoğraf', 2),
-    ((SELECT id FROM countries WHERE slug = 'canada'), 'Maddi güç kanıtı', 3),
-    ((SELECT id FROM countries WHERE slug = 'canada'), 'Seyahat amacı belgeleri', 4),
-    ((SELECT id FROM countries WHERE slug = 'canada'), 'Adli sicil belgesi (istenirse)', 5);
+    ((SELECT id FROM countries WHERE slug = 'kanada'), 'Konaklamanın tüm süresi boyunca geçerli pasaport', 0),
+    ((SELECT id FROM countries WHERE slug = 'kanada'), 'IMM 5257 başvuru formu', 1),
+    ((SELECT id FROM countries WHERE slug = 'kanada'), 'IRCC özelliklerine uygun güncel fotoğraf', 2),
+    ((SELECT id FROM countries WHERE slug = 'kanada'), 'Maddi güç kanıtı', 3),
+    ((SELECT id FROM countries WHERE slug = 'kanada'), 'Seyahat amacı belgeleri', 4),
+    ((SELECT id FROM countries WHERE slug = 'kanada'), 'Adli sicil belgesi (istenirse)', 5);
 END IF;
 
 -- canada handles
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'canada')
-   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'canada'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'kanada')
+   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'kanada'))
 THEN
   INSERT INTO country_handles (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'canada'), 'IRCC çevrimiçi portal yönetimi', 0),
-    ((SELECT id FROM countries WHERE slug = 'canada'), 'VAC''da biyometrik randevu rezervasyonu', 1),
-    ((SELECT id FROM countries WHERE slug = 'canada'), 'Açıklama mektubu hazırlama', 2),
-    ((SELECT id FROM countries WHERE slug = 'canada'), 'Pasaport iadesine kadar durum takibi', 3);
+    ((SELECT id FROM countries WHERE slug = 'kanada'), 'IRCC çevrimiçi portal yönetimi', 0),
+    ((SELECT id FROM countries WHERE slug = 'kanada'), 'VAC''da biyometrik randevu rezervasyonu', 1),
+    ((SELECT id FROM countries WHERE slug = 'kanada'), 'Açıklama mektubu hazırlama', 2),
+    ((SELECT id FROM countries WHERE slug = 'kanada'), 'Pasaport iadesine kadar durum takibi', 3);
 END IF;
 
 -- canada faqs
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'canada')
-   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'canada'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'kanada')
+   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'kanada'))
 THEN
   INSERT INTO country_faqs (country_id, question, answer, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'canada'), 'Kanada ziyaretçi vizesi ne kadar süre geçerlidir?', 'Pasaport geçerliliğine kadar veya en fazla 10 yıl; her girişte 6 aya kadar kalış hakkıyla.', 0);
+    ((SELECT id FROM countries WHERE slug = 'kanada'), 'Kanada ziyaretçi vizesi ne kadar süre geçerlidir?', 'Pasaport geçerliliğine kadar veya en fazla 10 yıl; her girişte 6 aya kadar kalış hakkıyla.', 0);
 END IF;
 
 -- australia requirements
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'australia')
-   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'australia'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'avustralya')
+   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'avustralya'))
 THEN
   INSERT INTO country_requirements (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'australia'), 'Geçerli pasaport', 0),
-    ((SELECT id FROM countries WHERE slug = 'australia'), 'ImmiAccount kaydı', 1),
-    ((SELECT id FROM countries WHERE slug = 'australia'), 'Sağlık sigortası önerilir', 2),
-    ((SELECT id FROM countries WHERE slug = 'australia'), 'Konaklama için maddi güç', 3),
-    ((SELECT id FROM countries WHERE slug = 'australia'), 'İstenirse karakter belgeleri', 4);
+    ((SELECT id FROM countries WHERE slug = 'avustralya'), 'Geçerli pasaport', 0),
+    ((SELECT id FROM countries WHERE slug = 'avustralya'), 'ImmiAccount kaydı', 1),
+    ((SELECT id FROM countries WHERE slug = 'avustralya'), 'Sağlık sigortası önerilir', 2),
+    ((SELECT id FROM countries WHERE slug = 'avustralya'), 'Konaklama için maddi güç', 3),
+    ((SELECT id FROM countries WHERE slug = 'avustralya'), 'İstenirse karakter belgeleri', 4);
 END IF;
 
 -- australia handles
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'australia')
-   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'australia'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'avustralya')
+   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'avustralya'))
 THEN
   INSERT INTO country_handles (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'australia'), 'ImmiAccount kurulumu ve başvuru', 0),
-    ((SELECT id FROM countries WHERE slug = 'australia'), 'Belge yükleme ve versiyon kontrolü', 1),
-    ((SELECT id FROM countries WHERE slug = 'australia'), 'Gerekirse sağlık muayenesi koordinasyonu', 2),
-    ((SELECT id FROM countries WHERE slug = 'australia'), 'Karar takibi', 3);
+    ((SELECT id FROM countries WHERE slug = 'avustralya'), 'ImmiAccount kurulumu ve başvuru', 0),
+    ((SELECT id FROM countries WHERE slug = 'avustralya'), 'Belge yükleme ve versiyon kontrolü', 1),
+    ((SELECT id FROM countries WHERE slug = 'avustralya'), 'Gerekirse sağlık muayenesi koordinasyonu', 2),
+    ((SELECT id FROM countries WHERE slug = 'avustralya'), 'Karar takibi', 3);
 END IF;
 
 -- australia faqs
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'australia')
-   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'australia'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'avustralya')
+   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'avustralya'))
 THEN
   INSERT INTO country_faqs (country_id, question, answer, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'australia'), 'Tıbbi muayene gerekiyor mu?', 'Yalnızca 6 ayı aşan konaklamalar veya İçişleri Bakanlığı tarafından işaretlenen durumlar için.', 0);
+    ((SELECT id FROM countries WHERE slug = 'avustralya'), 'Tıbbi muayene gerekiyor mu?', 'Yalnızca 6 ayı aşan konaklamalar veya İçişleri Bakanlığı tarafından işaretlenen durumlar için.', 0);
 END IF;
 
 -- uae requirements
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'uae')
-   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'uae'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'bae')
+   AND NOT EXISTS (SELECT 1 FROM country_requirements WHERE country_id = (SELECT id FROM countries WHERE slug = 'bae'))
 THEN
   INSERT INTO country_requirements (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'uae'), '6 ay geçerli pasaport', 0),
-    ((SELECT id FROM countries WHERE slug = 'uae'), 'Renkli pasaport taraması', 1),
-    ((SELECT id FROM countries WHERE slug = 'uae'), 'Beyaz arka planlı vesikalık fotoğraf', 2),
-    ((SELECT id FROM countries WHERE slug = 'uae'), 'Onaylı uçuş rezervasyonu', 3);
+    ((SELECT id FROM countries WHERE slug = 'bae'), '6 ay geçerli pasaport', 0),
+    ((SELECT id FROM countries WHERE slug = 'bae'), 'Renkli pasaport taraması', 1),
+    ((SELECT id FROM countries WHERE slug = 'bae'), 'Beyaz arka planlı vesikalık fotoğraf', 2),
+    ((SELECT id FROM countries WHERE slug = 'bae'), 'Onaylı uçuş rezervasyonu', 3);
 END IF;
 
 -- uae handles
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'uae')
-   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'uae'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'bae')
+   AND NOT EXISTS (SELECT 1 FROM country_handles WHERE country_id = (SELECT id FROM countries WHERE slug = 'bae'))
 THEN
   INSERT INTO country_handles (country_id, text, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'uae'), 'Onaylı kanallar üzerinden çevrimiçi başvuru', 0),
-    ((SELECT id FROM countries WHERE slug = 'uae'), 'Fotoğraf uyumluluk kontrolü', 1),
-    ((SELECT id FROM countries WHERE slug = 'uae'), 'E-vizenin e-posta adresinize teslimi', 2),
-    ((SELECT id FROM countries WHERE slug = 'uae'), 'BAE içinde uzatma yardımı', 3);
+    ((SELECT id FROM countries WHERE slug = 'bae'), 'Onaylı kanallar üzerinden çevrimiçi başvuru', 0),
+    ((SELECT id FROM countries WHERE slug = 'bae'), 'Fotoğraf uyumluluk kontrolü', 1),
+    ((SELECT id FROM countries WHERE slug = 'bae'), 'E-vizenin e-posta adresinize teslimi', 2),
+    ((SELECT id FROM countries WHERE slug = 'bae'), 'BAE içinde uzatma yardımı', 3);
 END IF;
 
 -- uae faqs
-IF EXISTS (SELECT 1 FROM countries WHERE slug = 'uae')
-   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'uae'))
+IF EXISTS (SELECT 1 FROM countries WHERE slug = 'bae')
+   AND NOT EXISTS (SELECT 1 FROM country_faqs WHERE country_id = (SELECT id FROM countries WHERE slug = 'bae'))
 THEN
   INSERT INTO country_faqs (country_id, question, answer, sort_order) VALUES
-    ((SELECT id FROM countries WHERE slug = 'uae'), 'BAE e-vizesi ne kadar hızlı çıkar?', 'Genellikle 48 ila 72 saat. 24 saat içinde ekspres hizmet mevcuttur.', 0);
+    ((SELECT id FROM countries WHERE slug = 'bae'), 'BAE e-vizesi ne kadar hızlı çıkar?', 'Genellikle 48 ila 72 saat. 24 saat içinde ekspres hizmet mevcuttur.', 0);
 END IF;
 
 -- schengen requirements
@@ -626,11 +626,11 @@ IF NOT EXISTS (
 )
 THEN
   INSERT INTO mega_menu_items (category_id, country_id, sort_order, visible) VALUES
-    ((SELECT id FROM mega_menu_categories WHERE name = 'Avrupa'), (SELECT id FROM countries WHERE slug = 'uk'),          0, true),
-    ((SELECT id FROM mega_menu_categories WHERE name = 'Avrupa'), (SELECT id FROM countries WHERE slug = 'germany'),     1, true),
-    ((SELECT id FROM mega_menu_categories WHERE name = 'Avrupa'), (SELECT id FROM countries WHERE slug = 'france'),      2, true),
-    ((SELECT id FROM mega_menu_categories WHERE name = 'Avrupa'), (SELECT id FROM countries WHERE slug = 'italy'),       3, true),
-    ((SELECT id FROM mega_menu_categories WHERE name = 'Avrupa'), (SELECT id FROM countries WHERE slug = 'netherlands'), 4, true),
+    ((SELECT id FROM mega_menu_categories WHERE name = 'Avrupa'), (SELECT id FROM countries WHERE slug = 'ingiltere'),          0, true),
+    ((SELECT id FROM mega_menu_categories WHERE name = 'Avrupa'), (SELECT id FROM countries WHERE slug = 'almanya'),     1, true),
+    ((SELECT id FROM mega_menu_categories WHERE name = 'Avrupa'), (SELECT id FROM countries WHERE slug = 'fransa'),      2, true),
+    ((SELECT id FROM mega_menu_categories WHERE name = 'Avrupa'), (SELECT id FROM countries WHERE slug = 'italya'),       3, true),
+    ((SELECT id FROM mega_menu_categories WHERE name = 'Avrupa'), (SELECT id FROM countries WHERE slug = 'hollanda'), 4, true),
     ((SELECT id FROM mega_menu_categories WHERE name = 'Avrupa'), (SELECT id FROM countries WHERE slug = 'schengen'),    5, true);
 END IF;
 
@@ -641,8 +641,8 @@ IF NOT EXISTS (
 )
 THEN
   INSERT INTO mega_menu_items (category_id, country_id, sort_order, visible) VALUES
-    ((SELECT id FROM mega_menu_categories WHERE name = 'Amerika'), (SELECT id FROM countries WHERE slug = 'usa'),    0, true),
-    ((SELECT id FROM mega_menu_categories WHERE name = 'Amerika'), (SELECT id FROM countries WHERE slug = 'canada'), 1, true);
+    ((SELECT id FROM mega_menu_categories WHERE name = 'Amerika'), (SELECT id FROM countries WHERE slug = 'abd'),    0, true),
+    ((SELECT id FROM mega_menu_categories WHERE name = 'Amerika'), (SELECT id FROM countries WHERE slug = 'kanada'), 1, true);
 END IF;
 
 -- Asya ve Pasifik items
@@ -652,8 +652,8 @@ IF NOT EXISTS (
 )
 THEN
   INSERT INTO mega_menu_items (category_id, country_id, sort_order, visible) VALUES
-    ((SELECT id FROM mega_menu_categories WHERE name = 'Asya ve Pasifik'), (SELECT id FROM countries WHERE slug = 'australia'), 0, true),
-    ((SELECT id FROM mega_menu_categories WHERE name = 'Asya ve Pasifik'), (SELECT id FROM countries WHERE slug = 'uae'),       1, true);
+    ((SELECT id FROM mega_menu_categories WHERE name = 'Asya ve Pasifik'), (SELECT id FROM countries WHERE slug = 'avustralya'), 0, true),
+    ((SELECT id FROM mega_menu_categories WHERE name = 'Asya ve Pasifik'), (SELECT id FROM countries WHERE slug = 'bae'),       1, true);
 END IF;
 
 END $$;

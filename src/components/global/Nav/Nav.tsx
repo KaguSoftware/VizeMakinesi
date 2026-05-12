@@ -228,7 +228,8 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                 {/* Main bar */}
                 <div className="container flex items-center justify-between h-22 relative">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center">
+                    <div className="relative flex items-center">
+                        <Link href="/" className="absolute left-0 right-0 z-10" style={{top: '50%', transform: 'translateY(-50%)', height: 40}} aria-label="Vize Makinesi" />
                         <Image
                             src="/VizeMakinesiLogo.png"
                             alt="Vize Makinesi"
@@ -238,7 +239,7 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                             sizes="220px"
                             className="w-auto h-80"
                         />
-                    </Link>
+                    </div>
 
                     {/* Desktop nav */}
                     <nav

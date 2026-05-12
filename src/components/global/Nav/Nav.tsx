@@ -51,7 +51,10 @@ function NavSearch() {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex((i) => Math.min(i + 1, results.length - 1)); }
         else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex((i) => Math.max(i - 1, -1)); }
-        else if (e.key === 'Enter' && activeIndex >= 0) { router.push(`/vize/${results[activeIndex].slug}`); setExpanded(false); }
+        else if (e.key === 'Enter') {
+            const target = activeIndex >= 0 ? results[activeIndex] : results[0];
+            if (target) { router.push(`/vize/${target.slug}`); setExpanded(false); }
+        }
         else if (e.key === 'Escape') setExpanded(false);
     };
 

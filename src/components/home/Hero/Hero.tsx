@@ -47,16 +47,18 @@ export default function Hero() {
     if (!open) return;
     if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex((i) => Math.min(i + 1, results.length - 1)); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex((i) => Math.max(i - 1, -1)); }
-    else if (e.key === 'Enter' && activeIndex >= 0) { e.preventDefault(); router.push(`/vize/${results[activeIndex].slug}`); setOpen(false); }
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      const target = activeIndex >= 0 ? results[activeIndex] : results[0];
+      if (target) { router.push(`/vize/${target.slug}`); setOpen(false); }
+    }
     else if (e.key === 'Escape') setOpen(false);
   };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (activeIndex >= 0 && results[activeIndex]) {
-      router.push(`/vize/${results[activeIndex].slug}`);
-      setOpen(false);
-    }
+    const target = activeIndex >= 0 ? results[activeIndex] : results[0];
+    if (target) { router.push(`/vize/${target.slug}`); setOpen(false); }
   };
 
   return (

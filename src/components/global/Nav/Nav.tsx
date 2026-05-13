@@ -51,7 +51,10 @@ function NavSearch() {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex((i) => Math.min(i + 1, results.length - 1)); }
         else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex((i) => Math.max(i - 1, -1)); }
-        else if (e.key === 'Enter' && activeIndex >= 0) { router.push(`/vize/${results[activeIndex].slug}`); setExpanded(false); }
+        else if (e.key === 'Enter') {
+            const target = activeIndex >= 0 ? results[activeIndex] : results[0];
+            if (target) { router.push(`/vize/${target.slug}`); setExpanded(false); }
+        }
         else if (e.key === 'Escape') setExpanded(false);
     };
 
@@ -225,7 +228,8 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                 {/* Main bar */}
                 <div className="container flex items-center justify-between h-22 relative">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center">
+                    <div className="relative flex items-center">
+                        <Link href="/" className="absolute left-0 right-0 z-10" style={{top: '50%', transform: 'translateY(-50%)', height: 40}} aria-label="Vize Makinesi" />
                         <Image
                             src="/VizeMakinesiLogo.png"
                             alt="Vize Makinesi"
@@ -235,7 +239,7 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                             sizes="220px"
                             className="w-auto h-80"
                         />
-                    </Link>
+                    </div>
 
                     {/* Desktop nav */}
                     <nav

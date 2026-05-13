@@ -20,6 +20,7 @@ export interface CountryFormData {
   tourism_highlights: string[]
   tourism_tips: string[]
   tourism_best_time: string | null
+  appointment_days: string | null
   requirements: TextInput[]
   handles: TextInput[]
   faqs: FaqInput[]

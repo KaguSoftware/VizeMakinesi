@@ -20,9 +20,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { countrySlug } = await params;
   const country = await getCountryBySlug(countrySlug);
   if (!country) return {};
+
+  const title = `${country.name} Gezi Rehberi — Vize Makinesi Blog`;
+  const description =
+    ((country.tourism_intro ?? [])[0] ?? '').slice(0, 160) ||
+    `${country.name} hakkında seyahat rehberi, öneriler ve vize bilgileri.`;
+  const url = `https://vizemakinesi.com/blog/${countrySlug}`;
+  const image = country.tourism_hero_image_url;
+
   return {
-    title: `${country.name} Gezi Rehberi — Vize Makinesi Blog`,
-    description: (country.tourism_intro ?? [])[0] ?? '',
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: 'Vize Makinesi',
+      locale: 'tr_TR',
+      type: 'article',
+      ...(image ? { images: [{ url: image, width: 1360, height: 480, alt: `${country.name} gezi rehberi` }] } : {}),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      ...(image ? { images: [image] } : {}),
+    },
   };
 }
 
@@ -39,8 +63,30 @@ export default async function CountryBlogPage({ params }: Props) {
   const first = country.name.split(' ')[0];
   const rest = country.name.split(' ').slice(1).join(' ');
 
+  const canonicalUrl = `https://vizemakinesi.com/blog/${country.slug}`;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: `${country.name} Gezi Rehberi`,
+    description: intro[0]?.slice(0, 160) ?? '',
+    url: canonicalUrl,
+    inLanguage: 'tr',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Vize Makinesi',
+      url: 'https://vizemakinesi.com',
+    },
+    ...(country.tourism_hero_image_url
+      ? { image: country.tourism_hero_image_url }
+      : {}),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero */}
       <section className="pt-16 pb-14 border-b border-border relative overflow-hidden">
         <div className="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[60%] h-[110%] opacity-[0.12] pointer-events-none">

@@ -133,6 +133,17 @@ export default async function CountryPage({ params }: Props) {
     <>
       <CountryHero country={country} />
 
+      {country.appointment_days && (
+        <section className="bg-coral/10 border-y border-coral/20">
+          <div className="container py-5">
+            <p className="font-serif text-[17px] text-navy text-center">
+              <span className="font-semibold">{country.name} vizesi</span> randevunuz ortalama{' '}
+              <span className="font-semibold text-coral">{country.appointment_days}</span> içinde alınabilir.
+            </p>
+          </div>
+        </section>
+      )}
+
       {countrySlug === 'schengen' && <SchengenCountryGrid />}
 
       {countrySlug === 'schengen' && (

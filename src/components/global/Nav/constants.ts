@@ -12,7 +12,7 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
         items: [
           { to: '/vize-rejimleri', label: 'Vize Rejimleri', desc: 'Turist, iş, öğrenci, çalışma, transit' },
           { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız', desc: 'Beş adımlı ofis metodumuz' },
-          { to: '/ucretler', label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
+          { to: '/ucrete-dahil-hizmetler', label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
         ],
       },
       {
@@ -20,7 +20,7 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
         items: [
           { to: '/pasaport', label: 'Pasaport Hizmetleri', desc: 'Çıkarma, yenileme, kayıp' },
           { to: '/ortakliklar', label: 'Kurumsal Ortaklıklar', desc: 'Ortaklarımız' },
-          { to: '/abd-hizlandirma', label: 'ABD Hızlandırma', desc: '5–10 günde mülakat' },
+          { to: '/abd-hizlandirma', label: '⚡️ ABD Hızlandırma', desc: '5–10 günde mülakat' },
         ],
       },
       {
@@ -29,7 +29,7 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
           eyebrow: '',
           title: 'Hizmetlerimizle ilgili bilgi alın',
           body: 'Hizmetlerimiz, ofisimiz ve işleyişimizle ilgili bilgi alın',
-          to: '/ucretler',
+          to: '/ucrete-dahil-hizmetler',
         },
       },
     ],
@@ -69,7 +69,7 @@ export const MOBILE_LINKS: MobileLink[] = [
   { to: '/vize-rejimleri', label: 'Vize Rejimleri' },
   { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız' },
   { to: '/hakkimizda', label: 'Hakkımızda' },
-  { to: '/ucretler', label: 'Ücretler' },
+  { to: '/ucrete-dahil-hizmetler', label: 'Ücretler' },
   { to: '/vize/schengen', label: 'Schengen' },
   { to: '/pasaport', label: 'Pasaport' },
   { to: '/blog', label: 'Blog' },

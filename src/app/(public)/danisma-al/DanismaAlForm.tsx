@@ -80,13 +80,22 @@ export default function DanismaAlForm() {
             <label className="block font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-3">
               Telefon <span className="text-coral">*</span>
             </label>
-            <input
-              type="tel"
-              name="phone"
-              required
-              placeholder="+90 5__ ___ __ __"
-              className="w-full bg-transparent border-b border-border pb-2 font-serif text-[18px] text-navy placeholder:text-muted/40 focus:outline-none focus:border-coral transition-colors duration-150"
-            />
+            <div className="flex items-end border-b border-border pb-2 focus-within:border-coral transition-colors duration-150">
+              <span className="font-serif text-[18px] text-navy mr-2 shrink-0">+90</span>
+              <input
+                type="tel"
+                name="phone"
+                required
+                placeholder="5__ ___ __ __"
+                maxLength={10}
+                onKeyDown={(e) => {
+                  const allowed = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'];
+                  if (allowed.includes(e.key)) return;
+                  if (!/^\d$/.test(e.key)) e.preventDefault();
+                }}
+                className="w-full bg-transparent font-serif text-[18px] text-navy placeholder:text-muted/40 focus:outline-none"
+              />
+            </div>
           </div>
 
           {/* E-posta */}

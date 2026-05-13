@@ -97,6 +97,7 @@ export async function createCountry(data: CountryFormData): Promise<{ id: string
     mosaic_span: data.mosaic_span,
     mosaic_order: nextOrder,
     has_tourism: data.has_tourism,
+    appointment_days: data.appointment_days || null,
     ...buildTourismPayload(data),
   }
 
@@ -125,6 +126,7 @@ export async function updateCountry(id: string, data: CountryFormData): Promise<
     mosaic_visible: data.mosaic_visible,
     mosaic_span: data.mosaic_span,
     has_tourism: data.has_tourism,
+    appointment_days: data.appointment_days || null,
     ...buildTourismPayload(data),
   }
 

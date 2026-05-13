@@ -142,6 +142,9 @@ export default function CountryForm({ country }: CountryFormProps) {
   )
   const [tourismBestTime, setTourismBestTime] = useState(country?.tourism_best_time ?? '')
 
+  // — 08 Appointment days
+  const [appointmentDays, setAppointmentDays] = useState(country?.appointment_days ?? '')
+
   const [errors, setErrors] = useState<ValidationError[]>([])
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
@@ -184,6 +187,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       tourism_highlights: hasTourism ? tourismHighlights.map((i) => i.text).filter(Boolean) : [],
       tourism_tips: hasTourism ? tourismTips.map((i) => i.text).filter(Boolean) : [],
       tourism_best_time: hasTourism ? (tourismBestTime || null) : null,
+      appointment_days: appointmentDays || null,
       requirements: requirements.map((r) => ({ text: r.text })),
       handles: handles.map((h) => ({ text: h.text })),
       faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
@@ -269,6 +273,18 @@ export default function CountryForm({ country }: CountryFormProps) {
             rows={3}
           />
           <FieldError errors={errors} field="summary" />
+        </div>
+
+        <div>
+          <AdminInput
+            label="Tahmini Randevu Süresi"
+            value={appointmentDays}
+            onChange={(e) => setAppointmentDays(e.target.value)}
+            placeholder="Örn: 2-3 hafta"
+          />
+          <p className="mt-1 font-mono text-[10px] text-navy/40">
+            Boş bırakılırsa ilgili bölüm gösterilmez.
+          </p>
         </div>
       </div>
 

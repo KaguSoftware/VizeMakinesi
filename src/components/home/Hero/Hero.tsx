@@ -1,5 +1,4 @@
 "use client";
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -47,36 +46,29 @@ export default function Hero() {
     if (!open) return;
     if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex((i) => Math.min(i + 1, results.length - 1)); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex((i) => Math.max(i - 1, -1)); }
-    else if (e.key === 'Enter' && activeIndex >= 0) { e.preventDefault(); router.push(`/vize/${results[activeIndex].slug}`); setOpen(false); }
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      const target = activeIndex >= 0 ? results[activeIndex] : results[0];
+      if (target) { router.push(`/vize/${target.slug}`); setOpen(false); }
+    }
     else if (e.key === 'Escape') setOpen(false);
   };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (activeIndex >= 0 && results[activeIndex]) {
-      router.push(`/vize/${results[activeIndex].slug}`);
-      setOpen(false);
-    }
+    const target = activeIndex >= 0 ? results[activeIndex] : results[0];
+    if (target) { router.push(`/vize/${target.slug}`); setOpen(false); }
   };
 
   return (
     <section className="pt-20 pb-10 relative border-b border-border overflow-hidden">
-      {/* Background map */}
-      <Image
-        src="/Dunya_haritasi.png"
-        alt=""
-        fill
-        className="object-cover blur-sm scale-105 opacity-50"
-        priority
-        aria-hidden="true"
-      />
-      <div className="container relative z-10">
+<div className="container relative z-10">
         {/* Main grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-15 items-end relative">
           {/* Left: headline */}
           <div className="relative">
             <h1 className="font-serif font-bold text-[clamp(46px,7vw,110px)] leading-none tracking-[-0.02em]">
-              Evrakları biz halledelim,{' '}<br />
+              <span className="whitespace-nowrap">Evrakları biz</span> halledelim,<br />
               siz <span className="text-coral">valizinizi</span><br />
               <span className="text-coral">hazırlayın</span>.
             </h1>
@@ -130,7 +122,7 @@ export default function Hero() {
               )}
             </div>
 
-            <p className="font-serif text-[19px] leading-[1.55] text-coral max-w-95 mb-8">
+            <p className="font-serif text-[clamp(14px,1.4vw,19px)] leading-[1.55] text-coral max-w-95 mb-8">
               Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
             </p>
             <Link

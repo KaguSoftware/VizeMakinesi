@@ -15,7 +15,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     eyebrow: '— 02 / Ofis',
     links: [
       { label: 'Hakkımızda', href: '/hakkimizda' },
-      { label: 'Hizmetler',  href: '/ucretler' },
+      { label: 'Hizmetler',  href: '/ucrete-dahil-hizmetler' },
       { label: 'Süreç',      href: '/nasil-calisiyoruz' },
       { label: 'İletişim',   href: '/iletisim' },
     ],

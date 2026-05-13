@@ -29,6 +29,7 @@ export interface Database {
           tourism_tips: string[] | null
           tourism_best_time: string | null
           tourism_hero_image_url: string | null
+          appointment_days: string | null
           created_at: string
           updated_at: string
         }
@@ -51,6 +52,7 @@ export interface Database {
           tourism_tips?: string[] | null
           tourism_best_time?: string | null
           tourism_hero_image_url?: string | null
+          appointment_days?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -73,6 +75,7 @@ export interface Database {
           tourism_tips?: string[] | null
           tourism_best_time?: string | null
           tourism_hero_image_url?: string | null
+          appointment_days?: string | null
           created_at?: string
           updated_at?: string
         }

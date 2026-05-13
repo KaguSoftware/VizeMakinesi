@@ -68,7 +68,7 @@ export default function Hero() {
           {/* Left: headline */}
           <div className="relative">
             <h1 className="font-serif font-bold text-[clamp(46px,7vw,110px)] leading-none tracking-[-0.02em]">
-              Evrakları biz halledelim,{' '}<br />
+              <span className="whitespace-nowrap">Evrakları biz</span> halledelim,<br />
               siz <span className="text-coral">valizinizi</span><br />
               <span className="text-coral">hazırlayın</span>.
             </h1>
@@ -122,7 +122,7 @@ export default function Hero() {
               )}
             </div>
 
-            <p className="font-serif text-[19px] leading-[1.55] text-coral max-w-95 mb-8">
+            <p className="font-serif text-[clamp(14px,1.4vw,19px)] leading-[1.55] text-coral max-w-95 mb-8">
               Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
             </p>
             <Link

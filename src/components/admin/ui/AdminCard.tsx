@@ -6,7 +6,7 @@ export function AdminCard({ className = '', children, ...props }: AdminCardProps
   return (
     <div
       {...props}
-      className={['border border-navy/15 bg-white p-8', className].join(' ')}
+      className={['border border-navy/30 bg-white p-8 rounded-md', className].join(' ')}
     >
       {children}
     </div>

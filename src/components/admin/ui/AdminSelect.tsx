@@ -9,13 +9,13 @@ export function AdminSelect({ label, className = '', id, children, ...props }: A
   const inputId = id ?? label.toLowerCase().replace(/\s+/g, '-')
   return (
     <div className="flex flex-col gap-1.5">
-      <AdminLabel htmlFor={inputId}>— {label}</AdminLabel>
+      <AdminLabel htmlFor={inputId}>{label}</AdminLabel>
       <select
         id={inputId}
         {...props}
         className={[
-          'bg-transparent border-b border-navy/20 py-2 font-serif text-[18px] text-navy',
-          'focus:outline-none focus:border-coral transition-colors duration-150 appearance-none cursor-pointer',
+          'bg-white border border-navy/40 rounded-md px-3 py-2 text-base text-navy',
+          'focus:outline-none focus:border-coral focus:ring-2 focus:ring-coral/30 transition-colors duration-150 cursor-pointer',
           className,
         ].join(' ')}
       >

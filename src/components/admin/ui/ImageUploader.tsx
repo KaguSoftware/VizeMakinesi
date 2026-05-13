@@ -62,13 +62,13 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
   return (
     <div className="flex flex-col gap-3">
       {value && (
-        <div className={['relative overflow-hidden border border-navy/10', previewClassName ?? 'w-48 h-28'].join(' ')}>
+        <div className={['relative overflow-hidden border border-navy/40 rounded-md', previewClassName ?? 'w-48 h-28'].join(' ')}>
           <Image src={value} alt={label} fill className="object-cover" />
         </div>
       )}
 
       <div className="flex items-center gap-4">
-        <label className={['cursor-pointer font-mono text-[11px] tracking-widest uppercase transition-colors', isUploading ? 'text-navy/30 pointer-events-none' : 'text-coral hover:text-navy'].join(' ')}>
+        <label className={['cursor-pointer font-mono text-[11px] tracking-widest uppercase transition-colors', isUploading ? 'text-navy/60 pointer-events-none' : 'text-coral hover:text-navy'].join(' ')}>
           {isUploading
             ? phaseLabel
             : value
@@ -87,7 +87,7 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
           <button
             type="button"
             onClick={() => { onChange(''); setPhase('idle'); setSizeBefore(null); setSizeAfter(null) }}
-            className="font-mono text-[11px] tracking-widest uppercase text-navy/30 hover:text-red-500 transition-colors"
+            className="font-mono text-[11px] tracking-widest uppercase text-navy/70 hover:text-red-500 transition-colors"
           >
             Kaldır
           </button>
@@ -95,7 +95,7 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
       </div>
 
       {sizeBefore !== null && sizeAfter !== null && (
-        <p className="font-mono text-[10px] text-navy/40">
+        <p className="font-mono text-[11px] text-navy/70">
           {formatBytes(sizeBefore)} → {formatBytes(sizeAfter)}
         </p>
       )}

@@ -9,7 +9,6 @@ import {
   AdminTextarea,
   AdminSelect,
   AdminLabel,
-  EyebrowText,
   RepeatableList,
   ImageUploader,
   useToast,
@@ -72,10 +71,7 @@ function slugify(s: string) {
 
 function Divider({ label }: { label: string }) {
   return (
-    <div className="flex items-center gap-4 mt-10 mb-6">
-      <EyebrowText>{label}</EyebrowText>
-      <div className="flex-1 border-t border-navy/10" />
-    </div>
+    <h2 className="mt-12 mb-4 font-mono text-xs tracking-widest uppercase text-navy">{label}</h2>
   )
 }
 
@@ -220,7 +216,7 @@ export default function CountryForm({ country }: CountryFormProps) {
     <form onSubmit={handleSubmit} className="max-w-2xl">
 
       {/* ── 01 Temel Bilgiler ─────────────────────────────────────────────── */}
-      <Divider label="— 01 / Temel Bilgiler" />
+      <Divider label="Temel Bilgiler" />
 
       <div className="flex flex-col gap-6">
         <div>
@@ -282,19 +278,19 @@ export default function CountryForm({ country }: CountryFormProps) {
             onChange={(e) => setAppointmentDays(e.target.value)}
             placeholder="Örn: 2-3 hafta"
           />
-          <p className="mt-1 font-mono text-[10px] text-navy/40">
+          <p className="mt-1 font-mono text-[11px] text-navy/70">
             Boş bırakılırsa ilgili bölüm gösterilmez.
           </p>
         </div>
       </div>
 
       {/* ── 02 Bayrak ─────────────────────────────────────────────────────── */}
-      <Divider label="— 02 / Bayrak" />
+      <Divider label="Bayrak" />
 
       <div className="flex flex-col gap-5">
         <div className="flex gap-6">
           {(['preset', 'image'] as const).map((t) => (
-            <label key={t} className="flex items-center gap-2 cursor-pointer font-mono text-[11px] tracking-widest uppercase text-navy/60">
+            <label key={t} className="flex items-center gap-2 cursor-pointer font-mono text-[11px] tracking-widest uppercase text-navy/85">
               <input
                 type="radio"
                 value={t}
@@ -320,7 +316,7 @@ export default function CountryForm({ country }: CountryFormProps) {
               ))}
             </AdminSelect>
             {flagPresetKey && (
-              <div className="mt-3 w-20 h-12 relative overflow-hidden rounded-sm border border-navy/10">
+              <div className="mt-3 w-20 h-12 relative overflow-hidden rounded-sm border border-navy/40">
                 <FlagBG presetKey={flagPresetKey} className="absolute inset-0 w-full h-full" />
               </div>
             )}
@@ -330,7 +326,7 @@ export default function CountryForm({ country }: CountryFormProps) {
 
         {flagType === 'image' && (
           <div className="flex flex-col gap-3">
-            <AdminLabel>— Bayrak Görseli</AdminLabel>
+            <AdminLabel>Bayrak Görseli</AdminLabel>
             <ImageUploader
               bucket="country-flags"
               value={flagImageUrl}
@@ -344,7 +340,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       </div>
 
       {/* ── 03 Mozaik ─────────────────────────────────────────────────────── */}
-      <Divider label="— 03 / Ana Sayfa Mozaik" />
+      <Divider label="Ana Sayfa Mozaik" />
 
       <div className="flex flex-col gap-5">
         <label className="flex items-center gap-3 cursor-pointer">
@@ -354,7 +350,7 @@ export default function CountryForm({ country }: CountryFormProps) {
             onChange={(e) => setMosaicVisible(e.target.checked)}
             className="accent-coral w-4 h-4"
           />
-          <span className="font-mono text-[11px] tracking-widest uppercase text-navy/60">
+          <span className="font-mono text-[11px] tracking-widest uppercase text-navy/85">
             Ana sayfada görünür
           </span>
         </label>
@@ -371,7 +367,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       </div>
 
       {/* ── 04 Gerekli Belgeler ───────────────────────────────────────────── */}
-      <Divider label="— 04 / Gerekli Belgeler" />
+      <Divider label="Gerekli Belgeler" />
 
       <RepeatableList<TextItem>
         items={requirements}
@@ -391,7 +387,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       />
 
       {/* ── 05 Ofisimizin Üstlendiği ─────────────────────────────────────── */}
-      <Divider label="— 05 / Ofisimizin Üstlendiği" />
+      <Divider label="Ofisimizin Üstlendiği" />
 
       <RepeatableList<TextItem>
         items={handles}
@@ -411,7 +407,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       />
 
       {/* ── 06 SSS ───────────────────────────────────────────────────────── */}
-      <Divider label="— 06 / Sık Sorulan Sorular" />
+      <Divider label="Sık Sorulan Sorular" />
 
       <RepeatableList<FaqItem>
         items={faqs}
@@ -441,7 +437,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       />
 
       {/* ── 07 Turizm ────────────────────────────────────────────────────── */}
-      <Divider label="— 07 / Turizm İçeriği" />
+      <Divider label="Turizm İçeriği" />
 
       <div className="flex flex-col gap-6">
         <label className="flex items-center gap-3 cursor-pointer">
@@ -451,7 +447,7 @@ export default function CountryForm({ country }: CountryFormProps) {
             onChange={(e) => setHasTourism(e.target.checked)}
             className="accent-coral w-4 h-4"
           />
-          <span className="font-mono text-[11px] tracking-widest uppercase text-navy/60">
+          <span className="font-mono text-[11px] tracking-widest uppercase text-navy/85">
             Blog / Turizm sayfası aktif
           </span>
         </label>
@@ -460,7 +456,7 @@ export default function CountryForm({ country }: CountryFormProps) {
           <div className="flex flex-col gap-8">
             {/* Hero image */}
             <div className="flex flex-col gap-3">
-              <AdminLabel>— Kapak Görseli</AdminLabel>
+              <AdminLabel>Kapak Görseli</AdminLabel>
               <ImageUploader
                 bucket="country-tourism"
                 value={tourismHeroUrl}
@@ -472,7 +468,7 @@ export default function CountryForm({ country }: CountryFormProps) {
 
             {/* Intro paragraphs */}
             <div>
-              <AdminLabel className="mb-3 block">— Giriş Paragrafları</AdminLabel>
+              <AdminLabel className="mb-3 block">Giriş Paragrafları</AdminLabel>
               <RepeatableList<TextItem>
                 items={tourismIntro}
                 onChange={setTourismIntro}
@@ -495,7 +491,7 @@ export default function CountryForm({ country }: CountryFormProps) {
 
             {/* Highlights */}
             <div>
-              <AdminLabel className="mb-3 block">— Öne Çıkanlar</AdminLabel>
+              <AdminLabel className="mb-3 block">Öne Çıkanlar</AdminLabel>
               <RepeatableList<TextItem>
                 items={tourismHighlights}
                 onChange={setTourismHighlights}
@@ -517,7 +513,7 @@ export default function CountryForm({ country }: CountryFormProps) {
 
             {/* Tips */}
             <div>
-              <AdminLabel className="mb-3 block">— İpuçları</AdminLabel>
+              <AdminLabel className="mb-3 block">İpuçları</AdminLabel>
               <RepeatableList<TextItem>
                 items={tourismTips}
                 onChange={setTourismTips}
@@ -549,7 +545,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       </div>
 
       {/* ── Actions ───────────────────────────────────────────────────────── */}
-      <div className="mt-12 pt-8 border-t border-navy/10 flex items-center gap-4">
+      <div className="mt-12 pt-8 border-t border-navy/30 flex items-center gap-4">
         <AdminButton type="submit" variant="primary" disabled={saving}>
           {saving ? 'Kaydediliyor…' : isEdit ? 'Kaydet' : 'Oluştur'}
         </AdminButton>

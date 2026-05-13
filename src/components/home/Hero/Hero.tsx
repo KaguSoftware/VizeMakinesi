@@ -1,5 +1,4 @@
 "use client";
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -63,16 +62,7 @@ export default function Hero() {
 
   return (
     <section className="pt-20 pb-10 relative border-b border-border overflow-hidden">
-      {/* Background map */}
-      <Image
-        src="/Dunya_haritasi.png"
-        alt=""
-        fill
-        className="object-cover blur-sm scale-105 opacity-50"
-        priority
-        aria-hidden="true"
-      />
-      <div className="container relative z-10">
+<div className="container relative z-10">
         {/* Main grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-15 items-end relative">
           {/* Left: headline */}

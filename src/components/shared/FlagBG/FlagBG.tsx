@@ -1,34 +1,32 @@
 import Image from 'next/image';
 import type { FlagBGProps } from './types';
 
-function star(cx: number, cy: number, ro: number, ri: number): string {
+function star(cx: number, cy: number, ro: number, ri: number, points = 5, rotationDeg = 0): string {
   const pts: string[] = [];
-  for (let i = 0; i < 10; i++) {
-    const a = (i / 10) * Math.PI * 2 - Math.PI / 2;
+  const n = points * 2;
+  const rotRad = (rotationDeg * Math.PI) / 180;
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2 - Math.PI / 2 + rotRad;
     const r = i % 2 === 0 ? ro : ri;
     pts.push(`${Math.round((cx + Math.cos(a) * r) * 1e4) / 1e4},${Math.round((cy + Math.sin(a) * r) * 1e4) / 1e4}`);
   }
   return pts.join(' ');
 }
 
-export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) {
+function star7(cx: number, cy: number, ro: number, ri: number): string {
+  return star(cx, cy, ro, ri, 7);
+}
+
+export default function FlagBG({ presetKey, imageUrl, className, fit = 'slice' }: FlagBGProps) {
   if (imageUrl) {
     return <Image src={imageUrl} alt="" fill className={className} style={{ objectFit: 'cover' }} />;
   }
 
-  const shared = { preserveAspectRatio: 'xMidYMid slice', className };
+  const shared = { preserveAspectRatio: fit === 'meet' ? 'xMidYMid meet' : 'xMidYMid slice', className };
 
   switch (presetKey) {
     case 'uk':
-      return (
-        <svg viewBox="0 0 60 30" {...shared}>
-          <rect width="60" height="30" fill="#012169" />
-          <path d="M0,0 L60,30 M60,0 L0,30" stroke="#FFF" strokeWidth="6" />
-          <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" strokeWidth="2" />
-          <path d="M30,0 V30 M0,15 H60" stroke="#FFF" strokeWidth="10" />
-          <path d="M30,0 V30 M0,15 H60" stroke="#C8102E" strokeWidth="6" />
-        </svg>
-      );
+      return <Image src="/flags/uk.svg" alt="UK" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'germany':
       return (
         <svg viewBox="0 0 5 3" {...shared}>
@@ -85,7 +83,7 @@ export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) 
             const x = totalCols === 6 ? 6 + col * 11 : 11 + col * 11;
             const y = row * rowH + rowH / 2;
             return (
-              <text key={i} x={x} y={y} fontSize="4" fill="#FFFFFF" textAnchor="middle" dominantBaseline="middle">★</text>
+              <polygon key={i} points={star(x, y, 2.8, 1.1)} fill="#FFFFFF" />
             );
           })}
         </svg>
@@ -96,31 +94,52 @@ export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) 
       return (
         <svg viewBox="0 0 60 30" {...shared}>
           <rect width="60" height="30" fill="#00247D" />
+          {/* Union Jack canton (top-left 30×15) */}
           <path d="M0,0 L30,15 M30,0 L0,15" stroke="#FFF" strokeWidth="4" />
-          <path d="M0,0 L30,15 M30,0 L0,15" stroke="#CF142B" strokeWidth="2" />
-          <path d="M15,0 V15 M0,7.5 H30" stroke="#FFF" strokeWidth="6" />
+          <path d="M0,0 L30,15" stroke="#CF142B" strokeWidth="1.5" clipPath="url(#aus-tr)" />
+          <path d="M30,0 L0,15" stroke="#CF142B" strokeWidth="1.5" clipPath="url(#aus-tl)" />
+          <path d="M0,0 L30,15" stroke="#CF142B" strokeWidth="1.5" clipPath="url(#aus-bl)" />
+          <path d="M30,0 L0,15" stroke="#CF142B" strokeWidth="1.5" clipPath="url(#aus-br)" />
+          <defs>
+            <clipPath id="aus-tr"><polygon points="15,7.5 30,0 30,7.5" /></clipPath>
+            <clipPath id="aus-tl"><polygon points="15,7.5 0,0 15,0" /></clipPath>
+            <clipPath id="aus-bl"><polygon points="15,7.5 0,15 0,7.5" /></clipPath>
+            <clipPath id="aus-br"><polygon points="15,7.5 30,15 15,15" /></clipPath>
+          </defs>
+          <path d="M15,0 V15 M0,7.5 H30" stroke="#FFF" strokeWidth="5" />
           <path d="M15,0 V15 M0,7.5 H30" stroke="#CF142B" strokeWidth="3" />
-          <text x="8" y="24" fontSize="6" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
-          <text x="45" y="8"  fontSize="5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
-          <text x="52" y="13" fontSize="3.5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
-          <text x="49" y="20" fontSize="4.5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
-          <text x="40" y="22" fontSize="4.5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
-          <text x="38" y="14" fontSize="4.5" fill="#FFF" textAnchor="middle" dominantBaseline="middle">★</text>
+          {/* Commonwealth Star — 7-pointed, centred at (15, 22) */}
+          <polygon points={star7(15, 22, 4, 1.7)} fill="#FFF" />
+          {/* Southern Cross — Alpha (largest, 7-pt) at (45,7.5), Beta (45,22), Gamma (54,16), Delta (52,8), Epsilon 5-pt (38,19) */}
+          <polygon points={star7(45, 7.5, 3.5, 1.5)} fill="#FFF" />
+          <polygon points={star7(45, 22, 3.5, 1.5)} fill="#FFF" />
+          <polygon points={star7(54, 16, 3.5, 1.5)} fill="#FFF" />
+          <polygon points={star7(52, 7.5, 3.5, 1.5)} fill="#FFF" />
+          <polygon points={star(38, 19, 2, 0.85, 5)} fill="#FFF" />
         </svg>
       );
-    case 'china':
+    case 'china': {
+      // Large star center at (5,5). Each small star must have one point aimed at (5,5).
+      // Rotation = angle from small star center toward (5,5), offset by 90° because star() starts pointing up.
+      const largeX = 5, largeY = 5;
+      const smallStars = [
+        { cx: 10, cy: 2 },
+        { cx: 12, cy: 4 },
+        { cx: 12, cy: 7 },
+        { cx: 10, cy: 9 },
+      ];
       return (
         <svg viewBox="0 0 30 20" {...shared}>
           <rect width="30" height="20" fill="#DE2910" />
-          {/* large star */}
-          <polygon points={star(5, 5, 3, 1.2)} fill="#FFDE00" />
-          {/* four small stars */}
-          <polygon points={star(10, 2, 1, 0.4)} fill="#FFDE00" />
-          <polygon points={star(12, 4, 1, 0.4)} fill="#FFDE00" />
-          <polygon points={star(12, 7, 1, 0.4)} fill="#FFDE00" />
-          <polygon points={star(10, 9, 1, 0.4)} fill="#FFDE00" />
+          <polygon points={star(largeX, largeY, 3, 1.2)} fill="#FFDE00" />
+          {smallStars.map(({ cx, cy }, i) => {
+            const angleRad = Math.atan2(largeY - cy, largeX - cx);
+            const angleDeg = (angleRad * 180) / Math.PI + 90;
+            return <polygon key={i} points={star(cx, cy, 1, 0.4, 5, angleDeg)} fill="#FFDE00" />;
+          })}
         </svg>
       );
+    }
     case 'uae':
       return (
         <svg viewBox="0 0 12 6" {...shared}>
@@ -168,20 +187,7 @@ export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) 
         </svg>
       );
     case 'croatia':
-      return (
-        <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="3" height="0.667" fill="#FF0000" />
-          <rect width="3" height="0.667" y="0.667" fill="#FFFFFF" />
-          <rect width="3" height="0.667" y="1.333" fill="#0093DD" />
-          {/* simplified checkerboard shield */}
-          {[0,1,2,3,4].map((col) =>
-            [0,1,2,3,4].map((row) => (
-              <rect key={`${col}-${row}`} x={1.2 + col * 0.12} y={0.55 + row * 0.12} width="0.12" height="0.12"
-                fill={(col + row) % 2 === 0 ? '#FF0000' : '#FFFFFF'} />
-            ))
-          )}
-        </svg>
-      );
+      return <Image src="/flags/Flag_of_Croatia.svg" alt="Croatia" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'czech':
       return (
         <svg viewBox="0 0 3 2" {...shared}>
@@ -217,12 +223,8 @@ export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) 
     case 'greece':
       return (
         <svg viewBox="0 0 27 18" {...shared}>
-          {[0,1,2,3,4,5,6,7,8].map((i) => (
-            <rect key={i} width="27" height="2" y={i * 2} fill={i % 2 === 0 ? '#0D5EAF' : '#FFFFFF'} />
-          ))}
-          <rect width="10" height="10" fill="#0D5EAF" />
-          <rect width="2" height="10" x="4" fill="#FFFFFF" />
-          <rect width="10" height="2" y="4" fill="#FFFFFF" />
+          <rect fill="#0D5EAF" width="27" height="18"/>
+          <path fill="none" strokeWidth="2" stroke="#FFF" d="M5,0V11 M0,5H10 M10,3H27 M10,7H27 M0,11H27 M0,15H27"/>
         </svg>
       );
     case 'hungary':
@@ -251,15 +253,7 @@ export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) 
         </svg>
       );
     case 'liechtenstein':
-      return (
-        <svg viewBox="0 0 5 3" {...shared}>
-          <rect width="5" height="1.5" fill="#002B7F" />
-          <rect width="5" height="1.5" y="1.5" fill="#CE1126" />
-          {/* simplified crown */}
-          <rect x="0.3" y="0.7" width="0.8" height="0.5" fill="#FFD700" rx="0.1" />
-          <rect x="0.45" y="0.5" width="0.5" height="0.3" fill="#FFD700" rx="0.1" />
-        </svg>
-      );
+      return <Image src="/flags/Flag_of_Liechtenstein.svg" alt="Liechtenstein" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'lithuania':
       return (
         <svg viewBox="0 0 5 3" {...shared}>
@@ -277,14 +271,7 @@ export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) 
         </svg>
       );
     case 'malta':
-      return (
-        <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="1.5" height="2" fill="#FFFFFF" />
-          <rect width="1.5" height="2" x="1.5" fill="#CF142B" />
-          {/* George Cross outline */}
-          <rect x="0.15" y="0.3" width="0.9" height="0.9" fill="none" stroke="#CF142B" strokeWidth="0.06" />
-        </svg>
-      );
+      return <Image src="/flags/Flag_of_Malta.svg" alt="Malta" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'norway':
       return (
         <svg viewBox="0 0 22 16" {...shared}>
@@ -303,14 +290,7 @@ export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) 
         </svg>
       );
     case 'portugal':
-      return (
-        <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="3" height="2" fill="#FF0000" />
-          <rect width="1.2" height="2" fill="#006600" />
-          {/* simplified coat of arms circle */}
-          <circle cx="1.2" cy="1" r="0.3" fill="#FFD700" stroke="#000080" strokeWidth="0.05" />
-        </svg>
-      );
+      return <Image src="/flags/portugal.svg" alt="Portugal" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'romania':
       return (
         <svg viewBox="0 0 3 2" {...shared}>
@@ -320,39 +300,11 @@ export default function FlagBG({ presetKey, imageUrl, className }: FlagBGProps) 
         </svg>
       );
     case 'slovakia':
-      return (
-        <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="3" height="0.667" fill="#FFFFFF" />
-          <rect width="3" height="0.667" y="0.667" fill="#0B4EA2" />
-          <rect width="3" height="0.667" y="1.333" fill="#EE1C25" />
-          {/* simplified double cross on blue/red */}
-          <rect x="0.2" y="0.5" width="0.55" height="1.1" fill="#FFFFFF" rx="0.05" />
-          <rect x="0.1" y="0.75" width="0.75" height="0.2" fill="#FFFFFF" />
-          <rect x="0.1" y="1.05" width="0.75" height="0.2" fill="#FFFFFF" />
-        </svg>
-      );
+      return <Image src="/flags/Flag_of_Slovakia.svg" alt="Slovakia" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'slovenia':
-      return (
-        <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="3" height="0.667" fill="#FFFFFF" />
-          <rect width="3" height="0.667" y="0.667" fill="#003DA5" />
-          <rect width="3" height="0.667" y="1.333" fill="#EE2436" />
-          {/* simplified triglav + stars */}
-          <polygon points="0.25,1.1 0.5,0.55 0.75,1.1" fill="#FFFFFF" />
-          <polygon points="0.35,0.95 0.5,0.65 0.65,0.95" fill="#003DA5" />
-          <circle cx="0.35" cy="0.35" r="0.08" fill="#FFCB00" />
-          <circle cx="0.5" cy="0.2" r="0.08" fill="#FFCB00" />
-          <circle cx="0.65" cy="0.35" r="0.08" fill="#FFCB00" />
-        </svg>
-      );
+      return <Image src="/flags/Flag_of_Slovenia.svg" alt="Slovenia" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'spain':
-      return (
-        <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="3" height="0.5" fill="#AA151B" />
-          <rect width="3" height="1" y="0.5" fill="#F1BF00" />
-          <rect width="3" height="0.5" y="1.5" fill="#AA151B" />
-        </svg>
-      );
+      return <Image src="/flags/spain.svg" alt="Spain" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'sweden':
       return (
         <svg viewBox="0 0 16 10" {...shared}>

@@ -12,7 +12,8 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
       "Bash(curl -sv http://localhost:3000/blog)",
       "Bash(pkill -f \"next dev\")",
-      "Bash(curl -s http://localhost:3000/visa/schengen)"
+      "Bash(curl -s http://localhost:3000/visa/schengen)",
+      "Bash(python3 -)"
     ]
   }
 }

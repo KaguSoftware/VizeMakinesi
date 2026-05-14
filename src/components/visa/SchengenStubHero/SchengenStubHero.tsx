@@ -15,8 +15,8 @@ export default function SchengenStubHero({ name, flag, presetKey, summary }: Pro
 
   return (
     <section className="pt-16 pb-14 border-b border-border relative overflow-hidden">
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-[110%] opacity-[0.12] pointer-events-none hidden lg:block">
-        <FlagBG presetKey={presetKey} className="w-full h-full" />
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full h-[110%] opacity-[0.12] pointer-events-none hidden lg:block">
+        <FlagBG presetKey={presetKey} className="w-full h-full" fit="meet" />
       </div>
 
       <div className="container relative z-10">

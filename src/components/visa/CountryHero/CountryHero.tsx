@@ -30,7 +30,7 @@ export default function CountryHero({ country }: CountryHeroProps) {
             </div>
           </div>
 
-          <h1 className="font-serif font-bold text-[clamp(48px,6.6vw,106px)] leading-[0.95] tracking-[-0.04em] mb-10 break-words hyphens-auto">
+          <h1 className="font-serif font-bold text-[clamp(28px,6.6vw,106px)] leading-[0.95] tracking-[-0.04em] mb-10 whitespace-nowrap">
             {first}
             {rest && <em className="font-normal italic text-coral"> {rest}</em>}
           </h1>

@@ -186,30 +186,8 @@ export default function FlagBG({ presetKey, imageUrl, className, fit = 'slice' }
           <rect width="3" height="0.667" y="1.333" fill="#D62612" />
         </svg>
       );
-    case 'croatia': {
-      // Shield centered at x=1.5, spanning y=0.3 to y=1.5; each cell 0.18×0.18
-      const shieldX = 1.05, shieldY = 0.3, cellSize = 0.18;
-      return (
-        <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="3" height="0.667" fill="#FF0000" />
-          <rect width="3" height="0.667" y="0.667" fill="#FFFFFF" />
-          <rect width="3" height="0.667" y="1.333" fill="#0093DD" />
-          {/* 5×5 checkerboard shield — top-left cell is red */}
-          {[0,1,2,3,4].map((col) =>
-            [0,1,2,3,4].map((row) => (
-              <rect key={`${col}-${row}`}
-                x={shieldX + col * cellSize}
-                y={shieldY + row * cellSize}
-                width={cellSize} height={cellSize}
-                fill={(col + row) % 2 === 0 ? '#FF0000' : '#FFFFFF'} />
-            ))
-          )}
-          {/* shield border */}
-          <rect x={shieldX} y={shieldY} width={cellSize * 5} height={cellSize * 5}
-            fill="none" stroke="#000" strokeWidth="0.025" />
-        </svg>
-      );
-    }
+    case 'croatia':
+      return <Image src="/flags/Flag_of_Croatia.svg" alt="Croatia" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'czech':
       return (
         <svg viewBox="0 0 3 2" {...shared}>
@@ -275,24 +253,7 @@ export default function FlagBG({ presetKey, imageUrl, className, fit = 'slice' }
         </svg>
       );
     case 'liechtenstein':
-      return (
-        <svg viewBox="0 0 5 3" {...shared}>
-          <rect width="5" height="1.5" fill="#002B7F" />
-          <rect width="5" height="1.5" y="1.5" fill="#CE1126" />
-          {/* Crown — base band, three arches, cross on top */}
-          {/* Base */}
-          <rect x="0.25" y="1.0" width="0.9" height="0.25" fill="#FFD700" />
-          {/* Left arch */}
-          <ellipse cx="0.45" cy="0.9" rx="0.12" ry="0.2" fill="#FFD700" />
-          {/* Centre arch */}
-          <ellipse cx="0.7" cy="0.82" rx="0.14" ry="0.25" fill="#FFD700" />
-          {/* Right arch */}
-          <ellipse cx="0.95" cy="0.9" rx="0.12" ry="0.2" fill="#FFD700" />
-          {/* Cross atop centre arch */}
-          <rect x="0.675" y="0.52" width="0.05" height="0.18" fill="#FFD700" />
-          <rect x="0.645" y="0.58" width="0.11" height="0.04" fill="#FFD700" />
-        </svg>
-      );
+      return <Image src="/flags/Flag_of_Liechtenstein.svg" alt="Liechtenstein" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'lithuania':
       return (
         <svg viewBox="0 0 5 3" {...shared}>
@@ -310,17 +271,7 @@ export default function FlagBG({ presetKey, imageUrl, className, fit = 'slice' }
         </svg>
       );
     case 'malta':
-      return (
-        <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="1.5" height="2" fill="#FFFFFF" />
-          <rect width="1.5" height="2" x="1.5" fill="#CF142B" />
-          {/* George Cross — proper cross shape with red outline, white fill */}
-          {/* Vertical bar */}
-          <rect x="0.45" y="0.2" width="0.3" height="0.9" fill="#FFFFFF" stroke="#CF142B" strokeWidth="0.04" />
-          {/* Horizontal bar */}
-          <rect x="0.2" y="0.45" width="0.8" height="0.3" fill="#FFFFFF" stroke="#CF142B" strokeWidth="0.04" />
-        </svg>
-      );
+      return <Image src="/flags/Flag_of_Malta.svg" alt="Malta" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'norway':
       return (
         <svg viewBox="0 0 22 16" {...shared}>
@@ -349,36 +300,9 @@ export default function FlagBG({ presetKey, imageUrl, className, fit = 'slice' }
         </svg>
       );
     case 'slovakia':
-      return (
-        <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="3" height="0.667" fill="#FFFFFF" />
-          <rect width="3" height="0.667" y="0.667" fill="#0B4EA2" />
-          <rect width="3" height="0.667" y="1.333" fill="#EE1C25" />
-          {/* Small shield with white/blue/red tricolor */}
-          <rect x="0.15" y="0.35" width="0.7" height="1.35" fill="#FFFFFF" rx="0.05" />
-          <rect x="0.15" y="0.8" width="0.7" height="0.45" fill="#0B4EA2" />
-          <rect x="0.15" y="1.25" width="0.7" height="0.45" fill="#EE1C25" rx="0.05" />
-          {/* Patriarchal (double) cross in white on shield */}
-          <rect x="0.46" y="0.45" width="0.08" height="0.85" fill="#FFFFFF" />
-          <rect x="0.34" y="0.62" width="0.32" height="0.08" fill="#FFFFFF" />
-          <rect x="0.38" y="0.8" width="0.24" height="0.08" fill="#FFFFFF" />
-        </svg>
-      );
+      return <Image src="/flags/Flag_of_Slovakia.svg" alt="Slovakia" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'slovenia':
-      return (
-        <svg viewBox="0 0 3 2" {...shared}>
-          <rect width="3" height="0.667" fill="#FFFFFF" />
-          <rect width="3" height="0.667" y="0.667" fill="#003DA5" />
-          <rect width="3" height="0.667" y="1.333" fill="#EE2436" />
-          {/* Triglav mountain outline */}
-          <polygon points="0.25,1.1 0.5,0.55 0.75,1.1" fill="#FFFFFF" />
-          <polygon points="0.35,0.95 0.5,0.65 0.65,0.95" fill="#003DA5" />
-          {/* Three 5-pointed yellow stars in arc */}
-          <polygon points={star(0.35, 0.35, 0.1, 0.04)} fill="#FFCB00" />
-          <polygon points={star(0.5, 0.2, 0.1, 0.04)} fill="#FFCB00" />
-          <polygon points={star(0.65, 0.35, 0.1, 0.04)} fill="#FFCB00" />
-        </svg>
-      );
+      return <Image src="/flags/Flag_of_Slovenia.svg" alt="Slovenia" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'spain':
       return <Image src="/flags/spain.svg" alt="Spain" fill className={className} style={{ objectFit: 'cover' }} />;
     case 'sweden':

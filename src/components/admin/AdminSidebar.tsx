@@ -8,6 +8,7 @@ const NAV_SECTIONS = [
   { label: 'Ülkeler', href: '/admin/countries' },
   { label: 'Mega Menü', href: '/admin/mega-menu' },
   { label: 'Marquee', href: '/admin/marquee' },
+  { label: 'Ana Sayfa', href: '/admin/home-regions' },
   { label: 'Ortaklıklar', href: '/admin/partnerships' },
   { label: 'Blog', href: '/admin/blog' },
   { label: 'Ekip', href: '/admin/team' },
@@ -44,7 +45,7 @@ export default function AdminSidebar({ email }: AdminSidebarProps) {
               'px-3 py-2.5 font-mono text-[11px] tracking-widest uppercase transition-colors duration-150 rounded-sm',
               isActive(item.href)
                 ? 'text-coral'
-                : 'text-white/70 hover:text-white',
+                : 'text-white/85 hover:text-white',
             ].join(' ')}
           >
             {item.label}
@@ -54,11 +55,11 @@ export default function AdminSidebar({ email }: AdminSidebarProps) {
 
       {/* Bottom: email + sign out */}
       <div className="px-7 py-6 border-t border-white/10 flex flex-col gap-3">
-        <p className="font-mono text-[11px] text-white/60 truncate">{email}</p>
+        <p className="font-mono text-[11px] text-white/80 truncate">{email}</p>
         <form action="/admin/signout" method="post">
           <button
             type="submit"
-            className="font-mono text-[11px] tracking-widest uppercase text-white/70 hover:text-coral transition-colors"
+            className="font-mono text-[11px] tracking-widest uppercase text-white/85 hover:text-coral transition-colors"
           >
             Çıkış
           </button>

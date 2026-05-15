@@ -15,6 +15,7 @@ export interface CountryFormData {
   mosaic_visible: boolean
   mosaic_span: string | null
   has_tourism: boolean
+  danisma_visible: boolean
   tourism_hero_image_url: string | null
   tourism_intro: string[]
   tourism_highlights: string[]

@@ -7,4 +7,5 @@ export interface PageHeadProps {
   flagPresetKey?: string | null;
   flagImageUrl?: string | null;
   titleClassName?: string;
+  ledeClassName?: string;
 }

@@ -1,7 +1,7 @@
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import type { PageHeadProps } from './types';
 
-export default function PageHead({ title, lede, flagPresetKey, flagImageUrl, titleClassName }: PageHeadProps) {
+export default function PageHead({ title, lede, flagPresetKey, flagImageUrl, titleClassName, ledeClassName }: PageHeadProps) {
   return (
     <section className="pt-24 pb-[72px] border-b border-border relative overflow-hidden">
       {(flagPresetKey || flagImageUrl) && (
@@ -15,7 +15,7 @@ export default function PageHead({ title, lede, flagPresetKey, flagImageUrl, tit
             {title}
           </h1>
           {lede && (
-            <p className="font-serif text-[20px] text-navy mt-9 leading-[1.45] border-l border-coral pl-6 break-words">
+            <p className={ledeClassName ?? "font-serif text-[20px] text-navy mt-9 leading-[1.45] border-l border-coral pl-6 wrap-break-word"}>
               {lede}
             </p>
           )}

@@ -52,8 +52,11 @@ function SortableItemRow({
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id })
   const [text, setText] = useState(item.text)
   const [url, setUrl] = useState(item.url ?? '')
+  const [textError, setTextError] = useState(false)
 
   function commitUpdate() {
+    if (!text.trim()) { setTextError(true); return }
+    setTextError(false)
     if (text !== item.text || url !== (item.url ?? '')) {
       onUpdate(item.id, text, url)
     }
@@ -69,24 +72,27 @@ function SortableItemRow({
         type="button"
         {...attributes}
         {...listeners}
-        className="mt-2 shrink-0 cursor-grab active:cursor-grabbing text-navy/20 hover:text-navy/50 select-none"
+        className="mt-2 shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none"
       >
         ⠿
       </button>
       <div className="flex-1 flex flex-col gap-2">
+        <div>
         <input
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => { setText(e.target.value); if (textError && e.target.value.trim()) setTextError(false) }}
           onBlur={commitUpdate}
           placeholder="Metin..."
-          className="bg-transparent border-b border-navy/20 py-1.5 font-serif text-[16px] text-navy placeholder:text-navy/25 focus:outline-none focus:border-coral transition-colors"
+          className={['bg-transparent border-b py-1.5 font-serif text-[16px] text-navy placeholder:text-navy/50 focus:outline-none transition-colors', textError ? 'border-coral' : 'border-navy/20 focus:border-coral'].join(' ')}
         />
+        {textError && <p className="font-mono text-[10px] text-coral mt-0.5">Metin boş olamaz</p>}
+        </div>
         <input
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           onBlur={commitUpdate}
           placeholder="URL (isteğe bağlı)"
-          className="bg-transparent border-b border-navy/10 py-1 font-mono text-[12px] text-navy/50 placeholder:text-navy/20 focus:outline-none focus:border-coral transition-colors"
+          className="bg-transparent border-b border-navy/20 py-1 font-mono text-[12px] text-navy/70 placeholder:text-navy/40 focus:outline-none focus:border-coral transition-colors"
         />
       </div>
       <button
@@ -96,7 +102,7 @@ function SortableItemRow({
           'mt-2 font-mono text-[10px] tracking-widest uppercase px-2 py-1 border transition-colors',
           item.visible
             ? 'border-coral text-coral'
-            : 'border-navy/20 text-navy/30 hover:border-navy/40',
+            : 'border-navy/30 text-navy/60 hover:border-navy/60',
         ].join(' ')}
       >
         {item.visible ? 'Görünür' : 'Gizli'}
@@ -104,7 +110,7 @@ function SortableItemRow({
       <button
         type="button"
         onClick={() => onDelete(item.id)}
-        className="mt-2 font-mono text-[10px] tracking-widest uppercase text-navy/25 hover:text-red-500 transition-colors"
+        className="mt-2 font-mono text-[10px] tracking-widest uppercase text-red-500 hover:text-red-700 transition-colors"
       >
         Sil
       </button>
@@ -197,7 +203,7 @@ export default function MarqueeSection({ location, label, initialItems, initialE
             'font-mono text-[11px] tracking-widest uppercase px-4 py-2 border transition-colors',
             enabled
               ? 'bg-coral border-coral text-navy'
-              : 'bg-transparent border-navy/20 text-navy/40 hover:border-navy/40',
+              : 'bg-transparent border-navy/20 text-navy/65 hover:border-navy/60',
           ].join(' ')}
         >
           {enabled ? 'Marquee Görünür' : 'Marquee Gizli'}
@@ -207,7 +213,7 @@ export default function MarqueeSection({ location, label, initialItems, initialE
       {/* Items */}
       <div className="px-6 py-4">
         <div className="flex items-center justify-between mb-4">
-          <span className="font-mono text-[11px] tracking-widest uppercase text-navy/40">
+          <span className="font-mono text-[11px] tracking-widest uppercase text-navy/70">
             {items.length} / {MAX_ITEMS} öğe
           </span>
         </div>
@@ -229,18 +235,24 @@ export default function MarqueeSection({ location, label, initialItems, initialE
         </DndContext>
 
         {items.length === 0 && (
-          <p className="font-mono text-[11px] text-navy/30 italic py-4">Henüz öğe eklenmedi</p>
+          <p className="font-mono text-[11px] text-navy/60 italic py-4">Henüz öğe eklenmedi</p>
         )}
 
-        {items.length < MAX_ITEMS && (
-          <button
-            type="button"
-            onClick={handleAdd}
-            className="mt-4 font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
-          >
-            + Ekle
-          </button>
-        )}
+        <div className="mt-4 flex items-center gap-3">
+          {items.length < MAX_ITEMS ? (
+            <button
+              type="button"
+              onClick={handleAdd}
+              className="font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
+            >
+              + Ekle
+            </button>
+          ) : (
+            <p className="font-mono text-[11px] text-coral">
+              En fazla {MAX_ITEMS} öğe ekleyebilirsiniz
+            </p>
+          )}
+        </div>
       </div>
     </div>
   )

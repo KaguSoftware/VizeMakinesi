@@ -42,11 +42,11 @@ function SortableCard({
       className={['border border-navy/10 bg-white flex flex-col', isDragging ? 'opacity-40' : ''].join(' ')}
     >
       <div className="flex items-center justify-between px-4 py-2 border-b border-navy/8">
-        <button type="button" {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-navy/25 hover:text-navy/60 select-none">⠿</button>
+        <button type="button" {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none">⠿</button>
         <button
           type="button"
           onClick={() => onToggleVisible(p.id, !p.visible)}
-          className={['font-mono text-[10px] tracking-widest uppercase px-2 py-1 border transition-colors', p.visible ? 'border-coral text-coral' : 'border-navy/20 text-navy/30 hover:border-navy/40'].join(' ')}
+          className={['font-mono text-[10px] tracking-widest uppercase px-2 py-1 border transition-colors', p.visible ? 'border-coral text-coral' : 'border-navy/30 text-navy/60 hover:border-navy/60'].join(' ')}
         >
           {p.visible ? 'Görünür' : 'Gizli'}
         </button>
@@ -58,16 +58,16 @@ function SortableCard({
           </div>
         ) : (
           <div className="h-14 flex items-center">
-            <span className="font-mono text-[11px] text-navy/20 uppercase tracking-widest">Logo yok</span>
+            <span className="font-mono text-[11px] text-navy/55 uppercase tracking-widest">Logo yok</span>
           </div>
         )}
         {p.eyebrow && <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral">— {p.eyebrow}</div>}
         <h3 className="font-serif font-semibold text-[18px] text-navy">{p.name}</h3>
-        {p.description && <p className="font-serif text-[14px] text-navy/50 line-clamp-2">{p.description}</p>}
+        {p.description && <p className="font-serif text-[14px] text-navy/70 line-clamp-2">{p.description}</p>}
       </div>
       <div className="flex items-center gap-4 px-5 py-3 border-t border-navy/8">
-        <Link href={`/admin/partnerships/${p.id}/edit`} className="font-mono text-[10px] tracking-widest uppercase text-navy/40 hover:text-navy transition-colors">Düzenle</Link>
-        <button type="button" onClick={() => onDelete(p.id)} className="font-mono text-[10px] tracking-widest uppercase text-navy/25 hover:text-red-500 transition-colors">Sil</button>
+        <Link href={`/admin/partnerships/${p.id}/edit`} className="font-mono text-[10px] tracking-widest uppercase text-navy hover:text-coral transition-colors">Düzenle</Link>
+        <button type="button" onClick={() => onDelete(p.id)} className="font-mono text-[10px] tracking-widest uppercase text-red-500 hover:text-red-700 transition-colors">Sil</button>
       </div>
     </div>
   )
@@ -125,7 +125,7 @@ export default function PartnershipsGrid({ initial }: { initial: PartnershipRow[
             ))}
           </div>
           {partnerships.length === 0 && (
-            <p className="font-mono text-[12px] text-navy/30 py-8 text-center">Henüz ortaklık eklenmedi</p>
+            <p className="font-mono text-[12px] text-navy/60 py-8 text-center">Henüz ortaklık eklenmedi</p>
           )}
         </SortableContext>
       </DndContext>

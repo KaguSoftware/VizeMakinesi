@@ -31,6 +31,8 @@ import {
 } from './actions'
 import type { Database } from '@/lib/supabase/database.types'
 
+const MAX_ITEMS_PER_CATEGORY = 3
+
 type CategoryRow = Database['public']['Tables']['mega_menu_categories']['Row']
 type ItemRow = Database['public']['Tables']['mega_menu_items']['Row']
 type CountryRow = Database['public']['Tables']['countries']['Row']
@@ -78,7 +80,7 @@ function CountryPickerModal({
           <button
             type="button"
             onClick={onClose}
-            className="font-mono text-[11px] text-navy/40 hover:text-navy"
+            className="font-mono text-[11px] text-navy/70 hover:text-navy"
           >
             ✕
           </button>
@@ -88,7 +90,7 @@ function CountryPickerModal({
           placeholder="Ara..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="border-b border-navy/20 py-2 font-serif text-[16px] text-navy placeholder:text-navy/30 focus:outline-none focus:border-coral"
+          className="border-b border-navy/20 py-2 font-serif text-[16px] text-navy placeholder:text-navy/55 focus:outline-none focus:border-coral"
         />
         <div className="overflow-y-auto flex flex-col gap-1">
           {filtered.map((c) => (
@@ -103,7 +105,7 @@ function CountryPickerModal({
             </button>
           ))}
           {filtered.length === 0 && (
-            <p className="font-mono text-[11px] text-navy/30 py-4 text-center">Sonuç bulunamadı</p>
+            <p className="font-mono text-[11px] text-navy/60 py-4 text-center">Sonuç bulunamadı</p>
           )}
         </div>
       </div>
@@ -140,7 +142,7 @@ function SortableItem({
           type="button"
           {...attributes}
           {...listeners}
-          className="shrink-0 cursor-grab active:cursor-grabbing text-navy/20 hover:text-navy/50 select-none"
+          className="shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none"
         >
           ⠿
         </button>
@@ -149,7 +151,7 @@ function SortableItem({
         <button
           type="button"
           onClick={() => setShowPicker(true)}
-          className="font-mono text-[10px] tracking-widest uppercase text-navy/30 hover:text-navy transition-colors"
+          className="font-mono text-[10px] tracking-widest uppercase text-navy hover:text-coral transition-colors"
         >
           Değiştir
         </button>
@@ -160,7 +162,7 @@ function SortableItem({
             'font-mono text-[10px] tracking-widest uppercase px-2 py-1 border transition-colors',
             item.visible
               ? 'border-coral text-coral'
-              : 'border-navy/20 text-navy/30 hover:border-navy/40',
+              : 'border-navy/30 text-navy/60 hover:border-navy/60',
           ].join(' ')}
         >
           {item.visible ? 'Görünür' : 'Gizli'}
@@ -168,7 +170,7 @@ function SortableItem({
         <button
           type="button"
           onClick={() => onDelete(item.id)}
-          className="font-mono text-[10px] tracking-widest uppercase text-navy/25 hover:text-red-500 transition-colors"
+          className="font-mono text-[10px] tracking-widest uppercase text-red-500 hover:text-red-700 transition-colors"
         >
           Sil
         </button>
@@ -236,7 +238,7 @@ function SortableCategory({
             type="button"
             {...attributes}
             {...listeners}
-            className="shrink-0 cursor-grab active:cursor-grabbing text-navy/25 hover:text-navy/60 select-none"
+            className="shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none"
           >
             ⠿
           </button>
@@ -253,7 +255,7 @@ function SortableCategory({
               'font-mono text-[10px] tracking-widest uppercase px-2 py-1 border transition-colors',
               cat.visible
                 ? 'border-coral text-coral'
-                : 'border-navy/20 text-navy/30 hover:border-navy/40',
+                : 'border-navy/30 text-navy/60 hover:border-navy/60',
             ].join(' ')}
           >
             {cat.visible ? 'Görünür' : 'Gizli'}
@@ -261,7 +263,7 @@ function SortableCategory({
           <button
             type="button"
             onClick={() => onDelete(cat.id)}
-            className="font-mono text-[10px] tracking-widest uppercase text-navy/25 hover:text-red-500 transition-colors"
+            className="font-mono text-[10px] tracking-widest uppercase text-red-500 hover:text-red-700 transition-colors"
           >
             Sil
           </button>
@@ -287,16 +289,27 @@ function SortableCategory({
           </DndContext>
 
           {cat.items.length === 0 && (
-            <p className="font-mono text-[11px] text-navy/30 italic py-2">Henüz ülke eklenmedi</p>
+            <p className="font-mono text-[11px] text-navy/60 italic py-2">Henüz ülke eklenmedi</p>
           )}
 
-          <button
-            type="button"
-            onClick={() => setShowAddPicker(true)}
-            className="mt-3 font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
-          >
-            + Ülke Ekle
-          </button>
+          <div className="mt-3 flex items-center gap-3">
+            {cat.items.length < MAX_ITEMS_PER_CATEGORY ? (
+              <button
+                type="button"
+                onClick={() => setShowAddPicker(true)}
+                className="font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
+              >
+                + Ülke Ekle
+              </button>
+            ) : (
+              <p className="font-mono text-[11px] text-coral">
+                En fazla {MAX_ITEMS_PER_CATEGORY} ülke ekleyebilirsiniz
+              </p>
+            )}
+            <span className="font-mono text-[10px] text-navy/40">
+              {cat.items.length} / {MAX_ITEMS_PER_CATEGORY}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -379,6 +392,8 @@ export default function MegaMenuClient({ initial, countries }: Props) {
   }
 
   function handleAddItem(categoryId: string, country: Props['countries'][0]) {
+    const cat = categories.find((c) => c.id === categoryId)
+    if (cat && cat.items.length >= MAX_ITEMS_PER_CATEGORY) return
     startTransition(async () => {
       const result = await createItem(categoryId, country.id)
       if ('id' in result) {
@@ -484,7 +499,7 @@ export default function MegaMenuClient({ initial, countries }: Props) {
       </DndContext>
 
       {categories.length === 0 && (
-        <p className="font-mono text-[12px] text-navy/30 py-8 text-center">Henüz kategori eklenmedi</p>
+        <p className="font-mono text-[12px] text-navy/60 py-8 text-center">Henüz kategori eklenmedi</p>
       )}
 
       <div className="pt-2">

@@ -31,13 +31,23 @@ export default function PartnershipForm({ partnership }: Props) {
   const [externalUrl, setExternalUrl] = useState(partnership?.external_url ?? '')
   const [visible, setVisible] = useState(partnership?.visible ?? true)
   const [saving, setSaving] = useState(false)
-  const [error, setError] = useState('')
+  const [errors, setErrors] = useState<Record<string, string>>({})
+
+  function validate() {
+    const e: Record<string, string> = {}
+    if (!name.trim()) e.name = 'Ad zorunludur'
+    else if (name.length > 100) e.name = 'Ad en fazla 100 karakter olabilir'
+    if (eyebrow.length > 60) e.eyebrow = 'Eyebrow en fazla 60 karakter olabilir'
+    if (description.length > 600) e.description = 'Açıklama en fazla 600 karakter olabilir'
+    return e
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!name.trim()) { setError('Ad zorunludur'); return }
+    const errs = validate()
+    if (Object.keys(errs).length > 0) { setErrors(errs); return }
     setSaving(true)
-    setError('')
+    setErrors({})
 
     const data = { name, eyebrow, description, logo_url: logoUrl, external_url: externalUrl, visible }
 
@@ -46,7 +56,7 @@ export default function PartnershipForm({ partnership }: Props) {
       : await createPartnership(data)
 
     if ('error' in result && result.error) {
-      setError(result.error)
+      setErrors({ _form: result.error })
       showToast(result.error, 'error')
       setSaving(false)
       return
@@ -58,26 +68,38 @@ export default function PartnershipForm({ partnership }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl flex flex-col gap-6">
-      <AdminInput
-        label="Ad"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Ortaklık adı"
-        required
-      />
-      <AdminInput
-        label="Eyebrow"
-        value={eyebrow}
-        onChange={(e) => setEyebrow(e.target.value)}
-        placeholder="Kısa etiket (isteğe bağlı)"
-      />
-      <AdminTextarea
-        label="Açıklama"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Açıklama metni"
-        rows={4}
-      />
+      <div>
+        <AdminInput
+          label="Ad"
+          value={name}
+          onChange={(e) => { setName(e.target.value); if (errors.name) setErrors((p) => ({ ...p, name: '' })) }}
+          placeholder="Ortaklık adı"
+          required
+        />
+        {errors.name && <p className="font-mono text-[11px] text-coral mt-1">{errors.name}</p>}
+        <p className="font-mono text-[10px] text-navy/40 mt-0.5 text-right">{name.length} / 100</p>
+      </div>
+      <div>
+        <AdminInput
+          label="Eyebrow"
+          value={eyebrow}
+          onChange={(e) => { setEyebrow(e.target.value); if (errors.eyebrow) setErrors((p) => ({ ...p, eyebrow: '' })) }}
+          placeholder="Kısa etiket (isteğe bağlı)"
+        />
+        {errors.eyebrow && <p className="font-mono text-[11px] text-coral mt-1">{errors.eyebrow}</p>}
+        <p className="font-mono text-[10px] text-navy/40 mt-0.5 text-right">{eyebrow.length} / 60</p>
+      </div>
+      <div>
+        <AdminTextarea
+          label="Açıklama"
+          value={description}
+          onChange={(e) => { setDescription(e.target.value); if (errors.description) setErrors((p) => ({ ...p, description: '' })) }}
+          placeholder="Açıklama metni"
+          rows={4}
+        />
+        {errors.description && <p className="font-mono text-[11px] text-coral mt-1">{errors.description}</p>}
+        <p className="font-mono text-[10px] text-navy/40 mt-0.5 text-right">{description.length} / 600</p>
+      </div>
 
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-4 mt-2 mb-2">
@@ -105,13 +127,13 @@ export default function PartnershipForm({ partnership }: Props) {
         <button
           type="button"
           onClick={() => setVisible(!visible)}
-          className={['font-mono text-[11px] tracking-widest uppercase px-4 py-2 border transition-colors', visible ? 'bg-coral border-coral text-navy' : 'bg-transparent border-navy/20 text-navy/40 hover:border-navy/40'].join(' ')}
+          className={['font-mono text-[11px] tracking-widest uppercase px-4 py-2 border transition-colors', visible ? 'bg-coral border-coral text-navy' : 'bg-transparent border-navy/30 text-navy/65 hover:border-navy/60'].join(' ')}
         >
           {visible ? 'Görünür' : 'Gizli'}
         </button>
       </div>
 
-      {error && <p className="font-mono text-[12px] text-coral">{error}</p>}
+      {errors._form && <p className="font-mono text-[12px] text-coral">{errors._form}</p>}
 
       <div className="flex items-center gap-3 pt-2">
         <AdminButton type="submit" variant="primary" disabled={saving}>

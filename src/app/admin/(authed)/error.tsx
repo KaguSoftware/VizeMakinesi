@@ -20,11 +20,11 @@ export default function AdminError({
         <h2 className="font-serif font-bold text-[clamp(32px,4vw,48px)] leading-none tracking-[-0.02em] text-navy mb-4">
           Bir şeyler ters gitti.
         </h2>
-        <p className="font-serif text-[17px] text-navy/60 leading-relaxed max-w-md">
+        <p className="font-serif text-[17px] text-navy/80 leading-relaxed max-w-md">
           Sayfa yüklenirken beklenmedik bir hata oluştu. Tekrar denemek için aşağıdaki butona tıklayın.
         </p>
         {error.digest && (
-          <p className="font-mono text-[10px] text-navy/30 mt-4">Hata kodu: {error.digest}</p>
+          <p className="font-mono text-[10px] text-navy/60 mt-4">Hata kodu: {error.digest}</p>
         )}
       </div>
       <button

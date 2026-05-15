@@ -42,11 +42,11 @@ function SortableCard({
       className={['border border-navy/10 bg-white flex flex-col', isDragging ? 'opacity-40' : ''].join(' ')}
     >
       <div className="flex items-center justify-between px-4 py-2 border-b border-navy/8">
-        <button type="button" {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-navy/25 hover:text-navy/60 select-none">⠿</button>
+        <button type="button" {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none">⠿</button>
         <button
           type="button"
           onClick={() => onToggleVisible(m.id, !m.visible)}
-          className={['font-mono text-[10px] tracking-widest uppercase px-2 py-1 border transition-colors', m.visible ? 'border-coral text-coral' : 'border-navy/20 text-navy/30 hover:border-navy/40'].join(' ')}
+          className={['font-mono text-[10px] tracking-widest uppercase px-2 py-1 border transition-colors', m.visible ? 'border-coral text-coral' : 'border-navy/30 text-navy/60 hover:border-navy/60'].join(' ')}
         >
           {m.visible ? 'Görünür' : 'Gizli'}
         </button>
@@ -62,13 +62,13 @@ function SortableCard({
         )}
         <div className="text-center">
           <div className="font-serif font-semibold text-[16px] text-navy">{m.name}</div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-navy/40 mt-1">{m.role}</div>
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-navy/65 mt-1">{m.role}</div>
         </div>
       </div>
 
       <div className="flex items-center gap-4 px-4 py-3 border-t border-navy/8">
-        <Link href={`/admin/team/${m.id}/edit`} className="font-mono text-[10px] tracking-widest uppercase text-navy/40 hover:text-navy transition-colors">Düzenle</Link>
-        <button type="button" onClick={() => onDelete(m.id)} className="font-mono text-[10px] tracking-widest uppercase text-navy/25 hover:text-red-500 transition-colors">Sil</button>
+        <Link href={`/admin/team/${m.id}/edit`} className="font-mono text-[10px] tracking-widest uppercase text-navy hover:text-coral transition-colors">Düzenle</Link>
+        <button type="button" onClick={() => onDelete(m.id)} className="font-mono text-[10px] tracking-widest uppercase text-red-500 hover:text-red-700 transition-colors">Sil</button>
       </div>
     </div>
   )
@@ -126,7 +126,7 @@ export default function AdminTeamGrid({ initial }: { initial: TeamMemberRow[] })
             ))}
           </div>
           {members.length === 0 && (
-            <p className="font-mono text-[12px] text-navy/30 py-8 text-center">Henüz ekip üyesi eklenmedi</p>
+            <p className="font-mono text-[12px] text-navy/60 py-8 text-center">Henüz ekip üyesi eklenmedi</p>
           )}
         </SortableContext>
       </DndContext>

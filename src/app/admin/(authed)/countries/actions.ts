@@ -97,6 +97,7 @@ export async function createCountry(data: CountryFormData): Promise<{ id: string
     mosaic_span: data.mosaic_span,
     mosaic_order: nextOrder,
     has_tourism: data.has_tourism,
+    danisma_visible: data.danisma_visible,
     appointment_days: data.appointment_days || null,
     ...buildTourismPayload(data),
   }
@@ -126,6 +127,7 @@ export async function updateCountry(id: string, data: CountryFormData): Promise<
     mosaic_visible: data.mosaic_visible,
     mosaic_span: data.mosaic_span,
     has_tourism: data.has_tourism,
+    danisma_visible: data.danisma_visible,
     appointment_days: data.appointment_days || null,
     ...buildTourismPayload(data),
   }
@@ -167,6 +169,15 @@ export async function toggleCountryVisible(id: string, visible: boolean): Promis
   const { error } = await tbl(supabase, 'countries').update({ mosaic_visible: visible }).eq('id', id)
   if (error) return { error: error.message }
   revalidateAll()
+  return {}
+}
+
+export async function toggleDanismaVisible(id: string, visible: boolean): Promise<{ error?: string }> {
+  await requireAdmin()
+  const supabase = await createClient()
+  const { error } = await tbl(supabase, 'countries').update({ danisma_visible: visible }).eq('id', id)
+  if (error) return { error: error.message }
+  revalidatePath('/danisma-al')
   return {}
 }
 

@@ -68,7 +68,7 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
       )}
 
       <div className="flex items-center gap-4">
-        <label className={['cursor-pointer font-mono text-[11px] tracking-widest uppercase transition-colors', isUploading ? 'text-navy/60 pointer-events-none' : 'text-coral hover:text-navy'].join(' ')}>
+        <label className={['cursor-pointer font-mono text-[11px] tracking-widest uppercase transition-colors', isUploading ? 'text-navy/75 pointer-events-none' : 'text-coral hover:text-navy'].join(' ')}>
           {isUploading
             ? phaseLabel
             : value
@@ -87,7 +87,7 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
           <button
             type="button"
             onClick={() => { onChange(''); setPhase('idle'); setSizeBefore(null); setSizeAfter(null) }}
-            className="font-mono text-[11px] tracking-widest uppercase text-navy/70 hover:text-red-500 transition-colors"
+            className="font-mono text-[11px] tracking-widest uppercase text-navy/80 hover:text-red-500 transition-colors"
           >
             Kaldır
           </button>
@@ -95,7 +95,7 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
       </div>
 
       {sizeBefore !== null && sizeAfter !== null && (
-        <p className="font-mono text-[11px] text-navy/70">
+        <p className="font-mono text-[11px] text-navy/80">
           {formatBytes(sizeBefore)} → {formatBytes(sizeAfter)}
         </p>
       )}

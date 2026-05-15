@@ -5,7 +5,7 @@ export default function FeesTable() {
     <div className="mt-16 pb-16">
       {SERVICE_GROUPS.map((group) => (
         <div key={group.eyebrow} className="mb-16">
-          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-6 pb-4 border-b border-border">
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-6">
             {group.eyebrow}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px border border-border">

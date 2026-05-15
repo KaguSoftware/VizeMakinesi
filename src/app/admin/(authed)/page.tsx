@@ -36,7 +36,7 @@ export default async function AdminDashboard() {
       <h1 className="font-serif text-[40px] font-bold tracking-[-0.02em] text-navy leading-[1.1] mt-2 mb-2">
         Hoş geldiniz
       </h1>
-      <p className="font-mono text-[12px] text-navy/40 mb-12">{user?.email}</p>
+      <p className="font-mono text-[12px] text-navy/70 mb-12">{user?.email}</p>
 
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {RESOURCES.map((resource, i) => (

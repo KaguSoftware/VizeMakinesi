@@ -1,5 +1,6 @@
 'use client'
 
+import { useId } from 'react'
 import {
   DndContext,
   closestCenter,
@@ -83,6 +84,7 @@ export function RepeatableList<T extends RepeatableItem>({
   onAdd,
 }: RepeatableListProps<T>) {
   const sensors = useSensors(useSensor(PointerSensor))
+  const dndId = useId()
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
@@ -99,7 +101,7 @@ export function RepeatableList<T extends RepeatableItem>({
         <p className="font-mono text-[11px] text-navy/75 italic">{emptyText}</p>
       )}
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext id={dndId} sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={items.map((i) => i.id)} strategy={verticalListSortingStrategy}>
           <div className="flex flex-col gap-3">
             {items.map((item, index) => (

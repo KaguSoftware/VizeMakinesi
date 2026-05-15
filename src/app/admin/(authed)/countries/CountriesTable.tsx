@@ -139,7 +139,7 @@ export default function CountriesTable({ initial }: { initial: CountryRow[] }) {
 
   return (
     <>
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext id="countries-dnd" sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={countries.map((c) => c.id)} strategy={verticalListSortingStrategy}>
           <table className="w-full border-collapse">
             <thead>

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const MONTHS_TR = [
   "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
@@ -29,11 +29,16 @@ interface Props {
 }
 
 export default function DateRangePicker({ travelDate, returnDate, onTravelDate, onReturnDate }: Props) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const [todayYMD, setTodayYMD] = useState("");
+  useEffect(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    setTodayYMD(toYMD(d));
+  }, []);
 
-  const [viewYear, setViewYear] = useState(today.getFullYear());
-  const [viewMonth, setViewMonth] = useState(today.getMonth());
+  const now = new Date();
+  const [viewYear, setViewYear] = useState(now.getFullYear());
+  const [viewMonth, setViewMonth] = useState(now.getMonth());
   const [hovered, setHovered] = useState<string | null>(null);
 
   // selecting: null = picking start, "start" = picked start, waiting for end
@@ -86,7 +91,7 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
   while (cells.length % 7 !== 0) cells.push(null);
 
   function dayState(ymd: string) {
-    const isPast = ymd < toYMD(today);
+    const isPast = todayYMD ? ymd < todayYMD : false;
     const isStart = ymd === travelDate;
     const isEnd = ymd === returnDate;
     const start = travelDate;
@@ -159,7 +164,7 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
           {cells.map((ymd, i) => {
             if (!ymd) return <div key={`empty-${i}`} />;
             const { isPast, isStart, isEnd, inRange } = dayState(ymd);
-            const isToday = ymd === toYMD(today);
+            const isToday = ymd === todayYMD;
             const dayNum = parseInt(ymd.split("-")[2]);
 
             const wrapperCls = "relative flex items-center justify-center aspect-square font-serif cursor-pointer transition-all duration-100 " +

@@ -8,7 +8,7 @@ import {
 
 export default function BigCTA({ title }: BigCTAProps) {
     return (
-        <section className="cta-block mt-[120px] bg-cream text-navy border-t border-border">
+        <section className="cta-block mt-15 bg-cream text-navy border-t border-border">
             <div className="container">
                 <div className="cta-inner py-[120px] relative z-10">
                     <div className="font-mono text-[13px] tracking-[0.2em] uppercase text-coral mb-12 pb-4">

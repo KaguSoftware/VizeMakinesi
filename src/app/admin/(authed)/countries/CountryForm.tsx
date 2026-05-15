@@ -38,6 +38,7 @@ const PRESET_KEYS = [
   { key: 'canada', label: 'Kanada' },
   { key: 'australia', label: 'Avustralya' },
   { key: 'uae', label: 'BAE' },
+  { key: 'china', label: 'Çin' },
   { key: 'schengen', label: 'Schengen' },
   { key: 'ireland', label: 'İrlanda' },
 ]

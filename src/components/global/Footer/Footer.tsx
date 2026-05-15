@@ -13,7 +13,7 @@ export default function Footer() {
         <footer className="border-t border-border pt-20 pb-8 bg-navy text-white relative overflow-hidden">
             <div className="container relative z-10">
                 {/* Mark */}
-                <div className="flex justify-between items-baseline flex-wrap gap-4 mb-16 pb-6 border-b border-border/60">
+                <div className="flex justify-between items-baseline flex-wrap gap-4 mb-16">
                     <div className="font-serif font-bold text-[36px] tracking-[-0.01em] text-cream">
                         Vize Makinesi
                     </div>

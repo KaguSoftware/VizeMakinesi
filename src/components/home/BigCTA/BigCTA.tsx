@@ -11,7 +11,7 @@ export default function BigCTA({ title }: BigCTAProps) {
         <section className="cta-block mt-[120px] bg-cream text-navy border-t border-border">
             <div className="container">
                 <div className="cta-inner py-[120px] relative z-10">
-                    <div className="font-mono text-[13px] tracking-[0.2em] uppercase text-coral mb-12 pb-4 border-b border-border">
+                    <div className="font-mono text-[13px] tracking-[0.2em] uppercase text-coral mb-12 pb-4">
                         {CTA_EYEBROW}
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-20 items-end">

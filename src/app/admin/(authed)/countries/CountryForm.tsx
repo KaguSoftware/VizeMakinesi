@@ -125,6 +125,7 @@ export default function CountryForm({ country }: CountryFormProps) {
   )
 
   // — 07 Tourism
+  const [danismaVisible, setDanismaVisible] = useState(country?.danisma_visible ?? false)
   const [hasTourism, setHasTourism] = useState(country?.has_tourism ?? false)
   const [tourismHeroUrl, setTourismHeroUrl] = useState(country?.tourism_hero_image_url ?? '')
   const [tourismIntro, setTourismIntro] = useState<TextItem[]>(
@@ -178,6 +179,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       mosaic_visible: mosaicVisible,
       mosaic_span: mosaicSpan || null,
       has_tourism: hasTourism,
+      danisma_visible: danismaVisible,
       tourism_hero_image_url: hasTourism ? (tourismHeroUrl || null) : null,
       tourism_intro: hasTourism ? tourismIntro.map((i) => i.text).filter(Boolean) : [],
       tourism_highlights: hasTourism ? tourismHighlights.map((i) => i.text).filter(Boolean) : [],
@@ -352,6 +354,18 @@ export default function CountryForm({ country }: CountryFormProps) {
           />
           <span className="font-mono text-[11px] tracking-widest uppercase text-navy/85">
             Ana sayfada görünür
+          </span>
+        </label>
+
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={danismaVisible}
+            onChange={(e) => setDanismaVisible(e.target.checked)}
+            className="accent-coral w-4 h-4"
+          />
+          <span className="font-mono text-[11px] tracking-widest uppercase text-navy/85">
+            Danışma formunda görünür
           </span>
         </label>
 

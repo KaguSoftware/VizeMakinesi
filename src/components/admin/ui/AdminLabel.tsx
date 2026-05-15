@@ -6,7 +6,7 @@ export function AdminLabel({ className = '', children, ...props }: AdminLabelPro
   return (
     <label
       {...props}
-      className={['font-mono text-[11px] tracking-[0.18em] uppercase text-navy/80', className].join(' ')}
+      className={['font-mono text-[11px] tracking-[0.18em] uppercase text-navy', className].join(' ')}
     >
       {children}
     </label>

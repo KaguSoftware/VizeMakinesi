@@ -12,6 +12,9 @@ const EXTRA_ENTRIES = [
 
 const PINNED_SLUGS = ['fransa', 'ispanya', 'italya', 'almanya', 'yunanistan', 'avusturya', 'portekiz', 'hollanda', 'hirvatistan', 'macaristan', 'isvicre', 'cekya', 'danimarka', 'belcika', 'bulgaristan'];
 
+// On home page (hideHeader), show only 2 EXTRA + 8 pinned = 10 flags, then the + button as cell 11 (3 rows of 4)
+const HOME_VISIBLE_COUNT = 8;
+
 const ALL_ORDER = [
   'avusturya','belcika','bulgaristan','hirvatistan','cekya',
   'danimarka','estonya','finlandiya','fransa','almanya',
@@ -28,12 +31,17 @@ const rest = ALL_ORDER.filter((s) => !PINNED_SLUGS.includes(s)).map((s) => bySlu
 
 interface Props {
   hideHeader?: boolean;
+  limitCollapsed?: boolean;
 }
 
-export default function SchengenCountryGrid({ hideHeader }: Props) {
+export default function SchengenCountryGrid({ hideHeader, limitCollapsed }: Props) {
   const [expanded, setExpanded] = useState(false);
 
-  const visibleCards = expanded ? [...pinned, ...rest] : pinned;
+  const collapsedPinned = limitCollapsed ? pinned.slice(0, HOME_VISIBLE_COUNT) : pinned;
+  const visibleCards = expanded ? [...pinned, ...rest] : collapsedPinned;
+  const hiddenCount = limitCollapsed && !expanded
+    ? (rest.length + (pinned.length - HOME_VISIBLE_COUNT))
+    : rest.length;
 
   return (
     <section className="border-t border-border">
@@ -106,14 +114,14 @@ export default function SchengenCountryGrid({ hideHeader }: Props) {
             <button
               onClick={() => setExpanded(true)}
               className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden group cursor-pointer"
-              aria-label={`${rest.length} ülke daha göster`}
+              aria-label={`${hiddenCount} ülke daha göster`}
             >
               <div className="relative z-10 flex flex-col items-center justify-center h-full min-h-44 gap-3">
                 <div className="w-14 h-14 rounded-full border-2 border-navy/30 group-hover:border-coral flex items-center justify-center transition-colors duration-300">
                   <span className="font-serif text-[32px] leading-none text-navy/40 group-hover:text-coral transition-colors duration-300">+</span>
                 </div>
                 <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-navy/40 group-hover:text-coral transition-colors duration-300 text-center px-4">
-                  {rest.length} ülke daha
+                  {hiddenCount} ülke daha
                 </div>
               </div>
             </button>

@@ -64,7 +64,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: () => void }
       <button
         type="button"
         onClick={onDismiss}
-        className="shrink-0 font-mono text-[11px] text-navy/25 hover:text-navy transition-colors"
+        className="shrink-0 font-mono text-[11px] text-navy/55 hover:text-navy transition-colors"
       >
         ✕
       </button>

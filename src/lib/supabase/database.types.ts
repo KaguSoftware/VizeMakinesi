@@ -24,6 +24,7 @@ export interface Database {
           mosaic_order: number | null
           mosaic_span: string | null
           has_tourism: boolean
+          danisma_visible: boolean
           tourism_intro: string[] | null
           tourism_highlights: string[] | null
           tourism_tips: string[] | null
@@ -47,6 +48,7 @@ export interface Database {
           mosaic_order?: number | null
           mosaic_span?: string | null
           has_tourism?: boolean
+          danisma_visible?: boolean
           tourism_intro?: string[] | null
           tourism_highlights?: string[] | null
           tourism_tips?: string[] | null
@@ -70,6 +72,7 @@ export interface Database {
           mosaic_order?: number | null
           mosaic_span?: string | null
           has_tourism?: boolean
+          danisma_visible?: boolean
           tourism_intro?: string[] | null
           tourism_highlights?: string[] | null
           tourism_tips?: string[] | null

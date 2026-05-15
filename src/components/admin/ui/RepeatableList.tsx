@@ -41,7 +41,7 @@ function SortableRow<T extends RepeatableItem>({ item, onDelete, renderItem, ind
         type="button"
         {...attributes}
         {...listeners}
-        className="mt-2 shrink-0 cursor-grab active:cursor-grabbing text-navy/50 hover:text-navy/80 transition-colors select-none"
+        className="mt-2 shrink-0 cursor-grab active:cursor-grabbing text-navy/70 hover:text-navy transition-colors select-none"
         aria-label="Sürükle"
       >
         ⠿
@@ -56,7 +56,7 @@ function SortableRow<T extends RepeatableItem>({ item, onDelete, renderItem, ind
       <button
         type="button"
         onClick={onDelete}
-        className="mt-2 shrink-0 font-mono text-[11px] tracking-widest uppercase text-navy/60 hover:text-red-500 transition-colors"
+        className="mt-2 shrink-0 font-mono text-[11px] tracking-widest uppercase text-navy/75 hover:text-red-500 transition-colors"
         aria-label="Sil"
       >
         ✕
@@ -96,7 +96,7 @@ export function RepeatableList<T extends RepeatableItem>({
   return (
     <div className="flex flex-col gap-3">
       {items.length === 0 && (
-        <p className="font-mono text-[11px] text-navy/60 italic">{emptyText}</p>
+        <p className="font-mono text-[11px] text-navy/75 italic">{emptyText}</p>
       )}
 
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>

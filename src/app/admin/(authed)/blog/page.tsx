@@ -39,7 +39,7 @@ export default async function AdminBlogPage() {
               {['Ülke', 'Slug', 'Kapak', 'Yayın', ''].map((heading) => (
                 <th
                   key={heading}
-                  className="py-3 px-4 text-left font-mono text-[10px] tracking-widest uppercase text-navy/30"
+                  className="py-3 px-4 text-left font-mono text-[10px] tracking-widest uppercase text-navy/60"
                 >
                   {heading}
                 </th>
@@ -52,18 +52,18 @@ export default async function AdminBlogPage() {
                 <td className="py-3 px-4 font-serif text-[16px] font-medium text-navy">
                   {country.name}
                 </td>
-                <td className="py-3 px-4 font-mono text-[11px] text-navy/40">
+                <td className="py-3 px-4 font-mono text-[11px] text-navy/90">
                   {country.slug}
                 </td>
                 <td className="py-3 px-4">
-                  <span className="font-mono text-[10px] tracking-widest uppercase text-navy/40">
+                  <span className="font-mono text-[10px] tracking-widest uppercase text-navy/90">
                     {country.tourism_hero_image_url ? 'Var' : 'Yok'}
                   </span>
                 </td>
                 <td className="py-3 px-4">
                   <Link
                     href={`/blog/${country.slug}`}
-                    className="font-mono text-[10px] tracking-widest uppercase text-navy/40 hover:text-navy transition-colors"
+                    className="font-mono text-[10px] tracking-widest uppercase text-navy hover:text-coral transition-colors"
                   >
                     Görüntüle
                   </Link>
@@ -71,7 +71,7 @@ export default async function AdminBlogPage() {
                 <td className="py-3 px-4">
                   <Link
                     href={`/admin/countries/${country.id}/edit`}
-                    className="font-mono text-[10px] tracking-widest uppercase text-navy/40 hover:text-navy transition-colors"
+                    className="font-mono text-[10px] tracking-widest uppercase text-navy hover:text-coral transition-colors"
                   >
                     Düzenle
                   </Link>

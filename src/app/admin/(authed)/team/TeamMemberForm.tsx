@@ -90,7 +90,7 @@ export default function TeamMemberForm({ member }: Props) {
         <button
           type="button"
           onClick={() => setVisible(!visible)}
-          className={['font-mono text-[11px] tracking-widest uppercase px-4 py-2 border transition-colors', visible ? 'bg-coral border-coral text-navy' : 'bg-transparent border-navy/20 text-navy/40 hover:border-navy/40'].join(' ')}
+          className={['font-mono text-[11px] tracking-widest uppercase px-4 py-2 border transition-colors', visible ? 'bg-coral border-coral text-navy' : 'bg-transparent border-navy/30 text-navy/65 hover:border-navy/60'].join(' ')}
         >
           {visible ? 'Görünür' : 'Gizli'}
         </button>

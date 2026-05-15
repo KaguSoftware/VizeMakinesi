@@ -16,7 +16,7 @@ export default function FAQ({ items, title }: FAQProps) {
 		});
 
 	return (
-		<section className="py-24 border-b border-border">
+		<section className="pt-24 pb-4">
 			<div className="container">
 				<div className="grid grid-cols-1 md:grid-cols-[4fr_8fr] gap-20">
 					{/* left */}

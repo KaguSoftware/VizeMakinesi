@@ -7,12 +7,8 @@ export default function BasvuruSureci() {
   const basvuru = TIMELINE_STEPS[0];
 
   return (
-    <section className="container py-20 border-b border-border">
-      <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-10 pb-4 border-b border-navy/20">
-        — Başvuru süreci
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
+    <section className="container border-b border-border">
+      <div className="pt-28 pb-12 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
         <div>
           <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-tight text-navy mb-6">
             Başvuru ve rezervasyon<br />
@@ -23,7 +19,7 @@ export default function BasvuruSureci() {
           </p>
           <Link
             href="/nasil-calisiyoruz"
-            className="inline-flex items-center gap-2 font-sans font-medium text-[13px] uppercase tracking-[0.15em] text-navy border-b border-navy/30 pb-1 hover:text-coral hover:border-coral transition-colors duration-200"
+            className="inline-flex items-center gap-2 font-sans font-medium text-[13px] uppercase tracking-[0.15em] text-navy hover:text-coral transition-colors duration-200"
           >
             Sürecin tamamını görün →
           </Link>

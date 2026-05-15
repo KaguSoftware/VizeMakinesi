@@ -8,12 +8,9 @@ export default function MasayaGetirdikleriniz({ items }: Props) {
   if (items.length === 0) return null;
 
   return (
-    <section className="container py-20 border-b border-border">
-      <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-20">
+    <section className="container border-b border-border">
+      <div className="pt-12 pb-20 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-20">
         <div>
-          <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-6">
-            — Gerekli belgeler
-          </div>
           <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-tight text-navy">
             Masaya<br />getirdikleriniz.
           </h2>

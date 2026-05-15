@@ -52,8 +52,11 @@ function SortableItemRow({
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id })
   const [text, setText] = useState(item.text)
   const [url, setUrl] = useState(item.url ?? '')
+  const [textError, setTextError] = useState(false)
 
   function commitUpdate() {
+    if (!text.trim()) { setTextError(true); return }
+    setTextError(false)
     if (text !== item.text || url !== (item.url ?? '')) {
       onUpdate(item.id, text, url)
     }
@@ -74,13 +77,16 @@ function SortableItemRow({
         ⠿
       </button>
       <div className="flex-1 flex flex-col gap-2">
+        <div>
         <input
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => { setText(e.target.value); if (textError && e.target.value.trim()) setTextError(false) }}
           onBlur={commitUpdate}
           placeholder="Metin..."
-          className="bg-transparent border-b border-navy/20 py-1.5 font-serif text-[16px] text-navy placeholder:text-navy/50 focus:outline-none focus:border-coral transition-colors"
+          className={['bg-transparent border-b py-1.5 font-serif text-[16px] text-navy placeholder:text-navy/50 focus:outline-none transition-colors', textError ? 'border-coral' : 'border-navy/20 focus:border-coral'].join(' ')}
         />
+        {textError && <p className="font-mono text-[10px] text-coral mt-0.5">Metin boş olamaz</p>}
+        </div>
         <input
           value={url}
           onChange={(e) => setUrl(e.target.value)}
@@ -232,15 +238,21 @@ export default function MarqueeSection({ location, label, initialItems, initialE
           <p className="font-mono text-[11px] text-navy/60 italic py-4">Henüz öğe eklenmedi</p>
         )}
 
-        {items.length < MAX_ITEMS && (
-          <button
-            type="button"
-            onClick={handleAdd}
-            className="mt-4 font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
-          >
-            + Ekle
-          </button>
-        )}
+        <div className="mt-4 flex items-center gap-3">
+          {items.length < MAX_ITEMS ? (
+            <button
+              type="button"
+              onClick={handleAdd}
+              className="font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
+            >
+              + Ekle
+            </button>
+          ) : (
+            <p className="font-mono text-[11px] text-coral">
+              En fazla {MAX_ITEMS} öğe ekleyebilirsiniz
+            </p>
+          )}
+        </div>
       </div>
     </div>
   )

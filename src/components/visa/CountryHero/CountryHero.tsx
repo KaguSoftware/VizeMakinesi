@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import type { CountryHeroProps } from './types';
 
@@ -14,15 +13,7 @@ export default function CountryHero({ country }: CountryHeroProps) {
       </div>
 
       <div className="container relative z-10">
-        <div className="font-mono text-[11px] tracking-[0.15em] text-muted uppercase mb-10">
-          —{' '}
-          <Link href="/" className="hover:text-coral transition-colors">
-            Visas
-          </Link>
-          &nbsp;/&nbsp;{country.name}
-        </div>
-
-        <div className="lg:w-1/2 lg:pr-8">
+<div className="lg:w-1/2 lg:pr-8">
           <div className="flex items-center gap-10 mb-7">
             <div className="text-[80px] leading-none">{country.flag_emoji}</div>
             <div className="inline-block border border-navy px-4 py-2 font-mono font-medium text-[10px] uppercase tracking-[0.15em]">

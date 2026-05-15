@@ -1,19 +1,18 @@
 import Link from "next/link";
 import SchengenCountryGrid from "@/components/visa/SchengenCountryGrid/SchengenCountryGrid";
 import RegionGrid from "@/components/home/RegionGrid/RegionGrid";
+import { getHomeRegionsData } from "@/lib/data/homeRegions";
 
-const AMERICA_ENTRIES = [
-    { name: 'Amerika', href: '/vize/abd', presetKey: 'usa', subtitle: 'Vize Bilgisi' },
-    { name: 'Kanada', href: '/vize/kanada', presetKey: 'canada', subtitle: 'Vize Bilgisi' },
-];
+export default async function VizelerPage() {
+    const { entries, settings } = await getHomeRegionsData();
 
-const ASIA_PACIFIC_ENTRIES = [
-    { name: 'Çin', href: '/vize/cin', presetKey: 'china', subtitle: 'Vize Bilgisi' },
-    { name: 'Arap Emirlikleri', href: '/vize/bae', presetKey: 'uae', subtitle: 'Vize Bilgisi' },
-    { name: 'Avustralya', href: '/vize/avustralya', presetKey: 'australia', subtitle: 'Vize Bilgisi' },
-];
+    const toRegionEntry = (e: { name: string; href: string; preset_key: string; subtitle: string }) => ({
+        name: e.name,
+        href: e.href,
+        presetKey: e.preset_key,
+        subtitle: e.subtitle,
+    });
 
-export default function VizelerPage() {
     return (
         <>
             {/* Ana başlık */}
@@ -40,7 +39,7 @@ export default function VizelerPage() {
                 </div>
             </div>
 
-            <SchengenCountryGrid hideHeader />
+            <SchengenCountryGrid entries={entries.avrupa} hideHeader />
 
             {/* ── 2. Amerika Kıtası ── */}
             <div className="container mt-20">
@@ -49,7 +48,7 @@ export default function VizelerPage() {
                         Amerika Kıtası
                     </h2>
                 </div>
-                <RegionGrid entries={AMERICA_ENTRIES} />
+                <RegionGrid entries={entries.amerika.map(toRegionEntry)} />
             </div>
 
             {/* ── 3. Asya ve Pasifik ── */}
@@ -59,8 +58,20 @@ export default function VizelerPage() {
                         Asya ve Pasifik
                     </h2>
                 </div>
-                <RegionGrid entries={ASIA_PACIFIC_ENTRIES} />
+                <RegionGrid entries={entries.asya.map(toRegionEntry)} />
             </div>
+
+            {/* ── 4. Diğer Ülkeler (hideable) ── */}
+            {settings.diger && entries.diger.length > 0 && (
+                <div className="container mt-20 mb-20">
+                    <div className="flex justify-between items-end flex-wrap gap-4 border-b border-border pb-7">
+                        <h2 className="font-serif font-bold text-[clamp(28px,4vw,56px)] leading-none tracking-[-0.03em]">
+                            Diğer Ülkeler
+                        </h2>
+                    </div>
+                    <RegionGrid entries={entries.diger.map(toRegionEntry)} />
+                </div>
+            )}
         </>
     );
 }

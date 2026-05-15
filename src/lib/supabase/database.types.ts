@@ -319,6 +319,61 @@ export interface Database {
           created_at?: string
         }
       }
+      home_region_entries: {
+        Row: {
+          id: string
+          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          name: string
+          href: string
+          preset_key: string
+          subtitle: string
+          pinned: boolean
+          visible: boolean
+          sort_order: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          name: string
+          href: string
+          preset_key: string
+          subtitle?: string
+          pinned?: boolean
+          visible?: boolean
+          sort_order?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          region?: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          name?: string
+          href?: string
+          preset_key?: string
+          subtitle?: string
+          pinned?: boolean
+          visible?: boolean
+          sort_order?: number
+          created_at?: string
+        }
+      }
+      home_region_settings: {
+        Row: {
+          id: string
+          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          visible: boolean
+        }
+        Insert: {
+          id?: string
+          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          visible?: boolean
+        }
+        Update: {
+          id?: string
+          region?: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          visible?: boolean
+        }
+      }
     }
     Views: Record<string, never>
     Functions: Record<string, never>

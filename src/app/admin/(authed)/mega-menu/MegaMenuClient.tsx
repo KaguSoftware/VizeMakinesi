@@ -31,6 +31,8 @@ import {
 } from './actions'
 import type { Database } from '@/lib/supabase/database.types'
 
+const MAX_ITEMS_PER_CATEGORY = 3
+
 type CategoryRow = Database['public']['Tables']['mega_menu_categories']['Row']
 type ItemRow = Database['public']['Tables']['mega_menu_items']['Row']
 type CountryRow = Database['public']['Tables']['countries']['Row']
@@ -290,13 +292,24 @@ function SortableCategory({
             <p className="font-mono text-[11px] text-navy/60 italic py-2">Henüz ülke eklenmedi</p>
           )}
 
-          <button
-            type="button"
-            onClick={() => setShowAddPicker(true)}
-            className="mt-3 font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
-          >
-            + Ülke Ekle
-          </button>
+          <div className="mt-3 flex items-center gap-3">
+            {cat.items.length < MAX_ITEMS_PER_CATEGORY ? (
+              <button
+                type="button"
+                onClick={() => setShowAddPicker(true)}
+                className="font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
+              >
+                + Ülke Ekle
+              </button>
+            ) : (
+              <p className="font-mono text-[11px] text-coral">
+                En fazla {MAX_ITEMS_PER_CATEGORY} ülke ekleyebilirsiniz
+              </p>
+            )}
+            <span className="font-mono text-[10px] text-navy/40">
+              {cat.items.length} / {MAX_ITEMS_PER_CATEGORY}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -379,6 +392,8 @@ export default function MegaMenuClient({ initial, countries }: Props) {
   }
 
   function handleAddItem(categoryId: string, country: Props['countries'][0]) {
+    const cat = categories.find((c) => c.id === categoryId)
+    if (cat && cat.items.length >= MAX_ITEMS_PER_CATEGORY) return
     startTransition(async () => {
       const result = await createItem(categoryId, country.id)
       if ('id' in result) {

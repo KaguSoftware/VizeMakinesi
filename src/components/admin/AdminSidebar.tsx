@@ -8,6 +8,7 @@ const NAV_SECTIONS = [
   { label: 'Ülkeler', href: '/admin/countries' },
   { label: 'Mega Menü', href: '/admin/mega-menu' },
   { label: 'Marquee', href: '/admin/marquee' },
+  { label: 'Ana Sayfa', href: '/admin/home-regions' },
   { label: 'Ortaklıklar', href: '/admin/partnerships' },
   { label: 'Blog', href: '/admin/blog' },
   { label: 'Ekip', href: '/admin/team' },

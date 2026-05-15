@@ -32,20 +32,23 @@ export default function TeamMemberForm({ member }: Props) {
   const [photoUrl, setPhotoUrl] = useState(member?.photo_url ?? '')
   const [visible, setVisible] = useState(member?.visible ?? true)
   const [saving, setSaving] = useState(false)
-  const [error, setError] = useState('')
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
   function handleNameChange(val: string) {
     setName(val)
+    if (errors.name) setErrors((p) => ({ ...p, name: '' }))
     if (!isEdit || !member?.initials) setInitials(suggestInitials(val))
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!name.trim()) { setError('Ad zorunludur'); return }
-    if (!role.trim()) { setError('Rol zorunludur'); return }
-    if (!initials.trim()) { setError('Baş harfler zorunludur'); return }
+    const errs: Record<string, string> = {}
+    if (!name.trim()) errs.name = 'Ad zorunludur'
+    if (!role.trim()) errs.role = 'Rol zorunludur'
+    if (!initials.trim()) errs.initials = 'Baş harfler zorunludur'
+    if (Object.keys(errs).length > 0) { setErrors(errs); return }
     setSaving(true)
-    setError('')
+    setErrors({})
 
     const data = { name, role, initials, photo_url: photoUrl, visible }
 
@@ -54,7 +57,7 @@ export default function TeamMemberForm({ member }: Props) {
       : await createTeamMember(data)
 
     if ('error' in result && result.error) {
-      setError(result.error)
+      setErrors({ _form: result.error })
       showToast(result.error, 'error')
       setSaving(false)
       return
@@ -66,9 +69,19 @@ export default function TeamMemberForm({ member }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-xl flex flex-col gap-6">
-      <AdminInput label="Ad Soyad" value={name} onChange={(e) => handleNameChange(e.target.value)} placeholder="Adı Soyadı" required />
-      <AdminInput label="Rol" value={role} onChange={(e) => setRole(e.target.value)} placeholder="Vize Danışmanı" required />
-      <AdminInput label="Baş Harfler" value={initials} onChange={(e) => setInitials(e.target.value.toUpperCase())} placeholder="AB" maxLength={4} required />
+      <div>
+        <AdminInput label="Ad Soyad" value={name} onChange={(e) => handleNameChange(e.target.value)} placeholder="Adı Soyadı" required />
+        {errors.name && <p className="font-mono text-[11px] text-coral mt-1">{errors.name}</p>}
+      </div>
+      <div>
+        <AdminInput label="Rol" value={role} onChange={(e) => { setRole(e.target.value); if (errors.role) setErrors((p) => ({ ...p, role: '' })) }} placeholder="Vize Danışmanı" required />
+        {errors.role && <p className="font-mono text-[11px] text-coral mt-1">{errors.role}</p>}
+      </div>
+      <div>
+        <AdminInput label="Baş Harfler" value={initials} onChange={(e) => { setInitials(e.target.value.toUpperCase()); if (errors.initials) setErrors((p) => ({ ...p, initials: '' })) }} placeholder="AB" maxLength={4} required />
+        {errors.initials && <p className="font-mono text-[11px] text-coral mt-1">{errors.initials}</p>}
+        <p className="font-mono text-[10px] text-navy/40 mt-0.5">En fazla 4 karakter</p>
+      </div>
 
       {/* Photo with initials preview fallback */}
       <div className="flex items-center gap-6">
@@ -96,7 +109,7 @@ export default function TeamMemberForm({ member }: Props) {
         </button>
       </div>
 
-      {error && <p className="font-mono text-[12px] text-coral">{error}</p>}
+      {errors._form && <p className="font-mono text-[12px] text-coral">{errors._form}</p>}
 
       <div className="flex items-center gap-3 pt-2">
         <AdminButton type="submit" variant="primary" disabled={saving}>

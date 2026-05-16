@@ -3,38 +3,45 @@ import type { TimelineStep } from './types';
 export const TIMELINE_STEPS: TimelineStep[] = [
   {
     n: '01',
-    title: 'Başvuru',
-    body: 'Ücretsiz 30 dakikalık danışma, uygunluk notu, sabit fiyat.',
+    title: 'İlk Görüşme ve Stratejik Planlama',
+    body: 'Profilinizi ve seyahat hedeflerinizi analiz ederek başvuru stratejinizi belirliyoruz.',
     detail:
-      'İlk görüşmemizde seyahat planınızı, pasaport geçmişinizi ve hedef ülkenin güncel vize politikasını birlikte değerlendiririz. Size yazılı bir uygunluk notu ve her şey dahil sabit bir fiyat teklifi sunarız — gizli ücret yoktur, sürpriz fatura yoktur. Onay verdiğiniz andan itibaren süreç başlar.',
+      'Uzman danışmanlarımızla yapacağınız ilk görüşmede profilinizi, seyahat amacınızı ve tarihlerinizi analiz ediyoruz. Bu bilgilere dayanarak, onay şansınızın en yüksek olduğu ve takviminize en uygun ülkeyi nokta atışıyla belirliyor, size özel başvuru stratejisini oluşturuyoruz.',
   },
   {
     n: '02',
-    title: 'Belgeler',
-    body: 'Tüm gerekli belgeleri toplar, çevirir ve noterden geçiririz.',
+    title: 'Hızlı Randevu Alımı',
+    body: 'Seyahat planınıza en uygun randevu tarihini hızla adınıza rezerve ediyoruz.',
     detail:
-      'Konsolosluk listesini baştan sona inceleyerek eksik ya da hatalı belge riskini sıfıra indiririz. Banka dekontlarından seyahat sigortasına, apostil işlemlerinden yeminli çeviriye kadar her adımı üstleniriz. Belgeleriniz hazırlanmadan önce uzman gözüyle çapraz kontrol edilir.',
+      'Zaman kaybetmeden, konsolosluk sistemlerini yakından takip ederek seyahat planınıza en uygun randevu tarihini "makine" hızıyla adınıza rezerve ediyoruz.',
   },
   {
     n: '03',
-    title: 'Teslim',
-    body: 'Konsolosluğa başvuru, biyometrik ve mülakat hazırlığı dahil.',
+    title: 'Titiz Evrak Hazırlığı',
+    body: 'Tüm belgelerinizi eksiksiz ve hatasız hazırlıyoruz.',
     detail:
-      'Randevu alımından konsolosluğa fiziksel teslime kadar her şeyi yönetiriz. Biyometrik veri toplama gerektiren ülkeler için sizi en yakın merkeze yönlendirir, gerekirse eşlik ederiz. Mülakat zorunluysa sık sorulan sorular üzerinden kapsamlı bir hazırlık seansı yaparız.',
+      'Vize reddinin en büyük sebebi olan evrak hatalarını ortadan kaldırıyoruz. Gerekli tüm belgelerinizi bir hukuk bürosu titizliğiyle topluyor, güncel prosedürlere göre eksiksiz ve hatasız bir dosya haline getiriyoruz.',
   },
   {
     n: '04',
-    title: 'Takip',
-    body: 'Günlük durum kontrolü; siz uğraşmadan konsoloslukla biz ilgileniriz.',
+    title: 'Vize Başvurusu ve Dosya Sunumu',
+    body: 'Dosyanızı yetkililere sunuyor, gerektiğinde size eşlik ediyoruz.',
     detail:
-      'Başvurunuz işlemdeyken konsolosluk sistemini her gün kontrol eder, güncel durumu size bildiririz. Ek belge talebi ya da mülakat çağrısı gibi ani gelişmelerde anında devreye girerek yanıt süresi kaybetmenizi önleriz. Tüm yazışmalar kayıt altında tutulur.',
+      'Hazırlanan kusursuz dosyanızı resmi makamlara sunma aşaması, ilgili ülkenin prosedürlerine göre şekillenir. Başvuru merkezinde şahsen bulunmanız gereken durumlarda (parmak izi vb.), uzman operasyon ekibimiz size bizzat eşlik ederek süreci yönetir. Şahsen bulunmanızın gerekmediği ülkelerde ise tüm başvuru ve sunum işlemlerini sizin yerinize biz gerçekleştiririz.',
   },
   {
     n: '05',
-    title: 'Sonuç',
-    body: 'Pasaport kapınıza teslim, sonraki adımlar için brifing dahil.',
+    title: 'Aktif Süreç Takibi',
+    body: 'Başvurunuzu sonuçlanana kadar anlık takip ediyor, sizi bilgilendiriyoruz.',
     detail:
-      'Vize onaylandığında pasaportunuz kargo güvencesiyle adresinize teslim edilir. Teslimat sırasında vizede belirtilen giriş koşulları, geçerlilik süresi ve varsa kısıtlamalar hakkında kısa bir brifing yapılır. Red durumunda itiraz seçeneklerini ve alternatif rotaları birlikte değerlendiririz.',
+      'Başvurunuz yapıldıktan sonra süreci şansa bırakmıyoruz. Dosyanızın konsolosluktaki tüm değerlendirme aşamalarını anlık olarak takip ediyor ve durum hakkında sizi düzenli olarak bilgilendiriyoruz.',
+  },
+  {
+    n: '06',
+    title: 'Mutlu Sonuç ve Şahsi Teslimat',
+    body: 'Onaylı vizenizi ve pasaportunuzu güvenle kapınıza teslim ediyoruz.',
+    detail:
+      'Sürecin sonunda konsolosluktan çıkan onaylı vizenizi ve pasaportunuzu teslim alıyor, güvenli bir şekilde doğrudan size ulaştırıyoruz. Sınırlar açılıyor, size sadece seyahatinizin tadını çıkarmak kalıyor!',
   },
 ];
 

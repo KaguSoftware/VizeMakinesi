@@ -14,7 +14,7 @@ const STATIC_ROUTES = [
   '/ortakliklar',
   '/pasaport',
   '/abd-hizlandirma',
-  '/vize-rejimleri',
+  '/vize-turleri',
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

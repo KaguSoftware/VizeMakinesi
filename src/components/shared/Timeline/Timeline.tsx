@@ -14,7 +14,7 @@ export default function Timeline() {
       {/* dashed line */}
       <div className="hidden md:block absolute top-40 left-[8%] right-[8%] border-t border-dashed border-border" />
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-6 relative">
         {TIMELINE_STEPS.map((step, i) => {
           const isActive = active === i;
           const isNext = nextStep === i;

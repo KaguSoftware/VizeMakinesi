@@ -81,8 +81,8 @@ export default function USExpeditePage() {
         <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-20 py-20 border-b border-border">
           <div>
             <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">— Nasıl çalışır</div>
-            <h2 className="font-serif font-bold text-[clamp(48px,6vw,80px)] leading-none tracking-[-0.025em]">
-              Üç adım.<br />Çoğunlukla üç gün.
+            <h2 className="font-serif font-bold text-[clamp(36px,6vw,80px)] leading-none tracking-[-0.025em]">
+              Hızlandırma sürecinde<br />üç adım.
             </h2>
           </div>
           <NumberedList items={EXPEDITE_STEPS} />
@@ -94,7 +94,7 @@ export default function USExpeditePage() {
           <div>
             <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">— Gereksinimler</div>
             <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
-              Bizden<br />isteyeceklerimiz.
+              Başvuru için<br />gerekenler.
             </h2>
           </div>
           <ChecklistList items={REQUIREMENTS} />

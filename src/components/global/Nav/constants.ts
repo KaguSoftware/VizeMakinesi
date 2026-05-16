@@ -70,7 +70,7 @@ export const MOBILE_LINKS: MobileLink[] = [
   { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız' },
   { to: '/hakkimizda', label: 'Hakkımızda' },
   { to: '/ekibimiz', label: 'Ekibimiz' },
-  { to: '/ucrete-dahil-hizmetler', label: 'Ücretler' },
+  { to: '/ucrete-dahil-hizmetler', label: 'Ücrete Dahil Hizmetler' },
   { to: '/vize/schengen', label: 'Schengen' },
   { to: '/blog', label: 'Blog' },
   { to: '/ortakliklar', label: 'Ortaklıklar' },

@@ -13,10 +13,10 @@ export default function VisaRegimesPage() {
     <>
       <PageHead
         eyebrow="— Vize rejimleri"
-        title={<><span className="whitespace-nowrap">Farklı Amaçlar.</span><br /><em className="font-normal italic text-coral">Tek Merkez.</em></>}
+        title={<><span className="sm:whitespace-nowrap">Farklı Amaçlar.</span><br /><em className="font-normal italic text-coral">Tek Merkez.</em></>}
         lede="Seyahat amacınız, başvuracağınız vize türünü belirler. Vize türünüz ise kalış sürenizi, yasal haklarınızı ve konsolosluğun sizden sunmanızı beklediği evrakları şekillendirir. İhtiyacınız olan kategoriyi seçin, süreci biz yönetelim."
         contentClassName="w-full"
-        titleClassName="font-serif font-bold text-[clamp(48px,6.6vw,106px)] leading-[0.95] tracking-[-0.02em]"
+        titleClassName="font-serif font-bold text-[clamp(36px,6.6vw,106px)] leading-[0.95] tracking-[-0.02em] wrap-break-word"
         ledeClassName="font-serif text-[18px] text-navy mt-9 leading-[1.45] border-l border-coral pl-6"
       />
       <section className="container pt-6">

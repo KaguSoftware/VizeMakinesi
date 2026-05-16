@@ -8,7 +8,7 @@ export default async function TeamGrid() {
     <section className="py-24 border-b border-border">
       <div className="container">
         <div className="mb-14">
-          <h2 className="font-serif font-bold text-[clamp(36px,5vw,56px)] leading-none tracking-[-0.025em] whitespace-nowrap text-navy">
+          <h2 className="font-serif font-bold text-[clamp(22px,5vw,56px)] leading-tight tracking-tight text-navy">
             Dosyanızı okuyan danışmanlarımız.
           </h2>
           <div className="font-mono text-[13px] uppercase tracking-[0.18em] text-muted mt-4">
@@ -19,7 +19,7 @@ export default async function TeamGrid() {
           {members.map((m, i) => (
             <div
               key={i}
-              className="p-12 border-r border-b border-border last:border-r-0 hover:bg-cream transition-colors duration-200"
+              className="p-5 md:p-12 border-r border-b border-border last:border-r-0 hover:bg-cream transition-colors duration-200"
             >
               {m.photo_url ? (
                 <Image

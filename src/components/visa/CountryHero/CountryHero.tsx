@@ -1,7 +1,14 @@
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import type { CountryHeroProps } from './types';
 
-export default function CountryHero({ country }: CountryHeroProps) {
+const DEFAULT_BULLETS = [
+  'Uzman danışmanlarımız her adımda yanınızda',
+  'Evraklarınızı birlikte hazırlıyoruz, eksik bırakmıyoruz',
+  'Onlarca başarılı başvuruyla kazanılmış deneyim',
+];
+
+export default function CountryHero({ country, bullets }: CountryHeroProps) {
+  const activeBullets = bullets ?? DEFAULT_BULLETS;
   const words = country.name.split(' ');
   const first = words[0];
   const rest  = words.slice(1).join(' ');
@@ -34,11 +41,7 @@ export default function CountryHero({ country }: CountryHeroProps) {
               Vize sürecinde kendinizi yalnız hissetmenize gerek yok.
             </p>
             <ul className="flex flex-col gap-2">
-              {[
-                'Uzman danışmanlarımız her adımda yanınızda',
-                'Evraklarınızı birlikte hazırlıyoruz, eksik bırakmıyoruz',
-                'Onlarca başarılı başvuruyla kazanılmış deneyim',
-              ].map((item) => (
+              {activeBullets.map((item) => (
                 <li key={item} className="font-sans text-[14px] text-muted flex items-start gap-2">
                   <span className="text-coral mt-0.5">✓</span>
                   {item}

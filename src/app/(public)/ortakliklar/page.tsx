@@ -9,7 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default async function PartnershipsPage() {
-  const partnerships = await getPartnerships();
+  const partnerships = await getPartnerships()
+  const fillerCount = partnerships.length % 3 === 0 ? 0 : 3 - (partnerships.length % 3)
 
   return (
     <>
@@ -87,6 +88,9 @@ export default async function PartnershipsPage() {
                 )}
               </div>
             </div>
+          ))}
+          {Array.from({ length: fillerCount }).map((_, i) => (
+            <div key={`filler-${i}`} className="bg-[#fdfbe5]" />
           ))}
         </div>
       </section>

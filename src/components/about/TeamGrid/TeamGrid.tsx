@@ -16,32 +16,36 @@ export default async function TeamGrid() {
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 border-t border-border">
-          {members.map((m, i) => (
-            <div
-              key={i}
-              className="p-5 md:p-12 border-r border-b border-border last:border-r-0 hover:bg-cream transition-colors duration-200"
-            >
-              {m.photo_url ? (
-                <Image
-                  src={m.photo_url}
-                  alt={m.name}
-                  width={120}
-                  height={120}
-                  className="w-30 h-30 rounded-full object-cover border border-navy mb-7"
-                />
-              ) : (
-                <div className="w-30 h-30 border border-navy rounded-full flex items-center justify-center font-serif italic font-normal text-[40px] tracking-[-0.02em] mb-7">
-                  {m.initials}
+          {members.map((m, i) => {
+            const isLastMobileCol = (i + 1) % 2 === 0
+            const isLastDesktopCol = (i + 1) % 4 === 0
+            return (
+              <div
+                key={i}
+                className={`p-5 md:p-12 border-b border-border hover:bg-cream transition-colors duration-200 ${isLastMobileCol ? 'border-r-0' : 'border-r'} ${isLastDesktopCol ? 'md:border-r-0' : 'md:border-r'}`}
+              >
+                {m.photo_url ? (
+                  <Image
+                    src={m.photo_url}
+                    alt={m.name}
+                    width={120}
+                    height={120}
+                    className="w-30 h-30 rounded-full object-cover border border-navy mb-7"
+                  />
+                ) : (
+                  <div className="w-30 h-30 border border-navy rounded-full flex items-center justify-center font-serif italic font-normal text-[40px] tracking-[-0.02em] mb-7">
+                    {m.initials}
+                  </div>
+                )}
+                <h4 className="font-serif font-semibold text-[22px] mb-2 tracking-[-0.015em] line-clamp-2">
+                  {m.name}
+                </h4>
+                <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted truncate">
+                  {m.role}
                 </div>
-              )}
-              <h4 className="font-serif font-semibold text-[22px] mb-2 tracking-[-0.015em]">
-                {m.name}
-              </h4>
-              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-                {m.role}
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

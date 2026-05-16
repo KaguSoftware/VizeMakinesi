@@ -1,12 +1,24 @@
 import type { Metadata } from 'next';
 import TeamGrid from '@/components/about/TeamGrid/TeamGrid';
+import { getPageSection } from '@/lib/data/pageSections';
 
 export const metadata: Metadata = {
   title: 'Hakkımızda — Vize Makinesi',
   description: 'On sekiz yıl, on iki danışman, 42.000\'den fazla işlenmiş vize.',
 };
 
-export default function AboutPage() {
+const DEFAULT_TARIHCE = {
+  title: '2006\'dan bugüne, sınırları aşan tecrübe.',
+  paragraphs: [
+    'Her şey 2006 yılında, sınır ötesi deneyimlere yön veren Gezi Makinesi ile başladı. Biz sadece insanları bir noktadan diğerine taşımadık; binlerce gezginin hafızasına kazınan devasa festivalleri, Avrupa\'nın en prestijli kayak rotalarını ve her detayı incelikle düşünülmüş üst düzey yurtdışı organizasyonlarını bizzat organize ettik.',
+  ],
+};
+
+export default async function AboutPage() {
+  const section = await getPageSection('about_tarihce');
+  const title = section?.title || DEFAULT_TARIHCE.title;
+  const paragraphs = section?.paragraphs?.length ? section.paragraphs : DEFAULT_TARIHCE.paragraphs;
+
   return (
     <>
       {/* Alıntı */}
@@ -32,19 +44,13 @@ export default function AboutPage() {
               — Tarihimiz
             </div>
             <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
-              Tek bir<br />masadan, 2008&rsquo;de.
+              {title}
             </h2>
           </div>
           <div className="text-[16px] leading-[1.85] text-muted space-y-5">
-            <p>
-              Vize Makinesi, 2008 yılında şehrimizde diaspora topluluğuna hizmet veren tek kişilik bir ofis olarak başladı. 2013 yılına kadar üç danışmanımız ve iki konsolosluk için yetkili acente lisansımız vardı.
-            </p>
-            <p>
-              Bugün, on iki tam zamanlı danışman, bünyemizde tercüman ve VFS, TLS Contact, BLS ile CGI dünya genelinde ortaklıklarımızla çok yargı bölgeli bir uygulama yürütüyoruz.
-            </p>
-            <p>
-              Hiç televizyonda reklam vermedik. Her müşteri bir tavsiye, geri dönen bir dava ya da arkadaşlar arasındaki sessiz bir öneri sayesinde bize ulaşır.
-            </p>
+            {paragraphs.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
           </div>
         </div>
       </section>

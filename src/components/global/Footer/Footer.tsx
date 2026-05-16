@@ -25,18 +25,18 @@ export default function Footer() {
 
 
                 {/* Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
                     {FOOTER_COLUMNS.map((col) => (
-                        <div key={col.eyebrow}>
+                        <div key={col.eyebrow} className="min-w-0">
                             <h5 className="font-mono font-bold text-[13px] uppercase tracking-[0.18em] text-coral mb-6">
                                 {col.eyebrow}
                             </h5>
                             <ul className="flex flex-col gap-2.5 list-none">
                                 {col.links.map((l) => (
-                                    <li key={l.label}>
+                                    <li key={l.label} className="min-w-0">
                                         <Link
                                             href={l.href}
-                                            className="font-serif text-[18px] font-medium tracking-[-0.005em] text-white/60 hover:text-coral transition-colors duration-150"
+                                            className="font-serif text-[15px] md:text-[18px] font-medium tracking-[-0.005em] text-white/60 hover:text-coral transition-colors duration-150 break-all"
                                         >
                                             {l.label}
                                         </Link>
@@ -47,7 +47,7 @@ export default function Footer() {
                     ))}
 
                     {/* Address */}
-                    <div>
+                    <div className="min-w-0">
                         <h5 className="font-mono font-bold text-[13px] uppercase tracking-[0.18em] text-coral mb-6">
                             — 04 / Adres
                         </h5>
@@ -55,7 +55,7 @@ export default function Footer() {
                             href="https://maps.google.com/?q=Gezi+Makinesi,+Levent,+Istanbul"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[14px] text-white/60 leading-[1.7] hover:text-coral transition-colors duration-150"
+                            className="text-[14px] text-white/60 leading-[1.7] hover:text-coral transition-colors duration-150 wrap-break-word"
                         >
                             {SITE.address.street},<br />
                             {SITE.address.suite}

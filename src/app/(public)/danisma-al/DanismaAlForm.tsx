@@ -50,10 +50,10 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
     <>
       <PageHead
         eyebrow="— Danışma formu"
-        title={<>Bize anlatın, <em className="font-normal italic text-coral">biz halledelim.</em></>}
-        titleClassName="font-serif font-bold text-[clamp(36px,4.2vw,72px)] leading-[0.95] tracking-[-0.02em] whitespace-nowrap"
-        lede="Seyahat planınızı paylaşın — 2 iş günü içinde size dönelim."
-        ledeClassName="font-serif text-[20px] text-navy mt-9 leading-[1.45] border-l border-coral pl-6 whitespace-nowrap"
+        title={<>Vize Sürecinizi <em className="font-normal italic text-coral">Bugün Başlatın.</em></>}
+        titleClassName="font-serif font-bold text-[clamp(28px,4.2vw,72px)] leading-[1.05] tracking-[-0.02em]"
+        lede="Formu doldurarak ilk adımı atın; evrak karmaşasından randevu stresine kadar tüm süreci sizin adınıza Vize Makinesi hızıyla biz yönetelim."
+        ledeClassName="font-serif text-[16px] md:text-[20px] text-navy mt-6 md:mt-9 leading-[1.55] border-l border-coral pl-6"
       />
 
       <section className="container pb-16">

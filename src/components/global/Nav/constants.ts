@@ -39,7 +39,8 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Hakkımızda',
         items: [
-          { to: '/hakkimizda', label: 'Ofisimiz', desc: 'Ekip ve danışmanlar' },
+          { to: '/hakkimizda', label: 'Hakkımızda', desc: 'Ekip ve danışmanlar' },
+          { to: '/ekibimiz', label: 'Ekibimiz', desc: 'Dosyanızı okuyan danışmanlarımız' },
           { to: '/ortakliklar', label: 'Ortaklıklar', desc: 'Kurumsal çözümler' },
         ],
       },
@@ -68,6 +69,7 @@ export const MOBILE_LINKS: MobileLink[] = [
   { to: '/vize-turleri', label: 'Vize Türleri' },
   { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız' },
   { to: '/hakkimizda', label: 'Hakkımızda' },
+  { to: '/ekibimiz', label: 'Ekibimiz' },
   { to: '/ucrete-dahil-hizmetler', label: 'Ücretler' },
   { to: '/vize/schengen', label: 'Schengen' },
   { to: '/blog', label: 'Blog' },

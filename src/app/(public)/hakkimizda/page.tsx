@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import TeamGrid from '@/components/about/TeamGrid/TeamGrid';
+import Link from 'next/link';
 import { getPageSection } from '@/lib/data/pageSections';
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default async function AboutPage() {
     <>
       {/* Alıntı */}
       <section className="container">
-        <div className="py-24 border-b border-border">
+        <div className="py-24">
           <div className="relative pl-16">
             <span className="about-quote-mark font-serif" aria-hidden="true">&ldquo;</span>
             <blockquote className="font-serif italic text-[clamp(28px,3vw,48px)] leading-[1.25] tracking-[-0.015em]">
@@ -34,16 +34,33 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <TeamGrid />
+      {/* Ekibimiz teaser */}
+      <section className="pt-12 pb-24 border-b border-border">
+        <div className="container">
+          <Link
+            href="/ekibimiz"
+            className="group flex items-center justify-between gap-8 transition-opacity duration-200"
+          >
+            <div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-4">
+                — Ekibimiz
+              </div>
+              <h2 className="font-serif font-bold text-[clamp(36px,5vw,56px)] leading-none tracking-[-0.025em] text-navy group-hover:text-coral transition-colors duration-300">
+                Ekip arkadaşlarımızla tanışın.
+              </h2>
+            </div>
+            <span className="font-serif text-[clamp(32px,4vw,48px)] text-coral shrink-0 group-hover:translate-x-2 transition-transform duration-200">
+              &rarr;
+            </span>
+          </Link>
+        </div>
+      </section>
 
       {/* Tarihçe */}
-      <section className="container py-20 border-b border-border">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+      <section className="container py-20 mt-16 mb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
           <div>
-            <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-4">
-              — Tarihimiz
-            </div>
-            <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
+<h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
               {title}
             </h2>
           </div>

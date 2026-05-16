@@ -138,7 +138,17 @@ export default async function CountryPage({ params }: Props) {
           'Sürecin başından sonuna kadar uçtan uca uzman desteği',
           'Konsolosluk standartlarına uygun, sıfır hatalı evrak hazırlığı',
           'Yüksek onay oranı ve kanıtlanmış sektör tecrübesi',
-        ] : undefined}
+        ] : (countrySlug === 'america' || countrySlug === 'abd') ? [
+          'Amerika vize başvurunuzu ve mülakat sürecinizi şansa değil, profesyonellere bırakın.',
+          'Kusursuz DS-160 form hazırlığı ve uçtan uca uzman desteği',
+          'Konsolosluk beklentilerine uygun evrak yönetimi ve mülakat simülasyonu',
+          'Yüksek onay oranı ve kanıtlanmış sektör tecrübesi',
+        ] : [
+          `${country.name} vize başvurunuzu şansa değil, profesyonellere bırakın.`,
+          'Sürecin başından sonuna kadar uçtan uca uzman desteği',
+          'Konsolosluk standartlarına uygun, sıfır hatalı evrak hazırlığı',
+          'Yüksek onay oranı ve kanıtlanmış sektör tecrübesi',
+        ]}
       />
 
       {country.appointment_days && (

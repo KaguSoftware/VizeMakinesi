@@ -67,10 +67,8 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-15 items-end relative">
           {/* Left: headline */}
           <div className="relative">
-            <h1 className="font-serif font-bold text-[clamp(46px,7vw,110px)] leading-none tracking-[-0.02em]">
-              <span className="whitespace-nowrap">Evrakları biz</span> halledelim,<br />
-              siz <span className="text-coral">valizinizi</span><br />
-              <span className="text-coral">hazırlayın</span>.
+            <h1 className="font-serif font-bold text-[clamp(38px,5.5vw,88px)] leading-none tracking-[-0.02em]">
+              Vize Almanın<br />En Hızlı, En Güvenilir ve<br /><span className="text-coral">Garantili</span> Yolu.
             </h1>
           </div>
 
@@ -123,7 +121,7 @@ export default function Hero() {
             </div>
 
             <p className="font-serif text-[clamp(14px,1.4vw,19px)] leading-[1.55] text-coral max-w-95 mb-8">
-              Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
+              Turistikten ticari ve aile ziyaretlerine kadar tüm vize ihtiyaçlarınızda profesyonel çözüm ortağınız. 60+ ülke için hatasız evrak hazırlığı ve hızlı randevu garantisiyle sürecinizi güvence altına alıyoruz.
             </p>
             <Link
               href="/danisma-al"

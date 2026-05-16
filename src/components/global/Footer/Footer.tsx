@@ -17,7 +17,7 @@ export default function Footer() {
                     <div className="font-serif font-bold text-[36px] tracking-[-0.01em] text-cream">
                         Vize Makinesi
                     </div>
-                    <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-cream">
+                    <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-cream">
                         {FOOTER_TAGLINE}
                     </div>
                 </div>

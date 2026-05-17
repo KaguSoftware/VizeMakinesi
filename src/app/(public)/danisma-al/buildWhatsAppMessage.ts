@@ -2,7 +2,6 @@ export interface WhatsAppFormInput {
   ad: string;
   soyad: string;
   email: string;
-  phone: string;
   country: string;
   travelDate: string;
   returnDate: string;
@@ -16,8 +15,6 @@ function placeholder(value: string, fallback = "—") {
 
 export function buildWhatsAppMessage(input: WhatsAppFormInput): string {
   const adSoyad = [input.ad, input.soyad].map((p) => p.trim()).filter(Boolean).join(" ") || "—";
-  const phone = input.phone.trim();
-  const phoneLine = phone ? `+90 ${phone}` : "—";
   const dates = input.travelDate
     ? input.returnDate
       ? `${input.travelDate} → ${input.returnDate}`
@@ -29,7 +26,6 @@ export function buildWhatsAppMessage(input: WhatsAppFormInput): string {
     "",
     `👤 Ad Soyad: ${adSoyad}`,
     `📧 E-posta: ${placeholder(input.email)}`,
-    `📱 Telefon: ${phoneLine}`,
     `🌍 Gidilecek Ülke: ${placeholder(input.country)}`,
     `🗓️ Seyahat Tarihleri: ${dates}`,
     "",

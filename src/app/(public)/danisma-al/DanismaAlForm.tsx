@@ -10,7 +10,7 @@ import { SITE } from "@/data/site";
 import type { DanismaCountry } from "@/lib/data/countries";
 import { EASE_OUT_EXPO } from "@/components/shared/motion/constants";
 
-type Errors = Partial<Record<"ad" | "soyad" | "email" | "phone" | "country" | "travelDate", string>>;
+type Errors = Partial<Record<"ad" | "soyad" | "email" | "country" | "travelDate", string>>;
 
 const fieldAnim = (i: number) => ({
   initial: { opacity: 0, y: 12 },
@@ -22,7 +22,6 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
   const [ad, setAd] = useState("");
   const [soyad, setSoyad] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
   const [travelDate, setTravelDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
@@ -30,8 +29,8 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
   const [errors, setErrors] = useState<Errors>({});
 
   const message = useMemo(
-    () => buildWhatsAppMessage({ ad, soyad, email, phone, country, travelDate, returnDate, note }),
-    [ad, soyad, email, phone, country, travelDate, returnDate, note]
+    () => buildWhatsAppMessage({ ad, soyad, email, country, travelDate, returnDate, note }),
+    [ad, soyad, email, country, travelDate, returnDate, note]
   );
 
   const selectedCountry = countries.find((c) => c.name === country);
@@ -41,7 +40,6 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
     if (!ad.trim()) errs.ad = "Adınızı girin";
     if (!soyad.trim()) errs.soyad = "Soyadınızı girin";
     if (!/^\S+@\S+\.\S+$/.test(email.trim())) errs.email = "Geçerli bir e-posta girin";
-    if (!/^\d{10}$/.test(phone.trim())) errs.phone = "10 haneli telefon numaranızı girin";
     if (!country) errs.country = "Ülke seçin";
     if (!travelDate) errs.travelDate = "Gidiş tarihi seçin";
     return errs;
@@ -134,34 +132,8 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
                 />
               </motion.div>
 
-              {/* Phone */}
-              <motion.div {...fieldAnim(2)}>
-                <Field
-                  label="Telefon"
-                  required
-                  error={errors.phone}
-                  input={
-                    <div className="flex items-end border-b border-border pb-1.5 focus-within:border-coral transition-colors duration-150">
-                      <span className="font-serif text-[14px] text-navy mr-2 shrink-0">+90</span>
-                      <input
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => {
-                          const next = e.target.value.replace(/\D/g, "").slice(0, 10);
-                          setPhone(next);
-                        }}
-                        placeholder="5__ ___ __ __"
-                        className="w-full bg-transparent font-serif text-[14px] text-navy placeholder:text-muted/40 focus:outline-none"
-                        autoComplete="tel-national"
-                      />
-                    </div>
-                  }
-                  bare
-                />
-              </motion.div>
-
               {/* Country */}
-              <motion.div {...fieldAnim(3)}>
+              <motion.div {...fieldAnim(2)}>
                 <Field
                   label="Gidilecek Ülke"
                   required
@@ -196,7 +168,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
               </motion.div>
 
               {/* Travel dates */}
-              <motion.div {...fieldAnim(4)}>
+              <motion.div {...fieldAnim(3)}>
                 <Field
                   label="Seyahat Tarihleri"
                   required
@@ -214,7 +186,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
               </motion.div>
 
               {/* Note */}
-              <motion.div {...fieldAnim(5)}>
+              <motion.div {...fieldAnim(4)}>
                 <Field
                   label="Not / Ek Bilgi"
                   input={
@@ -232,7 +204,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
             </div>
 
             {/* Submit */}
-            <motion.div {...fieldAnim(6)} className="mt-10 border-t border-border pt-6 flex items-center justify-between flex-wrap gap-4">
+            <motion.div {...fieldAnim(5)} className="mt-10 border-t border-border pt-6 flex items-center justify-between flex-wrap gap-4">
               <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
                 * Zorunlu alanlar
               </p>

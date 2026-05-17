@@ -1,4 +1,5 @@
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
+import { FadeIn } from '@/components/shared/motion';
 import type { PageHeadProps } from './types';
 
 export default function PageHead({ title, lede, flagPresetKey, flagImageUrl, titleClassName, ledeClassName, contentClassName }: PageHeadProps) {
@@ -11,13 +12,17 @@ export default function PageHead({ title, lede, flagPresetKey, flagImageUrl, tit
       )}
       <div className="container relative z-10">
         <div className={contentClassName ?? ""}>
-          <h1 className={titleClassName ?? "font-serif font-bold text-[clamp(48px,6.6vw,106px)] leading-[0.95] tracking-[-0.02em] wrap-break-word hyphens-auto"}>
-            {title}
-          </h1>
+          <FadeIn as="div" duration={0.5}>
+            <h1 className={titleClassName ?? "font-serif font-bold text-[clamp(48px,6.6vw,106px)] leading-[0.95] tracking-[-0.02em] wrap-break-word hyphens-auto"}>
+              {title}
+            </h1>
+          </FadeIn>
           {lede && (
-            <p className={ledeClassName ?? "font-serif text-[20px] text-navy mt-9 leading-[1.45] border-l border-coral pl-6 wrap-break-word"}>
-              {lede}
-            </p>
+            <FadeIn as="div" delay={0.15} duration={0.5}>
+              <p className={ledeClassName ?? "font-serif text-[20px] text-navy mt-9 leading-[1.45] border-l border-coral pl-6 wrap-break-word"}>
+                {lede}
+              </p>
+            </FadeIn>
           )}
         </div>
       </div>

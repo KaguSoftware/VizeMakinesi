@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { getTeamMembers } from '@/lib/data/team';
+import { FadeIn, Stagger, StaggerItem } from '@/components/shared/motion';
 
 export default async function TeamGrid() {
   const members = await getTeamMembers();
@@ -7,20 +8,20 @@ export default async function TeamGrid() {
   return (
     <section className="py-24 border-b border-border">
       <div className="container">
-        <div className="mb-14">
+        <FadeIn as="div" className="mb-14">
           <h2 className="font-serif font-bold text-[clamp(22px,5vw,56px)] leading-tight tracking-tight text-navy">
             Dosyanızı okuyan danışmanlarımız.
           </h2>
           <div className="font-mono text-[13px] uppercase tracking-[0.18em] text-muted mt-4">
             {members.length} danışman
           </div>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 border-t border-border">
+        </FadeIn>
+        <Stagger as="div" className="grid grid-cols-2 md:grid-cols-4 border-t border-border">
           {members.map((m, i) => {
             const isLastMobileCol = (i + 1) % 2 === 0
             const isLastDesktopCol = (i + 1) % 4 === 0
             return (
-              <div
+              <StaggerItem
                 key={i}
                 className={`p-5 md:p-12 border-b border-border hover:bg-cream transition-colors duration-200 ${isLastMobileCol ? 'border-r-0' : 'border-r'} ${isLastDesktopCol ? 'md:border-r-0' : 'md:border-r'}`}
               >
@@ -43,10 +44,10 @@ export default async function TeamGrid() {
                 <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted truncate">
                   {m.role}
                 </div>
-              </div>
+              </StaggerItem>
             )
           })}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

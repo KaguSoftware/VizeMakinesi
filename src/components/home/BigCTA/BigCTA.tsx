@@ -1,4 +1,5 @@
 import type { BigCTAProps } from "./types";
+import { FadeIn } from "@/components/shared/motion";
 import {
     CTA_EYEBROW,
     CTA_PHONE,
@@ -11,16 +12,18 @@ export default function BigCTA({ title }: BigCTAProps) {
         <section className="cta-block mt-15 bg-cream text-navy border-t border-border">
             <div className="container">
                 <div className="cta-inner py-[120px] relative z-10">
-                    <div className="font-mono text-[13px] tracking-[0.2em] uppercase text-coral mb-12 pb-4">
-                        {CTA_EYEBROW}
-                    </div>
+                    <FadeIn as="div" duration={0.4}>
+                        <div className="font-mono text-[13px] tracking-[0.2em] uppercase text-coral mb-12 pb-4">
+                            {CTA_EYEBROW}
+                        </div>
+                    </FadeIn>
                     <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-20 items-end">
-                        <div>
+                        <FadeIn as="div" delay={0.1} duration={0.5}>
                             <h2 className="font-serif font-bold text-[clamp(34px,4.25vw,68px)] leading-[0.96] tracking-[-0.035em] text-navy whitespace-pre-line">
                                 {title ?? "Vize sürecinizi hemen\nbaşlatmak ve detaylı\nbilgi almak için\nbize ulaşın."}
                             </h2>
-                        </div>
-                        <div>
+                        </FadeIn>
+                        <FadeIn as="div" delay={0.2} duration={0.5}>
                             <div className="font-mono text-[13px] tracking-[0.2em] uppercase text-muted mb-4">
                                 — Hemen arayın
                             </div>
@@ -50,7 +53,7 @@ export default function BigCTA({ title }: BigCTAProps) {
                                     Ara: {CTA_PHONE}
                                 </a>
                             </div>
-                        </div>
+                        </FadeIn>
                     </div>
                 </div>
             </div>

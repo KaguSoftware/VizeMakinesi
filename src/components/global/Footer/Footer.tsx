@@ -5,11 +5,12 @@ import {
     FOOTER_TAGLINE,
 } from "./constants";
 import { SITE } from "@/data/site";
+import { FadeIn } from "@/components/shared/motion";
 
 export default function Footer() {
     return (
         <footer className="border-t border-border pt-20 pb-8 bg-navy text-white relative overflow-hidden">
-            <div className="container relative z-10">
+            <FadeIn as="div" duration={0.55} y={24} className="container relative z-10">
                 {/* Mark */}
                 <div className="flex justify-between items-center flex-wrap gap-4 mb-16">
                     <Link href="/" aria-label="Vize Makinesi" className="overflow-hidden h-12 hidden md:block">
@@ -90,7 +91,7 @@ export default function Footer() {
                         </span>
                     </div>
                 </div>
-            </div>
+            </FadeIn>
 
             {/* Watermark */}
             <div className="footer-watermark font-serif">VİZE·MAKİNESİ</div>

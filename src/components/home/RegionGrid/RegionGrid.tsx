@@ -1,5 +1,8 @@
+"use client";
 import Link from 'next/link';
+import { motion, useReducedMotion } from 'framer-motion';
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
+import { EASE_OUT_EXPO, STAGGER_GAP, VIEWPORT } from '@/components/shared/motion/constants';
 
 interface RegionEntry {
   name: string;
@@ -12,14 +15,30 @@ interface RegionGridProps {
   entries: RegionEntry[];
 }
 
+const MotionLink = motion.create(Link);
+
 export default function RegionGrid({ entries }: RegionGridProps) {
+  const reduced = useReducedMotion();
+
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border">
+    <motion.div
+      className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border"
+      initial={reduced ? undefined : 'hidden'}
+      whileInView={reduced ? undefined : 'show'}
+      viewport={VIEWPORT}
+      variants={{ hidden: {}, show: { transition: { staggerChildren: STAGGER_GAP } } }}
+    >
       {entries.map((entry) => (
-        <Link
+        <MotionLink
           key={entry.href}
           href={entry.href}
           className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden"
+          variants={reduced ? undefined : {
+            hidden: { opacity: 0, y: 16 },
+            show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE_OUT_EXPO } },
+          }}
+          whileHover={reduced ? undefined : { y: -3 }}
+          transition={{ duration: 0.18, ease: EASE_OUT_EXPO }}
         >
           <FlagBG presetKey={entry.presetKey} className="flag-svg" />
           <div className="flag-overlay-light" />
@@ -38,8 +57,8 @@ export default function RegionGrid({ entries }: RegionGridProps) {
               </div>
             </div>
           </div>
-        </Link>
+        </MotionLink>
       ))}
-    </div>
+    </motion.div>
   );
 }

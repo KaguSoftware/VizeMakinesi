@@ -13,7 +13,12 @@
       "Bash(curl -sv http://localhost:3000/blog)",
       "Bash(pkill -f \"next dev\")",
       "Bash(curl -s http://localhost:3000/visa/schengen)",
-      "Bash(python3 -)"
+      "Bash(python3 -)",
+      "Bash(dir src\\\\app\\\\danisma-al)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\\\\src\" -Recurse | Where-Object { $_.Name -match \"variant|animation|motion\" })",
+      "Bash(ls \"C:\\\\Users\\\\MnS\\\\.claude\\\\plans\" 2>&1)",
+      "Read(//c/Users/MnS/.claude/plans/**)",
+      "Bash(findstr /S \"NavigationLoader\" src\\\\**\\\\*.tsx src\\\\**\\\\*.ts)"
     ]
   }
 }

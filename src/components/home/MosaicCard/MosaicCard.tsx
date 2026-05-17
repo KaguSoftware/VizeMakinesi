@@ -1,6 +1,11 @@
+"use client";
 import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
 import FlagBG from "@/components/shared/FlagBG/FlagBG";
+import { EASE_OUT_EXPO } from "@/components/shared/motion/constants";
 import type { MosaicCardProps } from "./types";
+
+const MotionLink = motion.create(Link);
 
 export default function MosaicCard({
     country,
@@ -8,11 +13,15 @@ export default function MosaicCard({
     span,
     rowIndex,
 }: MosaicCardProps) {
+    const reduced = useReducedMotion();
+
     return (
-        <Link
+        <MotionLink
             href={`/vize/${country.slug}`}
             data-mosaic-row={rowIndex}
             className={`mosaic-cell ${span} border-b border-r border-border flex flex-col justify-between min-h-90 cursor-pointer relative bg-cream overflow-hidden`}
+            whileHover={reduced ? undefined : { y: -3 }}
+            transition={{ duration: 0.18, ease: EASE_OUT_EXPO }}
         >
             <FlagBG presetKey={country.flag_preset_key} imageUrl={country.flag_image_url} className="flag-svg" />
             <div className="flag-overlay-light" />
@@ -38,6 +47,6 @@ export default function MosaicCard({
                     View →
                 </div>
             </div>
-        </Link>
+        </MotionLink>
     );
 }

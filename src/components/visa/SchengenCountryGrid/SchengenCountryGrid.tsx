@@ -2,8 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { motion, useReducedMotion } from 'framer-motion';
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import { SCHENGEN_MEMBERS } from '@/data/schengen';
+import { EASE_OUT_EXPO, STAGGER_GAP, VIEWPORT } from '@/components/shared/motion/constants';
+import { FadeIn } from '@/components/shared/motion';
+
+const MotionLink = motion.create(Link);
 
 export interface SchengenEntry {
   id: string;
@@ -44,6 +49,7 @@ interface Props {
 
 export default function SchengenCountryGrid({ entries, hideHeader, limitCollapsed }: Props) {
   const [expanded, setExpanded] = useState(false);
+  const reduced = useReducedMotion();
 
   // When entries prop is provided, use DB data; otherwise fall back to hardcoded
   const usePropEntries = entries !== undefined && entries.length > 0;
@@ -79,10 +85,16 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
 
   function renderCard(entry: { name: string; href: string; preset_key: string }, key: string) {
     return (
-      <Link
+      <MotionLink
         key={key}
         href={entry.href}
         className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden"
+        variants={reduced ? undefined : {
+          hidden: { opacity: 0, y: 16 },
+          show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE_OUT_EXPO } },
+        }}
+        whileHover={reduced ? undefined : { y: -3 }}
+        transition={{ duration: 0.18, ease: EASE_OUT_EXPO }}
       >
         <FlagBG presetKey={entry.preset_key} className="flag-svg" />
         <div className="flag-overlay-light" />
@@ -101,14 +113,14 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
             </div>
           </div>
         </div>
-      </Link>
+      </MotionLink>
     );
   }
 
   return (
     <section className="border-t border-border">
       {!hideHeader && (
-        <div className="container py-20">
+        <FadeIn as="div" className="container py-20">
           <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
             — Schengen bölgesi ülkeleri
           </div>
@@ -116,11 +128,17 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
             Hangi ülkeye{' '}
             <em className="font-normal italic text-coral">vize almak istiyorsunuz?</em>
           </h2>
-        </div>
+        </FadeIn>
       )}
 
       <div className="container">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border">
+        <motion.div
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border"
+          initial={reduced ? undefined : 'hidden'}
+          whileInView={reduced ? undefined : 'show'}
+          viewport={VIEWPORT}
+          variants={{ hidden: {}, show: { transition: { staggerChildren: STAGGER_GAP } } }}
+        >
           {visibleCards.map((entry, i) => renderCard(entry, `${entry.href}-${i}`))}
 
           {!expanded && (
@@ -139,7 +157,7 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
               </div>
             </button>
           )}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

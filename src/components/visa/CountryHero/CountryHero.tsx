@@ -1,4 +1,5 @@
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
+import { FadeIn, Stagger, StaggerItem } from '@/components/shared/motion';
 import type { CountryHeroProps } from './types';
 
 const DEFAULT_BULLETS = [
@@ -21,34 +22,40 @@ export default function CountryHero({ country, bullets }: CountryHeroProps) {
 
       <div className="container relative z-10">
 <div className="lg:w-1/2 lg:pr-8">
-          <div className="flex items-center gap-10 mb-7">
+          <FadeIn as="div" className="flex items-center gap-10 mb-7" duration={0.5}>
             <div className="text-[80px] leading-none">{country.flag_emoji}</div>
             <div className="inline-block border border-navy px-4 py-2 font-mono font-medium text-[10px] uppercase tracking-[0.15em]">
               — {country.visa_type}
             </div>
-          </div>
+          </FadeIn>
 
-          <h1 className="font-serif font-bold text-[clamp(28px,6.6vw,106px)] leading-[0.95] tracking-[-0.04em] mb-10 whitespace-nowrap">
-            {first}
-            {rest && <em className="font-normal italic text-coral"> {rest}</em>}
-          </h1>
-          <p className="font-serif italic text-[20px] leading-relaxed text-navy">
-            {country.summary}
-          </p>
-
-          <div className="mt-10 flex flex-col gap-3 border-l-2 border-coral pl-5">
-            <p className="font-sans font-medium text-[15px] text-navy">
-              Vize sürecinde kendinizi yalnız hissetmenize gerek yok.
+          <FadeIn as="div" delay={0.1} duration={0.55}>
+            <h1 className="font-serif font-bold text-[clamp(28px,6.6vw,106px)] leading-[0.95] tracking-[-0.04em] mb-10 whitespace-nowrap">
+              {first}
+              {rest && <em className="font-normal italic text-coral"> {rest}</em>}
+            </h1>
+          </FadeIn>
+          <FadeIn as="div" delay={0.2}>
+            <p className="font-serif italic text-[20px] leading-relaxed text-navy">
+              {country.summary}
             </p>
+          </FadeIn>
+
+          <Stagger as="div" className="mt-10 flex flex-col gap-3 border-l-2 border-coral pl-5" delayChildren={0.3}>
+            <StaggerItem>
+              <p className="font-sans font-medium text-[15px] text-navy">
+                Vize sürecinde kendinizi yalnız hissetmenize gerek yok.
+              </p>
+            </StaggerItem>
             <ul className="flex flex-col gap-2">
               {activeBullets.map((item) => (
-                <li key={item} className="font-sans text-[14px] text-muted flex items-start gap-2">
+                <StaggerItem as="li" key={item} className="font-sans text-[14px] text-muted flex items-start gap-2">
                   <span className="text-coral mt-0.5">✓</span>
                   {item}
-                </li>
+                </StaggerItem>
               ))}
             </ul>
-          </div>
+          </Stagger>
         </div>
       </div>
     </section>

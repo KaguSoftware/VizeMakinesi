@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { TIMELINE_STEPS } from '@/components/shared/Timeline/constants';
+import { FadeIn, Stagger, StaggerItem } from '@/components/shared/motion';
 
 const REZERVASYON_KURUMLARI = ['VFS Global', 'iDATA', 'BLS'];
 
@@ -9,7 +10,7 @@ export default function BasvuruSureci() {
   return (
     <section className="container border-b border-border">
       <div className="pt-28 pb-12 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
-        <div>
+        <FadeIn as="div">
           <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-tight text-navy mb-6">
             Başvuru ve rezervasyon<br />
             <em className="font-normal italic text-coral">nasıl işliyor?</em>
@@ -23,11 +24,11 @@ export default function BasvuruSureci() {
           >
             Sürecin tamamını görün →
           </Link>
-        </div>
+        </FadeIn>
 
-        <div className="flex flex-col gap-0">
+        <Stagger as="div" className="flex flex-col gap-0">
           {/* Step 01 — Başvuru */}
-          <div className="flex gap-6 py-6 border-b border-navy/10 bg-navy/3 rounded-xl px-5 -mx-5">
+          <StaggerItem className="flex gap-6 py-6 border-b border-navy/10 bg-navy/3 rounded-xl px-5 -mx-5">
             <div className="font-mono text-[11px] tracking-[0.15em] pt-1 shrink-0 w-7 text-coral font-bold">
               {basvuru.n}
             </div>
@@ -39,10 +40,10 @@ export default function BasvuruSureci() {
                 {basvuru.detail}
               </div>
             </div>
-          </div>
+          </StaggerItem>
 
           {/* Rezervasyon */}
-          <div className="flex gap-6 py-6 border-b border-navy/10">
+          <StaggerItem className="flex gap-6 py-6 border-b border-navy/10">
             <div className="font-mono text-[11px] tracking-[0.15em] pt-1 shrink-0 w-7 text-coral font-bold">
               02
             </div>
@@ -64,8 +65,8 @@ export default function BasvuruSureci() {
                 ))}
               </div>
             </div>
-          </div>
-        </div>
+          </StaggerItem>
+        </Stagger>
       </div>
     </section>
   );

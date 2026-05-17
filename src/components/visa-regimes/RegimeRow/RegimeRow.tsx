@@ -1,3 +1,4 @@
+import { FadeIn } from '@/components/shared/motion';
 import type { Regime } from './types';
 
 interface RegimeRowProps {
@@ -6,7 +7,7 @@ interface RegimeRowProps {
 
 export default function RegimeRow({ regime }: RegimeRowProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[140px_1.4fr_4fr] gap-10 py-16 border-t border-border last:border-b items-start">
+    <FadeIn as="div" className="grid grid-cols-1 md:grid-cols-[140px_1.4fr_4fr] gap-10 py-16 border-t border-border last:border-b items-start">
       <div className="font-serif font-normal italic text-[96px] leading-[0.85] text-coral tracking-[-0.04em]">
         {regime.n}
       </div>
@@ -23,6 +24,6 @@ export default function RegimeRow({ regime }: RegimeRowProps) {
           ))}
         </div>
       </div>
-    </div>
+    </FadeIn>
   );
 }

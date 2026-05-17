@@ -109,24 +109,24 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
   return (
     <div className="select-none">
       {/* Calendar */}
-      <div className="border border-border rounded-xl w-full max-w-sm">
+      <div className="border border-border rounded-xl w-full max-w-md">
         {/* Header: month nav */}
-        <div className="flex items-center justify-between px-2.5 py-1.5">
+        <div className="flex items-center justify-between px-4 py-2.5">
           <button
             type="button"
             onClick={prevMonth}
-            className="font-mono text-[10px] text-muted hover:text-navy transition-colors px-1"
+            className="font-mono text-[12px] text-muted hover:text-navy transition-colors px-1.5"
             aria-label="Önceki ay"
           >
             ←
           </button>
-          <span className="font-serif font-semibold text-[12px] text-navy tracking-[-0.01em]">
+          <span className="font-serif font-semibold text-[14px] text-navy tracking-[-0.01em]">
             {MONTHS_TR[viewMonth]} {viewYear}
           </span>
           <button
             type="button"
             onClick={nextMonth}
-            className="font-mono text-[10px] text-muted hover:text-navy transition-colors px-1"
+            className="font-mono text-[12px] text-muted hover:text-navy transition-colors px-1.5"
             aria-label="Sonraki ay"
           >
             →
@@ -134,51 +134,51 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
         </div>
 
         {/* Range display inside the box */}
-        <div className="flex items-center gap-1.5 px-2.5 py-1.5 border-b border-border">
-          <div className={`flex-1 min-w-0 rounded-lg px-2 py-1 border transition-all duration-200 ${picking === null && !travelDate ? "border-coral shadow-[0_0_8px_2px_rgba(48,156,155,0.45)]" : "border-transparent"}`}>
-            <span className={`block font-mono text-[8px] uppercase tracking-[0.12em] transition-colors duration-150 ${picking === null && !travelDate ? "text-coral" : "text-muted"}`}>Gidiş</span>
-            <span className={`font-serif text-[11px] truncate ${travelDate ? "text-navy" : "text-muted/40"}`}>
+        <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border">
+          <div className={`flex-1 min-w-0 rounded-lg px-2.5 py-1.5 border transition-all duration-200 ${picking === null && !travelDate ? "border-coral shadow-[0_0_10px_3px_rgba(48,156,155,0.45)]" : "border-transparent"}`}>
+            <span className={`block font-mono text-[9px] uppercase tracking-[0.14em] transition-colors duration-150 ${picking === null && !travelDate ? "text-coral" : "text-muted"}`}>Gidiş</span>
+            <span className={`font-serif text-[13px] truncate ${travelDate ? "text-navy" : "text-muted/40"}`}>
               {travelDate ? formatDisplay(travelDate) : "—"}
             </span>
           </div>
-          <span className="font-mono text-[8px] text-muted shrink-0">→</span>
-          <div className={`flex-1 min-w-0 rounded-lg px-2 py-1 border transition-all duration-200 ${picking === "start" ? "border-coral shadow-[0_0_8px_2px_rgba(48,156,155,0.45)]" : "border-transparent"}`}>
-            <span className={`block font-mono text-[8px] uppercase tracking-[0.12em] transition-colors duration-150 ${picking === "start" ? "text-coral" : "text-muted"}`}>Dönüş</span>
-            <span className={`font-serif text-[11px] truncate ${returnDate ? "text-navy" : "text-muted/40"}`}>
+          <span className="font-mono text-[9px] text-muted shrink-0">→</span>
+          <div className={`flex-1 min-w-0 rounded-lg px-2.5 py-1.5 border transition-all duration-200 ${picking === "start" ? "border-coral shadow-[0_0_10px_3px_rgba(48,156,155,0.45)]" : "border-transparent"}`}>
+            <span className={`block font-mono text-[9px] uppercase tracking-[0.14em] transition-colors duration-150 ${picking === "start" ? "text-coral" : "text-muted"}`}>Dönüş</span>
+            <span className={`font-serif text-[13px] truncate ${returnDate ? "text-navy" : "text-muted/40"}`}>
               {returnDate ? formatDisplay(returnDate) : "—"}
             </span>
           </div>
         </div>
 
         {/* Day labels */}
-        <div className="grid grid-cols-7 px-1">
+        <div className="grid grid-cols-7 px-2 pt-1.5">
           {DAYS_TR.map(d => (
-            <div key={d} className="py-1 text-center font-mono text-[7px] uppercase tracking-[0.1em] text-muted">
+            <div key={d} className="py-1.5 text-center font-mono text-[9px] uppercase tracking-widest text-muted">
               {d}
             </div>
           ))}
         </div>
 
         {/* Day cells */}
-        <div className="grid grid-cols-7 px-1 pb-1">
+        <div className="grid grid-cols-7 px-2 pb-2">
           {cells.map((ymd, i) => {
-            if (!ymd) return <div key={`empty-${i}`} className="h-7" />;
+            if (!ymd) return <div key={`empty-${i}`} className="h-9" />;
             const { isPast, isStart, isEnd, inRange } = dayState(ymd);
             const isToday = ymd === todayYMD;
             const dayNum = parseInt(ymd.split("-")[2]);
 
-            const wrapperCls = "relative flex items-center justify-center h-7 font-serif cursor-pointer transition-all duration-100 " +
+            const wrapperCls = "relative flex items-center justify-center h-9 font-serif cursor-pointer transition-all duration-100 " +
               (isPast ? "cursor-default " : "");
 
             const showBand = isStart || isEnd || inRange;
             const bandCls = "absolute inset-y-[15%] " +
-              (isStart ? "left-1/2 right-0 rounded-l-md " : isEnd ? "left-0 right-1/2 rounded-r-md " : "left-0 right-0 ") +
+              (isStart ? "left-1/2 right-0 rounded-l-lg " : isEnd ? "left-0 right-1/2 rounded-r-lg " : "left-0 right-0 ") +
               "bg-coral/15 ";
 
-            const circleCls = "relative z-10 flex items-center justify-center w-6 h-6 rounded-md text-[10px] " +
+            const circleCls = "relative z-10 flex items-center justify-center w-8 h-8 rounded-lg text-[12px] " +
               (isStart || isEnd ? "bg-coral text-white font-semibold " : isPast ? "text-muted/30 " : "text-navy ");
 
-            const hoverCls = (!isStart && !isEnd && !isPast) ? "hover:bg-navy/8 rounded-md " : "";
+            const hoverCls = (!isStart && !isEnd && !isPast) ? "hover:bg-navy/8 rounded-lg " : "";
 
             return (
               <div
@@ -191,7 +191,7 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
                 {showBand && <span className={bandCls} />}
                 <span className={`${circleCls} ${hoverCls}`}>
                   {isToday && !isStart && !isEnd && (
-                    <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-0.5 h-0.5 rounded-full bg-coral" />
+                    <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-coral" />
                   )}
                   {dayNum}
                 </span>
@@ -202,11 +202,11 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
 
         {/* Reset */}
         {(travelDate || returnDate) && (
-          <div className="border-t border-border px-3 py-1.5 flex justify-end">
+          <div className="border-t border-border px-4 py-2 flex justify-end">
             <button
               type="button"
               onClick={() => { onTravelDate(""); onReturnDate(""); setPicking(null); }}
-              className="font-mono text-[8px] uppercase tracking-[0.12em] text-muted hover:text-coral transition-colors"
+              className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted hover:text-coral transition-colors"
             >
               Temizle
             </button>

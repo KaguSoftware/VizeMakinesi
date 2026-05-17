@@ -69,11 +69,11 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
         ledeClassName="font-serif text-[16px] md:text-[20px] text-navy mt-6 md:mt-9 leading-[1.55] border-l border-coral pl-6"
       />
 
-      <section className="container pt-14 pb-24">
-        <div className="grid lg:grid-cols-12 gap-10">
+      <section className="container pt-20 pb-32">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-14">
           <form
             onSubmit={handleSubmit}
-            className="lg:col-span-7 rounded-2xl border border-border bg-white/70 backdrop-blur-sm shadow-[0_1px_0_rgba(0,0,0,0.04),0_24px_48px_-32px_rgba(15,23,42,0.18)] p-6 md:p-10"
+            className="lg:col-span-7 rounded-2xl border border-border bg-white/70 backdrop-blur-sm shadow-[0_1px_0_rgba(0,0,0,0.04),0_24px_48px_-32px_rgba(15,23,42,0.18)] p-8 md:p-12"
             noValidate
           >
             <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-6">

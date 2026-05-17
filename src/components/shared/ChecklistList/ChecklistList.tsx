@@ -1,10 +1,12 @@
+import { Stagger, StaggerItem } from '@/components/shared/motion';
 import type { ChecklistListProps } from './types';
 
 export default function ChecklistList({ items }: ChecklistListProps) {
   return (
-    <ul className="list-none">
+    <Stagger as="ul" className="list-none" gap={0.05}>
       {items.map((item, i) => (
-        <li
+        <StaggerItem
+          as="li"
           key={i}
           className="grid grid-cols-[60px_1fr] gap-4 py-[18px] border-t border-border text-base leading-relaxed first:border-t-0 last:border-b-0"
         >
@@ -12,8 +14,8 @@ export default function ChecklistList({ items }: ChecklistListProps) {
             — {String(i + 1).padStart(2, '0')}
           </div>
           <div>{item}</div>
-        </li>
+        </StaggerItem>
       ))}
-    </ul>
+    </Stagger>
   );
 }

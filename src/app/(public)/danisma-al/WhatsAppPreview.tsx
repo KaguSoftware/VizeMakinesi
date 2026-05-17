@@ -19,7 +19,7 @@ export default function WhatsAppPreview({ message }: { message: string }) {
   }, []);
 
   return (
-    <div className="lg:sticky lg:top-24 rounded-2xl overflow-hidden border border-border shadow-[0_24px_48px_-28px_rgba(15,23,42,0.25)] bg-[#ECE5DD]">
+    <div className="lg:sticky lg:top-28 rounded-2xl overflow-hidden border border-border shadow-[0_24px_48px_-28px_rgba(15,23,42,0.25)] bg-[#ECE5DD]">
       {/* Header */}
       <div className="bg-[#075E54] text-white px-4 py-3 flex items-center gap-3">
         <div className="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center text-white font-bold text-[15px] shrink-0">

@@ -1,10 +1,11 @@
 import { PASSPORT_SERVICES } from './constants';
+import { Stagger, StaggerItem } from '@/components/shared/motion';
 
 export default function PassportRow() {
   return (
-    <div>
+    <Stagger as="div" gap={0.07}>
       {PASSPORT_SERVICES.map((s) => (
-        <div
+        <StaggerItem
           key={s.title}
           className="grid grid-cols-1 md:grid-cols-[4fr_5fr_3fr] gap-10 py-11 border-t border-border last:border-b items-start"
         >
@@ -18,8 +19,8 @@ export default function PassportRow() {
               {s.label}
             </div>
           </div>
-        </div>
+        </StaggerItem>
       ))}
-    </div>
+    </Stagger>
   );
 }

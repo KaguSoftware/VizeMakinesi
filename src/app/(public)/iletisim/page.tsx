@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import MapFrame from '@/components/contact/MapFrame/MapFrame';
 import { SITE } from '@/data/site';
+import { FadeIn, Stagger, StaggerItem } from '@/components/shared/motion';
 
 export const metadata: Metadata = {
   title: 'İletişim — Vize Makinesi',
@@ -15,16 +16,19 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] py-20 border-b border-border">
           {/* Sol */}
           <div className="pr-0 lg:pr-16">
-            <h2 className="font-serif font-bold text-[56px] leading-none tracking-[-0.03em] mb-10">
-              Vize Makinesi<br />4.Levent
-            </h2>
+            <FadeIn as="div" duration={0.55}>
+              <h2 className="font-serif font-bold text-[56px] leading-none tracking-[-0.03em] mb-10">
+                Vize Makinesi<br />4.Levent
+              </h2>
+            </FadeIn>
 
+            <Stagger as="div" delayChildren={0.1}>
             {[
               { k: 'Adres', v: `${SITE.address.street},\n${SITE.address.suite}\n${SITE.address.city}`, isAddress: true },
               { k: 'Telefon', v: SITE.phone, href: SITE.phoneHref, serif: true },
               { k: 'E-posta', v: SITE.email, href: `mailto:${SITE.email}` },
             ].map((row) => (
-              <div key={row.k} className="grid grid-cols-[130px_1fr] gap-5 py-[22px] border-t border-border items-baseline">
+              <StaggerItem key={row.k} className="grid grid-cols-[130px_1fr] gap-5 py-[22px] border-t border-border items-baseline">
                 <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">{row.k}</div>
                 <div className={`text-[16px] leading-relaxed ${row.serif ? 'font-serif font-semibold text-[26px] tracking-[-0.015em]' : ''}`}>
                   {row.href ? (
@@ -40,11 +44,12 @@ export default function ContactPage() {
                     row.v
                   )}
                 </div>
-              </div>
+              </StaggerItem>
             ))}
+            </Stagger>
 
             {/* Çalışma Saatleri */}
-            <div className="grid grid-cols-[130px_1fr] gap-5 py-[22px] border-t border-b border-border items-start">
+            <FadeIn as="div" delay={0.2} className="grid grid-cols-[130px_1fr] gap-5 py-[22px] border-t border-b border-border items-start">
               <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">Çalışma Saatleri</div>
               <table className="w-full border-collapse">
                 <tbody>
@@ -56,9 +61,9 @@ export default function ContactPage() {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </FadeIn>
 
-            <div className="flex flex-col gap-3 mt-10 w-full max-w-sm">
+            <FadeIn as="div" delay={0.3} className="flex flex-col gap-3 mt-10 w-full max-w-sm">
               <a
                 href={SITE.whatsappHref}
                 target="_blank"
@@ -91,7 +96,7 @@ export default function ContactPage() {
                 </svg>
                 Instagram&rsquo;da Takip Edin →
               </a>
-            </div>
+            </FadeIn>
           </div>
 
           {/* Sağ: harita */}

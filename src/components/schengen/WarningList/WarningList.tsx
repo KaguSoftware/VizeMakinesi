@@ -1,10 +1,12 @@
+import { Stagger, StaggerItem } from '@/components/shared/motion';
 import type { WarningListProps } from './types';
 
 export default function WarningList({ items }: WarningListProps) {
   return (
-    <ul className="list-none mt-6 space-y-2">
+    <Stagger as="ul" className="list-none mt-6 space-y-2" gap={0.05}>
       {items.map((r) => (
-        <li
+        <StaggerItem
+          as="li"
           key={r.title}
           className="border-l-2 border-coral px-6 py-[18px] bg-cream text-[15px] leading-relaxed"
         >
@@ -12,8 +14,8 @@ export default function WarningList({ items }: WarningListProps) {
             {r.title}
           </strong>
           {r.desc}
-        </li>
+        </StaggerItem>
       ))}
-    </ul>
+    </Stagger>
   );
 }

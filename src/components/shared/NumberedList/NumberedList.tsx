@@ -1,13 +1,15 @@
+import { Stagger, StaggerItem } from '@/components/shared/motion';
 import type { NumberedListProps } from './types';
 
 export default function NumberedList({ items }: NumberedListProps) {
   return (
-    <ul className="list-none">
+    <Stagger as="ul" className="list-none" gap={0.06}>
       {items.map((item, i) => {
         const text   = typeof item === 'string' ? item : item.text;
         const title  = typeof item === 'string' ? undefined : item.title;
         return (
-          <li
+          <StaggerItem
+            as="li"
             key={i}
             className="grid grid-cols-[80px_1fr] gap-4 py-7 border-t border-border last:border-b"
           >
@@ -22,9 +24,9 @@ export default function NumberedList({ items }: NumberedListProps) {
               )}
               {text}
             </div>
-          </li>
+          </StaggerItem>
         );
       })}
-    </ul>
+    </Stagger>
   );
 }

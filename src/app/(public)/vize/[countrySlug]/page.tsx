@@ -11,6 +11,7 @@ import MasayaGetirdikleriniz from '@/components/visa/MasayaGetirdikleriniz/Masay
 import { SITE } from '@/data/site';
 import { SCHENGEN_SLUG_MAP } from '@/data/schengen';
 import { SCHENGEN_REJECTION_REASONS } from '@/components/schengen/SchengenMembers/constants';
+import { FadeIn } from '@/components/shared/motion';
 
 export const revalidate = 60;
 
@@ -153,12 +154,12 @@ export default async function CountryPage({ params }: Props) {
 
       {country.appointment_days && (
         <section className="bg-coral/10 border-y border-coral/20">
-          <div className="container py-5">
+          <FadeIn as="div" className="container py-5">
             <p className="font-serif text-[17px] text-navy text-center">
               <span className="font-semibold">{country.name} vizesi</span> randevunuz ortalama{' '}
               <span className="font-semibold text-coral">{country.appointment_days}</span> içinde alınabilir.
             </p>
-          </div>
+          </FadeIn>
         </section>
       )}
 
@@ -167,25 +168,27 @@ export default async function CountryPage({ params }: Props) {
       {countrySlug === 'schengen' && (
         <section className="border-t border-border">
           <div className="container py-20">
-            <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
+            <FadeIn as="div" className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
               — Schengen vizesi nedir
-            </div>
+            </FadeIn>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-              <h2 className="font-serif font-bold text-[clamp(32px,4vw,56px)] leading-none tracking-[-0.03em] text-navy">
-                Tek vize,{' '}
-                <em className="font-normal italic text-coral">29 ülke.</em>
-              </h2>
-              <div className="space-y-4 font-serif text-[17px] leading-relaxed text-navy/80">
+              <FadeIn as="div">
+                <h2 className="font-serif font-bold text-[clamp(32px,4vw,56px)] leading-none tracking-[-0.03em] text-navy">
+                  Tek vize,{' '}
+                  <em className="font-normal italic text-coral">29 ülke.</em>
+                </h2>
+              </FadeIn>
+              <FadeIn as="div" delay={0.1} className="space-y-4 font-serif text-[17px] leading-relaxed text-navy/80">
                 <p>
                   Avrupa sınırlarını tek bir belgeyle açan Schengen Vizesi; 29 üye ülkeyi kapsayan resmi ve standartlaştırılmış bir seyahat iznidir. İlgili vize, sahiplerine herhangi bir 180 günlük dönemde toplam 90 güne kadar serbest dolaşım özgürlüğü tanır.
                 </p>
                 <p>
                   Vize prosedürleri gereği başvurular, seyahat planınızdaki asıl varış noktanız üzerinden yürütülür. Çoklu ülke ziyaretlerini kapsayan karmaşık rotalarda ise süreç, en uzun süre konaklayacağınız ülkenin diplomatik temsilcilikleri aracılığıyla yönetilmelidir.
                 </p>
-              </div>
+              </FadeIn>
             </div>
 
-            <div className="mt-16">
+            <FadeIn as="div" className="mt-16">
               <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
                 — Sık ret sebepleri
               </div>
@@ -194,7 +197,7 @@ export default async function CountryPage({ params }: Props) {
                 <em className="font-normal italic text-coral">en yaygın nedenler.</em>
               </h3>
               <WarningList items={SCHENGEN_REJECTION_REASONS} />
-            </div>
+            </FadeIn>
           </div>
         </section>
       )}

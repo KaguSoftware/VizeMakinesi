@@ -299,6 +299,26 @@ export interface Database {
           created_at?: string
         }
       }
+      page_sections: {
+        Row: {
+          key: string
+          title: string
+          paragraphs: string[]
+          updated_at: string
+        }
+        Insert: {
+          key: string
+          title?: string
+          paragraphs?: string[]
+          updated_at?: string
+        }
+        Update: {
+          key?: string
+          title?: string
+          paragraphs?: string[]
+          updated_at?: string
+        }
+      }
       admin_profiles: {
         Row: {
           id: string

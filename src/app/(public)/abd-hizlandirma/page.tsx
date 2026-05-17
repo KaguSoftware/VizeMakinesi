@@ -38,14 +38,14 @@ export default function USExpeditePage() {
     <>
       <section className="bg-cream py-[120px] overflow-hidden">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div>
-              <h1 className="font-serif font-bold text-[clamp(56px,7vw,112px)] leading-none tracking-[-0.02em] text-navy">
-                Amerika Vizesi{' '}
-                <em className="text-coral font-normal italic">Hızla Cebinizde!</em>
+              <h1 className="font-serif font-bold text-[clamp(36px,5.25vw,84px)] leading-none tracking-[-0.02em] text-navy">
+                Amerika Vizesine{' '}
+                <em className="text-coral font-normal italic">Hızlı ve Garantili Adım.</em>
               </h1>
               <p className="font-serif text-[22px] max-w-[520px] mt-9 leading-[1.45] border-l border-coral pl-6 text-navy">
-                Normal takvim seyahat planınıza uymadığında, hızlandırma pratiğimiz sizi günler içinde konsolosluk görevlisinin karşısına çıkarır.
+                Standart başvuru süreleri seyahatinizi riske mi atıyor? Konsolosluk randevu sistemini 7/24 izleyen operasyon ağımızla, iptal edilen erken tarihleri sizin adınıza yakalıyor ve mülakat sürecinizi hızlandırıyoruz.
               </p>
               <div className="mt-10 flex flex-col gap-3 max-w-[520px]">
                 <a
@@ -81,8 +81,8 @@ export default function USExpeditePage() {
         <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-20 py-20 border-b border-border">
           <div>
             <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">— Nasıl çalışır</div>
-            <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
-              Üç adım.<br />Çoğunlukla üç gün.
+            <h2 className="font-serif font-bold text-[clamp(36px,6vw,80px)] leading-none tracking-[-0.025em]">
+              Hızlandırma sürecinde<br />üç adım.
             </h2>
           </div>
           <NumberedList items={EXPEDITE_STEPS} />
@@ -94,7 +94,7 @@ export default function USExpeditePage() {
           <div>
             <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">— Gereksinimler</div>
             <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
-              Bizden<br />isteyeceklerimiz.
+              Başvuru için<br />gerekenler.
             </h2>
           </div>
           <ChecklistList items={REQUIREMENTS} />

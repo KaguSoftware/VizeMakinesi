@@ -13,8 +13,11 @@ export default function VisaRegimesPage() {
     <>
       <PageHead
         eyebrow="— Vize rejimleri"
-        title={<>Beş kapı. <em className="font-normal italic text-coral">Bir ofis.</em></>}
-        lede="Her vize bir rejime aittir. Rejim, ne yapabileceğinizi, ne kadar kalabileceğinizi ve konsolosluğun sizden ne tür kanıt beklediğini belirler."
+        title={<><span className="sm:whitespace-nowrap">Farklı Amaçlar.</span><br /><em className="font-normal italic text-coral">Tek Merkez.</em></>}
+        lede="Seyahat amacınız, başvuracağınız vize türünü belirler. Vize türünüz ise kalış sürenizi, yasal haklarınızı ve konsolosluğun sizden sunmanızı beklediği evrakları şekillendirir. İhtiyacınız olan kategoriyi seçin, süreci biz yönetelim."
+        contentClassName="w-full"
+        titleClassName="font-serif font-bold text-[clamp(36px,6.6vw,106px)] leading-[0.95] tracking-[-0.02em] wrap-break-word"
+        ledeClassName="font-serif text-[18px] text-navy mt-9 leading-[1.45] border-l border-coral pl-6"
       />
       <section className="container pt-6">
         {REGIMES.map((r) => (

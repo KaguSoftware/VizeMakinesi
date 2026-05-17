@@ -8,4 +8,5 @@ export interface PageHeadProps {
   flagImageUrl?: string | null;
   titleClassName?: string;
   ledeClassName?: string;
+  contentClassName?: string;
 }

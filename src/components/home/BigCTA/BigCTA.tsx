@@ -16,8 +16,8 @@ export default function BigCTA({ title }: BigCTAProps) {
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-20 items-end">
                         <div>
-                            <h2 className="font-serif font-bold text-[clamp(48px,6vw,96px)] leading-[0.96] tracking-[-0.035em] text-navy">
-                                {title ?? "Bugün sekreterimizle görüşme yapın."}
+                            <h2 className="font-serif font-bold text-[clamp(34px,4.25vw,68px)] leading-[0.96] tracking-[-0.035em] text-navy whitespace-pre-line">
+                                {title ?? "Vize sürecinizi hemen\nbaşlatmak ve detaylı\nbilgi almak için\nbize ulaşın."}
                             </h2>
                         </div>
                         <div>

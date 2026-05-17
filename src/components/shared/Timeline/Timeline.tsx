@@ -10,16 +10,16 @@ export default function Timeline() {
   const nextStep = active !== null && active < TIMELINE_STEPS.length - 1 ? active + 1 : null;
 
   return (
-    <div className="py-[120px] relative">
+    <div className="py-12 md:py-30 relative">
       {/* dashed line */}
       <div className="hidden md:block absolute top-40 left-[8%] right-[8%] border-t border-dashed border-border" />
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-6 relative">
         {TIMELINE_STEPS.map((step, i) => {
           const isActive = active === i;
           const isNext = nextStep === i;
           return (
-            <div key={step.n} className="text-center px-3">
+            <div key={step.n} className="text-center px-2 md:px-3">
               <motion.button
                 onClick={() => setActive(isActive ? null : i)}
                 aria-expanded={isActive}
@@ -56,7 +56,7 @@ export default function Timeline() {
 
       {/* Full-width detail panel */}
       {activeStep && (
-        <div className="mt-12 border border-border rounded-2xl px-10 py-8 bg-paper">
+        <div className="mt-12 border border-border rounded-2xl px-5 py-6 md:px-10 md:py-8 bg-paper">
           <div className="flex items-baseline gap-4 mb-4">
             <span className="font-serif italic text-[28px] text-coral">{activeStep.n}</span>
             <h3 className="font-serif font-semibold text-[24px] tracking-[-0.015em]">{activeStep.title}</h3>

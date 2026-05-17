@@ -157,8 +157,8 @@ function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
                 kind: 'feature' as const,
                 feature: {
                     eyebrow: '',
-                    title: 'Hangi Vizeye ihtiyacınız var?',
-                    body: 'Hangi vizeye ihtiyacınız olduğunu seçin ve gerekli dokümanları görüntüleyin',
+                    title: 'Hangi Ülkeye Gitmek İstiyorsunuz?',
+                    body: 'Sınırlarını aşmak istediğiniz ülkeyi seçin; size uygun vize türünü, güncel başvuru şartlarını ve gerekli evrak listesini anında görüntüleyin.',
                     to: '/vize/schengen',
                 },
             },

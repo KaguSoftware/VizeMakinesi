@@ -42,7 +42,7 @@ function SortableCard({
       className={['border border-navy/10 bg-white flex flex-col', isDragging ? 'opacity-40' : ''].join(' ')}
     >
       <div className="flex items-center justify-between px-4 py-2 border-b border-navy/8">
-        <button type="button" {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none">⠿</button>
+        <button type="button" {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none focus:outline-none">⠿</button>
         <button
           type="button"
           onClick={() => onToggleVisible(p.id, !p.visible)}

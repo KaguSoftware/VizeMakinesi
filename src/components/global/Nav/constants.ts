@@ -10,7 +10,7 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Vize Hizmetleri',
         items: [
-          { to: '/vize-rejimleri', label: 'Vize Rejimleri', desc: 'Turist, iş, öğrenci, çalışma, transit' },
+          { to: '/vize-turleri', label: 'Vize Türleri', desc: 'Turist, iş, öğrenci, çalışma, transit' },
           { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız', desc: 'Beş adımlı ofis metodumuz' },
           { to: '/ucrete-dahil-hizmetler', label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
         ],
@@ -18,7 +18,6 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Vize Ötesi',
         items: [
-          { to: '/pasaport', label: 'Pasaport Hizmetleri', desc: 'Çıkarma, yenileme, kayıp' },
           { to: '/ortakliklar', label: 'Kurumsal Ortaklıklar', desc: 'Ortaklarımız' },
           { to: '/abd-hizlandirma', label: '⚡️ ABD Hızlandırma', desc: '5–10 günde mülakat' },
         ],
@@ -40,7 +39,8 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Hakkımızda',
         items: [
-          { to: '/hakkimizda', label: 'Ofisimiz', desc: 'Ekip ve danışmanlar' },
+          { to: '/hakkimizda', label: 'Hakkımızda', desc: 'Ekip ve danışmanlar' },
+          { to: '/ekibimiz', label: 'Ekibimiz', desc: 'Dosyanızı okuyan danışmanlarımız' },
           { to: '/ortakliklar', label: 'Ortaklıklar', desc: 'Kurumsal çözümler' },
         ],
       },
@@ -48,7 +48,6 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
         title: 'Ziyaret',
         items: [
           { to: '/iletisim', label: '4.Levent Ofisi', desc: 'Selvili Sokağı · D:Kat:1 Daire:1' },
-          { to: '/iletisim', label: 'Çalışma Saatleri', desc: 'Pts–Cts · Randevusuz kabul' },
         ],
       },
       {
@@ -67,12 +66,12 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
 export const MOBILE_LINKS: MobileLink[] = [
   { to: '/', label: 'Ana Sayfa', end: true },
   { to: '/vizeler', label: 'Vizeler' },
-  { to: '/vize-rejimleri', label: 'Vize Rejimleri' },
+  { to: '/vize-turleri', label: 'Vize Türleri' },
   { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız' },
   { to: '/hakkimizda', label: 'Hakkımızda' },
-  { to: '/ucrete-dahil-hizmetler', label: 'Ücretler' },
+  { to: '/ekibimiz', label: 'Ekibimiz' },
+  { to: '/ucrete-dahil-hizmetler', label: 'Ücrete Dahil Hizmetler' },
   { to: '/vize/schengen', label: 'Schengen' },
-  { to: '/pasaport', label: 'Pasaport' },
   { to: '/blog', label: 'Blog' },
   { to: '/ortakliklar', label: 'Ortaklıklar' },
   { to: '/abd-hizlandirma', label: 'ABD Hızlandırma' },

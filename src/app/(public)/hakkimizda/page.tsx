@@ -1,17 +1,29 @@
 import type { Metadata } from 'next';
-import TeamGrid from '@/components/about/TeamGrid/TeamGrid';
+import Link from 'next/link';
+import { getPageSection } from '@/lib/data/pageSections';
 
 export const metadata: Metadata = {
   title: 'Hakkımızda — Vize Makinesi',
   description: 'On sekiz yıl, on iki danışman, 42.000\'den fazla işlenmiş vize.',
 };
 
-export default function AboutPage() {
+const DEFAULT_TARIHCE = {
+  title: '2006\'dan bugüne, sınırları aşan tecrübe.',
+  paragraphs: [
+    'Her şey 2006 yılında, sınır ötesi deneyimlere yön veren Gezi Makinesi ile başladı. Biz sadece insanları bir noktadan diğerine taşımadık; binlerce gezginin hafızasına kazınan devasa festivalleri, Avrupa\'nın en prestijli kayak rotalarını ve her detayı incelikle düşünülmüş üst düzey yurtdışı organizasyonlarını bizzat organize ettik.',
+  ],
+};
+
+export default async function AboutPage() {
+  const section = await getPageSection('about_tarihce');
+  const title = section?.title || DEFAULT_TARIHCE.title;
+  const paragraphs = section?.paragraphs?.length ? section.paragraphs : DEFAULT_TARIHCE.paragraphs;
+
   return (
     <>
       {/* Alıntı */}
       <section className="container">
-        <div className="py-24 border-b border-border">
+        <div className="py-24">
           <div className="relative pl-16">
             <span className="about-quote-mark font-serif" aria-hidden="true">&ldquo;</span>
             <blockquote className="font-serif italic text-[clamp(28px,3vw,48px)] leading-[1.25] tracking-[-0.015em]">
@@ -22,29 +34,40 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <TeamGrid />
+      {/* Ekibimiz teaser */}
+      <section className="pt-12 pb-24 border-b border-border">
+        <div className="container">
+          <Link
+            href="/ekibimiz"
+            className="group flex items-center justify-between gap-8 transition-opacity duration-200"
+          >
+            <div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-4">
+                — Ekibimiz
+              </div>
+              <h2 className="font-serif font-bold text-[clamp(36px,5vw,56px)] leading-none tracking-[-0.025em] text-navy group-hover:text-coral transition-colors duration-300">
+                Ekip arkadaşlarımızla tanışın.
+              </h2>
+            </div>
+            <span className="font-serif text-[clamp(32px,4vw,48px)] text-coral shrink-0 group-hover:translate-x-2 transition-transform duration-200">
+              &rarr;
+            </span>
+          </Link>
+        </div>
+      </section>
 
       {/* Tarihçe */}
-      <section className="container py-20 border-b border-border">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+      <section className="container py-20 mt-16 mb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
           <div>
-            <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-4">
-              — Tarihimiz
-            </div>
-            <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
-              Tek bir<br />masadan, 2008&rsquo;de.
+<h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-[-0.025em]">
+              {title}
             </h2>
           </div>
           <div className="text-[16px] leading-[1.85] text-muted space-y-5">
-            <p>
-              Vize Makinesi, 2008 yılında şehrimizde diaspora topluluğuna hizmet veren tek kişilik bir ofis olarak başladı. 2013 yılına kadar üç danışmanımız ve iki konsolosluk için yetkili acente lisansımız vardı.
-            </p>
-            <p>
-              Bugün, on iki tam zamanlı danışman, bünyemizde tercüman ve VFS, TLS Contact, BLS ile CGI dünya genelinde ortaklıklarımızla çok yargı bölgeli bir uygulama yürütüyoruz.
-            </p>
-            <p>
-              Hiç televizyonda reklam vermedik. Her müşteri bir tavsiye, geri dönen bir dava ya da arkadaşlar arasındaki sessiz bir öneri sayesinde bize ulaşır.
-            </p>
+            {paragraphs.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
           </div>
         </div>
       </section>

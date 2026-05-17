@@ -9,6 +9,7 @@ const RESOURCES = [
   { label: 'Ortaklıklar', href: '/admin/partnerships', table: 'partnerships', filter: null },
   { label: 'Blog / Turizm', href: '/admin/blog', table: 'countries', filter: { column: 'has_tourism', value: true } },
   { label: 'Ekip', href: '/admin/team', table: 'team_members', filter: null },
+  { label: 'Hakkımızda', href: '/admin/about', table: 'page_sections', filter: null },
 ] as const
 
 async function fetchCounts(supabase: Awaited<ReturnType<typeof createClient>>) {

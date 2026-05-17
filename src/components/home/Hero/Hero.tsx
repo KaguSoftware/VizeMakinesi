@@ -2,11 +2,13 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface CountryResult {
   name: string;
   slug: string;
   flag_emoji: string | null;
+  matchedCity?: string;
 }
 
 export default function Hero() {
@@ -22,14 +24,12 @@ export default function Hero() {
     if (!q) { setResults([]); setOpen(false); return; }
 
     const controller = new AbortController();
-    const timer = setTimeout(() => {
-      fetch(`/api/countries/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
-        .then((r) => r.json())
-        .then((data) => { setResults(data); setOpen(data.length > 0); setActiveIndex(-1); })
-        .catch((err) => { if (err.name !== 'AbortError') console.error(err); });
-    }, 200);
+    fetch(`/api/countries/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
+      .then((r) => r.json())
+      .then((data) => { setResults(data); setOpen(data.length > 0); setActiveIndex(-1); })
+      .catch((err) => { if (err.name !== 'AbortError') console.error(err); });
 
-    return () => { clearTimeout(timer); controller.abort(); };
+    return () => { controller.abort(); };
   }, [query]);
 
   useEffect(() => {
@@ -67,10 +67,8 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-15 items-end relative">
           {/* Left: headline */}
           <div className="relative">
-            <h1 className="font-serif font-bold text-[clamp(46px,7vw,110px)] leading-none tracking-[-0.02em]">
-              <span className="whitespace-nowrap">Evrakları biz</span> halledelim,<br />
-              siz <span className="text-coral">valizinizi</span><br />
-              <span className="text-coral">hazırlayın</span>.
+            <h1 className="font-serif font-bold text-[clamp(38px,5.5vw,88px)] leading-none tracking-[-0.02em]">
+              Vize Almanın<br />En Hızlı, En Güvenilir ve<br /><span className="text-coral">Garantili</span> Yolu.
             </h1>
           </div>
 
@@ -104,26 +102,44 @@ export default function Hero() {
                 </button>
               </form>
 
-              {open && (
-                <ul className="absolute top-full left-0 right-0 mt-1 bg-white border border-coral/20 rounded-2xl shadow-lg overflow-hidden z-50">
-                  {results.map((country, i) => (
-                    <li key={country.slug}>
-                      <Link
-                        href={`/vize/${country.slug}`}
-                        onClick={() => setOpen(false)}
-                        className={`flex items-center gap-3 px-4 py-3 font-sans text-[14px] text-navy hover:bg-coral/10 transition-colors ${i === activeIndex ? 'bg-coral/10' : ''}`}
+              <AnimatePresence>
+                {open && (
+                  <motion.ul
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
+                    className="absolute top-full left-0 right-0 mt-1 bg-white border border-coral/20 rounded-2xl shadow-lg overflow-hidden z-50"
+                  >
+                    {results.map((country, i) => (
+                      <motion.li
+                        key={country.slug}
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.12, delay: i * 0.04, ease: 'easeOut' }}
                       >
-                        <span className="text-[18px]">{country.flag_emoji ?? '🌍'}</span>
-                        {country.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
+                        <Link
+                          href={`/vize/${country.slug}`}
+                          onClick={() => setOpen(false)}
+                          className={`flex items-center gap-3 px-4 py-3 font-sans text-[14px] text-navy hover:bg-coral/10 transition-colors ${i === activeIndex ? 'bg-coral/10' : ''}`}
+                        >
+                          <span className="text-[18px]">{country.flag_emoji ?? '🌍'}</span>
+                          <span className="flex-1">
+                            {country.name}
+                            {country.matchedCity && (
+                              <span className="ml-2 text-navy/40 text-[12px]">({country.matchedCity})</span>
+                            )}
+                          </span>
+                        </Link>
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
             </div>
 
             <p className="font-serif text-[clamp(14px,1.4vw,19px)] leading-[1.55] text-coral max-w-95 mb-8">
-              Altmıştan fazla ülkede gezginler, aileler ve işletmeler için vize başvurularını hazırlar, sunar ve takip ederiz — bir hukuk bürosunun titizliği ve bir kütüphanecinin sabrıyla.
+              Turistikten ticari ve aile ziyaretlerine kadar tüm vize ihtiyaçlarınızda profesyonel çözüm ortağınız. 60+ ülke için hatasız evrak hazırlığı ve hızlı randevu garantisiyle sürecinizi güvence altına alıyoruz.
             </p>
             <Link
               href="/danisma-al"

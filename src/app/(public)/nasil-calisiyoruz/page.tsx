@@ -14,9 +14,10 @@ export default function HowItWorksPage() {
     <>
       <PageHead
         eyebrow="— Ajansımız nasıl çalışır"
-        title={<>İlk başvuruda <em className="font-normal italic text-coral">vizeniz elinizde.</em></>}
-        lede="Pasaportunuzu tüm dünya konsolosluklarından geçiren 5 adımlı süreç."
-        titleClassName="font-serif font-bold text-[clamp(48px,5.6vw,92px)] leading-[1.05] tracking-[-0.02em]"
+        title="Vizenizi Şansa Değil, Sisteme Bırakın"
+        lede="Hayallerinizdeki rotaya giden süreci, tıkır tıkır işleyen bir makine hassasiyetiyle yönetiyoruz."
+        titleClassName="font-serif font-bold text-[clamp(32px,4.2vw,68px)] leading-[1.05] tracking-[-0.02em] whitespace-nowrap"
+        ledeClassName="font-serif text-[clamp(16px,1.6vw,24px)] text-navy mt-9 leading-[1.45] border-l border-coral pl-6 whitespace-nowrap"
       />
       <section className="container">
         <Timeline />

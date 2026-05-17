@@ -30,6 +30,6 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
   },
 ];
 
-export const FOOTER_TAGLINE = '— BÜYÜK YOLCULUKLAR İÇİN SAKIN BİR OFİS ——';
+export const FOOTER_TAGLINE = '— VİZE MAKİNESİ İLE DÜNYA CEBİNDE! ——';
 export const FOOTER_COPYRIGHT = '© 2008–2026 Vize Makinesi Danışmanlık. Tüm hakları saklıdır.';
 export const FOOTER_REG = 'Lisanslı Göç Danışmanları · Kayıt No. 0987-MA';

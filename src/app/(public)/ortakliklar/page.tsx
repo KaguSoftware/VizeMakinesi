@@ -9,7 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default async function PartnershipsPage() {
-  const partnerships = await getPartnerships();
+  const partnerships = await getPartnerships()
+  const fillerCount = partnerships.length % 3 === 0 ? 0 : 3 - (partnerships.length % 3)
 
   return (
     <>
@@ -20,14 +21,14 @@ export default async function PartnershipsPage() {
       />
 
       <section className="container pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px border border-border">
-          {partnerships.map((p, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border">
+          {partnerships.map((p) => (
             <div
               key={p.id}
-              className={`p-12 flex flex-col gap-8${i > 0 ? ' border-t border-border md:border-t-0 md:border-l' : ''}`}
+              className="p-12 flex flex-col gap-12 bg-[#fdfbe5]"
             >
               {p.logo_url && (
-                <div className="h-16 flex items-center">
+                <div className="h-16 flex items-center py-2">
                   <Image
                     src={p.logo_url}
                     alt={p.name}
@@ -87,6 +88,9 @@ export default async function PartnershipsPage() {
                 )}
               </div>
             </div>
+          ))}
+          {Array.from({ length: fillerCount }).map((_, i) => (
+            <div key={`filler-${i}`} className="bg-[#fdfbe5]" />
           ))}
         </div>
       </section>

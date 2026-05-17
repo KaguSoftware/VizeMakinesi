@@ -131,7 +131,25 @@ export default async function CountryPage({ params }: Props) {
 
   return (
     <>
-      <CountryHero country={country} />
+      <CountryHero
+        country={country}
+        bullets={countrySlug === 'schengen' ? [
+          'Schengen vize başvurunuzu şansa değil, profesyonellere bırakın.',
+          'Sürecin başından sonuna kadar uçtan uca uzman desteği',
+          'Konsolosluk standartlarına uygun, sıfır hatalı evrak hazırlığı',
+          'Yüksek onay oranı ve kanıtlanmış sektör tecrübesi',
+        ] : (countrySlug === 'america' || countrySlug === 'abd') ? [
+          'Amerika vize başvurunuzu ve mülakat sürecinizi şansa değil, profesyonellere bırakın.',
+          'Kusursuz DS-160 form hazırlığı ve uçtan uca uzman desteği',
+          'Konsolosluk beklentilerine uygun evrak yönetimi ve mülakat simülasyonu',
+          'Yüksek onay oranı ve kanıtlanmış sektör tecrübesi',
+        ] : [
+          `${country.name} vize başvurunuzu şansa değil, profesyonellere bırakın.`,
+          'Sürecin başından sonuna kadar uçtan uca uzman desteği',
+          'Konsolosluk standartlarına uygun, sıfır hatalı evrak hazırlığı',
+          'Yüksek onay oranı ve kanıtlanmış sektör tecrübesi',
+        ]}
+      />
 
       {country.appointment_days && (
         <section className="bg-coral/10 border-y border-coral/20">
@@ -159,10 +177,10 @@ export default async function CountryPage({ params }: Props) {
               </h2>
               <div className="space-y-4 font-serif text-[17px] leading-relaxed text-navy/80">
                 <p>
-                  Schengen vizesi; Avrupa&apos;nın 29 üye ülkesini kapsayan tek tip kısa süreli vize türüdür. Bu vize ile Schengen bölgesinde her seyahatte en fazla 90 gün, herhangi bir 180 günlük dönem içinde toplamda 90 gün kalabilirsiniz.
+                  Avrupa sınırlarını tek bir belgeyle açan Schengen Vizesi; 29 üye ülkeyi kapsayan resmi ve standartlaştırılmış bir seyahat iznidir. İlgili vize, sahiplerine herhangi bir 180 günlük dönemde toplam 90 güne kadar serbest dolaşım özgürlüğü tanır.
                 </p>
                 <p>
-                  Vize başvurusu, seyahatinizin <strong>ana destinasyonu</strong> olan ülkenin konsolosluğuna yapılır. Birden fazla ülkeyi kapsayan turlar için en uzun kalış süresinin yaşandığı ülke yetkilidir.
+                  Vize prosedürleri gereği başvurular, seyahat planınızdaki asıl varış noktanız üzerinden yürütülür. Çoklu ülke ziyaretlerini kapsayan karmaşık rotalarda ise süreç, en uzun süre konaklayacağınız ülkenin diplomatik temsilcilikleri aracılığıyla yönetilmelidir.
                 </p>
               </div>
             </div>

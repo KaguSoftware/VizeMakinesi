@@ -29,7 +29,7 @@ const ALL_ORDER = [
   'slovenya','ispanya','isvec','isvicre',
 ];
 
-const HOME_VISIBLE_COUNT = 8;
+const HOME_VISIBLE_COUNT = 7;
 
 // Build fallback arrays from hardcoded data (used when no entries prop is provided)
 const bySlug = Object.fromEntries(SCHENGEN_MEMBERS.map((m) => [m.slug, m]));

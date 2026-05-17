@@ -11,8 +11,8 @@ export const CITY_TO_COUNTRY: CityEntry[] = [
   // İrlanda
   { city: 'Dublin', countrySlug: 'irlanda' },
 
-  // Birleşik Krallık
-  { city: 'Londra', countrySlug: 'birlesik-krallik' },
+  // İngiltere
+  { city: 'Londra', countrySlug: 'ingiltere' },
 
   // Almanya
   { city: 'Berlin', countrySlug: 'almanya' },

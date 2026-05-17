@@ -1,7 +1,7 @@
 export const SITE = {
-  phone: '+90 530 775 31 31',
-  phoneHref: 'tel:+905307753131',
-  whatsappHref: 'https://wa.me/905307753131',
+  phone: '+90 532 161 89 71',
+  phoneHref: 'tel:+905321618971',
+  whatsappHref: 'https://wa.me/905321618971',
   whatsappText: 'Merhaba%2C%20vize%20ba%C5%9Fvurusu%20konusunda%20yard%C4%B1m%20istiyorum',
   email: 'vize@gezimakinesi.com',
   address: {

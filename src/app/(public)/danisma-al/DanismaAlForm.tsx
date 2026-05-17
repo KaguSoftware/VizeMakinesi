@@ -35,8 +35,8 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
             <p className="text-[15px] leading-[1.85] text-muted">
               Danışmanlarımızdan biri talebinizi inceleyip sizinle iletişime geçecek.
               Acil durumlar için{" "}
-              <a href="tel:+905307753131" className="text-coral hover:underline">
-                +90 530 775 31 31
+              <a href="tel:+905321618971" className="text-coral hover:underline">
+                +90 532 161 89 71
               </a>{" "}
               numaralı hattı arayabilirsiniz.
             </p>

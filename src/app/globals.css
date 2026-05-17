@@ -61,9 +61,14 @@ a {
   to   { opacity: 1; }
 }
 
-@keyframes passportBounce {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50%       { transform: translateY(-10px) rotate(2deg); }
+@keyframes logoJump {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-16px); }
+}
+
+@keyframes logoSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 @keyframes ticker {

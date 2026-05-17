@@ -23,13 +23,11 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
   {
     eyebrow: '— 03 / Bize Ulaşın',
     links: [
-      { label: '+90 530 775 31 31', href: 'tel:+905307753131' },
-      { label: 'WhatsApp',         href: 'https://wa.me/905307753131' },
+      { label: '+90 532 161 89 71', href: 'tel:+905321618971' },
+      { label: 'WhatsApp',         href: 'https://wa.me/905321618971' },
       { label: 'vizemakinesi@gezimakinesi.com', href: 'mailto:vizemakinesi@gezimakinesi.com' },
     ],
   },
 ];
 
 export const FOOTER_TAGLINE = '— VİZE MAKİNESİ İLE DÜNYA CEBİNDE! ——';
-export const FOOTER_COPYRIGHT = '© 2008–2026 Vize Makinesi Danışmanlık. Tüm hakları saklıdır.';
-export const FOOTER_REG = 'Lisanslı Göç Danışmanları · Kayıt No. 0987-MA';

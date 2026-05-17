@@ -230,15 +230,17 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                     {/* Logo */}
                     <div className="relative flex items-center">
                         <Link href="/" className="absolute left-0 right-0 z-10" style={{top: '50%', transform: 'translateY(-50%)', height: 40}} aria-label="Vize Makinesi" />
-                        <Image
-                            src="/VizeMakinesiLogo.png"
-                            alt="Vize Makinesi"
-                            width={220}
-                            height={50}
-                            priority
-                            sizes="220px"
-                            className="w-auto h-80"
-                        />
+                        <div className="overflow-hidden h-16">
+                            <Image
+                                src="/VizeMakinesiLogo.png"
+                                alt="Vize Makinesi"
+                                width={220}
+                                height={50}
+                                priority
+                                sizes="220px"
+                                className="w-auto h-80 -my-32"
+                            />
+                        </div>
                     </div>
 
                     {/* Desktop nav */}

@@ -3,8 +3,6 @@ import Image from "next/image";
 import {
     FOOTER_COLUMNS,
     FOOTER_TAGLINE,
-    FOOTER_COPYRIGHT,
-    FOOTER_REG,
 } from "./constants";
 import { SITE } from "@/data/site";
 
@@ -13,10 +11,17 @@ export default function Footer() {
         <footer className="border-t border-border pt-20 pb-8 bg-navy text-white relative overflow-hidden">
             <div className="container relative z-10">
                 {/* Mark */}
-                <div className="flex justify-between items-baseline flex-wrap gap-4 mb-16">
-                    <div className="font-serif font-bold text-[36px] tracking-[-0.01em] text-cream">
-                        Vize Makinesi
-                    </div>
+                <div className="flex justify-between items-center flex-wrap gap-4 mb-16">
+                    <Link href="/" aria-label="Vize Makinesi" className="overflow-hidden h-12 hidden md:block">
+                        <Image
+                            src="/VizeMakinesiLogo.png"
+                            alt="Vize Makinesi"
+                            width={280}
+                            height={60}
+                            priority
+                            className="h-60 w-auto -my-24"
+                        />
+                    </Link>
                     <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-cream">
                         {FOOTER_TAGLINE}
                     </div>
@@ -68,18 +73,17 @@ export default function Footer() {
                 {/* Rule */}
                 <div className="border-t border-border/60 mt-[72px] pt-6 font-mono text-[10px] tracking-[0.12em] uppercase text-white/40 flex justify-between flex-wrap gap-4 relative z-10">
                     <div className="flex flex-col gap-1.5">
-                        <span>{FOOTER_COPYRIGHT}</span>
-                        <span>Tüm hakları saklıdır · Kagu Software</span>
+                        <span>Vize Makinesi Danışmanlık. Tüm hakları saklıdır.</span>
+                        <span>Kagu Software</span>
                     </div>
                     <div className="flex flex-col items-end gap-1.5">
-                        <span>{FOOTER_REG}</span>
                         <span className="flex items-center gap-2 text-white/25">
                             <Image
-                                src="/KaguSoftwareLogo.png"
+                                src="/KaguSoftwareLogoComp.png"
                                 alt="Kagu Software"
-                                width={100}
-                                height={100}
-                                sizes="100px"
+                                width={1600}
+                                height={1065}
+                                style={{ width: '100px', height: 'auto' }}
                                 className="invert"
                             />
                             Built by Kagu Software

@@ -72,9 +72,9 @@ export default async function CountryPage({ params }: Props) {
           />
         )}
 
-        <section className="cta-block mt-30 bg-cream">
+        <section className="cta-block bg-cream">
           <div className="container">
-            <div className="py-30 relative z-10">
+            <div className="py-20 relative z-10">
               <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-12 pb-4 border-b border-navy/20">
                 — Daha fazla bilgi alın
               </div>
@@ -213,9 +213,9 @@ export default async function CountryPage({ params }: Props) {
         }
       />
 
-      <section className="cta-block mt-30 bg-cream">
+      <section className="cta-block bg-cream">
         <div className="container">
-          <div className="py-30 relative z-10">
+          <div className="py-20 relative z-10">
             <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-12 pb-4 border-b border-navy/20">
               — Daha fazla bilgi alın
             </div>

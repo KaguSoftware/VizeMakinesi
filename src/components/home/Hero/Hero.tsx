@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
+import { EASE_OUT_EXPO } from '@/components/shared/motion/constants';
+
+const MotionLink = motion.create(Link);
 
 interface CountryResult {
   name: string;
@@ -66,20 +69,56 @@ export default function Hero() {
         {/* Main grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-15 items-end relative">
           {/* Left: headline */}
-          <div className="relative">
+          <motion.div
+            className="relative"
+            initial="hidden"
+            animate="show"
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } } }}
+          >
             <h1 className="font-serif font-bold text-[clamp(38px,5.5vw,88px)] leading-none tracking-[-0.02em]">
-              Vize Almanın<br />En Hızlı, En Güvenilir ve<br /><span className="text-coral">Garantili</span> Yolu.
+              <motion.span
+                className="block"
+                variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
+              >
+                Vize Almanın
+              </motion.span>
+              <motion.span
+                className="block"
+                variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
+              >
+                En Hızlı, En Güvenilir ve
+              </motion.span>
+              <motion.span
+                className="block"
+                variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
+              >
+                <span className="text-coral">Garantili</span> Yolu.
+              </motion.span>
             </h1>
-          </div>
+          </motion.div>
 
           {/* Right: editorial note */}
-          <div className="border-l border-border pl-9 pb-3 relative">
-            <div className="absolute -top-6 -left-px w-7 h-7 bg-coral flex items-center justify-center font-mono text-[11px] font-medium text-white">
+          <motion.div
+            className="border-l border-border pl-9 pb-3 relative"
+            initial="hidden"
+            animate="show"
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1, delayChildren: 0.3 } } }}
+          >
+            <motion.div
+              className="absolute -top-6 -left-px w-7 h-7 bg-coral flex items-center justify-center font-mono text-[11px] font-medium text-white"
+              initial={{ opacity: 0, scale: 0.4, rotate: -45 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 0.5, delay: 0.25, ease: EASE_OUT_EXPO }}
+            >
               ¶
-            </div>
+            </motion.div>
 
             {/* Search bar */}
-            <div ref={containerRef} className="relative w-full max-w-sm mb-8">
+            <motion.div
+              ref={containerRef}
+              className="relative w-full max-w-sm mb-8"
+              variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT_EXPO } } }}
+            >
               <form
                 onSubmit={handleSearch}
                 className="flex items-center bg-white/80 backdrop-blur-sm border border-coral/40 rounded-2xl overflow-hidden focus-within:border-coral transition-colors"
@@ -136,18 +175,24 @@ export default function Hero() {
                   </motion.ul>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
 
-            <p className="font-serif text-[clamp(14px,1.4vw,19px)] leading-[1.55] text-coral max-w-95 mb-8">
+            <motion.p
+              className="font-serif text-[clamp(14px,1.4vw,19px)] leading-[1.55] text-coral max-w-95 mb-8"
+              variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT_EXPO } } }}
+            >
               Turistikten ticari ve aile ziyaretlerine kadar tüm vize ihtiyaçlarınızda profesyonel çözüm ortağınız. 60+ ülke için hatasız evrak hazırlığı ve hızlı randevu garantisiyle sürecinizi güvence altına alıyoruz.
-            </p>
-            <Link
+            </motion.p>
+            <MotionLink
               href="/danisma-al"
               className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-coral text-coral hover:bg-navy hover:text-white hover:border-cream transition-all duration-200 rounded-2xl"
+              variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT_EXPO } } }}
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.97 }}
             >
               Danışma Al →
-            </Link>
-          </div>
+            </MotionLink>
+          </motion.div>
         </div>
 
       </div>

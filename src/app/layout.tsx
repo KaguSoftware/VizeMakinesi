@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Syne, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import NavigationLoader from "@/components/global/NavigationLoader";
 
 const syne = Syne({
     variable: "--font-playfair",
@@ -36,7 +37,10 @@ export default function RootLayout({
             lang="tr"
             className={`${syne.variable} ${inter.variable} ${jetbrains.variable}`}
         >
-            <body>{children}</body>
+            <body>
+                <NavigationLoader />
+                {children}
+            </body>
         </html>
     );
 }

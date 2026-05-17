@@ -7,7 +7,7 @@ import { useEffect, useState, Suspense } from "react";
 function Loader() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const [loading, setLoading] = useState(false);
+    const [targetPath, setTargetPath] = useState<string | null>(null);
 
     useEffect(() => {
         const handleClick = (e: MouseEvent) => {
@@ -22,7 +22,7 @@ function Loader() {
                     url.origin === window.location.origin &&
                     url.pathname !== window.location.pathname
                 ) {
-                    setLoading(true);
+                    setTargetPath(url.pathname);
                 }
             } catch {
                 // invalid URL — skip
@@ -34,9 +34,9 @@ function Loader() {
             document.removeEventListener("click", handleClick, true);
     }, []);
 
-    useEffect(() => {
-        setLoading(false);
-    }, [pathname, searchParams]);
+    // searchParams included so a query-string-only nav also clears the loader
+    void searchParams;
+    const loading = targetPath !== null && targetPath !== pathname;
 
     if (!loading) return null;
 

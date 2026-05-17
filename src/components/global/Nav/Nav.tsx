@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { MOBILE_LINKS, STATIC_MEGA_MENU } from "./constants";
@@ -22,12 +22,18 @@ function NavSearch() {
 
     useEffect(() => {
         if (expanded) inputRef.current?.focus();
-        else { setQuery(''); setResults([]); setActiveIndex(-1); }
     }, [expanded]);
+
+    const collapse = useCallback(() => {
+        setExpanded(false);
+        setQuery('');
+        setResults([]);
+        setActiveIndex(-1);
+    }, []);
 
     useEffect(() => {
         const q = query.trim();
-        if (!q) { setResults([]); return; }
+        if (!q) return;
         const controller = new AbortController();
         const timer = setTimeout(() => {
             fetch(`/api/countries/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
@@ -41,21 +47,21 @@ function NavSearch() {
     useEffect(() => {
         const handleClick = (e: MouseEvent) => {
             if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-                setExpanded(false);
+                collapse();
             }
         };
         document.addEventListener('mousedown', handleClick);
         return () => document.removeEventListener('mousedown', handleClick);
-    }, []);
+    }, [collapse]);
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex((i) => Math.min(i + 1, results.length - 1)); }
         else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex((i) => Math.max(i - 1, -1)); }
         else if (e.key === 'Enter') {
             const target = activeIndex >= 0 ? results[activeIndex] : results[0];
-            if (target) { router.push(`/vize/${target.slug}`); setExpanded(false); }
+            if (target) { router.push(`/vize/${target.slug}`); collapse(); }
         }
-        else if (e.key === 'Escape') setExpanded(false);
+        else if (e.key === 'Escape') collapse();
     };
 
     return (
@@ -87,7 +93,11 @@ function NavSearch() {
                                 ref={inputRef}
                                 type="text"
                                 value={query}
-                                onChange={(e) => setQuery(e.target.value)}
+                                onChange={(e) => {
+                                    const v = e.target.value;
+                                    setQuery(v);
+                                    if (!v.trim()) setResults([]);
+                                }}
                                 onKeyDown={handleKeyDown}
                                 placeholder="✈️ Yolculuk Nereye !?"
                                 autoComplete="off"
@@ -101,7 +111,7 @@ function NavSearch() {
                                     <li key={c.slug}>
                                         <Link
                                             href={`/vize/${c.slug}`}
-                                            onClick={() => setExpanded(false)}
+                                            onClick={() => collapse()}
                                             className={`flex items-center gap-3 px-4 py-2.5 font-sans text-[13px] text-navy border-b border-coral/10 last:border-0 hover:text-coral transition-colors ${i === activeIndex ? 'text-coral' : ''}`}
                                         >
                                             <span className="text-[16px]">{c.flag_emoji ?? '🌍'}</span>

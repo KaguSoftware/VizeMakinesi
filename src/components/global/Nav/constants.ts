@@ -76,4 +76,5 @@ export const MOBILE_LINKS: MobileLink[] = [
   { to: '/ortakliklar', label: 'Ortaklıklar' },
   { to: '/abd-hizlandirma', label: 'ABD Hızlandırma' },
   { to: '/iletisim', label: 'İletişim' },
+  { to: '/danisma-al', label: 'Danışma Al' },
 ];

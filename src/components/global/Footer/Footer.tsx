@@ -82,10 +82,9 @@ export default function Footer() {
                             <Image
                                 src="/KaguSoftwareLogoComp.png"
                                 alt="Kagu Software"
-                                width={1600}
-                                height={1065}
-                                style={{ width: '100px', height: 'auto' }}
-                                className="invert"
+                                width={100}
+                                height={67}
+                                className="invert w-25 h-auto"
                             />
                             Built by Kagu Software
                         </span>

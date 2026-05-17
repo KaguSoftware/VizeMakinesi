@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import SchengenCountryGrid from "@/components/visa/SchengenCountryGrid/SchengenCountryGrid";
 import RegionGrid from "@/components/home/RegionGrid/RegionGrid";
 import { getHomeRegionsData } from "@/lib/data/homeRegions";
+
+export const metadata: Metadata = {
+    title: "Hizmet Verdiğimiz Ülkeler",
+    description: "Avrupa ve Schengen'den Amerika Kıtası'na, Asya ve Pasifik'e — 60+ ülke için vize danışmanlığı.",
+};
 
 export default async function VizelerPage() {
     const { entries, settings } = await getHomeRegionsData();

@@ -24,7 +24,7 @@ export default function Hero() {
 
   useEffect(() => {
     const q = query.trim();
-    if (!q) { setResults([]); setOpen(false); return; }
+    if (!q) return;
 
     const controller = new AbortController();
     fetch(`/api/countries/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
@@ -126,7 +126,11 @@ export default function Hero() {
                 <input
                   type="text"
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    setQuery(v);
+                    if (!v.trim()) { setResults([]); setOpen(false); }
+                  }}
                   onKeyDown={handleKeyDown}
                   onFocus={() => results.length > 0 && setOpen(true)}
                   placeholder="✈️ Yolculuk Nereye !?"

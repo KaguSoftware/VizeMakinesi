@@ -18,7 +18,9 @@
       "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\\\\src\" -Recurse | Where-Object { $_.Name -match \"variant|animation|motion\" })",
       "Bash(ls \"C:\\\\Users\\\\MnS\\\\.claude\\\\plans\" 2>&1)",
       "Read(//c/Users/MnS/.claude/plans/**)",
-      "Bash(findstr /S \"NavigationLoader\" src\\\\**\\\\*.tsx src\\\\**\\\\*.ts)"
+      "Bash(findstr /S \"NavigationLoader\" src\\\\**\\\\*.tsx src\\\\**\\\\*.ts)",
+      "Bash(Select-String \"error|not-found|robots|sitemap\")",
+      "Bash(awk '{print $5, $9}')"
     ]
   }
 }

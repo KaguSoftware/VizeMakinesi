@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Urgency from '@/components/us-visa-expedite/Urgency/Urgency';
 import NumberedList from '@/components/shared/NumberedList/NumberedList';
 import ChecklistList from '@/components/shared/ChecklistList/ChecklistList';
 import FAQ from '@/components/shared/FAQ/FAQ';
@@ -69,6 +68,7 @@ export default function USExpeditePage() {
                 src="/american_vize.jpg"
                 alt="Amerika Birleşik Devletleri vizesi"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
                 priority
               />

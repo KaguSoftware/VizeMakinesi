@@ -13,7 +13,7 @@ export default function PageHead({ title, lede, flagPresetKey, flagImageUrl, tit
       <div className="container relative z-10">
         <div className={contentClassName ?? ""}>
           <FadeIn as="div" duration={0.5}>
-            <h1 className={titleClassName ?? "font-serif font-bold text-[clamp(48px,6.6vw,106px)] leading-[0.95] tracking-[-0.02em] wrap-break-word hyphens-auto"}>
+            <h1 className={titleClassName ?? "font-serif font-bold text-[clamp(36px,6.6vw,106px)] leading-[0.95] tracking-[-0.02em] wrap-break-word hyphens-auto max-w-full"}>
               {title}
             </h1>
           </FadeIn>

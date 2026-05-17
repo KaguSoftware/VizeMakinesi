@@ -35,7 +35,7 @@ export default function BigCTA({ title }: BigCTAProps) {
                             </a>
                             <div className="flex flex-col gap-3 w-full">
                                 <a
-                                    className="inline-flex items-center justify-center gap-3 font-sans font-medium text-[16px] uppercase tracking-[0.1em] px-[44px] py-[31px] bg-[#25D366] border border-[#25D366] text-white hover:bg-transparent hover:text-[#25D366] transition-all duration-200 rounded-2xl whitespace-nowrap w-full"
+                                    className="inline-flex items-center justify-center gap-3 font-sans font-medium text-[16px] uppercase tracking-[0.1em] px-[44px] py-[31px] bg-whatsapp border border-whatsapp text-white hover:bg-transparent hover:text-whatsapp transition-all duration-200 rounded-2xl whitespace-nowrap w-full"
                                     href={CTA_WHATSAPP_HREF}
                                     target="_blank"
                                     rel="noopener noreferrer"

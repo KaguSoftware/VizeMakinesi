@@ -31,8 +31,10 @@ interface Props {
 export default function DateRangePicker({ travelDate, returnDate, onTravelDate, onReturnDate }: Props) {
   const [todayYMD, setTodayYMD] = useState("");
   useEffect(() => {
+    // Compute "today" on the client to avoid SSR/CSR mismatch on timezone boundaries.
     const d = new Date();
     d.setHours(0, 0, 0, 0);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTodayYMD(toYMD(d));
   }, []);
 
@@ -109,7 +111,7 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
   return (
     <div className="select-none">
       {/* Calendar */}
-      <div className="border border-border rounded-xl w-full max-w-md">
+      <div className="border border-border rounded-xl w-full max-w-full sm:max-w-md">
         {/* Header: month nav */}
         <div className="flex items-center justify-between px-4 py-2.5">
           <button

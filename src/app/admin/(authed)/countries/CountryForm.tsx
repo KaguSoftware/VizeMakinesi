@@ -29,7 +29,7 @@ import type { CountryWithRelations } from '@/lib/data/countries'
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const PRESET_KEYS = [
-  { key: 'uk', label: 'Birleşik Krallık' },
+  { key: 'uk', label: 'İngiltere' },
   { key: 'germany', label: 'Almanya' },
   { key: 'france', label: 'Fransa' },
   { key: 'italy', label: 'İtalya' },
@@ -579,10 +579,13 @@ export default function CountryForm({ country }: CountryFormProps) {
 
       {/* Inline validation summary */}
       {errors.length > 0 && (
-        <div className="mt-4 p-4 border border-coral/40 bg-coral/5">
-          <p className="font-mono text-[11px] text-coral">
-            {errors.length} hata düzeltilmeli
+        <div className="mt-4 p-4 border border-coral/40 bg-coral/5 flex flex-col gap-1">
+          <p className="font-mono text-[11px] text-coral font-semibold mb-1">
+            {errors.length} hata düzeltilmeli:
           </p>
+          {errors.map((e, i) => (
+            <p key={i} className="font-mono text-[11px] text-coral">• {e.message}</p>
+          ))}
         </div>
       )}
     </form>

@@ -89,7 +89,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
                 placeholder="5__ ___ __ __"
                 maxLength={10}
                 onKeyDown={(e) => {
-                  const allowed = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'];
+                  const allowed = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
                   if (allowed.includes(e.key)) return;
                   if (!/^\d$/.test(e.key)) e.preventDefault();
                 }}
@@ -138,7 +138,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
               const presetKey = selected?.flag_preset_key ?? undefined;
               const imageUrl = selected?.flag_image_url ?? undefined;
               return (
-                <div className="relative flex-1 mt-4 overflow-hidden">
+                <div className="relative mt-4 overflow-hidden h-64">
                   {selected && (presetKey || imageUrl) && (
                     <FlagBG
                       presetKey={presetKey}

@@ -7,6 +7,7 @@ interface CountryResult {
   name: string;
   slug: string;
   flag_emoji: string | null;
+  matchedCity?: string;
 }
 
 export default function Hero() {
@@ -112,7 +113,12 @@ export default function Hero() {
                         className={`flex items-center gap-3 px-4 py-3 font-sans text-[14px] text-navy hover:bg-coral/10 transition-colors ${i === activeIndex ? 'bg-coral/10' : ''}`}
                       >
                         <span className="text-[18px]">{country.flag_emoji ?? '🌍'}</span>
-                        {country.name}
+                        <span className="flex-1">
+                          {country.name}
+                          {country.matchedCity && (
+                            <span className="ml-2 text-navy/40 text-[12px]">({country.matchedCity})</span>
+                          )}
+                        </span>
                       </Link>
                     </li>
                   ))}

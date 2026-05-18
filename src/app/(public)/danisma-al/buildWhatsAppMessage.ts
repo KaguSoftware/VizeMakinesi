@@ -3,6 +3,7 @@ export interface WhatsAppFormInput {
   soyad: string;
   email: string;
   country: string;
+  countryEmoji: string | null;
   travelDate: string;
   returnDate: string;
   note: string;
@@ -26,7 +27,7 @@ export function buildWhatsAppMessage(input: WhatsAppFormInput): string {
     "",
     `👤 Ad Soyad: ${adSoyad}`,
     `📧 E-posta: ${placeholder(input.email)}`,
-    `🌍 Gidilecek Ülke: ${placeholder(input.country)}`,
+    `🌍 Gidilecek Ülke: ${input.countryEmoji ? `${input.countryEmoji} ` : ""}${placeholder(input.country)}`,
     `🗓️ Seyahat Tarihleri: ${dates}`,
     "",
     "📝 Not:",

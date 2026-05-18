@@ -78,7 +78,7 @@ export default function WhatsAppPreview({ message }: { message: string }) {
       </div>
 
       <div className="bg-white px-4 py-3 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted border-t border-border">
-        Form gönderildiğinde WhatsApp açılır
+        Form WhatsApp&apos;tan gönderilir
       </div>
     </div>
   );

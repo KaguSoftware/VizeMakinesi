@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { createStaticClient } from '@/lib/supabase/static';
 import type { Database } from '@/lib/supabase/database.types';
@@ -19,23 +20,12 @@ async function attachRelations(countries: CountryRow[]): Promise<CountryWithRela
   const supabase = await createClient();
   const ids = countries.map((c) => c.id);
 
-  const reqsResult = await supabase
-    .from('country_requirements')
-    .select('*')
-    .in('country_id', ids)
-    .order('sort_order');
-
-  const handlesResult = await supabase
-    .from('country_handles')
-    .select('*')
-    .in('country_id', ids)
-    .order('sort_order');
-
-  const faqsResult = await supabase
-    .from('country_faqs')
-    .select('*')
-    .in('country_id', ids)
-    .order('sort_order');
+  // Run the three relation queries in parallel — they're independent.
+  const [reqsResult, handlesResult, faqsResult] = await Promise.all([
+    supabase.from('country_requirements').select('*').in('country_id', ids).order('sort_order'),
+    supabase.from('country_handles').select('*').in('country_id', ids).order('sort_order'),
+    supabase.from('country_faqs').select('*').in('country_id', ids).order('sort_order'),
+  ]);
 
   const reqs = (reqsResult.data ?? []) as RequirementRow[];
   const handles = (handlesResult.data ?? []) as HandleRow[];
@@ -60,18 +50,22 @@ export async function getAllCountries(): Promise<CountryWithRelations[]> {
   return attachRelations((data ?? []) as CountryRow[]);
 }
 
-export async function getCountryBySlug(slug: string): Promise<CountryWithRelations | null> {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from('countries')
-    .select('*')
-    .eq('slug', slug)
-    .single();
-  if (error || !data) return null;
-  const row = data as CountryRow;
-  const [withRelations] = await attachRelations([row]);
-  return withRelations ?? null;
-}
+// Wrapped in React cache() so a single request that calls this multiple times
+// (e.g. generateMetadata + page component) only round-trips Supabase once.
+export const getCountryBySlug = cache(
+  async (slug: string): Promise<CountryWithRelations | null> => {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('countries')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+    if (error || !data) return null;
+    const row = data as CountryRow;
+    const [withRelations] = await attachRelations([row]);
+    return withRelations ?? null;
+  }
+);
 
 export async function getTourismCountries(): Promise<CountryWithRelations[]> {
   const supabase = await createClient();

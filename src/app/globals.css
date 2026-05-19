@@ -167,17 +167,6 @@ a {
   opacity: 0.5;
 }
 
-/* ── DROP CAP ── */
-.editorial-body p:first-of-type::first-letter {
-  font-weight: 700;
-  font-style: italic;
-  float: left;
-  font-size: 64px;
-  line-height: 0.9;
-  margin: 6px 8px 0 0;
-  color: #309c9b;
-}
-
 /* ── ABOUT QUOTE LARGE MARK ── */
 .about-quote-mark {
   position: absolute;

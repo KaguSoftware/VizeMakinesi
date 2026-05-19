@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { getAllCountriesForBlog } from '@/lib/data/countries';
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'Blog — Vize Makinesi',
   description: 'Vize süreçleri, seyahat tavsiyeleri ve göç hukuku hakkında güncel yazılar.',

@@ -3,6 +3,8 @@ import Image from 'next/image';
 import PageHead from '@/components/shared/PageHead/PageHead';
 import { getPartnerships } from '@/lib/data/partnerships';
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'Ortaklıklar — Vize Makinesi',
   description: 'Seyahat acenteleri, kurumsal firmalar ve sivil toplum kuruluşları için toplu vize çözümleri.',

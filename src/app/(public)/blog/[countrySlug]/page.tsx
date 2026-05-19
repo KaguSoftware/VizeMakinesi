@@ -7,6 +7,8 @@ import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import ChecklistList from '@/components/shared/ChecklistList/ChecklistList';
 import NumberedList from '@/components/shared/NumberedList/NumberedList';
 
+export const revalidate = 3600;
+
 interface Props {
   params: Promise<{ countrySlug: string }>;
 }

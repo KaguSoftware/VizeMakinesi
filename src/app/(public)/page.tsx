@@ -7,6 +7,8 @@ import SchengenCountryGrid from "@/components/visa/SchengenCountryGrid/SchengenC
 import RegionGrid from "@/components/home/RegionGrid/RegionGrid";
 import { getHomeRegionsData } from "@/lib/data/homeRegions";
 
+export const revalidate = 3600;
+
 export default async function HomePage() {
     const { entries, settings } = await getHomeRegionsData();
 

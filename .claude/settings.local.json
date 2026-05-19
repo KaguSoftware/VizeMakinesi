@@ -23,7 +23,12 @@
       "Bash(awk '{print $5, $9}')",
       "Bash(xargs grep -l \"loading\\\\|NProgress\\\\|TopLoader\\\\|isLoading\")",
       "Bash(Get-ChildItem -Path \"src\" -Recurse -Filter \"*.tsx\")",
-      "Bash(Select-Object -ExpandProperty FullName)"
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Get-ChildItem -Recurse -Depth 2)",
+      "Bash(Select-Object FullName)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\" -Recurse -Directory)",
+      "Bash(Select-Object -First 20 FullName)",
+      "Bash(grep -r \"^[[:space:]]*//.*import\\\\|^[[:space:]]*//.*export\\\\|^[[:space:]]*//.*function\\\\|^[[:space:]]*//.*const\" c:/Users/MnS/Kagu/kagu/VizeMakinesi/src --include=\"*.ts\" --include=\"*.tsx\")"
     ]
   }
 }

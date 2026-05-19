@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getPageSection } from '@/lib/data/pageSections';
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'Hakkımızda — Vize Makinesi',
   description: 'On sekiz yıl, on iki danışman, 42.000\'den fazla işlenmiş vize.',

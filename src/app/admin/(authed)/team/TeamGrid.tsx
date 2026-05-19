@@ -126,7 +126,15 @@ export default function AdminTeamGrid({ initial }: { initial: TeamMemberRow[] })
             ))}
           </div>
           {members.length === 0 && (
-            <p className="font-mono text-[12px] text-navy/60 py-8 text-center">Henüz ekip üyesi eklenmedi</p>
+            <div className="flex flex-col items-center gap-3 py-12">
+              <p className="font-mono text-[12px] text-navy/60 text-center">Henüz ekip üyesi eklenmedi</p>
+              <Link
+                href="/admin/team/new"
+                className="font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
+              >
+                + İlk Üyeyi Ekle
+              </Link>
+            </div>
           )}
         </SortableContext>
       </DndContext>

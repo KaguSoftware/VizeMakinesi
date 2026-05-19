@@ -10,6 +10,7 @@ import {
   ImageUploader,
   useToast,
 } from '@/components/admin/ui'
+import { useDirtyFromSnapshot, useUnsavedChanges } from '@/lib/hooks/useUnsavedChanges'
 import { createPartnership, updatePartnership } from './actions'
 import type { Database } from '@/lib/supabase/database.types'
 
@@ -32,6 +33,10 @@ export default function PartnershipForm({ partnership }: Props) {
   const [visible, setVisible] = useState(partnership?.visible ?? true)
   const [saving, setSaving] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [submitted, setSubmitted] = useState(false)
+  const dirty = useDirtyFromSnapshot({ name, eyebrow, description, logoUrl, externalUrl, visible })
+
+  useUnsavedChanges(dirty && !saving && !submitted)
 
   function validate() {
     const e: Record<string, string> = {}
@@ -63,6 +68,7 @@ export default function PartnershipForm({ partnership }: Props) {
     }
 
     showToast(isEdit ? 'Ortaklık güncellendi' : 'Ortaklık oluşturuldu')
+    setSubmitted(true)
     router.push('/admin/partnerships')
   }
 

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import FlagBG from '@/components/shared/FlagBG/FlagBG'
+import { useDirtyFromSnapshot, useUnsavedChanges } from '@/lib/hooks/useUnsavedChanges'
 import {
   AdminButton,
   AdminInput,
@@ -146,6 +147,25 @@ export default function CountryForm({ country }: CountryFormProps) {
   const [errors, setErrors] = useState<ValidationError[]>([])
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
+  const [submitted, setSubmitted] = useState(false)
+
+  // Derive dirty from a snapshot of the tracked data fields at mount.
+  // Pure render-time computation, no effect needed.
+  const dirty = useDirtyFromSnapshot({
+    name, slug, flagEmoji, visaType, summary,
+    flagType, flagPresetKey, flagImageUrl,
+    mosaicVisible, mosaicSpan, danismaVisible,
+    requirements: requirements.map((r) => r.text),
+    handles: handles.map((h) => h.text),
+    faqs: faqs.map((f) => ({ q: f.question, a: f.answer })),
+    hasTourism, tourismHeroUrl,
+    tourismIntro: tourismIntro.map((t) => t.text),
+    tourismHighlights: tourismHighlights.map((t) => t.text),
+    tourismTips: tourismTips.map((t) => t.text),
+    tourismBestTime, appointmentDays,
+  })
+
+  useUnsavedChanges(dirty && !saving && !submitted)
 
   // ── Slug auto-generate ─────────────────────────────────────────────────────
 
@@ -207,6 +227,7 @@ export default function CountryForm({ country }: CountryFormProps) {
         if ('error' in result) { setSaveError(result.error); showToast(result.error, 'error'); return }
       }
       showToast(isEdit ? 'Ülke güncellendi' : 'Ülke oluşturuldu')
+      setSubmitted(true)
       router.push('/admin/countries')
     } finally {
       setSaving(false)

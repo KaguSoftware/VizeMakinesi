@@ -27,12 +27,14 @@ export default function Hero() {
     if (!q) return;
 
     const controller = new AbortController();
+    const requestTimeout = setTimeout(() => controller.abort(), 8000);
     fetch(`/api/countries/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((data) => { setResults(data); setOpen(data.length > 0); setActiveIndex(-1); })
-      .catch((err) => { if (err.name !== 'AbortError') console.error(err); });
+      .catch((err) => { if (err.name !== 'AbortError') console.error(err); })
+      .finally(() => clearTimeout(requestTimeout));
 
-    return () => { controller.abort(); };
+    return () => { clearTimeout(requestTimeout); controller.abort(); };
   }, [query]);
 
   useEffect(() => {

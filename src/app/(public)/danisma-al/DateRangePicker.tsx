@@ -164,12 +164,12 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
         {/* Day cells */}
         <div className="grid grid-cols-7 px-2 pb-2">
           {cells.map((ymd, i) => {
-            if (!ymd) return <div key={`empty-${i}`} className="h-9" />;
+            if (!ymd) return <div key={`empty-${i}`} className="h-11" />;
             const { isPast, isStart, isEnd, inRange } = dayState(ymd);
             const isToday = ymd === todayYMD;
             const dayNum = parseInt(ymd.split("-")[2]);
 
-            const wrapperCls = "relative flex items-center justify-center h-9 font-serif cursor-pointer transition-all duration-100 " +
+            const wrapperCls = "relative flex items-center justify-center h-11 font-serif cursor-pointer transition-all duration-100 " +
               (isPast ? "cursor-default " : "");
 
             const showBand = isStart || isEnd || inRange;
@@ -177,7 +177,7 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
               (isStart ? "left-1/2 right-0 rounded-l-lg " : isEnd ? "left-0 right-1/2 rounded-r-lg " : "left-0 right-0 ") +
               "bg-coral/15 ";
 
-            const circleCls = "relative z-10 flex items-center justify-center w-8 h-8 rounded-lg text-[12px] " +
+            const circleCls = "relative z-10 flex items-center justify-center w-10 h-10 rounded-lg text-[12px] " +
               (isStart || isEnd ? "bg-coral text-white font-semibold " : isPast ? "text-muted/30 " : "text-navy ");
 
             const hoverCls = (!isStart && !isEnd && !isPast) ? "hover:bg-navy/8 rounded-lg " : "";

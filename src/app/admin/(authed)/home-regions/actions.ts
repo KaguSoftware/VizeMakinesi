@@ -92,11 +92,13 @@ export async function reorderEntries(
 ): Promise<{ error?: string }> {
   await requireAdmin()
   const supabase = await createClient()
-  await Promise.all(
+  const results = await Promise.all(
     orderedIds.map((id, i) =>
       tbl(supabase, 'home_region_entries').update({ sort_order: (i + 1) * 10 }).eq('id', id)
     )
   )
+  const firstError = results.find((r: { error?: { message: string } | null }) => r.error)?.error
+  if (firstError) return { error: firstError.message }
   revalidate()
   return {}
 }

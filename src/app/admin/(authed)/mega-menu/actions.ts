@@ -59,11 +59,13 @@ export async function deleteCategory(id: string): Promise<{ error?: string }> {
 export async function reorderCategories(orderedIds: string[]): Promise<{ error?: string }> {
   await requireAdmin()
   const supabase = await createClient()
-  await Promise.all(
+  const results = await Promise.all(
     orderedIds.map((id, i) =>
       tbl(supabase, 'mega_menu_categories').update({ sort_order: i }).eq('id', id)
     )
   )
+  const firstError = results.find((r: { error?: { message: string } | null }) => r.error)?.error
+  if (firstError) return { error: firstError.message }
   revalidate()
   return {}
 }
@@ -133,11 +135,13 @@ export async function reorderItems(
 ): Promise<{ error?: string }> {
   await requireAdmin()
   const supabase = await createClient()
-  await Promise.all(
+  const results = await Promise.all(
     items.map(({ id, category_id, sort_order }) =>
       tbl(supabase, 'mega_menu_items').update({ category_id, sort_order }).eq('id', id)
     )
   )
+  const firstError = results.find((r: { error?: { message: string } | null }) => r.error)?.error
+  if (firstError) return { error: firstError.message }
   revalidate()
   return {}
 }

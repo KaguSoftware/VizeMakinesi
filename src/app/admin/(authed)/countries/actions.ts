@@ -154,11 +154,13 @@ export async function deleteCountry(id: string): Promise<{ error?: string }> {
 export async function reorderCountries(orderedIds: string[]): Promise<{ error?: string }> {
   await requireAdmin()
   const supabase = await createClient()
-  await Promise.all(
+  const results = await Promise.all(
     orderedIds.map((id, i) =>
       tbl(supabase, 'countries').update({ mosaic_order: i }).eq('id', id)
     )
   )
+  const firstError = results.find((r: { error?: { message: string } | null }) => r.error)?.error
+  if (firstError) return { error: firstError.message }
   revalidateAll()
   return {}
 }

@@ -381,6 +381,25 @@ q::after {
   line-height: 1;
 }
 
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .nav-ticker-track,
+  .strip-track {
+    animation: none !important;
+  }
+  .mega-panel {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ── MAP PIN ── */
 .map-pin::before {
   content: "";

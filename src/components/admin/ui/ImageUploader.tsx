@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 
 interface Props {
@@ -18,18 +18,33 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
   const [sizeBefore, setSizeBefore] = useState<number | null>(null)
   const [sizeAfter, setSizeAfter] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const abortRef = useRef<AbortController | null>(null)
 
   async function handleFile(file: File) {
     setError(null)
+
+    // Reject overly large files up front (browser-image-compression can OOM on huge inputs)
+    const MAX_INPUT_BYTES = 25 * 1024 * 1024
+    if (file.size > MAX_INPUT_BYTES) {
+      setError('Dosya çok büyük (en fazla 25 MB).')
+      return
+    }
+    if (!file.type.startsWith('image/')) {
+      setError('Sadece görsel dosyaları yüklenebilir.')
+      return
+    }
+
     setSizeBefore(file.size)
     setSizeAfter(null)
     setPhase('compressing')
 
+    const controller = new AbortController()
+    abortRef.current = controller
+
     try {
-      // compressImage is called inside uploadImage — we intercept phase transitions
-      // by splitting the steps manually here
       const { compressImage } = await import('@/lib/images/compress')
       const compressed = await compressImage(file)
+      if (controller.signal.aborted) return
       setSizeAfter(compressed.size)
       setPhase('uploading')
 
@@ -40,15 +55,38 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
         .from(bucket)
         .upload(filePath, compressed, { upsert: true, contentType: 'image/webp' })
 
+      if (controller.signal.aborted) return
       if (uploadError) throw uploadError
 
       const { data } = supabase.storage.from(bucket).getPublicUrl(filePath)
       onChange(data.publicUrl)
       setPhase('done')
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yükleme başarısız')
+      if (controller.signal.aborted) {
+        setPhase('idle')
+        return
+      }
+      const msg = e instanceof Error ? e.message : 'Yükleme başarısız'
+      // Surface friendlier hints for common cases
+      if (/network|fetch|failed to fetch/i.test(msg)) {
+        setError('Ağ hatası. Bağlantıyı kontrol edip tekrar deneyin.')
+      } else if (/payload|too large|413/i.test(msg)) {
+        setError('Dosya boyutu sunucu sınırını aşıyor.')
+      } else {
+        setError(msg)
+      }
       setPhase('idle')
+    } finally {
+      if (abortRef.current === controller) abortRef.current = null
     }
+  }
+
+  function cancelUpload() {
+    abortRef.current?.abort()
+    abortRef.current = null
+    setPhase('idle')
+    setSizeBefore(null)
+    setSizeAfter(null)
   }
 
   function formatBytes(bytes: number) {
@@ -79,9 +117,19 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
             accept="image/*"
             className="sr-only"
             disabled={isUploading}
-            onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f) }}
+            onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); e.target.value = '' }}
           />
         </label>
+
+        {isUploading && (
+          <button
+            type="button"
+            onClick={cancelUpload}
+            className="font-mono text-[11px] tracking-widest uppercase text-navy/80 hover:text-red-500 transition-colors"
+          >
+            İptal
+          </button>
+        )}
 
         {value && !isUploading && (
           <button
@@ -100,7 +148,7 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
         </p>
       )}
 
-      {error && <p className="font-mono text-[11px] text-red-500">{error}</p>}
+      {error && <p role="alert" className="font-mono text-[11px] text-red-500">{error}</p>}
     </div>
   )
 }

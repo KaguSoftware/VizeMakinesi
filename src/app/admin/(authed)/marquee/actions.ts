@@ -82,11 +82,13 @@ export async function toggleMarqueeItemVisible(
 export async function reorderMarqueeItems(orderedIds: string[]): Promise<{ error?: string }> {
   await requireAdmin()
   const supabase = await createClient()
-  await Promise.all(
+  const results = await Promise.all(
     orderedIds.map((id, i) =>
       tbl(supabase, 'marquee_items').update({ sort_order: i }).eq('id', id)
     )
   )
+  const firstError = results.find((r: { error?: { message: string } | null }) => r.error)?.error
+  if (firstError) return { error: firstError.message }
   revalidate()
   return {}
 }

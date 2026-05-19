@@ -35,13 +35,16 @@ function NavSearch() {
         const q = query.trim();
         if (!q) return;
         const controller = new AbortController();
-        const timer = setTimeout(() => {
+        const debounceTimer = setTimeout(() => {
+            // Abort the request itself if it hangs past 8s (slow 3G safety net).
+            const requestTimeout = setTimeout(() => controller.abort(), 8000);
             fetch(`/api/countries/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
                 .then((r) => r.json())
                 .then((data) => { setResults(data); setActiveIndex(-1); })
-                .catch((e) => { if (e.name !== 'AbortError') console.error(e); });
+                .catch((e) => { if (e.name !== 'AbortError') console.error(e); })
+                .finally(() => clearTimeout(requestTimeout));
         }, 200);
-        return () => { clearTimeout(timer); controller.abort(); };
+        return () => { clearTimeout(debounceTimer); controller.abort(); };
     }, [query]);
 
     useEffect(() => {

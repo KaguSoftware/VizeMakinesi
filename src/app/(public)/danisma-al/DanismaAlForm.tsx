@@ -81,32 +81,40 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
               {/* Ad + Soyad */}
               <motion.div {...fieldAnim(0)} className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <Field
+                  id="ad"
                   label="Ad"
                   required
                   error={errors.ad}
                   input={
                     <input
+                      id="ad"
                       type="text"
                       value={ad}
                       onChange={(e) => setAd(e.target.value)}
                       placeholder="Ayşe"
                       className={inputCls}
                       autoComplete="given-name"
+                      aria-invalid={Boolean(errors.ad)}
+                      aria-describedby={errors.ad ? "ad-error" : undefined}
                     />
                   }
                 />
                 <Field
+                  id="soyad"
                   label="Soyad"
                   required
                   error={errors.soyad}
                   input={
                     <input
+                      id="soyad"
                       type="text"
                       value={soyad}
                       onChange={(e) => setSoyad(e.target.value)}
                       placeholder="Kaya"
                       className={inputCls}
                       autoComplete="family-name"
+                      aria-invalid={Boolean(errors.soyad)}
+                      aria-describedby={errors.soyad ? "soyad-error" : undefined}
                     />
                   }
                 />
@@ -115,17 +123,22 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
               {/* Email */}
               <motion.div {...fieldAnim(1)}>
                 <Field
+                  id="email"
                   label="E-posta"
                   required
                   error={errors.email}
                   input={
                     <input
+                      id="email"
                       type="email"
+                      inputMode="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="ornek@mail.com"
                       className={inputCls}
                       autoComplete="email"
+                      aria-invalid={Boolean(errors.email)}
+                      aria-describedby={errors.email ? "email-error" : undefined}
                     />
                   }
                 />
@@ -134,14 +147,18 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
               {/* Country */}
               <motion.div {...fieldAnim(2)}>
                 <Field
+                  id="country"
                   label="Gidilecek Ülke"
                   required
                   error={errors.country}
                   input={
                     <select
+                      id="country"
                       value={country}
                       onChange={(e) => setCountry(e.target.value)}
                       className={`${inputCls} cursor-pointer`}
+                      aria-invalid={Boolean(errors.country)}
+                      aria-describedby={errors.country ? "country-error" : undefined}
                     >
                       <option value="" disabled>
                         Ülke seçin…
@@ -159,6 +176,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
               {/* Travel dates */}
               <motion.div {...fieldAnim(3)}>
                 <Field
+                  id="travelDate"
                   label="Seyahat Tarihleri"
                   required
                   error={errors.travelDate}
@@ -177,9 +195,11 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
               {/* Note */}
               <motion.div {...fieldAnim(4)}>
                 <Field
+                  id="note"
                   label="Not / Ek Bilgi"
                   input={
                     <textarea
+                      id="note"
                       value={note}
                       onChange={(e) => setNote(e.target.value)}
                       rows={3}
@@ -194,19 +214,21 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
 
             {/* Submit */}
             <motion.div {...fieldAnim(5)} className="mt-10 border-t border-border pt-6 flex items-center justify-between flex-wrap gap-4">
-              {Object.keys(errors).length > 0 ? (
-                <motion.p
-                  initial={{ opacity: 0, y: -2 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="font-mono text-[10px] uppercase tracking-[0.14em] text-coral"
-                >
-                  Lütfen zorunlu alanları doldurun.
-                </motion.p>
-              ) : (
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-                  * Zorunlu alanlar
-                </p>
-              )}
+              <div role="status" aria-live="polite" className="min-h-[1em]">
+                {Object.keys(errors).length > 0 ? (
+                  <motion.p
+                    initial={{ opacity: 0, y: -2 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="font-mono text-[10px] uppercase tracking-[0.14em] text-coral"
+                  >
+                    Lütfen zorunlu alanları doldurun.
+                  </motion.p>
+                ) : (
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+                    * Zorunlu alanlar
+                  </p>
+                )}
+              </div>
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.03, y: -1 }}
@@ -236,12 +258,14 @@ const inputCls =
   "w-full bg-transparent border-b border-border pb-1.5 font-serif text-[14px] text-navy placeholder:text-muted/40 focus:outline-none focus:border-coral transition-colors duration-150";
 
 function Field({
+  id,
   label,
   required,
   error,
   input,
   bare,
 }: {
+  id?: string;
   label: string;
   required?: boolean;
   error?: string;
@@ -250,12 +274,18 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-2">
-        {label} {required && <span className="text-coral">*</span>}
+      <label
+        htmlFor={id}
+        className="block font-mono text-[10px] uppercase tracking-[0.18em] text-coral mb-2"
+      >
+        {label} {required && <span className="text-coral" aria-hidden="true">*</span>}
+        {required && <span className="sr-only"> (zorunlu)</span>}
       </label>
       {bare ? input : input}
       {error && (
         <motion.p
+          id={id ? `${id}-error` : undefined}
+          role="alert"
           initial={{ opacity: 0, y: -2 }}
           animate={{ opacity: 1, y: 0 }}
           className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-coral"

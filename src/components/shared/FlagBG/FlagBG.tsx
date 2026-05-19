@@ -78,12 +78,16 @@ export default function FlagBG({ presetKey, imageUrl, className, fit = 'slice' }
               col = (i - 30) % 5;
               totalCols = 5;
             }
+            const cantonW = 76;
             const cantonH = (100 / 13) * 7;
-            const rowH = cantonH / 10;
-            const x = totalCols === 6 ? 6 + col * 11 : 11 + col * 11;
-            const y = row * rowH + rowH / 2;
+            const colStep = cantonW / 6;
+            const rowStep = cantonH / 10;
+            const x = totalCols === 6
+              ? colStep / 2 + col * colStep
+              : colStep + col * colStep;
+            const y = rowStep / 2 + row * rowStep;
             return (
-              <polygon key={i} points={star(x, y, 2.8, 1.1)} fill="#FFFFFF" />
+              <polygon key={i} points={star(x, y, 2.4, 1.0)} fill="#FFFFFF" />
             );
           })}
         </svg>

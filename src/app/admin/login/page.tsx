@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
@@ -10,6 +10,7 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const passwordRef = useRef<HTMLInputElement>(null)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -23,8 +24,15 @@ export default function AdminLoginPage() {
     })
 
     if (authError) {
-      setError(authError.message)
+      // Surface a user-friendly Turkish message for the common "wrong password" case
+      const friendly = /invalid login credentials/i.test(authError.message)
+        ? 'E-posta veya şifre hatalı.'
+        : authError.message
+      setError(friendly)
       setLoading(false)
+      // Clear password and refocus so the user can retry without extra clicks
+      setPassword('')
+      passwordRef.current?.focus()
       return
     }
 
@@ -63,12 +71,15 @@ export default function AdminLoginPage() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           {/* Email */}
           <div className="flex flex-col gap-2">
-            <label className="font-mono text-[11px] tracking-[0.18em] uppercase text-navy/60">
+            <label htmlFor="admin-email" className="font-mono text-[11px] tracking-[0.18em] uppercase text-navy/60">
               — E-posta
             </label>
             <input
+              id="admin-email"
               type="email"
+              inputMode="email"
               required
+              autoFocus
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -79,10 +90,12 @@ export default function AdminLoginPage() {
 
           {/* Password */}
           <div className="flex flex-col gap-2">
-            <label className="font-mono text-[11px] tracking-[0.18em] uppercase text-navy/60">
+            <label htmlFor="admin-password" className="font-mono text-[11px] tracking-[0.18em] uppercase text-navy/60">
               — Şifre
             </label>
             <input
+              id="admin-password"
+              ref={passwordRef}
               type="password"
               required
               autoComplete="current-password"
@@ -95,7 +108,7 @@ export default function AdminLoginPage() {
 
           {/* Error */}
           {error && (
-            <p className="font-mono text-[12px] text-coral">{error}</p>
+            <p role="alert" className="font-mono text-[12px] text-coral">{error}</p>
           )}
 
           {/* Submit */}

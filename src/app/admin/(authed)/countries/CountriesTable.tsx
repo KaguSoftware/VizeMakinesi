@@ -156,7 +156,15 @@ export default function CountriesTable({ initial }: { initial: CountryRow[] }) {
             </tbody>
           </table>
           {countries.length === 0 && (
-            <p className="font-mono text-[12px] text-navy/65 py-8 text-center">Henüz ülke eklenmedi</p>
+            <div className="flex flex-col items-center gap-3 py-12">
+              <p className="font-mono text-[12px] text-navy/65 text-center">Henüz ülke eklenmedi</p>
+              <Link
+                href="/admin/countries/new"
+                className="font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
+              >
+                + İlk Ülkeyi Ekle
+              </Link>
+            </div>
           )}
         </SortableContext>
       </DndContext>

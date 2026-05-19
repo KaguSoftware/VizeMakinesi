@@ -4,17 +4,30 @@ import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 
+type Pending = { target: string; startUrl: string };
+
 function Loader() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const [targetPath, setTargetPath] = useState<string | null>(null);
+    const [pending, setPending] = useState<Pending | null>(null);
 
     useEffect(() => {
-        const handleClick = (e: MouseEvent) => {
+        const onClick = (e: MouseEvent) => {
+            if (
+                e.defaultPrevented ||
+                e.button !== 0 ||
+                e.metaKey ||
+                e.ctrlKey ||
+                e.shiftKey ||
+                e.altKey
+            ) {
+                return;
+            }
             const link = (e.target as Element).closest(
                 "a[href]"
             ) as HTMLAnchorElement | null;
             if (!link) return;
+            if (link.target === "_blank" || link.hasAttribute("download")) return;
 
             try {
                 const url = new URL(link.href, window.location.origin);
@@ -22,21 +35,41 @@ function Loader() {
                     url.origin === window.location.origin &&
                     url.pathname !== window.location.pathname
                 ) {
-                    setTargetPath(url.pathname);
+                    setPending({
+                        target: url.pathname,
+                        startUrl:
+                            window.location.pathname + window.location.search,
+                    });
                 }
             } catch {
                 // invalid URL — skip
             }
         };
 
-        document.addEventListener("click", handleClick, true);
-        return () =>
-            document.removeEventListener("click", handleClick, true);
+        const onReset = () => setPending(null);
+
+        document.addEventListener("click", onClick, true);
+        window.addEventListener("popstate", onReset);
+        window.addEventListener("pageshow", onReset);
+        return () => {
+            document.removeEventListener("click", onClick, true);
+            window.removeEventListener("popstate", onReset);
+            window.removeEventListener("pageshow", onReset);
+        };
     }, []);
 
-    // searchParams included so a query-string-only nav also clears the loader
-    void searchParams;
-    const loading = targetPath !== null && targetPath !== pathname;
+    // Safety net: never trap the UI for more than 10s.
+    useEffect(() => {
+        if (pending === null) return;
+        const t = setTimeout(() => setPending(null), 10000);
+        return () => clearTimeout(t);
+    }, [pending]);
+
+    // Show the loader only while the URL is still the one captured at click time.
+    // Any URL change — forward, back, or query swap — flips currentUrl and clears it.
+    const qs = searchParams?.toString() ?? "";
+    const currentUrl = qs ? `${pathname}?${qs}` : pathname;
+    const loading = pending !== null && currentUrl === pending.startUrl;
 
     if (!loading) return null;
 

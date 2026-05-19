@@ -125,7 +125,15 @@ export default function PartnershipsGrid({ initial }: { initial: PartnershipRow[
             ))}
           </div>
           {partnerships.length === 0 && (
-            <p className="font-mono text-[12px] text-navy/60 py-8 text-center">Henüz ortaklık eklenmedi</p>
+            <div className="flex flex-col items-center gap-3 py-12">
+              <p className="font-mono text-[12px] text-navy/60 text-center">Henüz ortaklık eklenmedi</p>
+              <Link
+                href="/admin/partnerships/new"
+                className="font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
+              >
+                + İlk Ortaklığı Ekle
+              </Link>
+            </div>
           )}
         </SortableContext>
       </DndContext>

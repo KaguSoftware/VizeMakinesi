@@ -8,6 +8,7 @@ import {
   ImageUploader,
   useToast,
 } from '@/components/admin/ui'
+import { useDirtyFromSnapshot, useUnsavedChanges } from '@/lib/hooks/useUnsavedChanges'
 import { createTeamMember, updateTeamMember } from './actions'
 import type { Database } from '@/lib/supabase/database.types'
 
@@ -33,6 +34,10 @@ export default function TeamMemberForm({ member }: Props) {
   const [visible, setVisible] = useState(member?.visible ?? true)
   const [saving, setSaving] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [submitted, setSubmitted] = useState(false)
+  const dirty = useDirtyFromSnapshot({ name, role, initials, photoUrl, visible })
+
+  useUnsavedChanges(dirty && !saving && !submitted)
 
   function handleNameChange(val: string) {
     setName(val)
@@ -64,6 +69,7 @@ export default function TeamMemberForm({ member }: Props) {
     }
 
     showToast(isEdit ? 'Üye güncellendi' : 'Üye oluşturuldu')
+    setSubmitted(true)
     router.push('/admin/team')
   }
 

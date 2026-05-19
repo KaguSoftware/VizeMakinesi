@@ -144,6 +144,7 @@ export async function getAllCountriesSlim(): Promise<CountrySlim[]> {
 
 export interface DanismaCountry {
   name: string;
+  flag_emoji: string | null;
   flag_type: 'preset' | 'image' | null;
   flag_preset_key: string | null;
   flag_image_url: string | null;
@@ -153,7 +154,7 @@ export async function getDanismaCountries(): Promise<DanismaCountry[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from('countries')
-    .select('name, flag_type, flag_preset_key, flag_image_url')
+    .select('name, flag_emoji, flag_type, flag_preset_key, flag_image_url')
     .eq('danisma_visible', true)
     .order('name');
   if (error) throw error;

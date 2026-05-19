@@ -3,7 +3,6 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import PageHead from "@/components/shared/PageHead/PageHead";
 import DateRangePicker from "./DateRangePicker";
-import FlagBG from "@/components/shared/FlagBG/FlagBG";
 import WhatsAppPreview from "./WhatsAppPreview";
 import { buildWhatsAppMessage } from "./buildWhatsAppMessage";
 import { SITE } from "@/data/site";
@@ -28,12 +27,12 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
   const [note, setNote] = useState("");
   const [errors, setErrors] = useState<Errors>({});
 
-  const message = useMemo(
-    () => buildWhatsAppMessage({ ad, soyad, email, country, travelDate, returnDate, note }),
-    [ad, soyad, email, country, travelDate, returnDate, note]
-  );
-
   const selectedCountry = countries.find((c) => c.name === country);
+
+  const message = useMemo(
+    () => buildWhatsAppMessage({ ad, soyad, email, country, countryEmoji: selectedCountry?.flag_emoji ?? null, travelDate, returnDate, note }),
+    [ad, soyad, email, country, selectedCountry?.flag_emoji, travelDate, returnDate, note]
+  );
 
   function validate(): Errors {
     const errs: Errors = {};
@@ -149,22 +148,12 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
                       </option>
                       {countries.map((c, i) => (
                         <option key={`${c.name}-${i}`} value={c.name}>
-                          {c.name}
+                          {c.flag_emoji ? `${c.flag_emoji} ${c.name}` : c.name}
                         </option>
                       ))}
                     </select>
                   }
                 />
-                {selectedCountry && (selectedCountry.flag_preset_key || selectedCountry.flag_image_url) && (
-                  <div className="relative mt-4 overflow-hidden h-48 rounded-xl border border-border">
-                    <FlagBG
-                      presetKey={selectedCountry.flag_preset_key ?? undefined}
-                      imageUrl={selectedCountry.flag_image_url ?? undefined}
-                      className="absolute inset-0 w-full h-full"
-                      fit={selectedCountry.flag_preset_key === "switzerland" ? "meet" : "slice"}
-                    />
-                  </div>
-                )}
               </motion.div>
 
               {/* Travel dates */}
@@ -205,9 +194,19 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
 
             {/* Submit */}
             <motion.div {...fieldAnim(5)} className="mt-10 border-t border-border pt-6 flex items-center justify-between flex-wrap gap-4">
-              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-                * Zorunlu alanlar
-              </p>
+              {Object.keys(errors).length > 0 ? (
+                <motion.p
+                  initial={{ opacity: 0, y: -2 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="font-mono text-[10px] uppercase tracking-[0.14em] text-coral"
+                >
+                  Lütfen zorunlu alanları doldurun.
+                </motion.p>
+              ) : (
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+                  * Zorunlu alanlar
+                </p>
+              )}
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.03, y: -1 }}

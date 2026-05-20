@@ -221,18 +221,29 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
         <>
             <header ref={headerRef} className="sticky top-0 z-110 bg-navy border-b border-border">
                 {/* Ticker */}
-                <div className="overflow-hidden font-mono text-[11px] tracking-[0.08em] uppercase py-2 bg-navy text-white/65">
-                    <div className="nav-ticker-track">
+                <div className="overflow-hidden font-mono text-[11px] tracking-[0.08em] uppercase py-2 bg-navy text-white/65 group">
+                    <div className="nav-ticker-track group-hover:[animation-play-state:paused]">
                         {[0, 1, 2, 3].map((set) => (
                             <span key={set} className="nav-ticker-set" aria-hidden={set > 0 ? "true" : undefined}>
-                                {tickerItems.map((t, i) => (
-                                    <span
-                                        key={i}
-                                        className={i === 0 ? "text-coral" : ""}
-                                    >
-                                        {t.text}
-                                    </span>
-                                ))}
+                                {tickerItems.map((t, i) =>
+                                    t.url ? (
+                                        <a
+                                            key={i}
+                                            href={t.url}
+                                            {...(t.url.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                                            className={i === 0 ? "text-coral hover:text-coral/80 underline underline-offset-2" : "hover:text-white/90 underline underline-offset-2"}
+                                        >
+                                            {t.text}
+                                        </a>
+                                    ) : (
+                                        <span
+                                            key={i}
+                                            className={i === 0 ? "text-coral" : ""}
+                                        >
+                                            {t.text}
+                                        </span>
+                                    )
+                                )}
                             </span>
                         ))}
                     </div>

@@ -87,13 +87,30 @@ function SortableItemRow({
         />
         {textError && <p className="font-mono text-[10px] text-coral mt-0.5">Metin boş olamaz</p>}
         </div>
-        <input
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          onBlur={commitUpdate}
-          placeholder="URL (isteğe bağlı)"
-          className="bg-transparent border-b border-navy/20 py-1 font-mono text-[12px] text-navy/70 placeholder:text-navy/40 focus:outline-none focus:border-coral transition-colors"
-        />
+        <div className="flex items-center gap-1.5">
+          <input
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            onBlur={commitUpdate}
+            placeholder="URL (isteğe bağlı)"
+            className="flex-1 bg-transparent border-b border-navy/20 py-1 font-mono text-[12px] text-navy/70 placeholder:text-navy/40 focus:outline-none focus:border-coral transition-colors"
+          />
+          {url && (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 text-navy/40 hover:text-coral transition-colors"
+              title="URL'yi aç"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </a>
+          )}
+        </div>
       </div>
       <button
         type="button"
@@ -218,7 +235,7 @@ export default function MarqueeSection({ location, label, initialItems, initialE
           </span>
         </div>
 
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <DndContext id={`marquee-dnd-${location}`} sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={items.map((i) => i.id)} strategy={verticalListSortingStrategy}>
             <div>
               {items.map((item) => (

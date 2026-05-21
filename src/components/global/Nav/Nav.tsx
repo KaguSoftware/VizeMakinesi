@@ -322,6 +322,12 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                         >
                             Blog
                         </Link>
+                        <Link
+                            href="/cascade-kurali"
+                            className={`font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${pathname.startsWith('/cascade-kurali') ? 'text-coral' : 'text-white hover:text-coral'}`}
+                        >
+                            Cascade Kuralı
+                        </Link>
                         <NavSearch />
                         <Link href="/iletisim">
                             <span className="ml-3 font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">

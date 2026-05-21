@@ -5,6 +5,7 @@ import { FadeIn, Stagger, StaggerItem } from '@/components/shared/motion';
 export default async function TeamGrid() {
   const members = await getTeamMembers();
 
+
   return (
     <section className="py-24 border-b border-border">
       <div className="container">

@@ -2,9 +2,9 @@ import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import { FadeIn } from '@/components/shared/motion';
 import type { PageHeadProps } from './types';
 
-export default function PageHead({ title, lede, flagPresetKey, flagImageUrl, titleClassName, ledeClassName, contentClassName }: PageHeadProps) {
+export default function PageHead({ title, lede, flagPresetKey, flagImageUrl, titleClassName, ledeClassName, contentClassName, noBorder, sectionClassName }: PageHeadProps) {
   return (
-    <section className="pt-24 pb-[72px] border-b border-border relative overflow-hidden">
+    <section className={`pt-24 pb-18 relative overflow-hidden${noBorder ? '' : ' border-b border-border'}${sectionClassName ? ` ${sectionClassName}` : ''}`}>
       {(flagPresetKey || flagImageUrl) && (
         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-[120%] opacity-[0.12] pointer-events-none hidden lg:block">
           <FlagBG presetKey={flagPresetKey} imageUrl={flagImageUrl} className="w-full h-full" />

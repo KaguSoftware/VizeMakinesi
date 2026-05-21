@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 export interface PageHeadProps {
-  eyebrow: string;
+  eyebrow?: string;
   title: ReactNode;
   lede?: ReactNode;
   flagPresetKey?: string | null;
@@ -9,4 +9,6 @@ export interface PageHeadProps {
   titleClassName?: string;
   ledeClassName?: string;
   contentClassName?: string;
+  noBorder?: boolean;
+  sectionClassName?: string;
 }

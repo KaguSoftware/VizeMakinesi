@@ -77,24 +77,36 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
         preset_key: m.presetKey,
       }));
 
-  const collapsedPinned = limitCollapsed ? pinnedEntries.slice(0, HOME_VISIBLE_COUNT) : pinnedEntries;
-  const visibleCards = expanded ? [...pinnedEntries, ...restEntries] : collapsedPinned;
-  const hiddenCount = limitCollapsed && !expanded
-    ? restEntries.length + (pinnedEntries.length - HOME_VISIBLE_COUNT)
-    : restEntries.length;
+  // If no entries are pinned, treat all as the default visible set (no expand needed)
+  const noPinned = usePropEntries && pinnedEntries.length === 0;
+  const effectivePinned = noPinned ? restEntries : pinnedEntries;
+  const effectiveRest = noPinned ? [] : restEntries;
 
-  function renderCard(entry: { name: string; href: string; preset_key: string }, key: string) {
+  const collapsedPinned = limitCollapsed ? effectivePinned.slice(0, HOME_VISIBLE_COUNT) : effectivePinned;
+  const visibleCards = expanded ? [...effectivePinned, ...effectiveRest] : collapsedPinned;
+  const hiddenCount = limitCollapsed && !expanded
+    ? effectiveRest.length + Math.max(0, effectivePinned.length - HOME_VISIBLE_COUNT)
+    : effectiveRest.length;
+
+  function renderCard(entry: { name: string; href: string; preset_key: string }, key: string, index: number) {
+    // Cards revealed by expansion are already in the viewport — no stagger delay needed.
+    // Initial cards use index-based delay to reproduce the scroll stagger effect.
+    const isExpandedCard = expanded && index >= collapsedPinned.length;
+    const delay = isExpandedCard ? 0 : index * STAGGER_GAP;
+
     return (
       <MotionLink
         key={key}
         href={entry.href}
         className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden"
-        variants={reduced ? undefined : {
-          hidden: { opacity: 0, y: 16 },
-          show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE_OUT_EXPO } },
+        initial={reduced ? undefined : { opacity: 0, y: 16 }}
+        whileInView={reduced ? undefined : {
+          opacity: 1, y: 0,
+          transition: { duration: 0.4, ease: EASE_OUT_EXPO, delay },
         }}
+        viewport={reduced ? undefined : VIEWPORT}
+        transition={reduced ? undefined : { duration: 0.18, ease: EASE_OUT_EXPO }}
         whileHover={reduced ? undefined : { y: -3 }}
-        transition={{ duration: 0.18, ease: EASE_OUT_EXPO }}
       >
         <FlagBG presetKey={entry.preset_key} className="flag-svg" />
         <div className="flag-overlay-light" />
@@ -132,16 +144,10 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
       )}
 
       <div className="container">
-        <motion.div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border"
-          initial={reduced ? undefined : 'hidden'}
-          whileInView={reduced ? undefined : 'show'}
-          viewport={VIEWPORT}
-          variants={{ hidden: {}, show: { transition: { staggerChildren: STAGGER_GAP } } }}
-        >
-          {visibleCards.map((entry, i) => renderCard(entry, `${entry.href}-${i}`))}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border">
+          {visibleCards.map((entry, i) => renderCard(entry, `${entry.href}-${i}`, i))}
 
-          {!expanded && (
+          {!expanded && hiddenCount > 0 && (
             <button
               onClick={() => setExpanded(true)}
               className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden group cursor-pointer"
@@ -157,7 +163,7 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
               </div>
             </button>
           )}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

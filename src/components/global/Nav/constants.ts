@@ -1,38 +1,9 @@
 
 import type { MegaMenuGroup, MobileLink } from './types';
 
-// The Hizmetler, Blog, and Ofis groups — static, DB-independent.
+// The Blog and Ofis groups — static, DB-independent.
 // Vizeler is built dynamically from DB in NavServer.tsx.
 export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
-  {
-    label: 'Hizmetler',
-    columns: [
-      {
-        title: 'Vize Hizmetleri',
-        items: [
-          { to: '/vize-turleri', label: 'Vize Türleri', desc: 'Turist, iş, öğrenci, çalışma, transit' },
-          { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız', desc: 'Beş adımlı ofis metodumuz' },
-          { to: '/ucrete-dahil-hizmetler', label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
-        ],
-      },
-      {
-        title: 'Vize Ötesi',
-        items: [
-          { to: '/ortakliklar', label: 'Kurumsal Ortaklıklar', desc: 'Ortaklarımız' },
-          { to: '/abd-hizlandirma', label: '⚡️ ABD Hızlandırma', desc: '5–10 günde mülakat' },
-        ],
-      },
-      {
-        kind: 'feature',
-        feature: {
-          eyebrow: '',
-          title: 'Hizmetlerimizle ilgili bilgi alın',
-          body: 'Hizmetlerimiz, ofisimiz ve işleyişimizle ilgili bilgi alın',
-          to: '/ucrete-dahil-hizmetler',
-        },
-      },
-    ],
-  },
   {
     label: 'Ofis',
     columns: [
@@ -51,13 +22,12 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
         ],
       },
       {
-        kind: 'feature',
-        feature: {
-          eyebrow: '',
-          title: 'Ofisimizle İlgili bilgi alın',
-          body: 'Çalışma Saatlerimizi, ortaklıklarımızı ve konumumuzu öğrenin',
-          to: '/iletisim',
-        },
+        title: 'Vize Hizmetleri',
+        items: [
+          { to: '/vize-turleri', label: 'Vize Türleri', desc: 'Turist, iş, öğrenci, çalışma, transit' },
+          { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız', desc: 'Beş adımlı ofis metodumuz' },
+          { to: '/ucrete-dahil-hizmetler', label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
+        ],
       },
     ],
   },
@@ -75,6 +45,7 @@ export const MOBILE_LINKS: MobileLink[] = [
   { to: '/blog', label: 'Blog' },
   { to: '/ortakliklar', label: 'Ortaklıklar' },
   { to: '/abd-hizlandirma', label: 'ABD Hızlandırma' },
+  { to: '/cascade-kurali', label: 'Cascade Kuralı' },
   { to: '/iletisim', label: 'İletişim' },
   { to: '/danisma-al', label: 'Danışma Al' },
 ];

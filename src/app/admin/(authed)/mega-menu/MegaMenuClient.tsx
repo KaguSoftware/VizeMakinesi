@@ -5,6 +5,7 @@ import {
   DndContext,
   closestCenter,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   type DragEndEvent,
@@ -215,7 +216,10 @@ function SortableCategory({
   const [editingName, setEditingName] = useState(cat.name)
   const [showAddPicker, setShowAddPicker] = useState(false)
 
-  const sensors = useSensors(useSensor(PointerSensor))
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+  )
 
   function handleItemDragEnd(event: DragEndEvent) {
     const { active, over } = event
@@ -331,7 +335,10 @@ export default function MegaMenuClient({ initial, countries }: Props) {
   const [, startTransition] = useTransition()
   const [confirmCatId, setConfirmCatId] = useState<string | null>(null)
   const { showToast } = useToast()
-  const sensors = useSensors(useSensor(PointerSensor))
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+  )
 
   function handleCategoryDragEnd(event: DragEndEvent) {
     const { active, over } = event

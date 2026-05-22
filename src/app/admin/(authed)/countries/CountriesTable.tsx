@@ -6,6 +6,7 @@ import {
   DndContext,
   closestCenter,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   type DragEndEvent,
@@ -122,7 +123,10 @@ export default function CountriesTable({ initial }: { initial: CountryRow[] }) {
   const [search, setSearch] = useState('')
   const { showToast } = useToast()
 
-  const sensors = useSensors(useSensor(PointerSensor))
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+  )
 
   // Drag-and-drop only makes sense on the full unfiltered list; while a search
   // is active we render a filtered subset and disable drag handles.

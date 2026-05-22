@@ -5,6 +5,7 @@ import {
   DndContext,
   closestCenter,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   type DragEndEvent,
@@ -109,7 +110,13 @@ export function RepeatableList<T extends RepeatableItem>({
   onAdd,
   hasContent,
 }: RepeatableListProps<T>) {
-  const sensors = useSensors(useSensor(PointerSensor))
+  // PointerSensor with a small distance threshold handles mouse/stylus.
+  // TouchSensor with a press-and-hold delay handles phones — without it, every
+  // touch on a draggable row would be interpreted as a drag and block scrolling.
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+  )
   const dndId = useId()
 
   const [undoState, setUndoState] = useState<{ item: T; index: number } | null>(null)

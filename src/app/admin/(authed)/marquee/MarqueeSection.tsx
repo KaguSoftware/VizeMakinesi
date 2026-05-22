@@ -140,7 +140,10 @@ export default function MarqueeSection({ location, label, initialItems, initialE
   const [enabled, setEnabled] = useState(initialEnabled)
   const [, startTransition] = useTransition()
   const { showToast } = useToast()
-  const sensors = useSensors(useSensor(PointerSensor))
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+  )
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event

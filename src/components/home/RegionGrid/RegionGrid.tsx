@@ -1,8 +1,10 @@
 "use client";
+import { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import { EASE_OUT_EXPO, STAGGER_GAP, VIEWPORT } from '@/components/shared/motion/constants';
+import { useMosaicScrollReveal } from '@/components/shared/useMosaicScrollReveal';
 
 interface RegionEntry {
   name: string;
@@ -19,9 +21,12 @@ const MotionLink = motion.create(Link);
 
 export default function RegionGrid({ entries }: RegionGridProps) {
   const reduced = useReducedMotion();
+  const gridRef = useRef<HTMLDivElement>(null);
+  useMosaicScrollReveal(gridRef, [entries.length]);
 
   return (
     <motion.div
+      ref={gridRef}
       className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border"
       initial={reduced ? undefined : 'hidden'}
       whileInView={reduced ? undefined : 'show'}

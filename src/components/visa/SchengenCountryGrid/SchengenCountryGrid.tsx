@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import { SCHENGEN_MEMBERS } from '@/data/schengen';
 import { EASE_OUT_EXPO, STAGGER_GAP, VIEWPORT } from '@/components/shared/motion/constants';
 import { FadeIn } from '@/components/shared/motion';
+import { useMosaicScrollReveal } from '@/components/shared/useMosaicScrollReveal';
 
 const MotionLink = motion.create(Link);
 
@@ -50,6 +51,7 @@ interface Props {
 export default function SchengenCountryGrid({ entries, hideHeader, limitCollapsed }: Props) {
   const [expanded, setExpanded] = useState(false);
   const reduced = useReducedMotion();
+  const gridRef = useRef<HTMLDivElement>(null);
 
   // When entries prop is provided, use DB data; otherwise fall back to hardcoded
   const usePropEntries = entries !== undefined && entries.length > 0;
@@ -87,6 +89,8 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
   const hiddenCount = limitCollapsed && !expanded
     ? effectiveRest.length + Math.max(0, effectivePinned.length - HOME_VISIBLE_COUNT)
     : effectiveRest.length;
+
+  useMosaicScrollReveal(gridRef, [expanded, visibleCards.length]);
 
   function renderCard(entry: { name: string; href: string; preset_key: string }, key: string, index: number) {
     // Cards revealed by expansion are already in the viewport — no stagger delay needed.
@@ -144,7 +148,7 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
       )}
 
       <div className="container">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border">
+        <div ref={gridRef} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border">
           {visibleCards.map((entry, i) => renderCard(entry, `${entry.href}-${i}`, i))}
 
           {!expanded && hiddenCount > 0 && (

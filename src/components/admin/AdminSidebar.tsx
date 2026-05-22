@@ -105,9 +105,9 @@ export default function AdminSidebar({ email }: AdminSidebarProps) {
       {/* Mobile drawer */}
       <aside
         className={[
-          'md:hidden fixed top-0 left-0 bottom-0 w-[260px] z-50 bg-navy flex flex-col',
+          'md:hidden fixed top-0 right-0 bottom-0 w-[260px] z-50 bg-navy flex flex-col',
           'transition-transform duration-200',
-          open ? 'translate-x-0' : '-translate-x-full',
+          open ? 'translate-x-0' : 'translate-x-full',
         ].join(' ')}
       >
         {navContent}

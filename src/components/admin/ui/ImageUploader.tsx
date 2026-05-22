@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react'
 import Image from 'next/image'
+import { parseSupabaseStorageUrl } from '@/lib/images/paths'
 
 interface Props {
   bucket: string
@@ -9,21 +10,43 @@ interface Props {
   onChange: (url: string) => void
   label?: string
   previewClassName?: string
+  /** Hint passed to next/image for the preview thumbnail. Defaults to a small fixed size. */
+  previewSizes?: string
 }
 
-type UploadPhase = 'idle' | 'compressing' | 'uploading' | 'done'
+type UploadPhase = 'idle' | 'compressing' | 'uploading'
 
-export function ImageUploader({ bucket, value, onChange, label = 'Görsel', previewClassName }: Props) {
+export function ImageUploader({
+  bucket,
+  value,
+  onChange,
+  label = 'Görsel',
+  previewClassName,
+  previewSizes = '256px',
+}: Props) {
   const [phase, setPhase] = useState<UploadPhase>('idle')
   const [sizeBefore, setSizeBefore] = useState<number | null>(null)
   const [sizeAfter, setSizeAfter] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
   const abortRef = useRef<AbortController | null>(null)
 
+  async function removeFromStorage(url: string) {
+    const parsed = parseSupabaseStorageUrl(url)
+    // Only delete objects in the bucket we manage — defends against accidental
+    // cross-bucket removal if a stale URL is somehow attached to the form.
+    if (!parsed || parsed.bucket !== bucket) return
+    try {
+      const { createClient } = await import('@/lib/supabase/client')
+      const supabase = createClient()
+      await supabase.storage.from(bucket).remove([parsed.path])
+    } catch {
+      // Best-effort: a stale orphan is preferable to a broken UI.
+    }
+  }
+
   async function handleFile(file: File) {
     setError(null)
 
-    // Reject overly large files up front (browser-image-compression can OOM on huge inputs)
     const MAX_INPUT_BYTES = 25 * 1024 * 1024
     if (file.size > MAX_INPUT_BYTES) {
       setError('Dosya çok büyük (en fazla 25 MB).')
@@ -33,6 +56,8 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
       setError('Sadece görsel dosyaları yüklenebilir.')
       return
     }
+
+    const previousUrl = value
 
     setSizeBefore(file.size)
     setSizeAfter(null)
@@ -50,7 +75,8 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
 
       const { createClient } = await import('@/lib/supabase/client')
       const supabase = createClient()
-      const filePath = `${crypto.randomUUID()}-${compressed.name}`
+      // Output is always WebP — use a clean filename, don't preserve user input.
+      const filePath = `${crypto.randomUUID()}.webp`
       const { error: uploadError } = await supabase.storage
         .from(bucket)
         .upload(filePath, compressed, { upsert: true, contentType: 'image/webp' })
@@ -60,14 +86,17 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
 
       const { data } = supabase.storage.from(bucket).getPublicUrl(filePath)
       onChange(data.publicUrl)
-      setPhase('done')
+      setPhase('idle')
+      // Fire-and-forget cleanup of the previous object.
+      if (previousUrl && previousUrl !== data.publicUrl) {
+        void removeFromStorage(previousUrl)
+      }
     } catch (e) {
       if (controller.signal.aborted) {
         setPhase('idle')
         return
       }
       const msg = e instanceof Error ? e.message : 'Yükleme başarısız'
-      // Surface friendlier hints for common cases
       if (/network|fetch|failed to fetch/i.test(msg)) {
         setError('Ağ hatası. Bağlantıyı kontrol edip tekrar deneyin.')
       } else if (/payload|too large|413/i.test(msg)) {
@@ -89,6 +118,15 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
     setSizeAfter(null)
   }
 
+  function removeImage() {
+    const previousUrl = value
+    onChange('')
+    setPhase('idle')
+    setSizeBefore(null)
+    setSizeAfter(null)
+    if (previousUrl) void removeFromStorage(previousUrl)
+  }
+
   function formatBytes(bytes: number) {
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`
     return `${(bytes / 1024 / 1024).toFixed(1)} MB`
@@ -101,7 +139,7 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
     <div className="flex flex-col gap-3">
       {value && (
         <div className={['relative overflow-hidden border border-navy/40 rounded-md', previewClassName ?? 'w-48 h-28'].join(' ')}>
-          <Image src={value} alt={label} fill className="object-cover" />
+          <Image src={value} alt={label} fill sizes={previewSizes} className="object-cover" />
         </div>
       )}
 
@@ -134,7 +172,7 @@ export function ImageUploader({ bucket, value, onChange, label = 'Görsel', prev
         {value && !isUploading && (
           <button
             type="button"
-            onClick={() => { onChange(''); setPhase('idle'); setSizeBefore(null); setSizeAfter(null) }}
+            onClick={removeImage}
             className="font-mono text-[11px] tracking-widest uppercase text-navy/80 hover:text-red-500 transition-colors"
           >
             Kaldır

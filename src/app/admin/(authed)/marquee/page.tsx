@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { EyebrowText } from '@/components/admin/ui'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import MarqueeSection from './MarqueeSection'
 import type { Database } from '@/lib/supabase/database.types'
 
@@ -24,6 +25,7 @@ export default async function MarqueePage() {
 
   return (
     <div>
+      <Breadcrumbs items={[{ label: 'Dashboard', href: '/admin' }, { label: 'Marquee' }]} />
       <div className="mb-10">
         <EyebrowText>— Marquee</EyebrowText>
         <h1 className="font-serif text-[36px] font-bold tracking-[-0.02em] text-navy mt-1">

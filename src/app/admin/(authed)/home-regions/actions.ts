@@ -3,6 +3,9 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/lib/auth/requireAdmin'
+import { AdminValidationError, reqString, optString, reqEnum, reqBool } from '@/lib/admin/validators'
+
+const REGIONS = ['avrupa', 'amerika', 'asya', 'diger'] as const
 
 type SB = Awaited<ReturnType<typeof createClient>>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,10 +30,43 @@ export interface EntryFormData {
   visible: boolean
 }
 
+function validateEntry(data: Partial<EntryFormData>, full: boolean) {
+  const region = data.region !== undefined ? reqEnum('Bölge', data.region, REGIONS) : undefined
+  const name = full
+    ? reqString('Ad', data.name, { max: 80 })
+    : data.name !== undefined ? reqString('Ad', data.name, { max: 80 }) : undefined
+  const href = full
+    ? reqString('Bağlantı', data.href, { max: 200 })
+    : data.href !== undefined ? reqString('Bağlantı', data.href, { max: 200 }) : undefined
+  const preset_key = data.preset_key !== undefined
+    ? optString('Preset', data.preset_key, { max: 40 }) ?? ''
+    : undefined
+  const subtitle = data.subtitle !== undefined
+    ? optString('Altyazı', data.subtitle, { max: 120 }) ?? ''
+    : undefined
+  const pinned = data.pinned !== undefined ? reqBool('pinned', data.pinned) : undefined
+  const visible = data.visible !== undefined ? reqBool('visible', data.visible) : undefined
+  const result: Partial<EntryFormData> = {}
+  if (region !== undefined) result.region = region
+  if (name !== undefined) result.name = name
+  if (href !== undefined) result.href = href
+  if (preset_key !== undefined) result.preset_key = preset_key
+  if (subtitle !== undefined) result.subtitle = subtitle
+  if (pinned !== undefined) result.pinned = pinned
+  if (visible !== undefined) result.visible = visible
+  return result
+}
+
 export async function createEntry(
-  data: EntryFormData
+  raw: EntryFormData
 ): Promise<{ id: string } | { error: string }> {
   await requireAdmin()
+  let data: EntryFormData
+  try { data = validateEntry(raw, true) as EntryFormData }
+  catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
   const supabase = await createClient()
 
   const { data: maxRaw } = await supabase
@@ -56,9 +92,16 @@ export async function createEntry(
 
 export async function updateEntry(
   id: string,
-  data: Partial<EntryFormData>
+  raw: Partial<EntryFormData>
 ): Promise<{ error?: string }> {
   await requireAdmin()
+  if (typeof id !== 'string' || !id) return { error: 'Geçersiz id' }
+  let data: Partial<EntryFormData>
+  try { data = validateEntry(raw, false) }
+  catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
   const supabase = await createClient()
   const { error } = await tbl(supabase, 'home_region_entries').update(data).eq('id', id)
   if (error) return { error: error.message }
@@ -104,10 +147,19 @@ export async function reorderEntries(
 }
 
 export async function toggleRegionVisible(
-  region: RegionKey,
-  visible: boolean
+  rawRegion: RegionKey,
+  rawVisible: boolean
 ): Promise<{ error?: string }> {
   await requireAdmin()
+  let region: RegionKey
+  let visible: boolean
+  try {
+    region = reqEnum('Bölge', rawRegion, REGIONS)
+    visible = reqBool('visible', rawVisible)
+  } catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
   const supabase = await createClient()
   const { error } = await tbl(supabase, 'home_region_settings')
     .upsert({ region, visible }, { onConflict: 'region' })

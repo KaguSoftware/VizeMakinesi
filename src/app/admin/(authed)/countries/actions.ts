@@ -4,6 +4,89 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/lib/auth/requireAdmin'
 import type { CountryFormData } from './validation'
+import {
+  AdminValidationError,
+  reqString,
+  optString,
+  reqBool,
+  reqSlug,
+  reqEnum,
+  reqArrayOfStrings,
+} from '@/lib/admin/validators'
+import { removeStorageObjects } from '@/lib/images/serverDelete'
+
+function validateCountryServer(data: CountryFormData): CountryFormData {
+  const name = reqString('Ad', data.name, { max: 100 })
+  const slug = reqSlug('Slug', data.slug)
+  const flag_emoji = reqString('Bayrak emoji', data.flag_emoji, { max: 16 })
+  const visa_type = reqString('Vize türü', data.visa_type, { max: 80 })
+  const summary = reqString('Özet', data.summary, { max: 600 })
+  const flag_type = reqEnum('Bayrak türü', data.flag_type, ['preset', 'image'] as const)
+  const flag_preset_key = flag_type === 'preset'
+    ? reqString('Hazır SVG', data.flag_preset_key, { max: 40 })
+    : null
+  const flag_image_url = flag_type === 'image'
+    ? reqString('Bayrak görseli', data.flag_image_url, { max: 2048 })
+    : null
+  const mosaic_visible = reqBool('mosaic_visible', data.mosaic_visible)
+  const mosaic_span = optString('mosaic_span', data.mosaic_span, { max: 80 })
+  const has_tourism = reqBool('has_tourism', data.has_tourism)
+  const danisma_visible = reqBool('danisma_visible', data.danisma_visible)
+  const appointment_days = optString('appointment_days', data.appointment_days, { max: 80 })
+
+  let tourism_hero_image_url: string | null = null
+  let tourism_intro: string[] = []
+  let tourism_highlights: string[] = []
+  let tourism_tips: string[] = []
+  let tourism_best_time: string | null = null
+
+  if (has_tourism) {
+    tourism_hero_image_url = optString('tourism_hero_image_url', data.tourism_hero_image_url, { max: 2048 })
+    tourism_intro = reqArrayOfStrings('Giriş paragrafları', data.tourism_intro, { minItems: 1, maxItems: 20, maxLen: 2000 })
+    tourism_highlights = reqArrayOfStrings('Öne çıkanlar', data.tourism_highlights, { minItems: 1, maxItems: 30, maxLen: 240 })
+    tourism_tips = reqArrayOfStrings('İpuçları', data.tourism_tips, { minItems: 1, maxItems: 30, maxLen: 240 })
+    tourism_best_time = optString('tourism_best_time', data.tourism_best_time, { max: 120 })
+  }
+
+  if (!Array.isArray(data.requirements)) throw new AdminValidationError('requirements', 'Gerekli belgeler geçersiz')
+  if (!Array.isArray(data.handles)) throw new AdminValidationError('handles', 'Ofisin üstlendikleri geçersiz')
+  if (!Array.isArray(data.faqs)) throw new AdminValidationError('faqs', 'SSS geçersiz')
+
+  const requirements = data.requirements
+    .map((r) => ({ text: typeof r?.text === 'string' ? r.text.trim() : '' }))
+    .filter((r) => r.text.length > 0)
+  const handles = data.handles
+    .map((h) => ({ text: typeof h?.text === 'string' ? h.text.trim() : '' }))
+    .filter((h) => h.text.length > 0)
+  const faqs = data.faqs
+    .filter((f) => f && typeof f.question === 'string' && typeof f.answer === 'string')
+    .map((f) => ({ question: f.question.trim(), answer: f.answer.trim() }))
+    .filter((f) => f.question.length > 0 && f.answer.length > 0)
+
+  return {
+    name,
+    slug,
+    flag_emoji,
+    flag_type,
+    flag_preset_key,
+    flag_image_url,
+    visa_type,
+    summary,
+    mosaic_visible,
+    mosaic_span,
+    has_tourism,
+    danisma_visible,
+    tourism_hero_image_url,
+    tourism_intro,
+    tourism_highlights,
+    tourism_tips,
+    tourism_best_time,
+    appointment_days,
+    requirements,
+    handles,
+    faqs,
+  }
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -70,19 +153,38 @@ function buildTourismPayload(data: CountryFormData) {
 
 // ── Actions ───────────────────────────────────────────────────────────────────
 
-export async function createCountry(data: CountryFormData): Promise<{ id: string } | { error: string }> {
+export async function createCountry(rawData: CountryFormData): Promise<{ id: string } | { error: string }> {
   await requireAdmin()
+
+  let data: CountryFormData
+  try {
+    data = validateCountryServer(rawData)
+  } catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
+
   const supabase = await createClient()
 
-  const { data: maxRowRaw } = await supabase
-    .from('countries')
-    .select('mosaic_order')
-    .order('mosaic_order', { ascending: false })
-    .limit(1)
-    .single()
-
-  const maxRow = maxRowRaw as { mosaic_order: number | null } | null
-  const nextOrder = (maxRow?.mosaic_order ?? 0) + 1
+  // Atomic next-order helper avoids two concurrent createCountry() calls
+  // assigning the same mosaic_order. See migration 0008.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const rpc = await (supabase as any).rpc('next_country_mosaic_order')
+  let nextOrder: number
+  if (rpc.error || typeof rpc.data !== 'number') {
+    // Fall back to the legacy read-then-write path if the RPC is missing
+    // (e.g. migration 0008 not yet applied in this environment).
+    const { data: maxRowRaw } = await supabase
+      .from('countries')
+      .select('mosaic_order')
+      .order('mosaic_order', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    const maxRow = maxRowRaw as { mosaic_order: number | null } | null
+    nextOrder = (maxRow?.mosaic_order ?? 0) + 1
+  } else {
+    nextOrder = rpc.data as number
+  }
 
   const payload = {
     name: data.name,
@@ -111,9 +213,27 @@ export async function createCountry(data: CountryFormData): Promise<{ id: string
   return { id: country.id }
 }
 
-export async function updateCountry(id: string, data: CountryFormData): Promise<{ error?: string }> {
+export async function updateCountry(id: string, rawData: CountryFormData): Promise<{ error?: string }> {
   await requireAdmin()
+  if (typeof id !== 'string' || !id) return { error: 'Geçersiz id' }
+
+  let data: CountryFormData
+  try {
+    data = validateCountryServer(rawData)
+  } catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
+
   const supabase = await createClient()
+
+  // Used by #36 (revalidate old slug too) below.
+  const { data: existing } = await supabase
+    .from('countries')
+    .select('slug')
+    .eq('id', id)
+    .maybeSingle()
+  const previousSlug = (existing as { slug?: string } | null)?.slug
 
   const payload = {
     name: data.name,
@@ -139,14 +259,33 @@ export async function updateCountry(id: string, data: CountryFormData): Promise<
   revalidateAll()
   revalidatePath(`/vize/${data.slug}`)
   revalidatePath(`/blog/${data.slug}`)
+  if (previousSlug && previousSlug !== data.slug) {
+    revalidatePath(`/vize/${previousSlug}`)
+    revalidatePath(`/blog/${previousSlug}`)
+  }
   return {}
 }
 
 export async function deleteCountry(id: string): Promise<{ error?: string }> {
   await requireAdmin()
+  if (typeof id !== 'string' || !id) return { error: 'Geçersiz id' }
   const supabase = await createClient()
+
+  // Fetch URLs before deleting so we can clean up storage afterwards.
+  const { data: existing } = await supabase
+    .from('countries')
+    .select('flag_image_url, tourism_hero_image_url')
+    .eq('id', id)
+    .maybeSingle()
+
   const { error } = await supabase.from('countries').delete().eq('id', id)
   if (error) return { error: error.message }
+
+  const e = existing as { flag_image_url?: string | null; tourism_hero_image_url?: string | null } | null
+  if (e) {
+    await removeStorageObjects([e.flag_image_url, e.tourism_hero_image_url])
+  }
+
   revalidateAll()
   return {}
 }

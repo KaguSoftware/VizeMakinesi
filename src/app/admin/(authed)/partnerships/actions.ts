@@ -3,6 +3,14 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/lib/auth/requireAdmin'
+import {
+  AdminValidationError,
+  reqString,
+  optString,
+  optUrl,
+  reqBool,
+} from '@/lib/admin/validators'
+import { removeStorageObjects } from '@/lib/images/serverDelete'
 
 type SB = Awaited<ReturnType<typeof createClient>>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,10 +32,26 @@ export interface PartnershipFormData {
   visible: boolean
 }
 
+function validatePartnership(data: PartnershipFormData) {
+  return {
+    name: reqString('Ad', data.name, { max: 100 }),
+    eyebrow: optString('Eyebrow', data.eyebrow, { max: 60 }),
+    description: optString('Açıklama', data.description, { max: 600 }),
+    logo_url: optString('Logo', data.logo_url, { max: 2048 }),
+    external_url: optUrl('Bağlantı', data.external_url),
+    visible: reqBool('visible', data.visible),
+  }
+}
+
 export async function createPartnership(
-  data: PartnershipFormData
+  raw: PartnershipFormData
 ): Promise<{ id: string } | { error: string }> {
   await requireAdmin()
+  let data: ReturnType<typeof validatePartnership>
+  try { data = validatePartnership(raw) } catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
   const supabase = await createClient()
 
   const { data: maxRaw } = await supabase
@@ -42,10 +66,10 @@ export async function createPartnership(
   const { data: row, error } = await tbl(supabase, 'partnerships')
     .insert({
       name: data.name,
-      eyebrow: data.eyebrow || null,
-      description: data.description || null,
-      logo_url: data.logo_url || null,
-      external_url: data.external_url || null,
+      eyebrow: data.eyebrow,
+      description: data.description,
+      logo_url: data.logo_url,
+      external_url: data.external_url,
       visible: data.visible,
       sort_order: nextOrder,
     })
@@ -59,17 +83,23 @@ export async function createPartnership(
 
 export async function updatePartnership(
   id: string,
-  data: PartnershipFormData
+  raw: PartnershipFormData
 ): Promise<{ error?: string }> {
   await requireAdmin()
+  if (typeof id !== 'string' || !id) return { error: 'Geçersiz id' }
+  let data: ReturnType<typeof validatePartnership>
+  try { data = validatePartnership(raw) } catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
   const supabase = await createClient()
 
   const { error } = await tbl(supabase, 'partnerships').update({
     name: data.name,
-    eyebrow: data.eyebrow || null,
-    description: data.description || null,
-    logo_url: data.logo_url || null,
-    external_url: data.external_url || null,
+    eyebrow: data.eyebrow,
+    description: data.description,
+    logo_url: data.logo_url,
+    external_url: data.external_url,
     visible: data.visible,
   }).eq('id', id)
 
@@ -80,9 +110,21 @@ export async function updatePartnership(
 
 export async function deletePartnership(id: string): Promise<{ error?: string }> {
   await requireAdmin()
+  if (typeof id !== 'string' || !id) return { error: 'Geçersiz id' }
   const supabase = await createClient()
+
+  const { data: existing } = await supabase
+    .from('partnerships')
+    .select('logo_url')
+    .eq('id', id)
+    .maybeSingle()
+
   const { error } = await tbl(supabase, 'partnerships').delete().eq('id', id)
   if (error) return { error: error.message }
+
+  const e = existing as { logo_url?: string | null } | null
+  if (e) await removeStorageObjects([e.logo_url])
+
   revalidate()
   return {}
 }

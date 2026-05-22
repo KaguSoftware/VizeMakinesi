@@ -1,16 +1,22 @@
-import type { TextareaHTMLAttributes } from 'react'
+'use client'
+
+import { forwardRef, useId, type TextareaHTMLAttributes } from 'react'
 import { AdminLabel } from './AdminLabel'
 
 interface AdminTextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string
 }
 
-export function AdminTextarea({ label, className = '', id, ...props }: AdminTextareaProps) {
-  const inputId = id ?? label.toLowerCase().replace(/\s+/g, '-')
+export const AdminTextarea = forwardRef<HTMLTextAreaElement, AdminTextareaProps>(function AdminTextarea(
+  { label, className = '', id, ...props }, ref
+) {
+  const fallback = useId()
+  const inputId = id ?? fallback
   return (
     <div className="flex flex-col gap-1.5">
       <AdminLabel htmlFor={inputId}>{label}</AdminLabel>
       <textarea
+        ref={ref}
         id={inputId}
         {...props}
         className={[
@@ -21,4 +27,4 @@ export function AdminTextarea({ label, className = '', id, ...props }: AdminText
       />
     </div>
   )
-}
+})

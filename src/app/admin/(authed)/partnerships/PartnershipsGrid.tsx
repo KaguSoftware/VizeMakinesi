@@ -18,7 +18,7 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { ConfirmDialog, useToast } from '@/components/admin/ui'
+import { ConfirmDialog, EmptyState, useToast } from '@/components/admin/ui'
 import { reorderPartnerships, togglePartnershipVisible, deletePartnership } from './actions'
 import type { Database } from '@/lib/supabase/database.types'
 
@@ -125,15 +125,11 @@ export default function PartnershipsGrid({ initial }: { initial: PartnershipRow[
             ))}
           </div>
           {partnerships.length === 0 && (
-            <div className="flex flex-col items-center gap-3 py-12">
-              <p className="font-mono text-[12px] text-navy/60 text-center">Henüz ortaklık eklenmedi</p>
-              <Link
-                href="/admin/partnerships/new"
-                className="font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
-              >
-                + İlk Ortaklığı Ekle
-              </Link>
-            </div>
+            <EmptyState
+              title="Henüz ortaklık yok"
+              description="Web sitenizde gösterilecek ortaklıkları buradan ekleyin."
+              cta={{ href: '/admin/partnerships/new', label: '+ İlk Ortaklığı Ekle' }}
+            />
           )}
         </SortableContext>
       </DndContext>

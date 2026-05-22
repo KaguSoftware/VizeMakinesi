@@ -18,7 +18,7 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { ConfirmDialog, useToast } from '@/components/admin/ui'
+import { ConfirmDialog, EmptyState, useToast } from '@/components/admin/ui'
 import { reorderTeamMembers, toggleTeamMemberVisible, deleteTeamMember } from './actions'
 import type { Database } from '@/lib/supabase/database.types'
 
@@ -126,15 +126,11 @@ export default function AdminTeamGrid({ initial }: { initial: TeamMemberRow[] })
             ))}
           </div>
           {members.length === 0 && (
-            <div className="flex flex-col items-center gap-3 py-12">
-              <p className="font-mono text-[12px] text-navy/60 text-center">Henüz ekip üyesi eklenmedi</p>
-              <Link
-                href="/admin/team/new"
-                className="font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
-              >
-                + İlk Üyeyi Ekle
-              </Link>
-            </div>
+            <EmptyState
+              title="Henüz ekip üyesi yok"
+              description="Hakkımızda sayfasında gösterilecek ekip üyelerini buradan ekleyin."
+              cta={{ href: '/admin/team/new', label: '+ İlk Üyeyi Ekle' }}
+            />
           )}
         </SortableContext>
       </DndContext>

@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useCallback, useEffect } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react'
 
 type ToastVariant = 'success' | 'error'
 
@@ -16,15 +16,31 @@ interface ToastContextValue {
 
 const ToastContext = createContext<ToastContextValue | null>(null)
 
+// Success can vanish quickly — the user knows what they just did.
+// Errors stay much longer because they're the only signal that something failed.
+const TIMEOUTS: Record<ToastVariant, number> = {
+  success: 3000,
+  error: 10000,
+}
+
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([])
+  const timeoutsRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
 
   const showToast = useCallback((message: string, variant: ToastVariant = 'success') => {
     const id = crypto.randomUUID()
     setToasts((prev) => [...prev, { id, message, variant }])
-    setTimeout(() => {
+    const handle = setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id))
-    }, 3000)
+      timeoutsRef.current.delete(id)
+    }, TIMEOUTS[variant])
+    timeoutsRef.current.set(id, handle)
+  }, [])
+
+  // Clear any pending timers when the provider unmounts (e.g. fast nav).
+  useEffect(() => () => {
+    timeoutsRef.current.forEach((h) => clearTimeout(h))
+    timeoutsRef.current.clear()
   }, [])
 
   return (

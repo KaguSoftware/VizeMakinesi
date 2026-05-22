@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/lib/auth/requireAdmin'
 import { EyebrowText } from '@/components/admin/ui'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import HomeRegionsClient from './HomeRegionsClient'
 import type { Database } from '@/lib/supabase/database.types'
 
@@ -36,6 +37,7 @@ export default async function HomeRegionsPage() {
 
   return (
     <div>
+      <Breadcrumbs items={[{ label: 'Dashboard', href: '/admin' }, { label: 'Ana Sayfa' }]} />
       <div className="mb-10">
         <EyebrowText>— Ana Sayfa</EyebrowText>
         <h1 className="font-serif text-[36px] font-bold tracking-[-0.02em] text-navy mt-1">

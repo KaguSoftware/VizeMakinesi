@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import AdminSidebar from '@/components/admin/AdminSidebar'
 import { ToastProvider } from '@/components/admin/ui/Toast'
+import { DirtyFormProvider } from '@/lib/hooks/useUnsavedChanges'
 
 export default async function AuthedAdminLayout({
   children,
@@ -29,12 +30,14 @@ export default async function AuthedAdminLayout({
 
   return (
     <ToastProvider>
-      <div className="min-h-screen flex bg-cream text-navy">
-        <AdminSidebar email={user.email} />
-        <main className="flex-1 min-w-0 p-12 overflow-auto">
-          {children}
-        </main>
-      </div>
+      <DirtyFormProvider>
+        <div className="min-h-screen md:flex bg-cream text-navy">
+          <AdminSidebar email={user.email} />
+          <main className="flex-1 min-w-0 px-5 py-8 md:p-12 overflow-x-hidden">
+            {children}
+          </main>
+        </div>
+      </DirtyFormProvider>
     </ToastProvider>
   )
 }

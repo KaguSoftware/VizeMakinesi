@@ -2,9 +2,13 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import type { Database } from '@/lib/supabase/database.types'
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const isLoginPage = pathname === '/admin/login'
+  // Unauthenticated flows live alongside /admin/login.
+  const isPublicAdminFlow =
+    pathname === '/admin/forgot-password' ||
+    pathname === '/admin/reset-password'
 
   let response = NextResponse.next({
     request,
@@ -40,20 +44,21 @@ export async function proxy(request: NextRequest) {
           .from('admin_profiles')
           .select('id')
           .eq('id', user.id)
-          .single()
+          .maybeSingle()
         return !!data
       })()
     : false
 
   if (isLoginPage) {
-    // Already authenticated admins don't need the login page
     if (isAdmin) {
       return NextResponse.redirect(new URL('/admin', request.url))
     }
     return response
   }
 
-  // Protect all other /admin/* routes
+  // Public flows (forgot/reset password) are reachable both signed-in and out.
+  if (isPublicAdminFlow) return response
+
   if (!isAdmin) {
     return NextResponse.redirect(new URL('/admin/login', request.url))
   }

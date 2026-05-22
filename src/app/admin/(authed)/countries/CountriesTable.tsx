@@ -18,25 +18,47 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import FlagBG from '@/components/shared/FlagBG/FlagBG'
-import { ConfirmDialog, useToast } from '@/components/admin/ui'
+import { ConfirmDialog, EmptyState, useToast } from '@/components/admin/ui'
 import { reorderCountries, toggleCountryVisible, toggleDanismaVisible, deleteCountry } from './actions'
 import type { Database } from '@/lib/supabase/database.types'
 
 type CountryRow = Database['public']['Tables']['countries']['Row']
+
+function DragDotsIcon() {
+  return (
+    <svg viewBox="0 0 10 16" width="10" height="16" aria-hidden className="inline-block">
+      <circle cx="3" cy="3" r="1.2" fill="currentColor" />
+      <circle cx="7" cy="3" r="1.2" fill="currentColor" />
+      <circle cx="3" cy="8" r="1.2" fill="currentColor" />
+      <circle cx="7" cy="8" r="1.2" fill="currentColor" />
+      <circle cx="3" cy="13" r="1.2" fill="currentColor" />
+      <circle cx="7" cy="13" r="1.2" fill="currentColor" />
+    </svg>
+  )
+}
+
+function formatDate(iso: string | null | undefined) {
+  if (!iso) return '—'
+  try {
+    return new Date(iso).toLocaleDateString('tr-TR', { year: 'numeric', month: 'short', day: 'numeric' })
+  } catch { return '—' }
+}
 
 function SortableRow({
   country,
   onVisibleToggle,
   onDanismaToggle,
   onDelete,
+  draggable = true,
 }: {
   country: CountryRow
   onVisibleToggle: (id: string, val: boolean) => void
   onDanismaToggle: (id: string, val: boolean) => void
   onDelete: (id: string) => void
+  draggable?: boolean
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: country.id })
+    useSortable({ id: country.id, disabled: !draggable })
 
   return (
     <tr
@@ -45,7 +67,13 @@ function SortableRow({
       className={['border-b border-navy/8 transition-opacity', isDragging ? 'opacity-40' : ''].join(' ')}
     >
       <td className="py-3 px-4 w-8">
-        <button type="button" {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-navy/60 hover:text-navy select-none">⠿</button>
+        {draggable ? (
+          <button type="button" {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy select-none" aria-label="Sürükle">
+            <DragDotsIcon />
+          </button>
+        ) : (
+          <span className="text-navy/20" aria-hidden><DragDotsIcon /></span>
+        )}
       </td>
       <td className="py-3 px-4 w-12">
         <div className="w-8 h-6 relative overflow-hidden rounded-sm bg-navy/5">
@@ -76,6 +104,7 @@ function SortableRow({
       <td className="py-3 px-4">
         {country.has_tourism && <span className="font-mono text-[10px] tracking-widest uppercase text-coral">✓</span>}
       </td>
+      <td className="py-3 px-4 font-mono text-[10px] text-navy/65">{formatDate(country.updated_at)}</td>
       <td className="py-3 px-4">
         <Link href={`/admin/countries/${country.id}/edit`} className="font-mono text-[10px] tracking-widest uppercase text-navy hover:text-coral transition-colors">Düzenle</Link>
       </td>
@@ -90,9 +119,20 @@ export default function CountriesTable({ initial }: { initial: CountryRow[] }) {
   const [countries, setCountries] = useState(initial)
   const [, startTransition] = useTransition()
   const [confirmId, setConfirmId] = useState<string | null>(null)
+  const [search, setSearch] = useState('')
   const { showToast } = useToast()
 
   const sensors = useSensors(useSensor(PointerSensor))
+
+  // Drag-and-drop only makes sense on the full unfiltered list; while a search
+  // is active we render a filtered subset and disable drag handles.
+  const filtered = search.trim()
+    ? countries.filter((c) => {
+        const q = search.trim().toLowerCase()
+        return c.name.toLowerCase().includes(q) || c.slug.toLowerCase().includes(q)
+      })
+    : countries
+  const isSearching = search.trim().length > 0
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
@@ -139,32 +179,54 @@ export default function CountriesTable({ initial }: { initial: CountryRow[] }) {
 
   return (
     <>
+      <div className="flex items-center gap-3 mb-4">
+        <input
+          type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Ülke ara…"
+          aria-label="Ülke ara"
+          className="bg-white border border-navy/30 rounded-md px-3 py-2 text-[13px] text-navy placeholder:text-navy/40 focus:outline-none focus:border-coral focus:ring-2 focus:ring-coral/30 transition-colors min-w-[240px]"
+        />
+        <p className="font-mono text-[11px] text-navy/60">
+          {isSearching ? `${filtered.length} / ${countries.length}` : `${countries.length} ülke`}
+        </p>
+      </div>
+
       <DndContext id="countries-dnd" sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={countries.map((c) => c.id)} strategy={verticalListSortingStrategy}>
+        <SortableContext items={filtered.map((c) => c.id)} strategy={verticalListSortingStrategy}>
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b border-navy/10">
-                {['', 'Bayrak', 'Emoji', 'Ad', 'Slug', 'Görünürlük', 'Danışma', 'Turizm', '', ''].map((h, i) => (
+                {['', 'Bayrak', 'Emoji', 'Ad', 'Slug', 'Görünürlük', 'Danışma', 'Turizm', 'Güncellendi', '', ''].map((h, i) => (
                   <th key={i} className="py-3 px-4 text-left font-mono text-[10px] tracking-widest uppercase text-navy/65">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {countries.map((c) => (
-                <SortableRow key={c.id} country={c} onVisibleToggle={handleVisibleToggle} onDanismaToggle={handleDanismaToggle} onDelete={setConfirmId} />
+              {filtered.map((c) => (
+                <SortableRow
+                  key={c.id}
+                  country={c}
+                  onVisibleToggle={handleVisibleToggle}
+                  onDanismaToggle={handleDanismaToggle}
+                  onDelete={setConfirmId}
+                  draggable={!isSearching}
+                />
               ))}
             </tbody>
           </table>
+          {filtered.length === 0 && countries.length > 0 && (
+            <p className="font-mono text-[12px] text-navy/65 text-center py-12">
+              Aramayla eşleşen ülke yok.
+            </p>
+          )}
           {countries.length === 0 && (
-            <div className="flex flex-col items-center gap-3 py-12">
-              <p className="font-mono text-[12px] text-navy/65 text-center">Henüz ülke eklenmedi</p>
-              <Link
-                href="/admin/countries/new"
-                className="font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
-              >
-                + İlk Ülkeyi Ekle
-              </Link>
-            </div>
+            <EmptyState
+              title="Henüz ülke yok"
+              description="Vize sayfalarınızın temelini oluşturan ülkeleri ekleyerek başlayın."
+              cta={{ href: '/admin/countries/new', label: '+ İlk Ülkeyi Ekle' }}
+            />
           )}
         </SortableContext>
       </DndContext>

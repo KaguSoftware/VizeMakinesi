@@ -1,16 +1,22 @@
-import type { SelectHTMLAttributes } from 'react'
+'use client'
+
+import { forwardRef, useId, type SelectHTMLAttributes } from 'react'
 import { AdminLabel } from './AdminLabel'
 
 interface AdminSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label: string
 }
 
-export function AdminSelect({ label, className = '', id, children, ...props }: AdminSelectProps) {
-  const inputId = id ?? label.toLowerCase().replace(/\s+/g, '-')
+export const AdminSelect = forwardRef<HTMLSelectElement, AdminSelectProps>(function AdminSelect(
+  { label, className = '', id, children, ...props }, ref
+) {
+  const fallback = useId()
+  const inputId = id ?? fallback
   return (
     <div className="flex flex-col gap-1.5">
       <AdminLabel htmlFor={inputId}>{label}</AdminLabel>
       <select
+        ref={ref}
         id={inputId}
         {...props}
         className={[
@@ -23,4 +29,4 @@ export function AdminSelect({ label, className = '', id, children, ...props }: A
       </select>
     </div>
   )
-}
+})

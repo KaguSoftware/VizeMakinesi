@@ -3,6 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/lib/auth/requireAdmin'
+import { AdminValidationError, reqString, optString, reqBool } from '@/lib/admin/validators'
+import { removeStorageObjects } from '@/lib/images/serverDelete'
 
 type SB = Awaited<ReturnType<typeof createClient>>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,10 +25,25 @@ export interface TeamMemberFormData {
   visible: boolean
 }
 
+function validateTeam(data: TeamMemberFormData) {
+  return {
+    name: reqString('Ad', data.name, { max: 80 }),
+    role: reqString('Rol', data.role, { max: 80 }),
+    initials: reqString('Baş Harfler', data.initials, { max: 4 }).toUpperCase(),
+    photo_url: optString('Fotoğraf', data.photo_url, { max: 2048 }),
+    visible: reqBool('visible', data.visible),
+  }
+}
+
 export async function createTeamMember(
-  data: TeamMemberFormData
+  raw: TeamMemberFormData
 ): Promise<{ id: string } | { error: string }> {
   await requireAdmin()
+  let data: ReturnType<typeof validateTeam>
+  try { data = validateTeam(raw) } catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
   const supabase = await createClient()
 
   const { data: maxRaw } = await supabase
@@ -43,7 +60,7 @@ export async function createTeamMember(
       name: data.name,
       role: data.role,
       initials: data.initials,
-      photo_url: data.photo_url || null,
+      photo_url: data.photo_url,
       visible: data.visible,
       sort_order: nextOrder,
     })
@@ -57,16 +74,22 @@ export async function createTeamMember(
 
 export async function updateTeamMember(
   id: string,
-  data: TeamMemberFormData
+  raw: TeamMemberFormData
 ): Promise<{ error?: string }> {
   await requireAdmin()
+  if (typeof id !== 'string' || !id) return { error: 'Geçersiz id' }
+  let data: ReturnType<typeof validateTeam>
+  try { data = validateTeam(raw) } catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
   const supabase = await createClient()
 
   const { error } = await tbl(supabase, 'team_members').update({
     name: data.name,
     role: data.role,
     initials: data.initials,
-    photo_url: data.photo_url || null,
+    photo_url: data.photo_url,
     visible: data.visible,
   }).eq('id', id)
 
@@ -77,9 +100,21 @@ export async function updateTeamMember(
 
 export async function deleteTeamMember(id: string): Promise<{ error?: string }> {
   await requireAdmin()
+  if (typeof id !== 'string' || !id) return { error: 'Geçersiz id' }
   const supabase = await createClient()
+
+  const { data: existing } = await supabase
+    .from('team_members')
+    .select('photo_url')
+    .eq('id', id)
+    .maybeSingle()
+
   const { error } = await tbl(supabase, 'team_members').delete().eq('id', id)
   if (error) return { error: error.message }
+
+  const e = existing as { photo_url?: string | null } | null
+  if (e) await removeStorageObjects([e.photo_url])
+
   revalidate()
   return {}
 }

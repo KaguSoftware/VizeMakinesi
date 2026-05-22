@@ -69,7 +69,7 @@ function SortableRow({
     >
       <td className="py-3 px-4 w-8">
         {draggable ? (
-          <button type="button" {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy select-none" aria-label="Sürükle">
+          <button type="button" {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy select-none touch-none p-1 -m-1" aria-label="Sürükle">
             <DragDotsIcon />
           </button>
         ) : (

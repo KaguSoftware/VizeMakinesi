@@ -64,7 +64,7 @@ function SortableRow<T extends RepeatableItem>({
         type="button"
         {...attributes}
         {...listeners}
-        className="mt-3 shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy transition-colors select-none"
+        className="mt-3 shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy transition-colors select-none touch-none p-1 -m-1"
         aria-label="Sürükle"
       >
         <DragHandle />

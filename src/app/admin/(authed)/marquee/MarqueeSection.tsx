@@ -73,7 +73,7 @@ function SortableItemRow({
         type="button"
         {...attributes}
         {...listeners}
-        className="mt-2 shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none"
+        className="mt-2 shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none touch-none p-1 -m-1"
       >
         ⠿
       </button>

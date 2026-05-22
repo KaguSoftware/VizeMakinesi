@@ -143,7 +143,7 @@ function SortableItem({
           type="button"
           {...attributes}
           {...listeners}
-          className="shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none"
+          className="shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none touch-none p-1 -m-1"
         >
           ⠿
         </button>
@@ -242,7 +242,7 @@ function SortableCategory({
             type="button"
             {...attributes}
             {...listeners}
-            className="shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none"
+            className="shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none touch-none p-1 -m-1"
           >
             ⠿
           </button>

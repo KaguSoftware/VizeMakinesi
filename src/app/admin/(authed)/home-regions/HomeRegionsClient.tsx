@@ -71,7 +71,7 @@ function SortableEntryRow({
         type="button"
         {...attributes}
         {...listeners}
-        className="cursor-grab active:cursor-grabbing text-navy/40 hover:text-navy select-none text-[16px] shrink-0"
+        className="cursor-grab active:cursor-grabbing text-navy/40 hover:text-navy select-none text-[16px] shrink-0 touch-none p-1 -m-1"
       >
         ⠿
       </button>

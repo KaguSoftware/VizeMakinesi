@@ -38,6 +38,7 @@ body {
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
 a {
@@ -143,6 +144,14 @@ a {
   font-size: 32px;
   letter-spacing: -0.015em;
   padding-right: 56px;
+}
+
+@media (max-width: 640px) {
+  .strip-set {
+    gap: 32px;
+    font-size: 24px;
+    padding-right: 32px;
+  }
 }
 
 /* ── MEGA PANEL ANIMATION ── */

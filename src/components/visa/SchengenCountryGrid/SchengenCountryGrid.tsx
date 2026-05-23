@@ -102,7 +102,7 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
       <MotionLink
         key={key}
         href={entry.href}
-        className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden"
+        className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden focus-visible:outline-2 focus-visible:outline-coral focus-visible:-outline-offset-2"
         initial={reduced ? undefined : { opacity: 0, y: 16 }}
         whileInView={reduced ? undefined : {
           opacity: 1, y: 0,
@@ -111,20 +111,21 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
         viewport={reduced ? undefined : VIEWPORT}
         transition={reduced ? undefined : { duration: 0.18, ease: EASE_OUT_EXPO }}
         whileHover={reduced ? undefined : { y: -3 }}
+        whileTap={reduced ? undefined : { scale: 0.98 }}
       >
         <FlagBG presetKey={entry.preset_key} className="flag-svg" />
         <div className="flag-overlay-light" />
         <div className="flag-overlay-dark" />
 
         <div className="relative z-10 flex flex-col justify-between h-full p-6 min-h-44">
-          <div className="font-mono text-[9px] tracking-[0.18em] uppercase hv-white transition-colors duration-700 text-muted">
+          <div className="font-mono text-[10px] sm:text-[9px] tracking-[0.18em] uppercase hv-white transition-colors duration-700 text-muted">
             — Vize Bilgisi
           </div>
           <div>
             <h3 className="font-serif font-semibold text-[24px] leading-[1.1] tracking-[-0.01em] hv-white transition-colors duration-700 text-navy">
               {entry.name}
             </h3>
-            <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-coral hv-coral transition-colors duration-700 mt-1">
+            <div className="font-mono text-[10px] sm:text-[9px] uppercase tracking-[0.18em] text-coral hv-coral transition-colors duration-700 mt-1">
               Detay →
             </div>
           </div>
@@ -154,14 +155,14 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
           {!expanded && hiddenCount > 0 && (
             <button
               onClick={() => setExpanded(true)}
-              className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden group cursor-pointer"
+              className="relative border-b border-r border-border bg-cream overflow-hidden group cursor-pointer active:bg-coral/5 transition-colors focus-visible:outline-2 focus-visible:outline-coral focus-visible:-outline-offset-2"
               aria-label={`${hiddenCount} ülke daha göster`}
             >
               <div className="relative z-10 flex flex-col items-center justify-center h-full min-h-44 gap-3">
-                <div className="w-14 h-14 rounded-full border-2 border-navy/30 group-hover:border-coral flex items-center justify-center transition-colors duration-300">
+                <div className="w-14 h-14 rounded-full border-2 border-navy/30 group-hover:border-coral group-active:scale-95 flex items-center justify-center transition-all duration-300">
                   <span className="font-serif text-[32px] leading-none text-navy/40 group-hover:text-coral transition-colors duration-300">+</span>
                 </div>
-                <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-navy/40 group-hover:text-coral transition-colors duration-300 text-center px-4">
+                <div className="font-mono text-[10px] sm:text-[9px] uppercase tracking-[0.18em] text-navy/40 group-hover:text-coral transition-colors duration-300 text-center px-4">
                   {hiddenCount} ülke daha
                 </div>
               </div>

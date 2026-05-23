@@ -34,7 +34,8 @@
       "Bash(xargs grep -l \"flag-overlay\\\\|hv-\\\\|mosaic-cell\")",
       "Bash(xargs grep -l \"MosaicCard\\\\|mosaic\")",
       "Bash(xargs grep -l \"MosaicCard\")",
-      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\\\\src\\\\app\\\\admin\" -Recurse -Directory)"
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\\\\src\\\\app\\\\admin\" -Recurse -Directory)",
+      "Bash(git stash *)"
     ]
   }
 }

@@ -37,12 +37,13 @@ export default function RegionGrid({ entries }: RegionGridProps) {
         <MotionLink
           key={entry.href}
           href={entry.href}
-          className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden"
+          className="mosaic-cell relative border-b border-r border-border bg-cream overflow-hidden focus-visible:outline-2 focus-visible:outline-coral focus-visible:-outline-offset-2"
           variants={reduced ? undefined : {
             hidden: { opacity: 0, y: 16 },
             show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE_OUT_EXPO } },
           }}
           whileHover={reduced ? undefined : { y: -3 }}
+          whileTap={reduced ? undefined : { scale: 0.98 }}
           transition={{ duration: 0.18, ease: EASE_OUT_EXPO }}
         >
           <FlagBG presetKey={entry.presetKey} className="flag-svg" />
@@ -50,14 +51,14 @@ export default function RegionGrid({ entries }: RegionGridProps) {
           <div className="flag-overlay-dark" />
 
           <div className="relative z-10 flex flex-col justify-between h-full p-6 min-h-44">
-            <div className="font-mono text-[9px] tracking-[0.18em] uppercase hv-white transition-colors duration-700 text-muted">
+            <div className="font-mono text-[10px] sm:text-[9px] tracking-[0.18em] uppercase hv-white transition-colors duration-700 text-muted">
               — Vize Bilgisi
             </div>
             <div>
               <h3 className="font-serif font-semibold text-[24px] leading-[1.1] tracking-[-0.01em] hv-white transition-colors duration-700 text-navy">
                 {entry.name}
               </h3>
-              <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-coral hv-coral transition-colors duration-700 mt-1">
+              <div className="font-mono text-[10px] sm:text-[9px] uppercase tracking-[0.18em] text-coral hv-coral transition-colors duration-700 mt-1">
                 {entry.subtitle} →
               </div>
             </div>

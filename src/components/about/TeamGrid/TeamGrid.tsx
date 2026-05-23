@@ -24,7 +24,7 @@ export default async function TeamGrid() {
             return (
               <StaggerItem
                 key={i}
-                className={`p-5 md:p-12 border-b border-border hover:bg-cream transition-colors duration-200 ${isLastMobileCol ? 'border-r-0' : 'border-r'} ${isLastDesktopCol ? 'md:border-r-0' : 'md:border-r'}`}
+                className={`p-5 md:p-12 border-b border-border [@media(hover:hover)]:hover:bg-cream transition-colors duration-200 ${isLastMobileCol ? 'border-r-0' : 'border-r'} ${isLastDesktopCol ? 'md:border-r-0' : 'md:border-r'}`}
               >
                 {m.photo_url ? (
                   <Image

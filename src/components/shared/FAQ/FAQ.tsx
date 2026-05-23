@@ -45,7 +45,7 @@ export default function FAQ({ items, title }: FAQProps) {
 								className="border-t border-border last:border-b"
 							>
 								<button
-									className="w-full grid grid-cols-[40px_1fr_30px] gap-4 items-center text-left font-serif font-semibold text-[22px] tracking-tight text-navy hover:text-coral transition-colors duration-200 py-7 cursor-pointer"
+									className="w-full grid grid-cols-[40px_1fr_30px] gap-4 items-center text-left font-serif font-semibold text-[22px] tracking-tight text-navy hover:text-coral active:bg-coral/5 transition-colors duration-200 py-7 cursor-pointer focus-visible:outline-none focus-visible:bg-coral/5 -mx-2 px-2 rounded"
 									onClick={() => toggle(i)}
 								>
 									<span className="font-mono font-medium text-[11px] tracking-[0.18em] text-coral uppercase">

@@ -29,13 +29,13 @@ export default function BigCTA({ title }: BigCTAProps) {
                             </div>
                             <a
                                 href={CTA_PHONE_HREF}
-                                className="block font-serif font-bold text-[48px] tracking-[-0.025em] text-navy mb-9 hover:text-coral transition-colors duration-200 leading-none"
+                                className="block font-serif font-bold text-[48px] tracking-[-0.025em] text-navy mb-9 hover:text-coral transition-colors duration-200 leading-none rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2"
                             >
                                 {CTA_PHONE}
                             </a>
                             <div className="flex flex-col gap-3 w-full">
                                 <a
-                                    className="inline-flex items-center justify-center gap-3 font-sans font-medium text-[16px] uppercase tracking-[0.1em] px-[44px] py-[31px] bg-whatsapp border border-whatsapp text-white hover:bg-transparent hover:text-whatsapp transition-all duration-200 rounded-2xl whitespace-nowrap w-full"
+                                    className="inline-flex items-center justify-center gap-3 font-sans font-medium text-[16px] uppercase tracking-[0.1em] px-[44px] py-[31px] bg-whatsapp border border-whatsapp text-white hover:bg-transparent hover:text-whatsapp active:scale-[0.98] transition-all duration-200 rounded-2xl whitespace-nowrap w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2"
                                     href={CTA_WHATSAPP_HREF}
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -47,7 +47,7 @@ export default function BigCTA({ title }: BigCTAProps) {
                                     Ofisimize WhatsApp&rsquo;tan Yazın →
                                 </a>
                                 <a
-                                    className="inline-flex items-center justify-center gap-2 font-sans font-medium text-[16px] uppercase tracking-[0.1em] px-11 py-[28px] border border-navy text-navy hover:bg-navy hover:text-white hover:border-navy transition-all duration-200 rounded-2xl w-full"
+                                    className="inline-flex items-center justify-center gap-2 font-sans font-medium text-[16px] uppercase tracking-[0.1em] px-11 py-[28px] border border-navy text-navy hover:bg-navy hover:text-white hover:border-navy active:scale-[0.98] transition-all duration-200 rounded-2xl w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2"
                                     href={CTA_PHONE_HREF}
                                 >
                                     Ara: {CTA_PHONE}

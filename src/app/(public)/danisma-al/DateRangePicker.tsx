@@ -111,13 +111,13 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
   return (
     <div className="select-none">
       {/* Calendar */}
-      <div className="border border-border rounded-xl w-full max-w-full sm:max-w-md">
+      <div className="border border-border rounded-xl w-full max-w-full sm:max-w-md overflow-hidden">
         {/* Header: month nav */}
         <div className="flex items-center justify-between px-4 py-2.5">
           <button
             type="button"
             onClick={prevMonth}
-            className="font-mono text-[12px] text-muted hover:text-navy transition-colors px-1.5"
+            className="font-mono text-[14px] text-muted hover:text-navy transition-colors px-3 py-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
             aria-label="Önceki ay"
           >
             ←
@@ -128,7 +128,7 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
           <button
             type="button"
             onClick={nextMonth}
-            className="font-mono text-[12px] text-muted hover:text-navy transition-colors px-1.5"
+            className="font-mono text-[14px] text-muted hover:text-navy transition-colors px-3 py-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
             aria-label="Sonraki ay"
           >
             →
@@ -188,6 +188,7 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
                 onClick={() => !isPast && handleDayClick(ymd)}
                 onMouseEnter={() => picking === "start" && setHovered(ymd)}
                 onMouseLeave={() => setHovered(null)}
+                aria-disabled={isPast || undefined}
                 className={wrapperCls}
               >
                 {showBand && <span className={bandCls} />}

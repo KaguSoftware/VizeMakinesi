@@ -207,7 +207,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
                       onChange={(e) => setNote(e.target.value)}
                       rows={3}
                       placeholder="Vize türü, özel durumlar, daha önce red aldıysanız belirtin…"
-                      className="w-full bg-transparent border-b border-border pb-1.5 font-serif text-[14px] text-navy placeholder:text-muted/40 focus:outline-none focus:border-coral focus:border-b-2 focus:pb-[5px] transition-colors duration-150 resize-none"
+                      className="w-full bg-transparent border-b border-border pb-1.5 font-serif text-[16px] sm:text-[14px] text-navy placeholder:text-muted/40 focus:outline-none focus:border-coral focus:border-b-2 focus:pb-[5px] transition-colors duration-150 resize-none"
                     />
                   }
                   bare
@@ -277,7 +277,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
 }
 
 const inputCls =
-  "w-full bg-transparent border-b border-border pb-1.5 font-serif text-[14px] text-navy placeholder:text-muted/40 focus:outline-none focus:border-coral focus:border-b-2 focus:pb-[5px] transition-colors duration-150";
+  "w-full bg-transparent border-b border-border pb-1.5 font-serif text-[16px] sm:text-[14px] text-navy placeholder:text-muted/40 focus:outline-none focus:border-coral focus:border-b-2 focus:pb-[5px] transition-colors duration-150";
 
 function Field({
   id,

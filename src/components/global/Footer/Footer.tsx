@@ -9,7 +9,10 @@ import { FadeIn } from "@/components/shared/motion";
 
 export default function Footer() {
     return (
-        <footer className="border-t border-border pt-20 pb-8 bg-navy text-white relative overflow-hidden">
+        <footer
+            className="border-t border-border pt-20 bg-navy text-white relative overflow-hidden"
+            style={{ paddingBottom: "max(2rem, env(safe-area-inset-bottom))" }}
+        >
             <FadeIn as="div" duration={0.55} y={24} className="container relative z-10">
                 {/* Mark */}
                 <div className="flex justify-between items-center flex-wrap gap-4 mb-16">
@@ -42,7 +45,7 @@ export default function Footer() {
                                     <li key={l.label} className="min-w-0">
                                         <Link
                                             href={l.href}
-                                            className="font-serif text-[15px] md:text-[18px] font-medium tracking-[-0.005em] text-white/60 hover:text-coral transition-colors duration-150 break-all"
+                                            className="font-serif text-[15px] md:text-[18px] font-medium tracking-[-0.005em] text-white/60 hover:text-coral transition-colors duration-150 wrap-break-word"
                                         >
                                             {l.label}
                                         </Link>

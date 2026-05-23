@@ -77,7 +77,7 @@ export default function Hero() {
             animate="show"
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } } }}
           >
-            <h1 className="font-serif font-bold text-[clamp(38px,5.5vw,88px)] leading-none tracking-[-0.02em]">
+            <h1 className="font-serif font-bold text-[clamp(32px,5.5vw,88px)] leading-[1.05] tracking-[-0.02em]">
               <motion.span
                 className="block"
                 variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
@@ -137,7 +137,7 @@ export default function Hero() {
                   onFocus={() => results.length > 0 && setOpen(true)}
                   placeholder="✈️ Yolculuk Nereye !?"
                   autoComplete="off"
-                  className="flex-1 bg-transparent px-4 py-3 font-sans text-[14px] text-navy placeholder:text-navy/50 focus:outline-none"
+                  className="flex-1 bg-transparent px-4 py-3 font-sans text-[16px] sm:text-[14px] text-navy placeholder:text-navy/50 focus:outline-none"
                 />
                 <button
                   type="submit"

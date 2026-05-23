@@ -206,7 +206,11 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
 
     useEffect(() => {
         document.body.style.overflow = open ? "hidden" : "";
-        return () => { document.body.style.overflow = ""; };
+        document.body.classList.toggle("nav-menu-open", open);
+        return () => {
+            document.body.style.overflow = "";
+            document.body.classList.remove("nav-menu-open");
+        };
     }, [open]);
 
     useEffect(() => {
@@ -228,7 +232,7 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
 
     return (
         <>
-            <header ref={headerRef} className="sticky top-0 z-110 bg-navy border-b border-border">
+            <header ref={headerRef} className="nav-sticky sticky top-0 z-110 bg-navy border-b border-border">
                 {/* Ticker */}
                 <div className="overflow-hidden font-mono text-[11px] tracking-[0.08em] uppercase py-2 bg-navy text-white/65 group">
                     <div className="nav-ticker-track group-hover:[animation-play-state:paused]">
@@ -495,17 +499,17 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                         initial={{ x: "100%" }}
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
-                        transition={{ type: "tween", duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-                        style={{ top: navHeight }}
+                        transition={{ type: "tween", duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
+                        style={{ top: navHeight, willChange: "transform" }}
                         className="fixed inset-x-0 bottom-0 bg-paper z-100 px-7 py-8 flex flex-col overflow-y-auto"
                     >
                         <nav aria-label="Mobil navigasyon" className="flex flex-col flex-1">
                             {MOBILE_LINKS.map((l, i) => (
                                 <motion.div
                                     key={l.to}
-                                    initial={{ opacity: 0, x: 24 }}
+                                    initial={{ opacity: 0, x: 16 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.18 + i * 0.06, duration: 0.28 }}
+                                    transition={{ delay: 0.08 + i * 0.025, duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
                                 >
                                     <Link
                                         href={l.to}
@@ -520,7 +524,7 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ delay: 0.35, duration: 0.25 }}
+                            transition={{ delay: 0.22, duration: 0.2 }}
                             className="mt-8 flex gap-6 font-mono text-[12px] tracking-widest uppercase pt-6 border-t border-border"
                         >
                             <a href={SITE.phoneHref}>{SITE.phone}</a>

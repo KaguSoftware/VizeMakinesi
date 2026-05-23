@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Syne, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import NavigationLoader from "@/components/global/NavigationLoader";
@@ -23,6 +23,13 @@ const jetbrains = JetBrains_Mono({
     subsets: ["latin"],
     weight: ["400", "500"],
 });
+
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
+    themeColor: "#1a5c5b",
+    viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
     metadataBase: new URL(SITE_URL),

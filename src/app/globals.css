@@ -45,6 +45,11 @@ a {
   text-decoration: none;
 }
 
+/* Eliminate the 300ms tap delay iOS Safari otherwise adds to interactive elements. */
+a, button, [role="button"], input, select, textarea, label {
+  touch-action: manipulation;
+}
+
 .container {
   max-width: 1360px;
   margin-inline: auto;

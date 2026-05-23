@@ -206,7 +206,7 @@ function NativeSelect({ value, onChange, options, className, cream, coral }: {
       <select
         value={value}
         onChange={e => onChange(e.target.value)}
-        className={`appearance-none bg-transparent font-serif text-[14px] ${textCls} font-semibold pr-5 pl-0 py-0.5 border-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:rounded cursor-pointer`}
+        className={`appearance-none bg-transparent font-serif text-[16px] sm:text-[14px] ${textCls} font-semibold pr-5 pl-0 py-0.5 border-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:rounded cursor-pointer`}
       >
         {options.map(o => (
           <option key={o.value} value={o.value}>{o.label}</option>
@@ -384,7 +384,7 @@ export default function CascadeCalculator() {
                           value={countrySearch}
                           onChange={e => setCountrySearch(e.target.value)}
                           placeholder="Ara…"
-                          className="w-full bg-transparent font-serif text-[14px] text-navy placeholder:text-navy/30 px-2 py-1.5 focus:outline-none"
+                          className="w-full bg-transparent font-serif text-[16px] sm:text-[14px] text-navy placeholder:text-navy/30 px-2 py-1.5 focus:outline-none"
                         />
                       </div>
                       {filteredCountries.map((c, idx) => (

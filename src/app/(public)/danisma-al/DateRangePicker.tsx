@@ -1,25 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-
-const MONTHS_TR = [
-  "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
-  "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık",
-];
-const DAYS_TR = ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"];
-
-function toYMD(d: Date) {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-}
-
-function daysInMonth(year: number, month: number) {
-  return new Date(year, month + 1, 0).getDate();
-}
-
-// Monday-first day offset
-function firstDayOffset(year: number, month: number) {
-  const day = new Date(year, month, 1).getDay();
-  return day === 0 ? 6 : day - 1;
-}
+import {
+  DAYS_TR,
+  MONTHS_TR,
+  daysInMonth,
+  firstDayOffset,
+  formatDisplay,
+  toYMD,
+} from "@/lib/dates/calendar";
 
 interface Props {
   travelDate: string;
@@ -102,11 +90,6 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
     return { isPast, isStart, isEnd, inRange };
   }
 
-  const formatDisplay = (ymd: string) => {
-    if (!ymd) return "—";
-    const [y, m, d] = ymd.split("-");
-    return `${d} ${MONTHS_TR[parseInt(m) - 1]} ${y}`;
-  };
 
   return (
     <div className="select-none">

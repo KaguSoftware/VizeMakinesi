@@ -27,7 +27,7 @@ export default async function PartnershipsPage() {
           {partnerships.map((p) => (
             <div
               key={p.id}
-              className="p-12 flex flex-col gap-12 bg-[#fdfbe5]"
+              className="p-12 flex flex-col gap-12 bg-cream"
             >
               {p.logo_url && (
                 <div className="h-16 flex items-center py-2">
@@ -92,7 +92,7 @@ export default async function PartnershipsPage() {
             </div>
           ))}
           {Array.from({ length: fillerCount }).map((_, i) => (
-            <div key={`filler-${i}`} className="bg-[#fdfbe5]" />
+            <div key={`filler-${i}`} className="bg-cream" />
           ))}
         </div>
       </section>

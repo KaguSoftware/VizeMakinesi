@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import FlagBG from '@/components/shared/FlagBG/FlagBG'
-import { useDirtyFromSnapshot, useUnsavedChanges } from '@/lib/hooks/useUnsavedChanges'
+import { useDirtyFromSnapshot, useDirtyGuard, useUnsavedChanges } from '@/lib/hooks/useUnsavedChanges'
 import {
   AdminButton,
   AdminInput,
@@ -65,22 +65,38 @@ function slugify(s: string) {
   return s
     .toLowerCase()
     .normalize('NFD')
+    // U+0300..U+036F is the "Combining Diacritical Marks" Unicode block.
     .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9\s-]/g, '')
     .trim()
     .replace(/\s+/g, '-')
 }
 
-function Divider({ label }: { label: string }) {
+const FORM_SECTIONS = [
+  { id: 'temel', label: 'Temel Bilgiler' },
+  { id: 'bayrak', label: 'Bayrak' },
+  { id: 'mozaik', label: 'Ana Sayfa Mozaik' },
+  { id: 'belgeler', label: 'Gerekli Belgeler' },
+  { id: 'ustlenilen', label: 'Ofisin Üstlendiği' },
+  { id: 'sss', label: 'SSS' },
+  { id: 'turizm', label: 'Turizm İçeriği' },
+] as const
+
+function Divider({ id, label }: { id?: string; label: string }) {
   return (
-    <h2 className="mt-12 mb-4 font-mono text-xs tracking-widest uppercase text-navy">{label}</h2>
+    <h2
+      id={id}
+      className="mt-12 mb-4 font-mono text-xs tracking-widest uppercase text-navy scroll-mt-24"
+    >
+      {label}
+    </h2>
   )
 }
 
 function FieldError({ errors, field }: { errors: ValidationError[]; field: string }) {
   const e = errors.find((e) => e.field === field)
   if (!e) return null
-  return <p className="font-mono text-[11px] text-coral mt-1">{e.message}</p>
+  return <p className="font-mono text-[11px] text-red-500 mt-1">{e.message}</p>
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
@@ -92,6 +108,8 @@ interface CountryFormProps {
 export default function CountryForm({ country }: CountryFormProps) {
   const router = useRouter()
   const { showToast } = useToast()
+  const { confirmDiscard } = useDirtyGuard()
+  const formRef = useRef<HTMLFormElement>(null)
   const isEdit = !!country
 
   // — 01 Temel
@@ -101,6 +119,10 @@ export default function CountryForm({ country }: CountryFormProps) {
   const [visaType, setVisaType] = useState(country?.visa_type ?? '')
   const [summary, setSummary] = useState(country?.summary ?? '')
   const [slugError, setSlugError] = useState<string | null>(null)
+  // Once the user types in the slug field, stop syncing it from name. In edit
+  // mode the slug starts pre-populated, so we treat it as already-touched.
+  const [slugTouched, setSlugTouched] = useState(isEdit)
+  const [slugChecking, setSlugChecking] = useState(false)
 
   // — 02 Flag
   const [flagType, setFlagType] = useState<'preset' | 'image'>(country?.flag_type ?? 'preset')
@@ -167,19 +189,46 @@ export default function CountryForm({ country }: CountryFormProps) {
 
   useUnsavedChanges(dirty && !saving && !submitted)
 
+  // ⌘/Ctrl-S submits the visible form.
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
+        e.preventDefault()
+        if (!saving) formRef.current?.requestSubmit()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [saving])
+
+  function handleCancel() {
+    if (confirmDiscard()) router.push('/admin/countries')
+  }
+
   // ── Slug auto-generate ─────────────────────────────────────────────────────
 
   function handleNameChange(val: string) {
     setName(val)
-    if (!isEdit || slug === '') {
+    // Auto-sync slug only while the user hasn't manually edited it.
+    if (!slugTouched) {
       setSlug(slugify(val))
     }
   }
 
+  function handleSlugChange(val: string) {
+    setSlugTouched(true)
+    setSlug(val)
+  }
+
   async function handleSlugBlur() {
     if (!slug) return
-    const unique = await checkSlugUnique(slug, country?.id)
-    setSlugError(unique ? null : 'Bu slug zaten kullanılıyor')
+    setSlugChecking(true)
+    try {
+      const unique = await checkSlugUnique(slug, country?.id)
+      setSlugError(unique ? null : 'Bu slug zaten kullanılıyor')
+    } finally {
+      setSlugChecking(false)
+    }
   }
 
   // ── Submit ─────────────────────────────────────────────────────────────────
@@ -213,7 +262,24 @@ export default function CountryForm({ country }: CountryFormProps) {
     }
 
     const errs = validateCountry(data)
-    if (slugError) errs.push({ field: 'slug', message: slugError })
+    // Always re-check slug uniqueness on submit — the blur-only check is racy
+    // and the user can submit before blur fires.
+    if (data.slug && /^[a-z0-9-]+$/.test(data.slug)) {
+      setSlugChecking(true)
+      try {
+        const unique = await checkSlugUnique(data.slug, country?.id)
+        if (!unique) {
+          setSlugError('Bu slug zaten kullanılıyor')
+          errs.push({ field: 'slug', message: 'Bu slug zaten kullanılıyor' })
+        } else {
+          setSlugError(null)
+        }
+      } finally {
+        setSlugChecking(false)
+      }
+    } else if (slugError) {
+      errs.push({ field: 'slug', message: slugError })
+    }
     setErrors(errs)
     if (errs.length > 0) return
 
@@ -237,10 +303,34 @@ export default function CountryForm({ country }: CountryFormProps) {
   // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl">
+    <div className="lg:flex lg:gap-12 lg:items-start">
+      {/* Section jump-nav (desktop only). Sticky so it follows the user. */}
+      <nav
+        aria-label="Form bölümleri"
+        className="hidden lg:flex flex-col gap-1 sticky top-12 w-44 shrink-0 pt-4"
+      >
+        <p className="font-mono text-[11px] tracking-widest uppercase text-navy/55 mb-2">
+          — Bölümler
+        </p>
+        {FORM_SECTIONS.map((s) => (
+          <a
+            key={s.id}
+            href={`#${s.id}`}
+            className="font-mono text-[11px] tracking-wide uppercase text-navy/70 hover:text-coral transition-colors py-1"
+          >
+            {s.label}
+          </a>
+        ))}
+      </nav>
+
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit}
+        className="flex-1 min-w-0 max-w-3xl"
+      >
 
       {/* ── 01 Temel Bilgiler ─────────────────────────────────────────────── */}
-      <Divider label="Temel Bilgiler" />
+      <Divider id="temel" label="Temel Bilgiler" />
 
       <div className="flex flex-col gap-6">
         <div>
@@ -256,13 +346,16 @@ export default function CountryForm({ country }: CountryFormProps) {
           <AdminInput
             label="Slug"
             value={slug}
-            onChange={(e) => setSlug(e.target.value)}
+            onChange={(e) => handleSlugChange(e.target.value)}
             onBlur={handleSlugBlur}
           />
-          {slugError
-            ? <p className="font-mono text-[11px] text-coral mt-1">{slugError}</p>
+          {slugChecking && (
+            <p className="font-mono text-[11px] text-navy/60 mt-1">Slug kontrol ediliyor…</p>
+          )}
+          {!slugChecking && (slugError
+            ? <p className="font-mono text-[11px] text-red-500 mt-1">{slugError}</p>
             : <FieldError errors={errors} field="slug" />
-          }
+          )}
         </div>
 
         <div>
@@ -309,7 +402,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       </div>
 
       {/* ── 02 Bayrak ─────────────────────────────────────────────────────── */}
-      <Divider label="Bayrak" />
+      <Divider id="bayrak" label="Bayrak" />
 
       <div className="flex flex-col gap-5">
         <div className="flex gap-6">
@@ -364,7 +457,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       </div>
 
       {/* ── 03 Mozaik ─────────────────────────────────────────────────────── */}
-      <Divider label="Ana Sayfa Mozaik" />
+      <Divider id="mozaik" label="Ana Sayfa Mozaik" />
 
       <div className="flex flex-col gap-5">
         <label className="flex items-center gap-3 cursor-pointer">
@@ -403,7 +496,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       </div>
 
       {/* ── 04 Gerekli Belgeler ───────────────────────────────────────────── */}
-      <Divider label="Gerekli Belgeler" />
+      <Divider id="belgeler" label="Gerekli Belgeler" />
 
       <RepeatableList<TextItem>
         items={requirements}
@@ -423,7 +516,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       />
 
       {/* ── 05 Ofisimizin Üstlendiği ─────────────────────────────────────── */}
-      <Divider label="Ofisimizin Üstlendiği" />
+      <Divider id="ustlenilen" label="Ofisimizin Üstlendiği" />
 
       <RepeatableList<TextItem>
         items={handles}
@@ -443,7 +536,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       />
 
       {/* ── 06 SSS ───────────────────────────────────────────────────────── */}
-      <Divider label="Sık Sorulan Sorular" />
+      <Divider id="sss" label="Sık Sorulan Sorular" />
 
       <RepeatableList<FaqItem>
         items={faqs}
@@ -473,7 +566,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       />
 
       {/* ── 07 Turizm ────────────────────────────────────────────────────── */}
-      <Divider label="Turizm İçeriği" />
+      <Divider id="turizm" label="Turizm İçeriği" />
 
       <div className="flex flex-col gap-6">
         <label className="flex items-center gap-3 cursor-pointer">
@@ -588,27 +681,28 @@ export default function CountryForm({ country }: CountryFormProps) {
         <AdminButton
           type="button"
           variant="secondary"
-          onClick={() => router.push('/admin/countries')}
+          onClick={handleCancel}
           disabled={saving}
         >
           İptal
         </AdminButton>
         {saveError && (
-          <p className="font-mono text-[11px] text-coral">{saveError}</p>
+          <p className="font-mono text-[11px] text-red-500">{saveError}</p>
         )}
       </div>
 
       {/* Inline validation summary */}
       {errors.length > 0 && (
-        <div className="mt-4 p-4 border border-coral/40 bg-coral/5 flex flex-col gap-1">
-          <p className="font-mono text-[11px] text-coral font-semibold mb-1">
+        <div className="mt-4 p-4 border border-red-400/40 bg-red-50 flex flex-col gap-1">
+          <p className="font-mono text-[11px] text-red-600 font-semibold mb-1">
             {errors.length} hata düzeltilmeli:
           </p>
           {errors.map((e, i) => (
-            <p key={i} className="font-mono text-[11px] text-coral">• {e.message}</p>
+            <p key={i} className="font-mono text-[11px] text-red-600">• {e.message}</p>
           ))}
         </div>
       )}
-    </form>
+      </form>
+    </div>
   )
 }

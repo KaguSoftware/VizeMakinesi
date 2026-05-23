@@ -72,7 +72,7 @@ function NavSearch() {
             <button
                 onClick={() => setExpanded((v) => !v)}
                 aria-label="Ülke ara"
-                className={`p-2 transition-colors duration-200 ${expanded ? 'text-coral' : 'text-white/70 hover:text-white'}`}
+                className={`p-2 rounded transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral ${expanded ? 'text-coral' : 'text-white/70 hover:text-white'}`}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
@@ -86,7 +86,7 @@ function NavSearch() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
                         transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                        className="absolute right-0 top-[calc(100%+16px)] w-80 z-50"
+                        className="absolute right-0 top-[calc(100%+16px)] w-[min(20rem,calc(100vw-2rem))] z-50"
                     >
                         <div className="flex items-center bg-white border border-coral/40 rounded-2xl overflow-hidden focus-within:border-coral transition-colors">
                             <svg className="ml-3 shrink-0 text-navy/40" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -206,7 +206,20 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
 
     useEffect(() => {
         document.body.style.overflow = open ? "hidden" : "";
-        return () => { document.body.style.overflow = ""; };
+        document.body.classList.toggle("nav-menu-open", open);
+        return () => {
+            document.body.style.overflow = "";
+            document.body.classList.remove("nav-menu-open");
+        };
+    }, [open]);
+
+    useEffect(() => {
+        if (!open) return;
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setOpenSince(null);
+        };
+        document.addEventListener("keydown", onKey);
+        return () => document.removeEventListener("keydown", onKey);
     }, [open]);
 
     const handleEnter = (idx: number) => {
@@ -219,7 +232,7 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
 
     return (
         <>
-            <header ref={headerRef} className="sticky top-0 z-110 bg-navy border-b border-border">
+            <header ref={headerRef} className="nav-sticky sticky top-0 z-110 bg-navy border-b border-border">
                 {/* Ticker */}
                 <div className="overflow-hidden font-mono text-[11px] tracking-[0.08em] uppercase py-2 bg-navy text-white/65 group">
                     <div className="nav-ticker-track group-hover:[animation-play-state:paused]">
@@ -329,13 +342,13 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                             Cascade Kuralı
                         </Link>
                         <NavSearch />
-                        <Link href="/iletisim">
-                            <span className="ml-3 font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
+                        <Link href="/iletisim" className="ml-3 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-navy active:scale-[0.98] transition-transform">
+                            <span className="font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
                                 Bize Ulaşın
                             </span>
                         </Link>
-                        <Link href="/danisma-al">
-                            <span className="ml-2 font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
+                        <Link href="/danisma-al" className="ml-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-navy active:scale-[0.98] transition-transform">
+                            <span className="font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
                                 Danışma Al →
                             </span>
                         </Link>
@@ -345,7 +358,7 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                     <button
                         aria-label={open ? "Menüyü kapat" : "Menüyü aç"}
                         aria-expanded={open}
-                        className="lg:hidden flex flex-col justify-center items-center w-10 h-10 relative"
+                        className="lg:hidden flex flex-col justify-center items-center w-10 h-10 relative rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
                         onClick={() => open ? setOpenSince(null) : setOpenSince(pathname)}
                     >
                         <motion.span
@@ -486,21 +499,21 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                         initial={{ x: "100%" }}
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
-                        transition={{ type: "tween", duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-                        style={{ top: navHeight }}
+                        transition={{ type: "tween", duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
+                        style={{ top: navHeight, willChange: "transform" }}
                         className="fixed inset-x-0 bottom-0 bg-paper z-100 px-7 py-8 flex flex-col overflow-y-auto"
                     >
                         <nav aria-label="Mobil navigasyon" className="flex flex-col flex-1">
                             {MOBILE_LINKS.map((l, i) => (
                                 <motion.div
                                     key={l.to}
-                                    initial={{ opacity: 0, x: 24 }}
+                                    initial={{ opacity: 0, x: 16 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.18 + i * 0.06, duration: 0.28 }}
+                                    transition={{ delay: 0.08 + i * 0.025, duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
                                 >
                                     <Link
                                         href={l.to}
-                                        className={`font-serif text-[32px] font-semibold py-4 border-b border-border flex justify-between items-center ${pathname === l.to ? "text-coral" : "text-navy"}`}
+                                        className={`font-serif text-[32px] font-semibold py-4 border-b border-border flex justify-between items-center active:bg-coral/5 -mx-7 px-7 transition-colors focus-visible:outline-none focus-visible:bg-coral/10 ${pathname === l.to ? "text-coral" : "text-navy"}`}
                                     >
                                         {l.label}
                                         <span aria-hidden="true" className="text-[22px] text-muted/60">→</span>
@@ -511,7 +524,7 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ delay: 0.35, duration: 0.25 }}
+                            transition={{ delay: 0.22, duration: 0.2 }}
                             className="mt-8 flex gap-6 font-mono text-[12px] tracking-widest uppercase pt-6 border-t border-border"
                         >
                             <a href={SITE.phoneHref}>{SITE.phone}</a>

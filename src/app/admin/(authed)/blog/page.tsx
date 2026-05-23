@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { AdminButton, EyebrowText } from '@/components/admin/ui'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import type { Database } from '@/lib/supabase/database.types'
 
 type CountryRow = Pick<
@@ -20,12 +21,17 @@ export default async function AdminBlogPage() {
 
   return (
     <div>
-      <div className="flex items-start justify-between mb-10">
+      <Breadcrumbs items={[{ label: 'Dashboard', href: '/admin' }, { label: 'Turizm' }]} />
+      <div className="flex items-start justify-between mb-6 flex-wrap gap-4">
         <div>
-          <EyebrowText>— 05 / Blog</EyebrowText>
+          <EyebrowText>— Turizm İçeriği</EyebrowText>
           <h1 className="font-serif text-[36px] font-bold tracking-[-0.02em] text-navy mt-1">
-            Blog / Turizm
+            Turizm İçeriği
           </h1>
+          <p className="font-mono text-[11px] text-navy/65 mt-2 max-w-md">
+            Turizm sayfaları doğrudan ilgili ülke kaydının içinden düzenlenir.
+            Aktif sayfalar aşağıda listelenmiştir.
+          </p>
         </div>
         <Link href="/admin/countries">
           <AdminButton variant="secondary">Ülkeleri Yönet</AdminButton>

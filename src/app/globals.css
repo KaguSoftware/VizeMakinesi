@@ -38,6 +38,7 @@ body {
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
 a {
@@ -108,6 +109,17 @@ a {
   }
 }
 
+/* ── NAV STICKY ── */
+/* Force a composite layer so iOS Safari doesn't repaint the entire sticky
+   header on every scroll frame (the ticker animation inside otherwise
+   triggers jank on mobile when scrolled). */
+.nav-sticky {
+  transform: translateZ(0);
+  will-change: transform;
+  contain: paint;
+  isolation: isolate;
+}
+
 /* ── NAV TICKER ── */
 /* 4× duplicate sets in DOM for seamless loop; do NOT reduce the count */
 .nav-ticker-track {
@@ -115,7 +127,14 @@ a {
   white-space: nowrap;
   width: max-content;
   will-change: transform;
+  transform: translateZ(0);
   animation: ticker var(--dur-ticker) linear infinite;
+}
+
+/* Pause the ticker while the mobile menu is open — frees the GPU/CPU
+   during the overlay slide-in so it doesn't stutter. */
+body.nav-menu-open .nav-ticker-track {
+  animation-play-state: paused;
 }
 
 .nav-ticker-set {
@@ -143,6 +162,14 @@ a {
   font-size: 32px;
   letter-spacing: -0.015em;
   padding-right: 56px;
+}
+
+@media (max-width: 640px) {
+  .strip-set {
+    gap: 32px;
+    font-size: 24px;
+    padding-right: 32px;
+  }
 }
 
 /* ── MEGA PANEL ANIMATION ── */
@@ -368,6 +395,48 @@ q::after {
   white-space: nowrap;
   pointer-events: none;
   line-height: 1;
+}
+
+/* ── TOUCH DEVICES: tame the mosaic transitions ──
+   On mobile, IntersectionObserver toggles .is-active on multiple country
+   cards at once as the user scrolls. The default transitions (filter 1.4s,
+   transform 1.6s, opacity 1.2s on every cell) are expensive enough on
+   mobile GPUs to cause visible scroll jank across the whole page. Here we
+   make the .is-active swap effectively instant on touch and skip the
+   filter/scale animation entirely. */
+@media (hover: none) {
+  .mosaic-cell,
+  .mosaic-cell .flag-overlay-light,
+  .mosaic-cell .flag-overlay-dark,
+  .mosaic-cell .flag-svg,
+  .mosaic-cell .hv-white,
+  .mosaic-cell .hv-coral,
+  .mosaic-cell .cell-price-row {
+    transition-duration: 200ms;
+    transition-timing-function: ease-out;
+  }
+  .mosaic-cell .flag-svg {
+    transition-property: opacity;
+  }
+  .mosaic-cell.is-active .flag-svg {
+    /* Match the "active" appearance but skip filter/transform animation. */
+    filter: saturate(1) contrast(1);
+    transform: none;
+  }
+  .mosaic-cell .flag-svg {
+    transform: none;
+  }
+
+  /* backdrop-filter (blur) is one of the most expensive paint operations
+     on mobile GPUs. Skip it on touch devices — the difference is barely
+     visible at phone sizes. */
+  .backdrop-blur-sm,
+  .backdrop-blur,
+  .backdrop-blur-md,
+  .backdrop-blur-lg {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 /* ── REDUCED MOTION ── */

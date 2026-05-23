@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { EyebrowText, AdminButton } from '@/components/admin/ui'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import CountriesTable from './CountriesTable'
 import type { Database } from '@/lib/supabase/database.types'
 
@@ -17,7 +18,8 @@ export default async function CountriesPage() {
 
   return (
     <div>
-      <div className="flex items-start justify-between mb-10">
+      <Breadcrumbs items={[{ label: 'Dashboard', href: '/admin' }, { label: 'Ülkeler' }]} />
+      <div className="flex items-start justify-between mb-10 flex-wrap gap-4">
         <div>
           <EyebrowText>— 01 / Ülkeler</EyebrowText>
           <h1 className="font-serif text-[36px] font-bold tracking-[-0.02em] text-navy mt-1">

@@ -191,8 +191,6 @@ const SCHENGEN_COUNTRIES = [
   { name: "Yunanistan", flag_emoji: "🇬🇷" },
 ];
 
-interface Props { countries?: unknown[]; }
-
 function NativeSelect({ value, onChange, options, className, cream, coral }: {
   value: string | number;
   onChange: (v: string) => void;
@@ -208,7 +206,7 @@ function NativeSelect({ value, onChange, options, className, cream, coral }: {
       <select
         value={value}
         onChange={e => onChange(e.target.value)}
-        className={`appearance-none bg-transparent font-serif text-[14px] ${textCls} font-semibold pr-5 pl-0 py-0.5 border-0 focus:outline-none cursor-pointer`}
+        className={`appearance-none bg-transparent font-serif text-[14px] ${textCls} font-semibold pr-5 pl-0 py-0.5 border-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:rounded cursor-pointer`}
       >
         {options.map(o => (
           <option key={o.value} value={o.value}>{o.label}</option>
@@ -219,7 +217,7 @@ function NativeSelect({ value, onChange, options, className, cream, coral }: {
   );
 }
 
-export default function CascadeCalculator({ countries }: Props) {
+export default function CascadeCalculator() {
   const [country, setCountry] = useState("");
   const [countrySearch, setCountrySearch] = useState("");
   const [countryOpen, setCountryOpen] = useState(false);
@@ -239,11 +237,13 @@ export default function CascadeCalculator({ countries }: Props) {
   const [picking, setPicking] = useState<"start" | null>(null);
   const [todayYMD, setTodayYMD] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const visaCountDirection = useRef<1 | -1>(1);
-  const calendarDirection = useRef<1 | -1>(1);
+  const [visaCountDirection, setVisaCountDirection] = useState<1 | -1>(1);
+  const [calendarDirection, setCalendarDirection] = useState<1 | -1>(1);
 
   useEffect(() => {
+    // Compute "today" on the client to avoid SSR/CSR mismatch on timezone boundaries.
     const d = new Date(); d.setHours(0, 0, 0, 0);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTodayYMD(toYMD(d));
   }, []);
 
@@ -333,7 +333,7 @@ export default function CascadeCalculator({ countries }: Props) {
                   type="button"
                   onClick={() => setCountryOpen(v => !v)}
                   whileTap={{ scale: 0.99 }}
-                  className="w-full flex items-center justify-between gap-3 px-4 py-2.5 border border-navy/20 bg-white text-left hover:border-coral transition-colors"
+                  className="w-full flex items-center justify-between gap-3 px-4 py-2.5 border border-navy/20 bg-white text-left hover:border-coral transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-1"
                 >
                   <AnimatePresence mode="wait">
                     {selectedCountry ? (
@@ -424,7 +424,7 @@ export default function CascadeCalculator({ countries }: Props) {
                     whileHover={{ scale: 1.025, y: -2 }}
                     whileTap={{ scale: 0.97 }}
                     transition={{ type: "spring", stiffness: 400, damping: 22 }}
-                    className={`relative px-4 py-3 border text-left transition-colors ${visaType === t ? "border-coral bg-coral/10 shadow-sm" : "border-navy/20 bg-white hover:border-navy/40"}`}
+                    className={`relative px-4 py-3 border text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-1 ${visaType === t ? "border-coral bg-coral/10 shadow-sm" : "border-navy/20 bg-white hover:border-navy/40"}`}
                   >
                     <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-0.5">Tip {t}</div>
                     <div className="font-serif text-[14px] text-navy font-semibold">
@@ -452,23 +452,23 @@ export default function CascadeCalculator({ countries }: Props) {
                 Toplam Schengen Vize Sayısı (Bilgi Amaçlı)
               </label>
               <p className="font-serif text-[13px] text-coral/70 mb-2 leading-snug">
-                Türkiye'ye özgü Kademeli Vize Kuralı'nda kademe ilerlemesi için vize sayısı yerine önceki vizenin türü ve doğru kullanımı esas alınır.
+                Türkiye&apos;ye özgü Kademeli Vize Kuralı&apos;nda kademe ilerlemesi için vize sayısı yerine önceki vizenin türü ve doğru kullanımı esas alınır.
               </p>
               <div className="flex items-center gap-0 border border-navy/20 bg-white w-fit overflow-hidden">
                 <motion.button
                   type="button"
-                  onClick={() => { visaCountDirection.current = -1; setVisaCount(v => Math.max(0, v - 1)); }}
+                  onClick={() => { setVisaCountDirection(-1); setVisaCount(v => Math.max(0, v - 1)); }}
                   whileTap={{ scale: 0.88 }}
                   transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                  className="w-10 h-11 flex items-center justify-center font-mono text-[16px] text-navy/40 hover:text-navy hover:bg-navy/5 transition-colors border-r border-navy/20"
+                  className="w-10 h-11 flex items-center justify-center font-mono text-[16px] text-navy/40 hover:text-navy hover:bg-navy/5 transition-colors border-r border-navy/20 focus-visible:outline-none focus-visible:bg-coral/10 focus-visible:text-coral"
                 >−</motion.button>
                 <div className="w-14 h-11 flex items-center justify-center overflow-hidden relative">
                   <AnimatePresence mode="popLayout" initial={false}>
                     <motion.span
                       key={visaCount}
-                      initial={{ y: visaCountDirection.current * -28, opacity: 0 }}
+                      initial={{ y: visaCountDirection * -28, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: visaCountDirection.current * 28, opacity: 0 }}
+                      exit={{ y: visaCountDirection * 28, opacity: 0 }}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                       className="absolute font-serif text-[20px] font-semibold text-navy"
                     >{visaCount}</motion.span>
@@ -476,10 +476,10 @@ export default function CascadeCalculator({ countries }: Props) {
                 </div>
                 <motion.button
                   type="button"
-                  onClick={() => { visaCountDirection.current = 1; setVisaCount(v => Math.min(20, v + 1)); }}
+                  onClick={() => { setVisaCountDirection(1); setVisaCount(v => Math.min(20, v + 1)); }}
                   whileTap={{ scale: 0.88 }}
                   transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                  className="w-10 h-11 flex items-center justify-center font-mono text-[16px] text-navy/40 hover:text-navy hover:bg-navy/5 transition-colors border-l border-navy/20"
+                  className="w-10 h-11 flex items-center justify-center font-mono text-[16px] text-navy/40 hover:text-navy hover:bg-navy/5 transition-colors border-l border-navy/20 focus-visible:outline-none focus-visible:bg-coral/10 focus-visible:text-coral"
                 >+</motion.button>
               </div>
             </div>
@@ -504,7 +504,7 @@ export default function CascadeCalculator({ countries }: Props) {
                     whileHover={{ x: 3 }}
                     whileTap={{ scale: 0.98 }}
                     transition={{ type: "spring", stiffness: 400, damping: 22 }}
-                    className={`relative flex items-center gap-3 px-4 py-2.5 border text-left transition-colors ${lawfulUse === opt.value ? "border-coral bg-coral/10" : "border-navy/20 bg-white hover:border-navy/40"}`}
+                    className={`relative flex items-center gap-3 px-4 py-2.5 border text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-1 ${lawfulUse === opt.value ? "border-coral bg-coral/10" : "border-navy/20 bg-white hover:border-navy/40"}`}
                   >
                     <span className={`relative w-4 h-4 rounded-full border-2 shrink-0 transition-colors duration-150 ${lawfulUse === opt.value ? "border-coral bg-coral" : "border-navy/30 bg-transparent"}`}>
                       <AnimatePresence>
@@ -636,7 +636,7 @@ export default function CascadeCalculator({ countries }: Props) {
                 <motion.button
                   type="button"
                   onClick={() => {
-                    calendarDirection.current = -1;
+                    setCalendarDirection(-1);
                     if (viewMonth === 0) { setViewMonth(11); setViewYear(y => y - 1); } else setViewMonth(m => m - 1);
                   }}
                   whileHover={{ x: -2 }}
@@ -656,7 +656,7 @@ export default function CascadeCalculator({ countries }: Props) {
                       coral
                       value={viewMonth}
                       onChange={v => {
-                        calendarDirection.current = parseInt(v) > viewMonth ? 1 : -1;
+                        setCalendarDirection(parseInt(v) > viewMonth ? 1 : -1);
                         setViewMonth(parseInt(v));
                       }}
                       options={MONTHS_TR.map((m, i) => ({ label: m, value: i }))}
@@ -672,7 +672,7 @@ export default function CascadeCalculator({ countries }: Props) {
                       coral
                       value={viewYear}
                       onChange={v => {
-                        calendarDirection.current = parseInt(v) > viewYear ? 1 : -1;
+                        setCalendarDirection(parseInt(v) > viewYear ? 1 : -1);
                         setViewYear(parseInt(v));
                       }}
                       options={PAST_YEARS.map(y => ({ label: String(y), value: y }))}
@@ -682,7 +682,7 @@ export default function CascadeCalculator({ countries }: Props) {
                 <motion.button
                   type="button"
                   onClick={() => {
-                    calendarDirection.current = 1;
+                    setCalendarDirection(1);
                     if (viewMonth === 11) { setViewMonth(0); setViewYear(y => y + 1); } else setViewMonth(m => m + 1);
                   }}
                   whileHover={{ x: 2 }}
@@ -699,10 +699,10 @@ export default function CascadeCalculator({ countries }: Props) {
                 ))}
               </div>
               <div className="overflow-hidden">
-                <AnimatePresence mode="popLayout" initial={false} custom={calendarDirection.current}>
+                <AnimatePresence mode="popLayout" initial={false} custom={calendarDirection}>
                   <motion.div
                     key={`${viewYear}-${viewMonth}`}
-                    custom={calendarDirection.current}
+                    custom={calendarDirection}
                     variants={{
                       enter: (dir: number) => ({ x: dir * 40, opacity: 0 }),
                       center: { x: 0, opacity: 1 },

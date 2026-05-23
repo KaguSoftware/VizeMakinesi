@@ -5,6 +5,7 @@ import {
   DndContext,
   closestCenter,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   type DragEndEvent,
@@ -72,7 +73,7 @@ function SortableItemRow({
         type="button"
         {...attributes}
         {...listeners}
-        className="mt-2 shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none"
+        className="mt-2 shrink-0 cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none touch-none p-1 -m-1"
       >
         ⠿
       </button>
@@ -140,7 +141,10 @@ export default function MarqueeSection({ location, label, initialItems, initialE
   const [enabled, setEnabled] = useState(initialEnabled)
   const [, startTransition] = useTransition()
   const { showToast } = useToast()
-  const sensors = useSensors(useSensor(PointerSensor))
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+  )
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event

@@ -141,7 +141,7 @@ export default function Hero() {
                 />
                 <button
                   type="submit"
-                  className="bg-transparent border-l border-coral/40 text-coral font-sans font-medium text-[13px] px-4 py-3 hover:bg-coral/10 transition-colors duration-200 whitespace-nowrap"
+                  className="bg-transparent border-l border-coral/40 text-coral font-sans font-medium text-[13px] px-4 py-3 hover:bg-coral/10 active:bg-coral/20 transition-colors duration-200 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-inset"
                 >
                   Ara →
                 </button>
@@ -154,7 +154,7 @@ export default function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className="absolute top-full left-0 right-0 mt-1 bg-white border border-coral/20 rounded-2xl shadow-lg overflow-hidden z-50"
+                    className="absolute top-full left-0 right-0 mt-1 bg-white border border-coral/20 rounded-2xl shadow-lg overflow-y-auto max-h-[60vh] z-50"
                   >
                     {results.map((country, i) => (
                       <motion.li
@@ -191,7 +191,7 @@ export default function Hero() {
             </motion.p>
             <MotionLink
               href="/danisma-al"
-              className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-coral text-coral hover:bg-navy hover:text-white hover:border-cream transition-all duration-200 rounded-2xl"
+              className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-coral text-coral hover:bg-navy hover:text-white hover:border-cream transition-all duration-200 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2"
               variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT_EXPO } } }}
               whileHover={{ scale: 1.04, y: -2 }}
               whileTap={{ scale: 0.97 }}

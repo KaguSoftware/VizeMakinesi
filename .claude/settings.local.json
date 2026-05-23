@@ -28,7 +28,14 @@
       "Bash(Select-Object FullName)",
       "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\" -Recurse -Directory)",
       "Bash(Select-Object -First 20 FullName)",
-      "Bash(grep -r \"^[[:space:]]*//.*import\\\\|^[[:space:]]*//.*export\\\\|^[[:space:]]*//.*function\\\\|^[[:space:]]*//.*const\" c:/Users/MnS/Kagu/kagu/VizeMakinesi/src --include=\"*.ts\" --include=\"*.tsx\")"
+      "Bash(grep -r \"^[[:space:]]*//.*import\\\\|^[[:space:]]*//.*export\\\\|^[[:space:]]*//.*function\\\\|^[[:space:]]*//.*const\" c:/Users/MnS/Kagu/kagu/VizeMakinesi/src --include=\"*.ts\" --include=\"*.tsx\")",
+      "Bash(xargs grep -l \"country\\\\|Country\")",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\" -Directory)",
+      "Bash(xargs grep -l \"flag-overlay\\\\|hv-\\\\|mosaic-cell\")",
+      "Bash(xargs grep -l \"MosaicCard\\\\|mosaic\")",
+      "Bash(xargs grep -l \"MosaicCard\")",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\\\\src\\\\app\\\\admin\" -Recurse -Directory)",
+      "Bash(git stash *)"
     ]
   }
 }

@@ -5,6 +5,7 @@ import {
   DndContext,
   closestCenter,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   type DragEndEvent,
@@ -70,7 +71,7 @@ function SortableEntryRow({
         type="button"
         {...attributes}
         {...listeners}
-        className="cursor-grab active:cursor-grabbing text-navy/40 hover:text-navy select-none text-[16px] shrink-0"
+        className="cursor-grab active:cursor-grabbing text-navy/40 hover:text-navy select-none text-[16px] shrink-0 touch-none p-1 -m-1"
       >
         ⠿
       </button>
@@ -138,7 +139,10 @@ function SortableList({
   onEdit: (entry: EntryRow) => void
   onDelete: (id: string) => void
 }) {
-  const sensors = useSensors(useSensor(PointerSensor))
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+  )
 
   function handleDragEnd(e: DragEndEvent) {
     const { active, over } = e

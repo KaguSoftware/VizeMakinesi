@@ -1,16 +1,25 @@
-import type { InputHTMLAttributes } from 'react'
+'use client'
+
+import { forwardRef, useId, type InputHTMLAttributes } from 'react'
 import { AdminLabel } from './AdminLabel'
 
 interface AdminInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
 }
 
-export function AdminInput({ label, className = '', id, ...props }: AdminInputProps) {
-  const inputId = id ?? label.toLowerCase().replace(/\s+/g, '-')
+export const AdminInput = forwardRef<HTMLInputElement, AdminInputProps>(function AdminInput(
+  { label, className = '', id, ...props }, ref
+) {
+  // Always derive a stable id when the caller didn't provide one. Falling back
+  // to the label text caused collisions when the same label appeared in two
+  // RepeatableList rows (e.g. "Belge 1" inside an inner-rendered list).
+  const fallback = useId()
+  const inputId = id ?? fallback
   return (
     <div className="flex flex-col gap-1.5">
       <AdminLabel htmlFor={inputId}>{label}</AdminLabel>
       <input
+        ref={ref}
         id={inputId}
         {...props}
         className={[
@@ -21,4 +30,4 @@ export function AdminInput({ label, className = '', id, ...props }: AdminInputPr
       />
     </div>
   )
-}
+})

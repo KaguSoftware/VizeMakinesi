@@ -1,29 +1,36 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { EyebrowText, AdminCard } from '@/components/admin/ui'
+import { ADMIN_RESOURCES } from '@/lib/admin/nav'
 
-const RESOURCES = [
-  { label: 'Ülkeler', href: '/admin/countries', table: 'countries', filter: null },
-  { label: 'Mega Menü', href: '/admin/mega-menu', table: 'mega_menu_categories', filter: null },
-  { label: 'Marquee', href: '/admin/marquee', table: 'marquee_items', filter: null },
-  { label: 'Ortaklıklar', href: '/admin/partnerships', table: 'partnerships', filter: null },
-  { label: 'Blog / Turizm', href: '/admin/blog', table: 'countries', filter: { column: 'has_tourism', value: true } },
-  { label: 'Ekip', href: '/admin/team', table: 'team_members', filter: null },
-  { label: 'Hakkımızda', href: '/admin/about', table: 'page_sections', filter: null },
-] as const
+type SupabaseServerClient = Awaited<ReturnType<typeof createClient>>
 
-async function fetchCounts(supabase: Awaited<ReturnType<typeof createClient>>) {
-  const results = await Promise.all(
-    RESOURCES.map(async (r) => {
-      let q = supabase.from(r.table).select('*', { count: 'exact', head: true })
-      if (r.filter) {
-        q = q.eq(r.filter.column, r.filter.value)
+interface Counts {
+  total: number
+  visible: number | null
+}
+
+async function fetchCounts(supabase: SupabaseServerClient): Promise<Counts[]> {
+  return Promise.all(
+    ADMIN_RESOURCES.map(async (r) => {
+      if (!r.table) return { total: 0, visible: null }
+      let totalQuery = supabase.from(r.table).select('*', { count: 'exact', head: true })
+      if (r.filter) totalQuery = totalQuery.eq(r.filter.column, r.filter.value)
+      const { count: total } = await totalQuery
+
+      if (!r.hasVisibleFlag) {
+        return { total: total ?? 0, visible: null }
       }
-      const { count } = await q
-      return count ?? 0
+
+      let visibleQuery = supabase
+        .from(r.table)
+        .select('*', { count: 'exact', head: true })
+        .eq('visible', true)
+      if (r.filter) visibleQuery = visibleQuery.eq(r.filter.column, r.filter.value)
+      const { count: visible } = await visibleQuery
+      return { total: total ?? 0, visible: visible ?? 0 }
     })
   )
-  return results
 }
 
 export default async function AdminDashboard() {
@@ -39,21 +46,30 @@ export default async function AdminDashboard() {
       </h1>
       <p className="font-mono text-[12px] text-navy/70 mb-12">{user?.email}</p>
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-        {RESOURCES.map((resource, i) => (
-          <AdminCard key={resource.href} className="group hover:border-coral transition-colors duration-150">
-            <EyebrowText className="mb-4">{resource.label}</EyebrowText>
-            <p className="font-serif text-[42px] font-bold text-navy leading-none mb-6">
-              {counts[i]}
-            </p>
-            <Link
-              href={resource.href}
-              className="font-mono text-[11px] tracking-widest uppercase text-coral group-hover:text-navy transition-colors"
-            >
-              Yönet →
-            </Link>
-          </AdminCard>
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {ADMIN_RESOURCES.map((resource, i) => {
+          const { total, visible } = counts[i]
+          return (
+            <AdminCard key={resource.href} className="group hover:border-coral transition-colors duration-150">
+              <EyebrowText className="mb-4">{resource.label}</EyebrowText>
+              <p className="font-serif text-[42px] font-bold text-navy leading-none mb-2">
+                {total}
+              </p>
+              {visible !== null && (
+                <p className="font-mono text-[11px] text-navy/60 mb-6">
+                  {visible} görünür
+                </p>
+              )}
+              {visible === null && <div className="mb-6" />}
+              <Link
+                href={resource.href}
+                className="font-mono text-[11px] tracking-widest uppercase text-coral group-hover:text-navy transition-colors"
+              >
+                Yönet →
+              </Link>
+            </AdminCard>
+          )
+        })}
       </div>
     </div>
   )

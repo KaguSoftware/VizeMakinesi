@@ -7,6 +7,7 @@ import {
   DndContext,
   closestCenter,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   type DragEndEvent,
@@ -18,7 +19,7 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { ConfirmDialog, useToast } from '@/components/admin/ui'
+import { ConfirmDialog, EmptyState, useToast } from '@/components/admin/ui'
 import { reorderTeamMembers, toggleTeamMemberVisible, deleteTeamMember } from './actions'
 import type { Database } from '@/lib/supabase/database.types'
 
@@ -42,7 +43,7 @@ function SortableCard({
       className={['border border-navy/10 bg-white flex flex-col', isDragging ? 'opacity-40' : ''].join(' ')}
     >
       <div className="flex items-center justify-between px-4 py-2 border-b border-navy/8">
-        <button type="button" {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none focus:outline-none">⠿</button>
+        <button type="button" {...attributes} {...listeners} aria-label="Sürükle" className="cursor-grab active:cursor-grabbing text-navy/55 hover:text-navy/80 select-none focus:outline-none touch-none p-1 -m-1">⠿</button>
         <button
           type="button"
           onClick={() => onToggleVisible(m.id, !m.visible)}
@@ -79,7 +80,10 @@ export default function AdminTeamGrid({ initial }: { initial: TeamMemberRow[] })
   const [, startTransition] = useTransition()
   const [confirmId, setConfirmId] = useState<string | null>(null)
   const { showToast } = useToast()
-  const sensors = useSensors(useSensor(PointerSensor))
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+  )
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
@@ -126,15 +130,11 @@ export default function AdminTeamGrid({ initial }: { initial: TeamMemberRow[] })
             ))}
           </div>
           {members.length === 0 && (
-            <div className="flex flex-col items-center gap-3 py-12">
-              <p className="font-mono text-[12px] text-navy/60 text-center">Henüz ekip üyesi eklenmedi</p>
-              <Link
-                href="/admin/team/new"
-                className="font-mono text-[11px] tracking-widest uppercase text-coral hover:text-navy transition-colors"
-              >
-                + İlk Üyeyi Ekle
-              </Link>
-            </div>
+            <EmptyState
+              title="Henüz ekip üyesi yok"
+              description="Hakkımızda sayfasında gösterilecek ekip üyelerini buradan ekleyin."
+              cta={{ href: '/admin/team/new', label: '+ İlk Üyeyi Ekle' }}
+            />
           )}
         </SortableContext>
       </DndContext>

@@ -3,6 +3,14 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/lib/auth/requireAdmin'
+import { AdminValidationError, reqString } from '@/lib/admin/validators'
+
+function reqUuid(field: string, value: unknown): string {
+  if (typeof value !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)) {
+    throw new AdminValidationError(field, `${field} geçersiz`)
+  }
+  return value
+}
 
 type SB = Awaited<ReturnType<typeof createClient>>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,8 +23,14 @@ function revalidate() {
   revalidatePath('/', 'layout')
 }
 
-export async function createCategory(name: string): Promise<{ id: string } | { error: string }> {
+export async function createCategory(rawName: string): Promise<{ id: string } | { error: string }> {
   await requireAdmin()
+  let name: string
+  try { name = reqString('Kategori adı', rawName, { max: 60 }) }
+  catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
   const supabase = await createClient()
 
   const { data: maxRaw } = await supabase
@@ -37,8 +51,17 @@ export async function createCategory(name: string): Promise<{ id: string } | { e
   return { id: data.id }
 }
 
-export async function updateCategory(id: string, name: string): Promise<{ error?: string }> {
+export async function updateCategory(rawId: string, rawName: string): Promise<{ error?: string }> {
   await requireAdmin()
+  let id: string
+  let name: string
+  try {
+    id = reqUuid('id', rawId)
+    name = reqString('Kategori adı', rawName, { max: 60 })
+  } catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
   const supabase = await createClient()
   const { error } = await tbl(supabase, 'mega_menu_categories').update({ name }).eq('id', id)
   if (error) return { error: error.message }
@@ -79,8 +102,17 @@ export async function toggleCategoryVisible(id: string, visible: boolean): Promi
   return {}
 }
 
-export async function createItem(categoryId: string, countryId: string): Promise<{ id: string } | { error: string }> {
+export async function createItem(rawCategoryId: string, rawCountryId: string): Promise<{ id: string } | { error: string }> {
   await requireAdmin()
+  let categoryId: string
+  let countryId: string
+  try {
+    categoryId = reqUuid('category_id', rawCategoryId)
+    countryId = reqUuid('country_id', rawCountryId)
+  } catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
   const supabase = await createClient()
 
   const { data: maxRaw } = await supabase
@@ -102,8 +134,17 @@ export async function createItem(categoryId: string, countryId: string): Promise
   return { id: data.id }
 }
 
-export async function updateItem(id: string, countryId: string): Promise<{ error?: string }> {
+export async function updateItem(rawId: string, rawCountryId: string): Promise<{ error?: string }> {
   await requireAdmin()
+  let id: string
+  let countryId: string
+  try {
+    id = reqUuid('id', rawId)
+    countryId = reqUuid('country_id', rawCountryId)
+  } catch (e) {
+    if (e instanceof AdminValidationError) return { error: e.message }
+    throw e
+  }
   const supabase = await createClient()
   const { error } = await tbl(supabase, 'mega_menu_items').update({ country_id: countryId }).eq('id', id)
   if (error) return { error: error.message }

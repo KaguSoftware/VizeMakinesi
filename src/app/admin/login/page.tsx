@@ -2,7 +2,9 @@
 
 import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { AdminButton, AdminInput } from '@/components/admin/ui'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -24,13 +26,11 @@ export default function AdminLoginPage() {
     })
 
     if (authError) {
-      // Surface a user-friendly Turkish message for the common "wrong password" case
       const friendly = /invalid login credentials/i.test(authError.message)
         ? 'E-posta veya şifre hatalı.'
         : authError.message
       setError(friendly)
       setLoading(false)
-      // Clear password and refocus so the user can retry without extra clicks
       setPassword('')
       passwordRef.current?.focus()
       return
@@ -59,7 +59,6 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-cream flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-        {/* Eyebrow */}
         <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-navy/40 mb-3">
           — Vize Makinesi
         </p>
@@ -69,56 +68,47 @@ export default function AdminLoginPage() {
         </h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          {/* Email */}
-          <div className="flex flex-col gap-2">
-            <label htmlFor="admin-email" className="font-mono text-[11px] tracking-[0.18em] uppercase text-navy/60">
-              — E-posta
-            </label>
-            <input
-              id="admin-email"
-              type="email"
-              inputMode="email"
-              required
-              autoFocus
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="border border-navy/20 bg-transparent px-4 py-3 font-mono text-[14px] text-navy placeholder:text-navy/30 focus:outline-none focus:border-navy transition-colors"
-              placeholder="ornek@domain.com"
-            />
-          </div>
+          <AdminInput
+            label="E-posta"
+            id="admin-email"
+            type="email"
+            inputMode="email"
+            required
+            autoFocus
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="ornek@domain.com"
+          />
 
-          {/* Password */}
-          <div className="flex flex-col gap-2">
-            <label htmlFor="admin-password" className="font-mono text-[11px] tracking-[0.18em] uppercase text-navy/60">
-              — Şifre
-            </label>
-            <input
-              id="admin-password"
-              ref={passwordRef}
-              type="password"
-              required
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="border border-navy/20 bg-transparent px-4 py-3 font-mono text-[14px] text-navy placeholder:text-navy/30 focus:outline-none focus:border-navy transition-colors"
-              placeholder="••••••••"
-            />
-          </div>
+          <AdminInput
+            label="Şifre"
+            id="admin-password"
+            ref={passwordRef}
+            type="password"
+            required
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+          />
 
-          {/* Error */}
           {error && (
-            <p role="alert" className="font-mono text-[12px] text-coral">{error}</p>
+            <p role="alert" className="font-mono text-[12px] text-red-600">{error}</p>
           )}
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="mt-2 bg-navy text-cream font-mono text-[12px] tracking-[0.18em] uppercase px-6 py-4 hover:bg-navy/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          <div className="mt-2">
+            <AdminButton type="submit" variant="primary" disabled={loading}>
+              {loading ? 'Giriş yapılıyor…' : 'Giriş Yap'}
+            </AdminButton>
+          </div>
+
+          <Link
+            href="/admin/forgot-password"
+            className="font-mono text-[11px] tracking-widest uppercase text-navy/60 hover:text-coral transition-colors self-start"
           >
-            {loading ? 'Giriş yapılıyor…' : 'Giriş Yap'}
-          </button>
+            Şifremi unuttum
+          </Link>
         </form>
       </div>
     </div>

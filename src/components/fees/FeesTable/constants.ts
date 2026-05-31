@@ -86,4 +86,4 @@ export const SERVICE_GROUPS = [
 ];
 
 export const FEES_FOOTNOTE =
-  '— Fiyat bilgisi için lütfen bizimle iletişime geçin. Devlet ve konsolosluk harçları hizmet bedeline dahil değildir; makbuzla ayrıca faturalanır.';
+  'Fiyat bilgisi için lütfen bizimle iletişime geçin.';

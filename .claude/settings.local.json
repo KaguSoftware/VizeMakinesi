@@ -35,7 +35,17 @@
       "Bash(xargs grep -l \"MosaicCard\\\\|mosaic\")",
       "Bash(xargs grep -l \"MosaicCard\")",
       "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\\\\src\\\\app\\\\admin\" -Recurse -Directory)",
-      "Bash(git stash *)"
+      "Bash(git stash *)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\" -Recurse -Filter \"*.tsx\" -o Name)",
+      "Bash(Select-Object -First 20)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\" -Force)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\MnS\\\\Kagu\\\\kagu\\\\VizeMakinesi\\\\src\" | Select-Object Name, @{N=\"Type\";E={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}})",
+      "Bash(npm ls *)",
+      "Read(//c/Users/MnS/Kagu/kagu/**)",
+      "Bash(config)",
+      "Bash(theme\")",
+      "Bash(grep -rn \"\\\\.join\\\\\\(\" /c/Users/MnS/Kagu\\\\kagu\\\\VizeMakinesi\\\\src --include=\"*.tsx\" 2>/dev/null)",
+      "Read(//c/Users/MnS/**)"
     ]
   }
 }

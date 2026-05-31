@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { writer } from '@/lib/supabase/writer'
 import { requireAdmin } from '@/lib/auth/requireAdmin'
 import type { CountryFormData } from './validation'
 import {
@@ -98,30 +99,23 @@ function revalidateAll() {
 
 type SB = Awaited<ReturnType<typeof createClient>>
 
-// Cast to any to work around Supabase TS narrowing to never[] on insert/update
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function tbl(supabase: SB, table: string): any {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (supabase as any).from(table)
-}
-
 async function upsertChildren(supabase: SB, countryId: string, data: CountryFormData) {
-  await tbl(supabase, 'country_requirements').delete().eq('country_id', countryId)
-  await tbl(supabase, 'country_handles').delete().eq('country_id', countryId)
-  await tbl(supabase, 'country_faqs').delete().eq('country_id', countryId)
+  await writer(supabase, 'country_requirements').delete().eq('country_id', countryId)
+  await writer(supabase, 'country_handles').delete().eq('country_id', countryId)
+  await writer(supabase, 'country_faqs').delete().eq('country_id', countryId)
 
   if (data.requirements.length > 0) {
-    await tbl(supabase, 'country_requirements').insert(
+    await writer(supabase, 'country_requirements').insert(
       data.requirements.map((r, i) => ({ country_id: countryId, text: r.text, sort_order: i }))
     )
   }
   if (data.handles.length > 0) {
-    await tbl(supabase, 'country_handles').insert(
+    await writer(supabase, 'country_handles').insert(
       data.handles.map((h, i) => ({ country_id: countryId, text: h.text, sort_order: i }))
     )
   }
   if (data.faqs.length > 0) {
-    await tbl(supabase, 'country_faqs').insert(
+    await writer(supabase, 'country_faqs').insert(
       data.faqs.map((f, i) => ({
         country_id: countryId,
         question: f.question,
@@ -168,8 +162,13 @@ export async function createCountry(rawData: CountryFormData): Promise<{ id: str
 
   // Atomic next-order helper avoids two concurrent createCountry() calls
   // assigning the same mosaic_order. See migration 0008.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const rpc = await (supabase as any).rpc('next_country_mosaic_order')
+  // The generated Database types don't include custom RPCs, so the rpc
+  // method is locally typed to the shape this function returns.
+  type NextOrderRpc = (name: 'next_country_mosaic_order') => Promise<{
+    data: number | null
+    error: { message: string } | null
+  }>
+  const rpc = await (supabase.rpc as unknown as NextOrderRpc)('next_country_mosaic_order')
   let nextOrder: number
   if (rpc.error || typeof rpc.data !== 'number') {
     // Fall back to the legacy read-then-write path if the RPC is missing
@@ -183,7 +182,7 @@ export async function createCountry(rawData: CountryFormData): Promise<{ id: str
     const maxRow = maxRowRaw as { mosaic_order: number | null } | null
     nextOrder = (maxRow?.mosaic_order ?? 0) + 1
   } else {
-    nextOrder = rpc.data as number
+    nextOrder = rpc.data
   }
 
   const payload = {
@@ -204,9 +203,21 @@ export async function createCountry(rawData: CountryFormData): Promise<{ id: str
     ...buildTourismPayload(data),
   }
 
-  const { data: country, error } = await tbl(supabase, 'countries').insert(payload).select('id').single()
-
-  if (error || !country) return { error: error?.message ?? 'Oluşturma başarısız' }
+  // writer() avoids the Supabase-v2 `never` narrowing on insert payloads.
+  // We can't chain .select().single() through the narrowed type, so we
+  // run the insert then look up the new row by slug (slug is unique).
+  const insertErr = (await writer(supabase, 'countries').insert(payload)).error
+  if (insertErr) return { error: insertErr.message }
+  // Look up the freshly-inserted row by its unique slug. Result is cast
+  // because Supabase v2's typed builder narrows .single() to never here
+  // (same GenericSchema issue documented in lib/supabase/writer.ts).
+  const { data: countryRaw } = await supabase
+    .from('countries')
+    .select('id')
+    .eq('slug', data.slug)
+    .single()
+  const country = countryRaw as { id: string } | null
+  if (!country) return { error: 'Oluşturma başarısız' }
 
   await upsertChildren(supabase, country.id, data)
   revalidateAll()
@@ -233,7 +244,7 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
     .select('slug')
     .eq('id', id)
     .maybeSingle()
-  const previousSlug = (existing as { slug?: string } | null)?.slug
+  const previousSlug = (existing as { slug: string } | null)?.slug
 
   const payload = {
     name: data.name,
@@ -252,7 +263,7 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
     ...buildTourismPayload(data),
   }
 
-  const { error } = await tbl(supabase, 'countries').update(payload).eq('id', id)
+  const { error } = await writer(supabase, 'countries').update(payload).eq('id', id)
   if (error) return { error: error.message }
 
   await upsertChildren(supabase, id, data)
@@ -281,7 +292,7 @@ export async function deleteCountry(id: string): Promise<{ error?: string }> {
   const { error } = await supabase.from('countries').delete().eq('id', id)
   if (error) return { error: error.message }
 
-  const e = existing as { flag_image_url?: string | null; tourism_hero_image_url?: string | null } | null
+  const e = existing as { flag_image_url: string | null; tourism_hero_image_url: string | null } | null
   if (e) {
     await removeStorageObjects([e.flag_image_url, e.tourism_hero_image_url])
   }
@@ -295,10 +306,10 @@ export async function reorderCountries(orderedIds: string[]): Promise<{ error?: 
   const supabase = await createClient()
   const results = await Promise.all(
     orderedIds.map((id, i) =>
-      tbl(supabase, 'countries').update({ mosaic_order: i }).eq('id', id)
+      writer(supabase, 'countries').update({ mosaic_order: i }).eq('id', id)
     )
   )
-  const firstError = results.find((r: { error?: { message: string } | null }) => r.error)?.error
+  const firstError = results.find((r) => r.error)?.error
   if (firstError) return { error: firstError.message }
   revalidateAll()
   return {}
@@ -307,7 +318,7 @@ export async function reorderCountries(orderedIds: string[]): Promise<{ error?: 
 export async function toggleCountryVisible(id: string, visible: boolean): Promise<{ error?: string }> {
   await requireAdmin()
   const supabase = await createClient()
-  const { error } = await tbl(supabase, 'countries').update({ mosaic_visible: visible }).eq('id', id)
+  const { error } = await writer(supabase, 'countries').update({ mosaic_visible: visible }).eq('id', id)
   if (error) return { error: error.message }
   revalidateAll()
   return {}
@@ -316,7 +327,7 @@ export async function toggleCountryVisible(id: string, visible: boolean): Promis
 export async function toggleDanismaVisible(id: string, visible: boolean): Promise<{ error?: string }> {
   await requireAdmin()
   const supabase = await createClient()
-  const { error } = await tbl(supabase, 'countries').update({ danisma_visible: visible }).eq('id', id)
+  const { error } = await writer(supabase, 'countries').update({ danisma_visible: visible }).eq('id', id)
   if (error) return { error: error.message }
   revalidatePath('/danisma-al')
   return {}

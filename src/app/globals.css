@@ -121,7 +121,6 @@ a, button, [role="button"], input, select, textarea, label {
 .nav-sticky {
   transform: translateZ(0);
   will-change: transform;
-  contain: paint;
   isolation: isolate;
 }
 

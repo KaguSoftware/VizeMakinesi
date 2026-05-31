@@ -2,18 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import FlagBG from '@/components/shared/FlagBG/FlagBG'
 import { useDirtyFromSnapshot, useDirtyGuard, useUnsavedChanges } from '@/lib/hooks/useUnsavedChanges'
 import {
   AdminButton,
   AdminInput,
   AdminTextarea,
-  AdminSelect,
-  AdminLabel,
   RepeatableList,
-  ImageUploader,
   useToast,
-  type RepeatableItem,
 } from '@/components/admin/ui'
 import {
   createCountry,
@@ -26,80 +21,20 @@ import {
   type ValidationError,
 } from './validation'
 import type { CountryWithRelations } from '@/lib/data/countries'
-
-// ── Constants ─────────────────────────────────────────────────────────────────
-
-const PRESET_KEYS = [
-  { key: 'uk', label: 'İngiltere' },
-  { key: 'germany', label: 'Almanya' },
-  { key: 'france', label: 'Fransa' },
-  { key: 'italy', label: 'İtalya' },
-  { key: 'netherlands', label: 'Hollanda' },
-  { key: 'usa', label: 'ABD' },
-  { key: 'canada', label: 'Kanada' },
-  { key: 'australia', label: 'Avustralya' },
-  { key: 'uae', label: 'BAE' },
-  { key: 'china', label: 'Çin' },
-  { key: 'schengen', label: 'Schengen' },
-  { key: 'ireland', label: 'İrlanda' },
-]
-
-const MOSAIC_SPANS = [
-  { value: 'col-span-12 md:col-span-3', label: 'Dar (3)' },
-  { value: 'col-span-12 md:col-span-4', label: 'Orta (4)' },
-  { value: 'col-span-12 md:col-span-5', label: 'Geniş (5)' },
-  { value: 'col-span-12 md:col-span-7', label: 'Tam (7)' },
-]
-
-// ── Item types for RepeatableList ────────────────────────────────────────────
-
-interface TextItem extends RepeatableItem { text: string }
-interface FaqItem extends RepeatableItem { question: string; answer: string }
-
-function mkText(text = ''): TextItem { return { id: crypto.randomUUID(), text } }
-function mkFaq(question = '', answer = ''): FaqItem { return { id: crypto.randomUUID(), question, answer } }
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
-
-function slugify(s: string) {
-  return s
-    .toLowerCase()
-    .normalize('NFD')
-    // U+0300..U+036F is the "Combining Diacritical Marks" Unicode block.
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-}
-
-const FORM_SECTIONS = [
-  { id: 'temel', label: 'Temel Bilgiler' },
-  { id: 'bayrak', label: 'Bayrak' },
-  { id: 'mozaik', label: 'Ana Sayfa Mozaik' },
-  { id: 'belgeler', label: 'Gerekli Belgeler' },
-  { id: 'ustlenilen', label: 'Ofisin Üstlendiği' },
-  { id: 'sss', label: 'SSS' },
-  { id: 'turizm', label: 'Turizm İçeriği' },
-] as const
-
-function Divider({ id, label }: { id?: string; label: string }) {
-  return (
-    <h2
-      id={id}
-      className="mt-12 mb-4 font-mono text-xs tracking-widest uppercase text-navy scroll-mt-24"
-    >
-      {label}
-    </h2>
-  )
-}
-
-function FieldError({ errors, field }: { errors: ValidationError[]; field: string }) {
-  const e = errors.find((e) => e.field === field)
-  if (!e) return null
-  return <p className="font-mono text-[11px] text-red-500 mt-1">{e.message}</p>
-}
-
-// ── Main component ────────────────────────────────────────────────────────────
+import {
+  Divider,
+  FORM_SECTIONS,
+  MOSAIC_SPANS,
+  mkFaq,
+  mkText,
+  slugify,
+  type FaqItem,
+  type TextItem,
+} from './sections/shared'
+import TemelSection from './sections/TemelSection'
+import FlagSection from './sections/FlagSection'
+import MosaicSection from './sections/MosaicSection'
+import TourismSection from './sections/TourismSection'
 
 interface CountryFormProps {
   country?: CountryWithRelations
@@ -172,7 +107,6 @@ export default function CountryForm({ country }: CountryFormProps) {
   const [submitted, setSubmitted] = useState(false)
 
   // Derive dirty from a snapshot of the tracked data fields at mount.
-  // Pure render-time computation, no effect needed.
   const dirty = useDirtyFromSnapshot({
     name, slug, flagEmoji, visaType, summary,
     flagType, flagPresetKey, flagImageUrl,
@@ -205,14 +139,10 @@ export default function CountryForm({ country }: CountryFormProps) {
     if (confirmDiscard()) router.push('/admin/countries')
   }
 
-  // ── Slug auto-generate ─────────────────────────────────────────────────────
-
   function handleNameChange(val: string) {
     setName(val)
     // Auto-sync slug only while the user hasn't manually edited it.
-    if (!slugTouched) {
-      setSlug(slugify(val))
-    }
+    if (!slugTouched) setSlug(slugify(val))
   }
 
   function handleSlugChange(val: string) {
@@ -230,8 +160,6 @@ export default function CountryForm({ country }: CountryFormProps) {
       setSlugChecking(false)
     }
   }
-
-  // ── Submit ─────────────────────────────────────────────────────────────────
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -300,8 +228,6 @@ export default function CountryForm({ country }: CountryFormProps) {
     }
   }
 
-  // ── Render ─────────────────────────────────────────────────────────────────
-
   return (
     <div className="lg:flex lg:gap-12 lg:items-start">
       {/* Section jump-nav (desktop only). Sticky so it follows the user. */}
@@ -323,385 +249,153 @@ export default function CountryForm({ country }: CountryFormProps) {
         ))}
       </nav>
 
-      <form
-        ref={formRef}
-        onSubmit={handleSubmit}
-        className="flex-1 min-w-0 max-w-3xl"
-      >
+      <form ref={formRef} onSubmit={handleSubmit} className="flex-1 min-w-0 max-w-3xl">
+        <TemelSection
+          name={name}
+          slug={slug}
+          flagEmoji={flagEmoji}
+          visaType={visaType}
+          summary={summary}
+          appointmentDays={appointmentDays}
+          slugError={slugError}
+          slugChecking={slugChecking}
+          errors={errors}
+          onNameChange={handleNameChange}
+          onSlugChange={handleSlugChange}
+          onSlugBlur={handleSlugBlur}
+          onFlagEmojiChange={setFlagEmoji}
+          onVisaTypeChange={setVisaType}
+          onSummaryChange={setSummary}
+          onAppointmentDaysChange={setAppointmentDays}
+        />
 
-      {/* ── 01 Temel Bilgiler ─────────────────────────────────────────────── */}
-      <Divider id="temel" label="Temel Bilgiler" />
+        <FlagSection
+          flagType={flagType}
+          flagPresetKey={flagPresetKey}
+          flagImageUrl={flagImageUrl}
+          errors={errors}
+          onFlagTypeChange={setFlagType}
+          onFlagPresetKeyChange={setFlagPresetKey}
+          onFlagImageUrlChange={setFlagImageUrl}
+        />
 
-      <div className="flex flex-col gap-6">
-        <div>
-          <AdminInput
-            label="Ad"
-            value={name}
-            onChange={(e) => handleNameChange(e.target.value)}
-          />
-          <FieldError errors={errors} field="name" />
-        </div>
+        <MosaicSection
+          mosaicVisible={mosaicVisible}
+          danismaVisible={danismaVisible}
+          mosaicSpan={mosaicSpan}
+          onMosaicVisibleChange={setMosaicVisible}
+          onDanismaVisibleChange={setDanismaVisible}
+          onMosaicSpanChange={setMosaicSpan}
+        />
 
-        <div>
-          <AdminInput
-            label="Slug"
-            value={slug}
-            onChange={(e) => handleSlugChange(e.target.value)}
-            onBlur={handleSlugBlur}
-          />
-          {slugChecking && (
-            <p className="font-mono text-[11px] text-navy/60 mt-1">Slug kontrol ediliyor…</p>
-          )}
-          {!slugChecking && (slugError
-            ? <p className="font-mono text-[11px] text-red-500 mt-1">{slugError}</p>
-            : <FieldError errors={errors} field="slug" />
-          )}
-        </div>
-
-        <div>
-          <AdminInput
-            label="Bayrak Emoji"
-            value={flagEmoji}
-            onChange={(e) => setFlagEmoji(e.target.value)}
-            placeholder="🇹🇷"
-          />
-          <FieldError errors={errors} field="flag_emoji" />
-        </div>
-
-        <div>
-          <AdminInput
-            label="Vize Türü"
-            value={visaType}
-            onChange={(e) => setVisaType(e.target.value)}
-            placeholder="Örn: Schengen Vizesi"
-          />
-          <FieldError errors={errors} field="visa_type" />
-        </div>
-
-        <div>
-          <AdminTextarea
-            label="Özet"
-            value={summary}
-            onChange={(e) => setSummary(e.target.value)}
-            rows={3}
-          />
-          <FieldError errors={errors} field="summary" />
-        </div>
-
-        <div>
-          <AdminInput
-            label="Tahmini Randevu Süresi"
-            value={appointmentDays}
-            onChange={(e) => setAppointmentDays(e.target.value)}
-            placeholder="Örn: 2-3 hafta"
-          />
-          <p className="mt-1 font-mono text-[11px] text-navy/70">
-            Boş bırakılırsa ilgili bölüm gösterilmez.
-          </p>
-        </div>
-      </div>
-
-      {/* ── 02 Bayrak ─────────────────────────────────────────────────────── */}
-      <Divider id="bayrak" label="Bayrak" />
-
-      <div className="flex flex-col gap-5">
-        <div className="flex gap-6">
-          {(['preset', 'image'] as const).map((t) => (
-            <label key={t} className="flex items-center gap-2 cursor-pointer font-mono text-[11px] tracking-widest uppercase text-navy/85">
-              <input
-                type="radio"
-                value={t}
-                checked={flagType === t}
-                onChange={() => setFlagType(t)}
-                className="accent-coral"
-              />
-              {t === 'preset' ? 'Hazır SVG' : 'Görsel Yükle'}
-            </label>
-          ))}
-        </div>
-
-        {flagType === 'preset' && (
-          <div>
-            <AdminSelect
-              label="Hazır Bayrak"
-              value={flagPresetKey}
-              onChange={(e) => setFlagPresetKey(e.target.value)}
-            >
-              <option value="">Seçin…</option>
-              {PRESET_KEYS.map(({ key, label }) => (
-                <option key={key} value={key}>{label}</option>
-              ))}
-            </AdminSelect>
-            {flagPresetKey && (
-              <div className="mt-3 w-20 h-12 relative overflow-hidden rounded-sm border border-navy/40">
-                <FlagBG presetKey={flagPresetKey} className="absolute inset-0 w-full h-full" />
-              </div>
-            )}
-            <FieldError errors={errors} field="flag_preset_key" />
-          </div>
-        )}
-
-        {flagType === 'image' && (
-          <div className="flex flex-col gap-3">
-            <AdminLabel>Bayrak Görseli</AdminLabel>
-            <ImageUploader
-              bucket="country-flags"
-              value={flagImageUrl}
-              onChange={setFlagImageUrl}
-              label="Bayrak"
-              previewClassName="w-20 h-12"
-            />
-            <FieldError errors={errors} field="flag_image_url" />
-          </div>
-        )}
-      </div>
-
-      {/* ── 03 Mozaik ─────────────────────────────────────────────────────── */}
-      <Divider id="mozaik" label="Ana Sayfa Mozaik" />
-
-      <div className="flex flex-col gap-5">
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={mosaicVisible}
-            onChange={(e) => setMosaicVisible(e.target.checked)}
-            className="accent-coral w-4 h-4"
-          />
-          <span className="font-mono text-[11px] tracking-widest uppercase text-navy/85">
-            Ana sayfada görünür
-          </span>
-        </label>
-
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={danismaVisible}
-            onChange={(e) => setDanismaVisible(e.target.checked)}
-            className="accent-coral w-4 h-4"
-          />
-          <span className="font-mono text-[11px] tracking-widest uppercase text-navy/85">
-            Danışma formunda görünür
-          </span>
-        </label>
-
-        <AdminSelect
-          label="Genişlik"
-          value={mosaicSpan}
-          onChange={(e) => setMosaicSpan(e.target.value)}
-        >
-          {MOSAIC_SPANS.map(({ value, label }) => (
-            <option key={value} value={value}>{label}</option>
-          ))}
-        </AdminSelect>
-      </div>
-
-      {/* ── 04 Gerekli Belgeler ───────────────────────────────────────────── */}
-      <Divider id="belgeler" label="Gerekli Belgeler" />
-
-      <RepeatableList<TextItem>
-        items={requirements}
-        onChange={setRequirements}
-        onAdd={() => setRequirements((prev) => [...prev, mkText()])}
-        addLabel="Yeni Belge Ekle"
-        emptyText="Henüz belge eklenmedi"
-        renderItem={(item, index) => (
-          <AdminInput
-            label={`Belge ${index + 1}`}
-            value={item.text}
-            onChange={(e) => setRequirements((prev) =>
-              prev.map((r) => r.id === item.id ? { ...r, text: e.target.value } : r)
-            )}
-          />
-        )}
-      />
-
-      {/* ── 05 Ofisimizin Üstlendiği ─────────────────────────────────────── */}
-      <Divider id="ustlenilen" label="Ofisimizin Üstlendiği" />
-
-      <RepeatableList<TextItem>
-        items={handles}
-        onChange={setHandles}
-        onAdd={() => setHandles((prev) => [...prev, mkText()])}
-        addLabel="Yeni Madde Ekle"
-        emptyText="Henüz madde eklenmedi"
-        renderItem={(item, index) => (
-          <AdminInput
-            label={`Madde ${index + 1}`}
-            value={item.text}
-            onChange={(e) => setHandles((prev) =>
-              prev.map((h) => h.id === item.id ? { ...h, text: e.target.value } : h)
-            )}
-          />
-        )}
-      />
-
-      {/* ── 06 SSS ───────────────────────────────────────────────────────── */}
-      <Divider id="sss" label="Sık Sorulan Sorular" />
-
-      <RepeatableList<FaqItem>
-        items={faqs}
-        onChange={setFaqs}
-        onAdd={() => setFaqs((prev) => [...prev, mkFaq()])}
-        addLabel="Yeni Soru Ekle"
-        emptyText="Henüz soru eklenmedi"
-        renderItem={(item) => (
-          <div className="flex flex-col gap-3">
+        <Divider id="belgeler" label="Gerekli Belgeler" />
+        <RepeatableList<TextItem>
+          items={requirements}
+          onChange={setRequirements}
+          onAdd={() => setRequirements((prev) => [...prev, mkText()])}
+          addLabel="Yeni Belge Ekle"
+          emptyText="Henüz belge eklenmedi"
+          renderItem={(item, index) => (
             <AdminInput
-              label="Soru"
-              value={item.question}
-              onChange={(e) => setFaqs((prev) =>
-                prev.map((f) => f.id === item.id ? { ...f, question: e.target.value } : f)
+              label={`Belge ${index + 1}`}
+              value={item.text}
+              onChange={(e) => setRequirements((prev) =>
+                prev.map((r) => r.id === item.id ? { ...r, text: e.target.value } : r)
               )}
             />
-            <AdminTextarea
-              label="Cevap"
-              value={item.answer}
-              onChange={(e) => setFaqs((prev) =>
-                prev.map((f) => f.id === item.id ? { ...f, answer: e.target.value } : f)
+          )}
+        />
+
+        <Divider id="ustlenilen" label="Ofisimizin Üstlendiği" />
+        <RepeatableList<TextItem>
+          items={handles}
+          onChange={setHandles}
+          onAdd={() => setHandles((prev) => [...prev, mkText()])}
+          addLabel="Yeni Madde Ekle"
+          emptyText="Henüz madde eklenmedi"
+          renderItem={(item, index) => (
+            <AdminInput
+              label={`Madde ${index + 1}`}
+              value={item.text}
+              onChange={(e) => setHandles((prev) =>
+                prev.map((h) => h.id === item.id ? { ...h, text: e.target.value } : h)
               )}
-              rows={2}
             />
-          </div>
-        )}
-      />
+          )}
+        />
 
-      {/* ── 07 Turizm ────────────────────────────────────────────────────── */}
-      <Divider id="turizm" label="Turizm İçeriği" />
-
-      <div className="flex flex-col gap-6">
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={hasTourism}
-            onChange={(e) => setHasTourism(e.target.checked)}
-            className="accent-coral w-4 h-4"
-          />
-          <span className="font-mono text-[11px] tracking-widest uppercase text-navy/85">
-            Blog / Turizm sayfası aktif
-          </span>
-        </label>
-
-        {hasTourism && (
-          <div className="flex flex-col gap-8">
-            {/* Hero image */}
+        <Divider id="sss" label="Sık Sorulan Sorular" />
+        <RepeatableList<FaqItem>
+          items={faqs}
+          onChange={setFaqs}
+          onAdd={() => setFaqs((prev) => [...prev, mkFaq()])}
+          addLabel="Yeni Soru Ekle"
+          emptyText="Henüz soru eklenmedi"
+          renderItem={(item) => (
             <div className="flex flex-col gap-3">
-              <AdminLabel>Kapak Görseli</AdminLabel>
-              <ImageUploader
-                bucket="country-tourism"
-                value={tourismHeroUrl}
-                onChange={setTourismHeroUrl}
-                label="Kapak Görseli"
-                previewClassName="w-48 h-28"
-              />
-            </div>
-
-            {/* Intro paragraphs */}
-            <div>
-              <AdminLabel className="mb-3 block">Giriş Paragrafları</AdminLabel>
-              <RepeatableList<TextItem>
-                items={tourismIntro}
-                onChange={setTourismIntro}
-                onAdd={() => setTourismIntro((prev) => [...prev, mkText()])}
-                addLabel="Paragraf Ekle"
-                emptyText="Henüz paragraf eklenmedi"
-                renderItem={(item, index) => (
-                  <AdminTextarea
-                    label={`Paragraf ${index + 1}`}
-                    value={item.text}
-                    onChange={(e) => setTourismIntro((prev) =>
-                      prev.map((t) => t.id === item.id ? { ...t, text: e.target.value } : t)
-                    )}
-                    rows={2}
-                  />
+              <AdminInput
+                label="Soru"
+                value={item.question}
+                onChange={(e) => setFaqs((prev) =>
+                  prev.map((f) => f.id === item.id ? { ...f, question: e.target.value } : f)
                 )}
               />
-              <FieldError errors={errors} field="tourism_intro" />
-            </div>
-
-            {/* Highlights */}
-            <div>
-              <AdminLabel className="mb-3 block">Öne Çıkanlar</AdminLabel>
-              <RepeatableList<TextItem>
-                items={tourismHighlights}
-                onChange={setTourismHighlights}
-                onAdd={() => setTourismHighlights((prev) => [...prev, mkText()])}
-                addLabel="Öne Çıkan Ekle"
-                emptyText="Henüz öğe eklenmedi"
-                renderItem={(item, index) => (
-                  <AdminInput
-                    label={`Öne Çıkan ${index + 1}`}
-                    value={item.text}
-                    onChange={(e) => setTourismHighlights((prev) =>
-                      prev.map((t) => t.id === item.id ? { ...t, text: e.target.value } : t)
-                    )}
-                  />
+              <AdminTextarea
+                label="Cevap"
+                value={item.answer}
+                onChange={(e) => setFaqs((prev) =>
+                  prev.map((f) => f.id === item.id ? { ...f, answer: e.target.value } : f)
                 )}
+                rows={2}
               />
-              <FieldError errors={errors} field="tourism_highlights" />
             </div>
+          )}
+        />
 
-            {/* Tips */}
-            <div>
-              <AdminLabel className="mb-3 block">İpuçları</AdminLabel>
-              <RepeatableList<TextItem>
-                items={tourismTips}
-                onChange={setTourismTips}
-                onAdd={() => setTourismTips((prev) => [...prev, mkText()])}
-                addLabel="İpucu Ekle"
-                emptyText="Henüz ipucu eklenmedi"
-                renderItem={(item, index) => (
-                  <AdminInput
-                    label={`İpucu ${index + 1}`}
-                    value={item.text}
-                    onChange={(e) => setTourismTips((prev) =>
-                      prev.map((t) => t.id === item.id ? { ...t, text: e.target.value } : t)
-                    )}
-                  />
-                )}
-              />
-              <FieldError errors={errors} field="tourism_tips" />
-            </div>
+        <TourismSection
+          hasTourism={hasTourism}
+          tourismHeroUrl={tourismHeroUrl}
+          tourismIntro={tourismIntro}
+          tourismHighlights={tourismHighlights}
+          tourismTips={tourismTips}
+          tourismBestTime={tourismBestTime}
+          errors={errors}
+          onHasTourismChange={setHasTourism}
+          onTourismHeroUrlChange={setTourismHeroUrl}
+          onTourismIntroChange={setTourismIntro}
+          onTourismHighlightsChange={setTourismHighlights}
+          onTourismTipsChange={setTourismTips}
+          onTourismBestTimeChange={setTourismBestTime}
+        />
 
-            {/* Best time */}
-            <AdminInput
-              label="En İyi Ziyaret Zamanı"
-              value={tourismBestTime}
-              onChange={(e) => setTourismBestTime(e.target.value)}
-              placeholder="Örn: Nisan – Ekim"
-            />
+        {/* Actions */}
+        <div className="mt-12 pt-8 border-t border-navy/30 flex items-center gap-4">
+          <AdminButton type="submit" variant="primary" disabled={saving}>
+            {saving ? 'Kaydediliyor…' : isEdit ? 'Kaydet' : 'Oluştur'}
+          </AdminButton>
+          <AdminButton
+            type="button"
+            variant="secondary"
+            onClick={handleCancel}
+            disabled={saving}
+          >
+            İptal
+          </AdminButton>
+          {saveError && (
+            <p className="font-mono text-[11px] text-red-500">{saveError}</p>
+          )}
+        </div>
+
+        {errors.length > 0 && (
+          <div className="mt-4 p-4 border border-red-400/40 bg-red-50 flex flex-col gap-1">
+            <p className="font-mono text-[11px] text-red-600 font-semibold mb-1">
+              {errors.length} hata düzeltilmeli:
+            </p>
+            {errors.map((e, i) => (
+              <p key={i} className="font-mono text-[11px] text-red-600">• {e.message}</p>
+            ))}
           </div>
         )}
-      </div>
-
-      {/* ── Actions ───────────────────────────────────────────────────────── */}
-      <div className="mt-12 pt-8 border-t border-navy/30 flex items-center gap-4">
-        <AdminButton type="submit" variant="primary" disabled={saving}>
-          {saving ? 'Kaydediliyor…' : isEdit ? 'Kaydet' : 'Oluştur'}
-        </AdminButton>
-        <AdminButton
-          type="button"
-          variant="secondary"
-          onClick={handleCancel}
-          disabled={saving}
-        >
-          İptal
-        </AdminButton>
-        {saveError && (
-          <p className="font-mono text-[11px] text-red-500">{saveError}</p>
-        )}
-      </div>
-
-      {/* Inline validation summary */}
-      {errors.length > 0 && (
-        <div className="mt-4 p-4 border border-red-400/40 bg-red-50 flex flex-col gap-1">
-          <p className="font-mono text-[11px] text-red-600 font-semibold mb-1">
-            {errors.length} hata düzeltilmeli:
-          </p>
-          {errors.map((e, i) => (
-            <p key={i} className="font-mono text-[11px] text-red-600">• {e.message}</p>
-          ))}
-        </div>
-      )}
       </form>
     </div>
   )

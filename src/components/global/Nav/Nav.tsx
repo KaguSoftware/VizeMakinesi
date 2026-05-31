@@ -1,135 +1,14 @@
 "use client";
 import Image from "next/image";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { MOBILE_LINKS, STATIC_MEGA_MENU } from "./constants";
-import { SITE } from "@/data/site";
-import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { STATIC_MEGA_MENU } from "./constants";
+import { motion } from "framer-motion";
 import type { MegaMenuGroup } from "./types";
 import type { MegaMenuCategory } from "@/lib/data/megaMenu";
-
-interface CountryResult { name: string; slug: string; flag_emoji: string | null; }
-
-function NavSearch() {
-    const [expanded, setExpanded] = useState(false);
-    const [query, setQuery] = useState('');
-    const [results, setResults] = useState<CountryResult[]>([]);
-    const [activeIndex, setActiveIndex] = useState(-1);
-    const inputRef = useRef<HTMLInputElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
-    const router = useRouter();
-
-    useEffect(() => {
-        if (expanded) inputRef.current?.focus();
-    }, [expanded]);
-
-    const collapse = useCallback(() => {
-        setExpanded(false);
-        setQuery('');
-        setResults([]);
-        setActiveIndex(-1);
-    }, []);
-
-    useEffect(() => {
-        const q = query.trim();
-        if (!q) return;
-        const controller = new AbortController();
-        const debounceTimer = setTimeout(() => {
-            // Abort the request itself if it hangs past 8s (slow 3G safety net).
-            const requestTimeout = setTimeout(() => controller.abort(), 8000);
-            fetch(`/api/countries/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
-                .then((r) => r.json())
-                .then((data) => { setResults(data); setActiveIndex(-1); })
-                .catch((e) => { if (e.name !== 'AbortError') console.error(e); })
-                .finally(() => clearTimeout(requestTimeout));
-        }, 200);
-        return () => { clearTimeout(debounceTimer); controller.abort(); };
-    }, [query]);
-
-    useEffect(() => {
-        const handleClick = (e: MouseEvent) => {
-            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-                collapse();
-            }
-        };
-        document.addEventListener('mousedown', handleClick);
-        return () => document.removeEventListener('mousedown', handleClick);
-    }, [collapse]);
-
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex((i) => Math.min(i + 1, results.length - 1)); }
-        else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex((i) => Math.max(i - 1, -1)); }
-        else if (e.key === 'Enter') {
-            const target = activeIndex >= 0 ? results[activeIndex] : results[0];
-            if (target) { router.push(`/vize/${target.slug}`); collapse(); }
-        }
-        else if (e.key === 'Escape') collapse();
-    };
-
-    return (
-        <div ref={containerRef} className="relative flex items-center">
-            <button
-                onClick={() => setExpanded((v) => !v)}
-                aria-label="Ülke ara"
-                className={`p-2 rounded transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral ${expanded ? 'text-coral' : 'text-white/70 hover:text-white'}`}
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-                </svg>
-            </button>
-
-            <AnimatePresence>
-                {expanded && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -8 }}
-                        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                        className="absolute right-0 top-[calc(100%+16px)] w-[min(20rem,calc(100vw-2rem))] z-50"
-                    >
-                        <div className="flex items-center bg-white border border-coral/40 rounded-2xl overflow-hidden focus-within:border-coral transition-colors">
-                            <svg className="ml-3 shrink-0 text-navy/40" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-                            </svg>
-                            <input
-                                ref={inputRef}
-                                type="text"
-                                value={query}
-                                onChange={(e) => {
-                                    const v = e.target.value;
-                                    setQuery(v);
-                                    if (!v.trim()) setResults([]);
-                                }}
-                                onKeyDown={handleKeyDown}
-                                placeholder="✈️ Yolculuk Nereye !?"
-                                autoComplete="off"
-                                className="flex-1 bg-transparent px-3 py-3 font-sans text-[16px] sm:text-[14px] text-navy placeholder:text-navy/50 focus:outline-none"
-                            />
-                        </div>
-
-                        {results.length > 0 && (
-                            <ul className="mt-1 bg-white border border-coral/40 rounded-2xl overflow-hidden">
-                                {results.map((c, i) => (
-                                    <li key={c.slug}>
-                                        <Link
-                                            href={`/vize/${c.slug}`}
-                                            onClick={() => collapse()}
-                                            className={`flex items-center gap-3 px-4 py-2.5 font-sans text-[13px] text-navy border-b border-coral/10 last:border-0 hover:text-coral transition-colors ${i === activeIndex ? 'text-coral' : ''}`}
-                                        >
-                                            <span className="text-[16px]">{c.flag_emoji ?? '🌍'}</span>
-                                            {c.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
-    );
-}
+import NavSearch from "./NavSearch";
+import MobileMenuOverlay from "./MobileMenuOverlay";
 
 interface NavProps {
     dbCategories: MegaMenuCategory[];
@@ -188,7 +67,6 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
     const [openSince, setOpenSince] = useState<string | null>(null);
     const [activeMegaSince, setActiveMegaSince] = useState<[number, string] | null>(null);
     const [navHeight, setNavHeight] = useState(0);
-    const [expandedMobileGroups, setExpandedMobileGroups] = useState<Set<number>>(new Set());
     const pathname = usePathname();
     const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const headerRef = useRef<HTMLElement>(null);
@@ -298,6 +176,24 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                                         aria-haspopup="true"
                                         aria-expanded={activeMega === i}
                                         className={`font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${activeMega === i || pathname.startsWith('/vizeler')
+                                            ? "text-coral"
+                                            : "text-white hover:text-coral"
+                                            }`}
+                                    >
+                                        {group.label}
+                                        <span
+                                            aria-hidden="true"
+                                            className={`text-sm opacity-50 transition-transform duration-200 ${activeMega === i ? "rotate-180" : ""}`}
+                                        >
+                                            ↓
+                                        </span>
+                                    </Link>
+                                ) : group.label === 'Ofis' ? (
+                                    <Link
+                                        href="/ofis"
+                                        aria-haspopup="true"
+                                        aria-expanded={activeMega === i}
+                                        className={`font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${activeMega === i || pathname.startsWith('/ofis')
                                             ? "text-coral"
                                             : "text-white hover:text-coral"
                                             }`}
@@ -492,115 +388,13 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
 
             </header>
 
-            {/* Mobile overlay */}
-            <AnimatePresence>
-                {open && (
-                    <motion.div
-                        key="mobile-overlay"
-                        initial={{ x: "100%" }}
-                        animate={{ x: 0 }}
-                        exit={{ x: "100%" }}
-                        transition={{ type: "tween", duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
-                        style={{ top: navHeight, willChange: "transform", paddingBottom: "max(2rem, env(safe-area-inset-bottom))" }}
-                        className="fixed inset-x-0 bottom-0 bg-paper z-100 px-7 pt-8 flex flex-col overflow-y-auto"
-                    >
-                        <nav aria-label="Mobil navigasyon" className="flex flex-col flex-1">
-                            {MOBILE_LINKS.map((l, i) => (
-                                <motion.div
-                                    key={l.to}
-                                    initial={{ opacity: 0, x: 16 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.08 + i * 0.025, duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-                                >
-                                    <Link
-                                        href={l.to}
-                                        onClick={() => setOpenSince(null)}
-                                        className={`font-serif text-[32px] font-semibold py-4 border-b border-border flex justify-between items-center active:bg-coral/5 -mx-7 px-7 transition-colors focus-visible:outline-none focus-visible:bg-coral/10 ${pathname === l.to ? "text-coral" : "text-navy"}`}
-                                    >
-                                        {l.label}
-                                        <span aria-hidden="true" className="text-[22px] text-muted/60">→</span>
-                                    </Link>
-                                </motion.div>
-                            ))}
-
-                            {/* Collapsible mega-menu groups — exposes country & sub-pages
-                                that the desktop hover-menu shows, unreachable on mobile otherwise. */}
-                            {megaMenu.map((group, gi) => {
-                                const subLinks: { to: string; label: string; flag?: string }[] = [];
-                                for (const col of group.columns) {
-                                    if (col.kind === "feature") continue;
-                                    if (col.kind === "region-group") {
-                                        col.regions!.forEach((r) => subLinks.push({ to: r.to, label: r.label, flag: r.flag }));
-                                    } else {
-                                        col.items!.forEach((it) => subLinks.push({ to: it.to, label: it.label, flag: it.flag }));
-                                    }
-                                }
-                                if (subLinks.length === 0) return null;
-                                const isExpanded = expandedMobileGroups.has(gi);
-                                return (
-                                    <div key={`mega-${gi}`} className="border-b border-border">
-                                        <button
-                                            type="button"
-                                            aria-expanded={isExpanded}
-                                            onClick={() => setExpandedMobileGroups((prev) => {
-                                                const next = new Set(prev);
-                                                if (next.has(gi)) next.delete(gi); else next.add(gi);
-                                                return next;
-                                            })}
-                                            className="w-full font-serif text-[32px] font-semibold py-4 flex justify-between items-center text-navy active:bg-coral/5 -mx-7 px-7 transition-colors focus-visible:outline-none focus-visible:bg-coral/10"
-                                        >
-                                            {group.label}
-                                            <motion.span
-                                                aria-hidden="true"
-                                                animate={{ rotate: isExpanded ? 180 : 0 }}
-                                                transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                                                className="text-[22px] text-muted/60 inline-block"
-                                            >
-                                                ↓
-                                            </motion.span>
-                                        </button>
-                                        <AnimatePresence initial={false}>
-                                            {isExpanded && (
-                                                <motion.ul
-                                                    initial={{ height: 0, opacity: 0 }}
-                                                    animate={{ height: "auto", opacity: 1 }}
-                                                    exit={{ height: 0, opacity: 0 }}
-                                                    transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-                                                    style={{ overflow: "hidden" }}
-                                                    className="list-none pl-2"
-                                                >
-                                                    {subLinks.map((sl) => (
-                                                        <li key={sl.to}>
-                                                            <Link
-                                                                href={sl.to}
-                                                                onClick={() => setOpenSince(null)}
-                                                                className={`font-serif text-[20px] py-3 flex items-center gap-3 border-b border-border/60 last:border-b-0 active:bg-coral/5 -mx-7 px-7 transition-colors focus-visible:outline-none focus-visible:bg-coral/10 ${pathname === sl.to ? "text-coral" : "text-navy/85"}`}
-                                                            >
-                                                                {sl.flag && <span className="text-[18px] w-6 inline-flex justify-center shrink-0">{sl.flag}</span>}
-                                                                <span className="flex-1">{sl.label}</span>
-                                                                <span aria-hidden="true" className="text-[14px] text-muted/50">→</span>
-                                                            </Link>
-                                                        </li>
-                                                    ))}
-                                                </motion.ul>
-                                            )}
-                                        </AnimatePresence>
-                                    </div>
-                                );
-                            })}
-                        </nav>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.22, duration: 0.2 }}
-                            className="mt-8 flex gap-6 font-mono text-[12px] tracking-widest uppercase pt-6 border-t border-border"
-                        >
-                            <a href={SITE.phoneHref}>{SITE.phone}</a>
-                            <a href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer">WhatsApp</a>
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            <MobileMenuOverlay
+                open={open}
+                pathname={pathname}
+                navHeight={navHeight}
+                megaMenu={megaMenu}
+                onClose={() => setOpenSince(null)}
+            />
         </>
     );
 }

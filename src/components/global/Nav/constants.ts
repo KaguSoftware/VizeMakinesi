@@ -36,6 +36,7 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
 export const MOBILE_LINKS: MobileLink[] = [
   { to: '/', label: 'Ana Sayfa', end: true },
   { to: '/vizeler', label: 'Vizeler' },
+  { to: '/ofis', label: 'Ofis' },
   { to: '/vize-turleri', label: 'Vize Türleri' },
   { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız' },
   { to: '/hakkimizda', label: 'Hakkımızda' },

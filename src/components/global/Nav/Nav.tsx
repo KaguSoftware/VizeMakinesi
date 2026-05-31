@@ -188,6 +188,24 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                                             ↓
                                         </span>
                                     </Link>
+                                ) : group.label === 'Ofis' ? (
+                                    <Link
+                                        href="/ofis"
+                                        aria-haspopup="true"
+                                        aria-expanded={activeMega === i}
+                                        className={`font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${activeMega === i || pathname.startsWith('/ofis')
+                                            ? "text-coral"
+                                            : "text-white hover:text-coral"
+                                            }`}
+                                    >
+                                        {group.label}
+                                        <span
+                                            aria-hidden="true"
+                                            className={`text-sm opacity-50 transition-transform duration-200 ${activeMega === i ? "rotate-180" : ""}`}
+                                        >
+                                            ↓
+                                        </span>
+                                    </Link>
                                 ) : (
                                     <button
                                         aria-haspopup="true"

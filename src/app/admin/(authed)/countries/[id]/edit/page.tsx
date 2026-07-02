@@ -8,8 +8,8 @@ import type { Database } from '@/lib/supabase/database.types'
 
 type CountryRow = Database['public']['Tables']['countries']['Row']
 type RequirementRow = Database['public']['Tables']['country_requirements']['Row']
-type HandleRow = Database['public']['Tables']['country_handles']['Row']
 type FaqRow = Database['public']['Tables']['country_faqs']['Row']
+type DocumentRow = Database['public']['Tables']['country_documents']['Row']
 
 export default async function EditCountryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -18,17 +18,17 @@ export default async function EditCountryPage({ params }: { params: Promise<{ id
   const { data: country } = await supabase.from('countries').select('*').eq('id', id).single()
   if (!country) notFound()
 
-  const [reqsRes, handlesRes, faqsRes] = await Promise.all([
+  const [reqsRes, faqsRes, docsRes] = await Promise.all([
     supabase.from('country_requirements').select('*').eq('country_id', id).order('sort_order'),
-    supabase.from('country_handles').select('*').eq('country_id', id).order('sort_order'),
     supabase.from('country_faqs').select('*').eq('country_id', id).order('sort_order'),
+    supabase.from('country_documents').select('*').eq('country_id', id).order('sort_order'),
   ])
 
   const full: CountryWithRelations = {
     ...(country as CountryRow),
     requirements: (reqsRes.data ?? []) as RequirementRow[],
-    handles: (handlesRes.data ?? []) as HandleRow[],
     faqs: (faqsRes.data ?? []) as FaqRow[],
+    documents: (docsRes.data ?? []) as DocumentRow[],
   }
 
   return (

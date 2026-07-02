@@ -50,19 +50,20 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
   }
 
   if (!Array.isArray(data.requirements)) throw new AdminValidationError('requirements', 'Gerekli belgeler geçersiz')
-  if (!Array.isArray(data.handles)) throw new AdminValidationError('handles', 'Ofisin üstlendikleri geçersiz')
   if (!Array.isArray(data.faqs)) throw new AdminValidationError('faqs', 'SSS geçersiz')
+  if (!Array.isArray(data.documents)) throw new AdminValidationError('documents', 'PDF belgeler geçersiz')
 
   const requirements = data.requirements
     .map((r) => ({ text: typeof r?.text === 'string' ? r.text.trim() : '' }))
     .filter((r) => r.text.length > 0)
-  const handles = data.handles
-    .map((h) => ({ text: typeof h?.text === 'string' ? h.text.trim() : '' }))
-    .filter((h) => h.text.length > 0)
   const faqs = data.faqs
     .filter((f) => f && typeof f.question === 'string' && typeof f.answer === 'string')
     .map((f) => ({ question: f.question.trim(), answer: f.answer.trim() }))
     .filter((f) => f.question.length > 0 && f.answer.length > 0)
+  const documents = data.documents
+    .filter((d) => d && typeof d.label === 'string' && typeof d.pdf_url === 'string')
+    .map((d) => ({ label: d.label.trim(), pdf_url: d.pdf_url.trim() }))
+    .filter((d) => d.label.length > 0 && d.pdf_url.length > 0)
 
   return {
     name,
@@ -84,8 +85,8 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     tourism_best_time,
     appointment_days,
     requirements,
-    handles,
     faqs,
+    documents,
   }
 }
 
@@ -101,17 +102,12 @@ type SB = Awaited<ReturnType<typeof createClient>>
 
 async function upsertChildren(supabase: SB, countryId: string, data: CountryFormData) {
   await writer(supabase, 'country_requirements').delete().eq('country_id', countryId)
-  await writer(supabase, 'country_handles').delete().eq('country_id', countryId)
   await writer(supabase, 'country_faqs').delete().eq('country_id', countryId)
+  await writer(supabase, 'country_documents').delete().eq('country_id', countryId)
 
   if (data.requirements.length > 0) {
     await writer(supabase, 'country_requirements').insert(
       data.requirements.map((r, i) => ({ country_id: countryId, text: r.text, sort_order: i }))
-    )
-  }
-  if (data.handles.length > 0) {
-    await writer(supabase, 'country_handles').insert(
-      data.handles.map((h, i) => ({ country_id: countryId, text: h.text, sort_order: i }))
     )
   }
   if (data.faqs.length > 0) {
@@ -120,6 +116,16 @@ async function upsertChildren(supabase: SB, countryId: string, data: CountryForm
         country_id: countryId,
         question: f.question,
         answer: f.answer,
+        sort_order: i,
+      }))
+    )
+  }
+  if (data.documents.length > 0) {
+    await writer(supabase, 'country_documents').insert(
+      data.documents.map((d, i) => ({
+        country_id: countryId,
+        label: d.label,
+        pdf_url: d.pdf_url,
         sort_order: i,
       }))
     )

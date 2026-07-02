@@ -4,16 +4,25 @@ import { FadeIn, Stagger, StaggerItem } from '@/components/shared/motion';
 
 const REZERVASYON_KURUMLARI = ['VFS Global', 'iDATA', 'BLS'];
 
-export default function BasvuruSureci() {
+interface Props {
+  countryName?: string;
+}
+
+export default function BasvuruSureci({ countryName }: Props) {
   const basvuru = TIMELINE_STEPS[0];
 
   return (
     <section className="container border-b border-border">
-      <div className="pt-28 pb-12 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
+      <div className="pt-16 pb-12">
+        <FadeIn as="div" className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
+          — 03 / vize işlemleri
+        </FadeIn>
+      </div>
+      <div className="pb-12 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
         <FadeIn as="div">
-          <h2 className="font-serif font-bold text-[clamp(36px,4.5vw,56px)] leading-none tracking-tight text-navy mb-6">
-            Başvuru ve rezervasyon<br />
-            <em className="font-normal italic text-coral">nasıl işliyor?</em>
+          <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy mb-6">
+            {countryName ? `${countryName} Vize İşlemleri` : 'Başvuru ve rezervasyon'}<br />
+            <em className="font-normal italic text-coral">nasıl yapılır?</em>
           </h2>
           <p className="font-serif italic text-[18px] text-navy/70 leading-relaxed mb-8 max-w-sm">
             İlk görüşmeden pasaport teslimine kadar her adımı biz yönetiyoruz. Hiçbir ayrıntı gözden kaçmaz.
@@ -71,3 +80,4 @@ export default function BasvuruSureci() {
     </section>
   );
 }
+

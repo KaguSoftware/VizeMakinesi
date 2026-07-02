@@ -17,7 +17,7 @@ import ResultPanel from "./ResultPanel";
 const CURRENT_YEAR = new Date().getFullYear();
 const FUTURE_YEARS = Array.from({ length: 15 }, (_, i) => CURRENT_YEAR + i);
 
-export default function CascadeCalculator() {
+export default function CascadeCalculator({ compact }: { compact?: boolean }) {
   // Inputs
   const [country, setCountry] = useState("");
   const [visaType, setVisaType] = useState<VisaType | null>(null);
@@ -56,7 +56,7 @@ export default function CascadeCalculator() {
     : null;
 
   return (
-    <section className="py-12 bg-cream border-t border-border">
+    <section id="cascade-hesaplayici" className={`${compact ? 'py-8' : 'py-12'} bg-cream border-t border-border`}>
       <div className="container">
         <FadeIn>
           <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-3">
@@ -64,20 +64,20 @@ export default function CascadeCalculator() {
           </div>
         </FadeIn>
         <FadeIn delay={0.08}>
-          <h2 className="font-serif font-bold text-[clamp(28px,4vw,48px)] leading-none tracking-tight text-navy mb-2">
+          <h2 className={`font-serif font-bold ${compact ? 'text-[clamp(22px,3vw,36px)]' : 'text-[clamp(28px,4vw,48px)]'} leading-none tracking-tight text-navy mb-2`}>
             Cascade Kuralı Hesaplayıcısı
           </h2>
         </FadeIn>
         <FadeIn delay={0.14}>
-          <p className="font-serif text-[16px] text-coral mb-8 max-w-xl">
+          <p className={`font-serif ${compact ? 'text-[14px] mb-5' : 'text-[16px] mb-8'} text-coral max-w-xl`}>
             Geçmiş vizenizin bilgilerini girin, bir sonraki adımınızı hesaplayalım.
           </p>
         </FadeIn>
 
         <FadeIn delay={0.2}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className={`grid grid-cols-1 lg:grid-cols-2 ${compact ? 'gap-6' : 'gap-10'}`}>
             {/* Left: inputs */}
-            <div className="flex flex-col gap-5">
+            <div className={`flex flex-col ${compact ? 'gap-3' : 'gap-5'}`}>
               <CountryDropdown value={country} onChange={setCountry} />
 
               {/* Visa type */}
@@ -275,7 +275,7 @@ export default function CascadeCalculator() {
             </div>
 
             {/* Right: calendar + result */}
-            <div className="flex flex-col gap-5">
+            <div className={`flex flex-col ${compact ? 'gap-3' : 'gap-5'}`}>
               {/* Date summary */}
               <div>
                 <label className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-2 block">Seçilen Tarih Aralığı</label>

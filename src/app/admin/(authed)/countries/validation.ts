@@ -2,6 +2,7 @@ export interface ValidationError { field: string; message: string }
 
 export interface FaqInput { question: string; answer: string }
 export interface TextInput { text: string }
+export interface DocumentInput { label: string; pdf_url: string }
 
 export interface CountryFormData {
   name: string
@@ -25,6 +26,7 @@ export interface CountryFormData {
   requirements: TextInput[]
   handles: TextInput[]
   faqs: FaqInput[]
+  documents: DocumentInput[]
 }
 
 export function validateCountry(data: CountryFormData): ValidationError[] {

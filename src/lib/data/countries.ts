@@ -5,13 +5,15 @@ import type { Database } from '@/lib/supabase/database.types';
 
 type CountryRow = Database['public']['Tables']['countries']['Row'];
 type RequirementRow = Database['public']['Tables']['country_requirements']['Row'];
-type HandleRow = Database['public']['Tables']['country_handles']['Row'];
 type FaqRow = Database['public']['Tables']['country_faqs']['Row'];
+type DocumentRow = Database['public']['Tables']['country_documents']['Row'];
+
+export type { DocumentRow };
 
 export interface CountryWithRelations extends CountryRow {
   requirements: RequirementRow[];
-  handles: HandleRow[];
   faqs: FaqRow[];
+  documents: DocumentRow[];
 }
 
 async function attachRelations(countries: CountryRow[]): Promise<CountryWithRelations[]> {
@@ -21,21 +23,21 @@ async function attachRelations(countries: CountryRow[]): Promise<CountryWithRela
   const ids = countries.map((c) => c.id);
 
   // Run the three relation queries in parallel — they're independent.
-  const [reqsResult, handlesResult, faqsResult] = await Promise.all([
+  const [reqsResult, faqsResult, docsResult] = await Promise.all([
     supabase.from('country_requirements').select('*').in('country_id', ids).order('sort_order'),
-    supabase.from('country_handles').select('*').in('country_id', ids).order('sort_order'),
     supabase.from('country_faqs').select('*').in('country_id', ids).order('sort_order'),
+    supabase.from('country_documents').select('*').in('country_id', ids).order('sort_order'),
   ]);
 
   const reqs = (reqsResult.data ?? []) as RequirementRow[];
-  const handles = (handlesResult.data ?? []) as HandleRow[];
   const faqs = (faqsResult.data ?? []) as FaqRow[];
+  const docs = (docsResult.data ?? []) as DocumentRow[];
 
   return countries.map((c) => ({
     ...c,
     requirements: reqs.filter((r) => r.country_id === c.id),
-    handles: handles.filter((h) => h.country_id === c.id),
     faqs: faqs.filter((f) => f.country_id === c.id),
+    documents: docs.filter((d) => d.country_id === c.id),
   }));
 }
 

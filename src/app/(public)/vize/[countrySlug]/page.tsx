@@ -7,7 +7,8 @@ import SchengenStubHero from '@/components/visa/SchengenStubHero/SchengenStubHer
 import SchengenCountryGrid from '@/components/visa/SchengenCountryGrid/SchengenCountryGrid';
 import WarningList from '@/components/schengen/WarningList/WarningList';
 import BasvuruSureci from '@/components/visa/BasvuruSureci/BasvuruSureci';
-import MasayaGetirdikleriniz from '@/components/visa/MasayaGetirdikleriniz/MasayaGetirdikleriniz';
+import GerekliEvraklar from '@/components/visa/GerekliEvraklar/GerekliEvraklar';
+import VizeReddi from '@/components/visa/VizeReddi/VizeReddi';
 import CountryCTA from '@/components/visa/CountryCTA/CountryCTA';
 import { SCHENGEN_SLUG_MAP } from '@/data/schengen';
 import { SCHENGEN_REJECTION_REASONS } from '@/components/schengen/SchengenMembers/constants';
@@ -57,10 +58,16 @@ export default async function CountryPage({ params }: Props) {
 
     return (
       <>
+        {/* 01 — Genel Bilgiler */}
         <SchengenStubHero name={stub.name} flag={stub.flag} presetKey={stub.presetKey} summary={stub.summary} />
 
-        <BasvuruSureci />
+        {/* 03 — Nasıl Yapılır */}
+        <BasvuruSureci countryName={stub.name} />
 
+        {/* 04 — Vize Reddi */}
+        <VizeReddi countryName={stub.name} />
+
+        {/* 05 — FAQ */}
         {stub.faqs.length > 0 && (
           <FAQ
             items={stub.faqs}
@@ -83,6 +90,7 @@ export default async function CountryPage({ params }: Props) {
 
   return (
     <>
+      {/* 01 — Genel Bilgiler */}
       <CountryHero
         country={country}
         bullets={countrySlug === 'schengen' ? [
@@ -153,10 +161,19 @@ export default async function CountryPage({ params }: Props) {
         </section>
       )}
 
-      <BasvuruSureci />
+      {/* 02 — Gerekli Belgeler */}
+      <GerekliEvraklar
+        countryName={country.name}
+        documents={country.documents}
+      />
 
-      <MasayaGetirdikleriniz items={country.requirements.map((r) => r.text)} />
+      {/* 03 — Nasıl Yapılır */}
+      <BasvuruSureci countryName={country.name} />
 
+      {/* 04 — Vize Reddi */}
+      <VizeReddi countryName={country.name} />
+
+      {/* 05 — FAQ */}
       <FAQ
         items={faqItems}
         title={

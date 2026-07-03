@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/lib/auth/requireAdmin'
 import { AdminValidationError, reqString, optString, reqEnum, reqBool } from '@/lib/admin/validators'
 
-const REGIONS = ['avrupa', 'amerika', 'asya', 'diger'] as const
+const REGIONS = ['avrupa', 'populer', 'asya', 'amerika', 'diger'] as const
 
 type SB = Awaited<ReturnType<typeof createClient>>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,7 +18,7 @@ function revalidate() {
   revalidatePath('/', 'layout')
 }
 
-export type RegionKey = 'avrupa' | 'amerika' | 'asya' | 'diger'
+export type RegionKey = 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
 
 export interface EntryFormData {
   region: RegionKey

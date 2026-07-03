@@ -35,7 +35,7 @@ export const ADMIN_NAV: readonly AdminNavSection[] = [
   { label: 'Ülkeler', href: '/admin/countries', table: 'countries', icon: 'countries' },
   { label: 'Mega Menü', href: '/admin/mega-menu', table: 'mega_menu_categories', hasVisibleFlag: true, icon: 'mega-menu' },
   { label: 'Marquee', href: '/admin/marquee', table: 'marquee_items', hasVisibleFlag: true, icon: 'marquee' },
-  { label: 'Ana Sayfa', href: '/admin/home-regions', table: 'home_region_entries', hasVisibleFlag: true, icon: 'home-regions' },
+  { label: 'Hızlı Ülke Filtreleme', href: '/admin/home-regions', table: 'home_region_entries', hasVisibleFlag: true, icon: 'home-regions' },
   { label: 'Ortaklıklar', href: '/admin/partnerships', table: 'partnerships', hasVisibleFlag: true, icon: 'partnerships' },
   // The "Blog" route is really a turizm index — the actual editor lives inside
   // the country form's tourism section. Labelling it "Turizm" matches that flow.

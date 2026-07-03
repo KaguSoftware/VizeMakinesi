@@ -17,9 +17,10 @@ type EntryRow = Database['public']['Tables']['home_region_entries']['Row']
 
 const REGION_LABELS: Record<RegionKey, string> = {
   avrupa: 'Avrupa ve Schengen',
+  populer: 'Popüler Vizeler',
+  asya: 'Asya ve Pasifik Vizeleri',
   amerika: 'Amerika Kıtası',
-  asya: 'Asya ve Pasifik',
-  diger: 'Diğer Ülkeler',
+  diger: 'Diğer Vizeler',
 }
 
 interface Props {
@@ -37,7 +38,7 @@ export default function RegionSection({
   onEntriesChange,
   onRegionVisibleChange,
 }: Props) {
-  const [open, setOpen] = useState(region === 'avrupa')
+  const [open, setOpen] = useState(region === 'populer')
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [editEntry, setEditEntry] = useState<EntryRow | null | 'new'>('new' as never)
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -161,6 +162,7 @@ export default function RegionSection({
                     </span>
                   </div>
                   <SortableEntryList
+                    id={`${region}-pinned`}
                     entries={pinnedEntries}
                     onReorder={(next) => handleReorder('pinned', next)}
                     onVisibleToggle={handleVisibleToggle}
@@ -188,6 +190,7 @@ export default function RegionSection({
                     </span>
                   </div>
                   <SortableEntryList
+                    id={`${region}-rest`}
                     entries={restEntries}
                     onReorder={(next) => handleReorder('rest', next)}
                     onVisibleToggle={handleVisibleToggle}
@@ -207,6 +210,7 @@ export default function RegionSection({
             ) : (
               <>
                 <SortableEntryList
+                  id={region}
                   entries={entries}
                   onReorder={handleFlatReorder}
                   onVisibleToggle={handleVisibleToggle}

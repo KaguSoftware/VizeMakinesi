@@ -12,7 +12,7 @@ export const revalidate = 3600;
 export default async function HomePage() {
     const { entries } = await getHomeRegionsData();
 
-    const popularEntries = entries.avrupa.filter((e) => e.pinned) as SchengenEntry[];
+    const popularEntries = entries.populer as SchengenEntry[];
 
     return (
         <>

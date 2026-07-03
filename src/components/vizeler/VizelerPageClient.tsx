@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import SchengenCountryGrid, { type SchengenEntry } from '@/components/visa/SchengenCountryGrid/SchengenCountryGrid';
-import RegionGrid from '@/components/home/RegionGrid/RegionGrid';
 import type { HomeRegionEntry } from '@/lib/data/homeRegions';
 
 const VIZE_TURLERI = [
@@ -59,24 +58,20 @@ const FILTERS: { key: FilterKey; label: string }[] = [
 interface Props {
     entries: {
         avrupa: HomeRegionEntry[];
-        amerika: HomeRegionEntry[];
+        populer: HomeRegionEntry[];
         asya: HomeRegionEntry[];
+        amerika: HomeRegionEntry[];
         diger: HomeRegionEntry[];
     };
     settings: {
         avrupa: boolean;
-        amerika: boolean;
+        populer: boolean;
         asya: boolean;
+        amerika: boolean;
         diger: boolean;
     };
 }
 
-const toRegionEntry = (e: HomeRegionEntry) => ({
-    name: e.name,
-    href: e.href,
-    presetKey: e.preset_key,
-    subtitle: e.subtitle,
-});
 
 export default function VizelerPageClient({ entries, settings }: Props) {
     const [active, setActive] = useState<FilterKey | null>(null);
@@ -92,10 +87,7 @@ export default function VizelerPageClient({ entries, settings }: Props) {
         }
     }, []);
 
-    const avrupaEntries =
-        active === 'populer'
-            ? entries.avrupa.filter((e) => e.pinned)
-            : entries.avrupa;
+    const populerEntries = entries.populer;
 
     return (
         <>
@@ -163,7 +155,10 @@ export default function VizelerPageClient({ entries, settings }: Props) {
                                         )}
                                     </div>
                                 </div>
-                                <SchengenCountryGrid entries={avrupaEntries as SchengenEntry[]} hideHeader limitCollapsed />
+                                {active === 'schengen'
+                                    ? <SchengenCountryGrid hideHeader limitCollapsed />
+                                    : <SchengenCountryGrid entries={populerEntries as SchengenEntry[]} hideHeader limitCollapsed />
+                                }
                             </>
                         )}
 
@@ -175,7 +170,7 @@ export default function VizelerPageClient({ entries, settings }: Props) {
                                         Amerika Kıtası
                                     </h2>
                                 </div>
-                                <RegionGrid entries={entries.amerika.map(toRegionEntry)} />
+                                <SchengenCountryGrid entries={entries.amerika as SchengenEntry[]} hideHeader limitCollapsed />
                             </div>
                         )}
 
@@ -187,7 +182,7 @@ export default function VizelerPageClient({ entries, settings }: Props) {
                                         Asya ve Pasifik Vizeleri
                                     </h2>
                                 </div>
-                                <RegionGrid entries={entries.asya.map(toRegionEntry)} />
+                                <SchengenCountryGrid entries={entries.asya as SchengenEntry[]} hideHeader limitCollapsed />
                             </div>
                         )}
 
@@ -199,7 +194,7 @@ export default function VizelerPageClient({ entries, settings }: Props) {
                                         Diğer Vizeler
                                     </h2>
                                 </div>
-                                <RegionGrid entries={entries.diger.map(toRegionEntry)} />
+                                <SchengenCountryGrid entries={entries.diger as SchengenEntry[]} hideHeader limitCollapsed />
                             </div>
                         )}
 

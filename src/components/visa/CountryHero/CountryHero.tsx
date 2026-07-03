@@ -43,8 +43,11 @@ export default function CountryHero({ country, bullets }: CountryHeroProps) {
 
           <Stagger as="div" className="mt-10 flex flex-col gap-3 border-l-2 border-coral pl-5" delayChildren={0.3}>
             <StaggerItem>
-              <p className="font-sans font-medium text-[15px] text-navy">
-                Vize sürecinde kendinizi yalnız hissetmenize gerek yok.
+              <p className="font-sans font-medium text-[15px] text-navy leading-snug">
+                Başarılı bir vize başvurusu, evrakları tamamlamakla değil; doğru ve tutarlı bir başvuru dosyası hazırlamakla başlar.
+              </p>
+              <p className="font-mono text-[11px] text-muted mt-1 tracking-wide">
+                (Vize danışmanlığı ≠ evrak toplama işi.)
               </p>
             </StaggerItem>
             <ul className="flex flex-col gap-2">

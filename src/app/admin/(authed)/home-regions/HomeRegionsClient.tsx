@@ -12,7 +12,7 @@ interface Props {
   initialSettings: Record<RegionKey, boolean>
 }
 
-const REGION_ORDER: RegionKey[] = ['avrupa', 'asya', 'amerika', 'diger']
+const REGION_ORDER: RegionKey[] = ['populer', 'asya', 'amerika', 'diger']
 
 export default function HomeRegionsClient({ initialEntries, initialSettings }: Props) {
   const [entriesMap, setEntriesMap] = useState<Record<RegionKey, EntryRow[]>>(initialEntries)

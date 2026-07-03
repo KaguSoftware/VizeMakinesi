@@ -98,6 +98,7 @@ function SortableEntryRow({ entry, onVisibleToggle, onEdit, onDelete }: RowProps
 }
 
 interface ListProps {
+  id: string
   entries: EntryRow[]
   onReorder: (next: EntryRow[]) => void
   onVisibleToggle: (id: string, val: boolean) => void
@@ -105,7 +106,7 @@ interface ListProps {
   onDelete: (id: string) => void
 }
 
-export default function SortableEntryList({ entries, onReorder, onVisibleToggle, onEdit, onDelete }: ListProps) {
+export default function SortableEntryList({ id, entries, onReorder, onVisibleToggle, onEdit, onDelete }: ListProps) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
@@ -120,7 +121,7 @@ export default function SortableEntryList({ entries, onReorder, onVisibleToggle,
   }
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext id={id} sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={entries.map((e) => e.id)} strategy={verticalListSortingStrategy}>
         <div className="border border-navy/10 rounded">
           {entries.map((entry) => (

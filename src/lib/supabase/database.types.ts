@@ -368,7 +368,7 @@ export interface Database {
       home_region_entries: {
         Row: {
           id: string
-          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           name: string
           href: string
           preset_key: string
@@ -380,7 +380,7 @@ export interface Database {
         }
         Insert: {
           id?: string
-          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           name: string
           href: string
           preset_key: string
@@ -392,7 +392,7 @@ export interface Database {
         }
         Update: {
           id?: string
-          region?: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region?: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           name?: string
           href?: string
           preset_key?: string
@@ -406,17 +406,17 @@ export interface Database {
       home_region_settings: {
         Row: {
           id: string
-          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           visible: boolean
         }
         Insert: {
           id?: string
-          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           visible?: boolean
         }
         Update: {
           id?: string
-          region?: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region?: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           visible?: boolean
         }
       }

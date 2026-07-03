@@ -21,7 +21,10 @@ export default function CountryHero({ country, bullets }: CountryHeroProps) {
       </div>
 
       <div className="container relative z-10">
-<div className="lg:w-1/2 lg:pr-8">
+        <FadeIn as="div" className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-8 pb-4 border-b border-navy/20">
+          — 01 / genel bilgiler
+        </FadeIn>
+        <div className="lg:w-1/2 lg:pr-8">
           <FadeIn as="div" className="flex items-center gap-10 mb-7" duration={0.5}>
             <div className="text-[80px] leading-none">{country.flag_emoji}</div>
             <div className="inline-block border border-navy px-4 py-2 font-mono font-medium text-[10px] uppercase tracking-[0.15em]">

@@ -7,6 +7,7 @@ import {
   AdminButton,
   AdminInput,
   AdminTextarea,
+  PdfUploader,
   RepeatableList,
   useToast,
 } from '@/components/admin/ui'
@@ -25,9 +26,11 @@ import {
   Divider,
   FORM_SECTIONS,
   MOSAIC_SPANS,
+  mkDoc,
   mkFaq,
   mkText,
   slugify,
+  type DocumentItem,
   type FaqItem,
   type TextItem,
 } from './sections/shared'
@@ -73,14 +76,14 @@ export default function CountryForm({ country }: CountryFormProps) {
     country?.requirements.map((r) => mkText(r.text)) ?? []
   )
 
-  // — 05 Handles
-  const [handles, setHandles] = useState<TextItem[]>(
-    country?.handles.map((h) => mkText(h.text)) ?? []
-  )
-
   // — 06 FAQs
   const [faqs, setFaqs] = useState<FaqItem[]>(
     country?.faqs.map((f) => mkFaq(f.question, f.answer)) ?? []
+  )
+
+  // — 07 Documents (PDF)
+  const [documents, setDocuments] = useState<DocumentItem[]>(
+    country?.documents.map((d) => mkDoc(d.label, d.pdf_url)) ?? []
   )
 
   // — 07 Tourism
@@ -112,8 +115,8 @@ export default function CountryForm({ country }: CountryFormProps) {
     flagType, flagPresetKey, flagImageUrl,
     mosaicVisible, mosaicSpan, danismaVisible,
     requirements: requirements.map((r) => r.text),
-    handles: handles.map((h) => h.text),
     faqs: faqs.map((f) => ({ q: f.question, a: f.answer })),
+    documents: documents.map((d) => ({ label: d.label, pdf_url: d.pdf_url })),
     hasTourism, tourismHeroUrl,
     tourismIntro: tourismIntro.map((t) => t.text),
     tourismHighlights: tourismHighlights.map((t) => t.text),
@@ -185,8 +188,9 @@ export default function CountryForm({ country }: CountryFormProps) {
       tourism_best_time: hasTourism ? (tourismBestTime || null) : null,
       appointment_days: appointmentDays || null,
       requirements: requirements.map((r) => ({ text: r.text })),
-      handles: handles.map((h) => ({ text: h.text })),
+      handles: [],
       faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
+      documents: documents.map((d) => ({ label: d.label, pdf_url: d.pdf_url })),
     }
 
     const errs = validateCountry(data)
@@ -288,39 +292,30 @@ export default function CountryForm({ country }: CountryFormProps) {
           onMosaicSpanChange={setMosaicSpan}
         />
 
-        <Divider id="belgeler" label="Gerekli Belgeler" />
-        <RepeatableList<TextItem>
-          items={requirements}
-          onChange={setRequirements}
-          onAdd={() => setRequirements((prev) => [...prev, mkText()])}
-          addLabel="Yeni Belge Ekle"
-          emptyText="Henüz belge eklenmedi"
-          renderItem={(item, index) => (
-            <AdminInput
-              label={`Belge ${index + 1}`}
-              value={item.text}
-              onChange={(e) => setRequirements((prev) =>
-                prev.map((r) => r.id === item.id ? { ...r, text: e.target.value } : r)
-              )}
-            />
-          )}
-        />
-
-        <Divider id="ustlenilen" label="Ofisimizin Üstlendiği" />
-        <RepeatableList<TextItem>
-          items={handles}
-          onChange={setHandles}
-          onAdd={() => setHandles((prev) => [...prev, mkText()])}
-          addLabel="Yeni Madde Ekle"
-          emptyText="Henüz madde eklenmedi"
-          renderItem={(item, index) => (
-            <AdminInput
-              label={`Madde ${index + 1}`}
-              value={item.text}
-              onChange={(e) => setHandles((prev) =>
-                prev.map((h) => h.id === item.id ? { ...h, text: e.target.value } : h)
-              )}
-            />
+        <Divider id="pdf-belgeler" label="PDF Belgeler" />
+        <RepeatableList<DocumentItem>
+          items={documents}
+          onChange={setDocuments}
+          onAdd={() => setDocuments((prev) => [...prev, mkDoc()])}
+          addLabel="Yeni PDF Ekle"
+          emptyText="Henüz PDF belgesi eklenmedi"
+          renderItem={(item) => (
+            <div className="flex flex-col gap-3">
+              <AdminInput
+                label="Belge Adı"
+                value={item.label}
+                onChange={(e) => setDocuments((prev) =>
+                  prev.map((d) => d.id === item.id ? { ...d, label: e.target.value } : d)
+                )}
+                placeholder="Örn: Almanya Vize Başvuru Formu"
+              />
+              <PdfUploader
+                value={item.pdf_url}
+                onChange={(url) => setDocuments((prev) =>
+                  prev.map((d) => d.id === item.id ? { ...d, pdf_url: url } : d)
+                )}
+              />
+            </div>
           )}
         />
 

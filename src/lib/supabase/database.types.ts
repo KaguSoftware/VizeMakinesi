@@ -146,6 +146,29 @@ export interface Database {
           sort_order?: number
         }
       }
+      country_documents: {
+        Row: {
+          id: string
+          country_id: string
+          label: string
+          pdf_url: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          country_id: string
+          label: string
+          pdf_url: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          country_id?: string
+          label?: string
+          pdf_url?: string
+          sort_order?: number
+        }
+      }
       mega_menu_categories: {
         Row: {
           id: string

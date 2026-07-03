@@ -28,6 +28,7 @@ export type WritableTable =
   | 'country_requirements'
   | 'country_handles'
   | 'country_faqs'
+  | 'country_documents'
   | 'page_sections'
 
 export function writer(supabase: SB, table: WritableTable): Writer {

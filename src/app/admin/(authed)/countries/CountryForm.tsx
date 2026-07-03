@@ -76,6 +76,11 @@ export default function CountryForm({ country }: CountryFormProps) {
     country?.requirements.map((r) => mkText(r.text)) ?? []
   )
 
+  // — 05 General Info
+  const [generalInfo, setGeneralInfo] = useState<TextItem[]>(
+    (country?.general_info ?? []).map((t) => mkText(t))
+  )
+
   // — 06 FAQs
   const [faqs, setFaqs] = useState<FaqItem[]>(
     country?.faqs.map((f) => mkFaq(f.question, f.answer)) ?? []
@@ -114,6 +119,7 @@ export default function CountryForm({ country }: CountryFormProps) {
     name, slug, flagEmoji, visaType, summary,
     flagType, flagPresetKey, flagImageUrl,
     mosaicVisible, mosaicSpan, danismaVisible,
+    generalInfo: generalInfo.map((t) => t.text),
     requirements: requirements.map((r) => r.text),
     faqs: faqs.map((f) => ({ q: f.question, a: f.answer })),
     documents: documents.map((d) => ({ label: d.label, pdf_url: d.pdf_url })),
@@ -187,6 +193,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       tourism_tips: hasTourism ? tourismTips.map((i) => i.text).filter(Boolean) : [],
       tourism_best_time: hasTourism ? (tourismBestTime || null) : null,
       appointment_days: appointmentDays || null,
+      general_info: generalInfo.map((t) => t.text).filter(Boolean),
       requirements: requirements.map((r) => ({ text: r.text })),
       handles: [],
       faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
@@ -290,6 +297,25 @@ export default function CountryForm({ country }: CountryFormProps) {
           onMosaicVisibleChange={setMosaicVisible}
           onDanismaVisibleChange={setDanismaVisible}
           onMosaicSpanChange={setMosaicSpan}
+        />
+
+        <Divider id="genel-bilgi" label="Genel Bilgi Maddeleri" />
+        <RepeatableList<TextItem>
+          items={generalInfo}
+          onChange={setGeneralInfo}
+          onAdd={() => setGeneralInfo((prev) => [...prev, mkText()])}
+          addLabel="Yeni Madde Ekle"
+          emptyText="Henüz genel bilgi maddesi eklenmedi"
+          renderItem={(item) => (
+            <AdminInput
+              label="Madde"
+              value={item.text}
+              onChange={(e) => setGeneralInfo((prev) =>
+                prev.map((t) => t.id === item.id ? { ...t, text: e.target.value } : t)
+              )}
+              placeholder="Örn: Vize başvurusu en az 15 iş günü öncesinde yapılmalıdır."
+            />
+          )}
         />
 
         <Divider id="pdf-belgeler" label="PDF Belgeler" />

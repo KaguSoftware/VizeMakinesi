@@ -73,6 +73,7 @@ export const FORM_SECTIONS = [
   { id: 'temel', label: 'Temel Bilgiler' },
   { id: 'bayrak', label: 'Bayrak' },
   { id: 'mozaik', label: 'Ana Sayfa Mozaik' },
+  { id: 'genel-bilgi', label: 'Genel Bilgi' },
   { id: 'pdf-belgeler', label: 'PDF Belgeler' },
   { id: 'sss', label: 'SSS' },
   { id: 'turizm', label: 'Turizm İçeriği' },

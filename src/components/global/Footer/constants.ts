@@ -16,7 +16,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: 'Hakkımızda', href: '/hakkimizda' },
       { label: 'Hizmetler',  href: '/ucrete-dahil-hizmetler' },
-      { label: 'Süreç',      href: '/nasil-calisiyoruz' },
+      { label: 'Süreç',      href: '/#nasil-calisiyoruz' },
       { label: 'İletişim',   href: '/iletisim' },
     ],
   },

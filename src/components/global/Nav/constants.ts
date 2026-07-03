@@ -24,8 +24,8 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Vize Hizmetleri',
         items: [
-          { to: '/vize-turleri', label: 'Vize Türleri', desc: 'Turist, iş, öğrenci, çalışma, transit' },
-          { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız', desc: 'Beş adımlı ofis metodumuz' },
+          { to: '/vizeler#genel-vize-turleri', label: 'Vize Türleri', desc: 'Turist, iş, öğrenci, çalışma, transit' },
+          { to: '/#nasil-calisiyoruz', label: 'Nasıl Çalışırız', desc: '6 adımlı ofis metodumuz' },
           { to: '/ucrete-dahil-hizmetler', label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
         ],
       },
@@ -37,8 +37,8 @@ export const MOBILE_LINKS: MobileLink[] = [
   { to: '/', label: 'Ana Sayfa', end: true },
   { to: '/vizeler', label: 'Vizeler' },
   { to: '/ofis', label: 'Ofis' },
-  { to: '/vize-turleri', label: 'Vize Türleri' },
-  { to: '/nasil-calisiyoruz', label: 'Nasıl Çalışırız' },
+  { to: '/vizeler#genel-vize-turleri', label: 'Vize Türleri' },
+  { to: '/#nasil-calisiyoruz', label: 'Nasıl Çalışırız' },
   { to: '/hakkimizda', label: 'Hakkımızda' },
   { to: '/ekibimiz', label: 'Ekibimiz' },
   { to: '/ucrete-dahil-hizmetler', label: 'Ücrete Dahil Hizmetler' },

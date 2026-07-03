@@ -38,17 +38,11 @@ export default async function HomePage() {
             <Marquee />
 
             {/* Süreç bölümü */}
-            <section className="container">
+            <section id="nasil-calisiyoruz" className="container">
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-end pb-7 mb-0 mt-16">
                     <h2 className="font-serif font-bold text-[clamp(18px,4.2vw,56px)] leading-tight tracking-[-0.03em] text-center md:text-left">
                         Bir başvuru ofisimizde nasıl işliyor
                     </h2>
-                    <Link
-                        href="/nasil-calisiyoruz"
-                        className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200 rounded-2xl whitespace-nowrap"
-                    >
-                        Tam süreç →
-                    </Link>
                 </div>
                 <Timeline />
             </section>

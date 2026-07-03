@@ -39,9 +39,6 @@ export default function VizeReddi({ countryName }: Props) {
   return (
     <section className="container border-b border-border">
       <div className="pt-16 pb-20">
-        <FadeIn as="div" className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
-          — 04 / vize reddi
-        </FadeIn>
         <FadeIn as="div" className="mb-12">
           <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy">
             {countryName} Vize Reddi{' '}

@@ -24,7 +24,7 @@ export interface CountryFormData {
   tourism_best_time: string | null
   appointment_days: string | null
   requirements: TextInput[]
-  handles: TextInput[]
+  handles?: TextInput[]
   faqs: FaqInput[]
   documents: DocumentInput[]
 }

@@ -53,6 +53,7 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
   if (!Array.isArray(data.faqs)) throw new AdminValidationError('faqs', 'SSS geçersiz')
   if (!Array.isArray(data.documents)) throw new AdminValidationError('documents', 'PDF belgeler geçersiz')
 
+  const handles: { text: string }[] = []
   const requirements = data.requirements
     .map((r) => ({ text: typeof r?.text === 'string' ? r.text.trim() : '' }))
     .filter((r) => r.text.length > 0)
@@ -85,6 +86,7 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     tourism_best_time,
     appointment_days,
     requirements,
+    handles,
     faqs,
     documents,
   }

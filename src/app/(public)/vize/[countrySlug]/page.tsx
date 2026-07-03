@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getCountryBySlug, getCountrySlugsStatic } from '@/lib/data/countries';
 import CountryHero from '@/components/visa/CountryHero/CountryHero';
+import GenelBilgi from '@/components/visa/GenelBilgi/GenelBilgi';
 import FAQ from '@/components/shared/FAQ/FAQ';
 import SchengenStubHero from '@/components/visa/SchengenStubHero/SchengenStubHero';
 import SchengenCountryGrid from '@/components/visa/SchengenCountryGrid/SchengenCountryGrid';
@@ -111,6 +112,8 @@ export default async function CountryPage({ params }: Props) {
         ]}
       />
 
+      <GenelBilgi countryName={country.name} items={country.general_info ?? []} />
+
       {country.appointment_days && (
         <section className="bg-coral/10 border-y border-coral/20">
           <FadeIn as="div" className="container py-5">
@@ -122,7 +125,7 @@ export default async function CountryPage({ params }: Props) {
         </section>
       )}
 
-      {countrySlug === 'schengen' && <SchengenCountryGrid />}
+      {countrySlug === 'schengen' && <SchengenCountryGrid limitCollapsed />}
 
       {countrySlug === 'schengen' && (
         <section className="border-t border-border">

@@ -7,9 +7,9 @@ import type { Database } from '@/lib/supabase/database.types'
 
 type EntryRow = Database['public']['Tables']['home_region_entries']['Row']
 type SettingRow = Database['public']['Tables']['home_region_settings']['Row']
-type RegionKey = 'avrupa' | 'amerika' | 'asya' | 'diger'
+type RegionKey = 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
 
-const REGIONS: RegionKey[] = ['avrupa', 'amerika', 'asya', 'diger']
+const REGIONS: RegionKey[] = ['avrupa', 'populer', 'asya', 'amerika', 'diger']
 
 export default async function HomeRegionsPage() {
   await requireAdmin()
@@ -37,11 +37,11 @@ export default async function HomeRegionsPage() {
 
   return (
     <div>
-      <Breadcrumbs items={[{ label: 'Dashboard', href: '/admin' }, { label: 'Ana Sayfa' }]} />
+      <Breadcrumbs items={[{ label: 'Dashboard', href: '/admin' }, { label: 'Hızlı Ülke Filtreleme' }]} />
       <div className="mb-10">
-        <EyebrowText>— Ana Sayfa</EyebrowText>
+        <EyebrowText>— Hızlı Ülke Filtreleme</EyebrowText>
         <h1 className="font-serif text-[36px] font-bold tracking-[-0.02em] text-navy mt-1">
-          Ana Sayfa Bölgeleri
+          Hızlı Ülke Filtreleme
         </h1>
       </div>
       <HomeRegionsClient

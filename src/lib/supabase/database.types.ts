@@ -31,6 +31,7 @@ export interface Database {
           tourism_best_time: string | null
           tourism_hero_image_url: string | null
           appointment_days: string | null
+          general_info: string[]
           created_at: string
           updated_at: string
         }
@@ -55,6 +56,7 @@ export interface Database {
           tourism_best_time?: string | null
           tourism_hero_image_url?: string | null
           appointment_days?: string | null
+          general_info?: string[]
           created_at?: string
           updated_at?: string
         }
@@ -79,6 +81,7 @@ export interface Database {
           tourism_best_time?: string | null
           tourism_hero_image_url?: string | null
           appointment_days?: string | null
+          general_info?: string[]
           created_at?: string
           updated_at?: string
         }
@@ -365,7 +368,7 @@ export interface Database {
       home_region_entries: {
         Row: {
           id: string
-          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           name: string
           href: string
           preset_key: string
@@ -377,7 +380,7 @@ export interface Database {
         }
         Insert: {
           id?: string
-          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           name: string
           href: string
           preset_key: string
@@ -389,7 +392,7 @@ export interface Database {
         }
         Update: {
           id?: string
-          region?: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region?: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           name?: string
           href?: string
           preset_key?: string
@@ -403,17 +406,17 @@ export interface Database {
       home_region_settings: {
         Row: {
           id: string
-          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           visible: boolean
         }
         Insert: {
           id?: string
-          region: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           visible?: boolean
         }
         Update: {
           id?: string
-          region?: 'avrupa' | 'amerika' | 'asya' | 'diger'
+          region?: 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
           visible?: boolean
         }
       }

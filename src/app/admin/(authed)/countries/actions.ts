@@ -34,6 +34,9 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
   const has_tourism = reqBool('has_tourism', data.has_tourism)
   const danisma_visible = reqBool('danisma_visible', data.danisma_visible)
   const appointment_days = optString('appointment_days', data.appointment_days, { max: 80 })
+  const general_info = Array.isArray(data.general_info)
+    ? data.general_info.map((s) => (typeof s === 'string' ? s.trim() : '')).filter(Boolean)
+    : []
 
   let tourism_hero_image_url: string | null = null
   let tourism_intro: string[] = []
@@ -85,6 +88,7 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     tourism_tips,
     tourism_best_time,
     appointment_days,
+    general_info,
     requirements,
     handles,
     faqs,
@@ -208,6 +212,7 @@ export async function createCountry(rawData: CountryFormData): Promise<{ id: str
     has_tourism: data.has_tourism,
     danisma_visible: data.danisma_visible,
     appointment_days: data.appointment_days || null,
+    general_info: data.general_info,
     ...buildTourismPayload(data),
   }
 
@@ -268,6 +273,7 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
     has_tourism: data.has_tourism,
     danisma_visible: data.danisma_visible,
     appointment_days: data.appointment_days || null,
+    general_info: data.general_info,
     ...buildTourismPayload(data),
   }
 

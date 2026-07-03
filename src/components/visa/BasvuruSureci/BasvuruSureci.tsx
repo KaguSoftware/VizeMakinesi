@@ -14,9 +14,6 @@ export default function BasvuruSureci({ countryName }: Props) {
   return (
     <section className="container border-b border-border">
       <div className="pt-16 pb-12">
-        <FadeIn as="div" className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
-          — 03 / vize işlemleri
-        </FadeIn>
       </div>
       <div className="pb-12 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
         <FadeIn as="div">
@@ -28,10 +25,10 @@ export default function BasvuruSureci({ countryName }: Props) {
             İlk görüşmeden pasaport teslimine kadar her adımı biz yönetiyoruz. Hiçbir ayrıntı gözden kaçmaz.
           </p>
           <Link
-            href="/nasil-calisiyoruz"
+            href="/#nasil-calisiyoruz"
             className="inline-flex items-center gap-2 font-sans font-medium text-[13px] uppercase tracking-[0.15em] text-navy hover:text-coral transition-colors duration-200"
           >
-            Sürecin tamamını görün →
+            Süreci Detaylı İnceleyin →
           </Link>
         </FadeIn>
 

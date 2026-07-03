@@ -19,10 +19,7 @@ export interface SchengenEntry {
   pinned: boolean;
 }
 
-const EXTRA_ENTRIES_FALLBACK = [
-  { flag: '🇬🇧', name: 'İngiltere', slug: 'ingiltere', presetKey: 'uk' },
-  { flag: '🇮🇪', name: 'İrlanda', slug: 'irlanda', presetKey: 'ireland' },
-];
+const EXTRA_ENTRIES_FALLBACK: { flag: string; name: string; slug: string; presetKey: string }[] = [];
 
 const PINNED_SLUGS = ['fransa', 'ispanya', 'italya', 'almanya', 'yunanistan', 'avusturya', 'portekiz', 'hollanda', 'hirvatistan', 'macaristan', 'isvicre', 'cekya', 'danimarka', 'belcika', 'bulgaristan'];
 

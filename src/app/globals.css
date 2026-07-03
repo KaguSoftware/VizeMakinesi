@@ -443,6 +443,10 @@ q::after {
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
   .nav-ticker-track,

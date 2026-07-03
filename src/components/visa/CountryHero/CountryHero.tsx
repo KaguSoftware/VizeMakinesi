@@ -21,9 +21,6 @@ export default function CountryHero({ country, bullets }: CountryHeroProps) {
       </div>
 
       <div className="container relative z-10">
-        <FadeIn as="div" className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-8 pb-4 border-b border-navy/20">
-          — 01 / genel bilgiler
-        </FadeIn>
         <div className="lg:w-1/2 lg:pr-8">
           <FadeIn as="div" className="flex items-center gap-10 mb-7" duration={0.5}>
             <div className="text-[80px] leading-none">{country.flag_emoji}</div>
@@ -46,8 +43,11 @@ export default function CountryHero({ country, bullets }: CountryHeroProps) {
 
           <Stagger as="div" className="mt-10 flex flex-col gap-3 border-l-2 border-coral pl-5" delayChildren={0.3}>
             <StaggerItem>
-              <p className="font-sans font-medium text-[15px] text-navy">
-                Vize sürecinde kendinizi yalnız hissetmenize gerek yok.
+              <p className="font-sans font-medium text-[15px] text-navy leading-snug">
+                Başarılı bir vize başvurusu, evrakları tamamlamakla değil; doğru ve tutarlı bir başvuru dosyası hazırlamakla başlar.
+              </p>
+              <p className="font-mono text-[11px] text-muted mt-1 tracking-wide">
+                (Vize danışmanlığı ≠ evrak toplama işi.)
               </p>
             </StaggerItem>
             <ul className="flex flex-col gap-2">

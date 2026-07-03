@@ -1,11 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/supabase/database.types'
 
-export type RegionKey = 'avrupa' | 'amerika' | 'asya' | 'diger'
+export type RegionKey = 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
 export type HomeRegionEntry = Database['public']['Tables']['home_region_entries']['Row']
 export type HomeRegionSetting = Database['public']['Tables']['home_region_settings']['Row']
 
-const REGIONS: RegionKey[] = ['avrupa', 'amerika', 'asya', 'diger']
+const REGIONS: RegionKey[] = ['avrupa', 'populer', 'asya', 'amerika', 'diger']
 
 export async function getHomeRegionsData() {
   const supabase = await createClient()

@@ -19,10 +19,10 @@
   --dur-marquee: 60s;
   --dur-mega-panel: 0.18s;
   --dur-mosaic-slow: 1.1s;
-  --dur-mosaic-flag: 1.4s;
-  --dur-mosaic-flag-opacity: 1.2s;
-  --dur-mosaic-flag-transform: 1.6s;
-  --dur-mosaic-text: 0.9s;
+  --dur-mosaic-flag: 0.3s;
+  --dur-mosaic-flag-opacity: 0.25s;
+  --dur-mosaic-flag-transform: 0.35s;
+  --dur-mosaic-text: 0.25s;
 }
 
 * {

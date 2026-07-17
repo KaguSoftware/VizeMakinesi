@@ -83,12 +83,12 @@ export default function Footer() {
                     <div className="flex flex-col items-end gap-1.5">
                         <span className="flex items-center gap-2 text-white/25">
                             <Image
-                                src="/KaguSoftwareLogoComp.png"
+                                src="/KaguSoftwareLogoTransparent.png"
                                 alt="Kagu Software"
                                 width={0}
                                 height={0}
                                 sizes="100px"
-                                className="invert w-25 h-auto"
+                                className="w-25 h-auto"
                             />
                             Built by Kagu Software
                         </span>

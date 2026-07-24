@@ -142,27 +142,29 @@ export default function RequestsList({ initial }: { initial: RequestRow[] }) {
             key={r.id}
             className={[
               'border bg-white p-5 md:p-6 transition-colors',
-              r.is_read ? 'border-navy/10' : 'border-coral/40 bg-coral/[0.02]',
+              r.is_read ? 'border-navy/10' : 'border-coral',
             ].join(' ')}
           >
             <div className="flex items-start justify-between gap-4 flex-wrap">
-              <div className="flex items-start gap-3 min-w-0">
-                {!r.is_read && (
-                  <span className="mt-2 w-2 h-2 rounded-full bg-coral shrink-0" aria-label="Okunmadı" />
-                )}
-                <div className="min-w-0">
-                  <h2 className="font-serif text-[19px] text-navy leading-tight">
-                    {r.first_name} {r.last_name}
-                    {r.country && (
-                      <span className="ml-2 font-sans text-[14px] text-navy/60">
-                        {r.country_emoji ? `${r.country_emoji} ` : ''}{r.country}
-                      </span>
-                    )}
-                  </h2>
-                  <div className="mt-1 font-mono text-[11px] text-navy/55">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2.5 mb-1">
+                  {!r.is_read && (
+                    <span className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] px-1.5 py-0.5 bg-coral text-white rounded-sm">
+                      Yeni
+                    </span>
+                  )}
+                  <span className="font-mono text-[11px] text-navy/55">
                     {relative(r.created_at)}
-                  </div>
+                  </span>
                 </div>
+                <h2 className="font-serif text-[20px] text-navy leading-tight">
+                  {r.first_name} {r.last_name}
+                  {r.country && (
+                    <span className="ml-2 font-sans text-[14px] text-navy/60">
+                      {r.country_emoji ? `${r.country_emoji} ` : ''}{r.country}
+                    </span>
+                  )}
+                </h2>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <button

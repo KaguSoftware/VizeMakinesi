@@ -3,13 +3,25 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import PageHead from "@/components/shared/PageHead/PageHead";
 import DateRangePicker from "./DateRangePicker";
-import WhatsAppPreview from "./WhatsAppPreview";
-import { buildWhatsAppMessage } from "./buildWhatsAppMessage";
+import CountryPicker from "./CountryPicker";
+import FormPreview from "./FormPreview";
+import { buildWhatsAppMessage, CONTACT_OPTIONS, type ContactPref } from "./buildWhatsAppMessage";
 import { SITE } from "@/data/site";
 import type { DanismaCountry } from "@/lib/data/countries";
 import { EASE_OUT_EXPO } from "@/components/shared/motion/constants";
 
-type Errors = Partial<Record<"ad" | "soyad" | "email" | "country" | "travelDate", string>>;
+type Errors = Partial<Record<"ad" | "soyad" | "email" | "phone" | "country" | "travelDate", string>>;
+
+// Always keeps a leading "+" and at most 12 digits after it.
+function sanitizePhone(raw: string): string {
+  const digits = raw.replace(/\D/g, "").slice(0, 12);
+  return `+${digits}`;
+}
+
+// Letters (incl. Turkish), spaces, hyphens and apostrophes only — no digits.
+function sanitizeName(raw: string): string {
+  return raw.replace(/[^\p{L}\s'-]/gu, "");
+}
 
 const fieldAnim = (i: number) => ({
   initial: { opacity: 0, y: 12 },
@@ -21,9 +33,11 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
   const [ad, setAd] = useState("");
   const [soyad, setSoyad] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("+90");
   const [country, setCountry] = useState("");
   const [travelDate, setTravelDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
+  const [contactPref, setContactPref] = useState<ContactPref>("whatsapp");
   const [note, setNote] = useState("");
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
@@ -31,8 +45,8 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
   const selectedCountry = countries.find((c) => c.name === country);
 
   const message = useMemo(
-    () => buildWhatsAppMessage({ ad, soyad, email, country, countryEmoji: selectedCountry?.flag_emoji ?? null, travelDate, returnDate, note }),
-    [ad, soyad, email, country, selectedCountry?.flag_emoji, travelDate, returnDate, note]
+    () => buildWhatsAppMessage({ ad, soyad, email, phone, country, countryEmoji: selectedCountry?.flag_emoji ?? null, travelDate, returnDate, contactPref, note }),
+    [ad, soyad, email, phone, country, selectedCountry?.flag_emoji, travelDate, returnDate, contactPref, note]
   );
 
   function validate(): Errors {
@@ -40,6 +54,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
     if (!ad.trim()) errs.ad = "Adınızı girin";
     if (!soyad.trim()) errs.soyad = "Soyadınızı girin";
     if (!/^\S+@\S+\.\S+$/.test(email.trim())) errs.email = "Geçerli bir e-posta girin";
+    if (!/^\+\d{12}$/.test(phone)) errs.phone = "Telefon numarası + işaretinden sonra tam 12 rakam olmalı";
     if (!country) errs.country = "Ülke seçin";
     if (!travelDate) errs.travelDate = "Gidiş tarihi seçin";
     return errs;
@@ -65,7 +80,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
         eyebrow="— Danışma formu"
         title={<>Vize Sürecinizi <em className="font-normal italic text-coral">Bugün Başlatın.</em></>}
         titleClassName="font-serif font-bold text-[clamp(28px,4.2vw,72px)] leading-[1.05] tracking-[-0.02em]"
-        lede="Formu doldurun; size özel WhatsApp mesajınız hazırlansın. Tek tıkla danışmanlarımıza ulaştırın — evrak karmaşasından randevu stresine kadar tüm süreci Vize Makinesi hızıyla biz yönetelim."
+        lede="Formu doldurun, Tek tıkla danışmanlarımıza ulaştırın — evrak karmaşasından randevu stresine kadar tüm süreci Vize Makinesi hızıyla biz yönetelim."
         ledeClassName="font-serif text-[16px] md:text-[20px] text-navy mt-6 md:mt-9 leading-[1.55] border-l border-coral pl-6"
       />
 
@@ -93,7 +108,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
                       id="ad"
                       type="text"
                       value={ad}
-                      onChange={(e) => setAd(e.target.value)}
+                      onChange={(e) => setAd(sanitizeName(e.target.value))}
                       placeholder="Ayşe"
                       className={inputCls}
                       autoComplete="given-name"
@@ -112,7 +127,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
                       id="soyad"
                       type="text"
                       value={soyad}
-                      onChange={(e) => setSoyad(e.target.value)}
+                      onChange={(e) => setSoyad(sanitizeName(e.target.value))}
                       placeholder="Kaya"
                       className={inputCls}
                       autoComplete="family-name"
@@ -147,37 +162,52 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
                 />
               </motion.div>
 
-              {/* Country */}
+              {/* Phone */}
               <motion.div {...fieldAnim(2)}>
+                <Field
+                  id="phone"
+                  label="Telefon"
+                  required
+                  error={errors.phone}
+                  input={
+                    <input
+                      id="phone"
+                      type="tel"
+                      inputMode="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(sanitizePhone(e.target.value))}
+                      placeholder="+90XXXXXXXXXX"
+                      className={inputCls}
+                      autoComplete="tel"
+                      aria-invalid={Boolean(errors.phone)}
+                      aria-describedby={errors.phone ? "phone-error" : undefined}
+                    />
+                  }
+                />
+              </motion.div>
+
+              {/* Country */}
+              <motion.div {...fieldAnim(3)}>
                 <Field
                   id="country"
                   label="Gidilecek Ülke"
                   required
                   error={errors.country}
                   input={
-                    <select
-                      id="country"
+                    <CountryPicker
+                      countries={countries}
                       value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                      className={`${inputCls} cursor-pointer`}
-                      aria-invalid={Boolean(errors.country)}
-                      aria-describedby={errors.country ? "country-error" : undefined}
-                    >
-                      <option value="" disabled>
-                        Ülke seçin…
-                      </option>
-                      {countries.map((c, i) => (
-                        <option key={`${c.name}-${i}`} value={c.name}>
-                          {c.flag_emoji ? `${c.flag_emoji} ${c.name}` : c.name}
-                        </option>
-                      ))}
-                    </select>
+                      onChange={setCountry}
+                      invalid={Boolean(errors.country)}
+                      describedBy={errors.country ? "country-error" : undefined}
+                    />
                   }
+                  bare
                 />
               </motion.div>
 
               {/* Travel dates */}
-              <motion.div {...fieldAnim(3)}>
+              <motion.div {...fieldAnim(4)}>
                 <Field
                   id="travelDate"
                   label="Seyahat Tarihleri"
@@ -195,8 +225,41 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
                 />
               </motion.div>
 
+              {/* Contact preference */}
+              <motion.div {...fieldAnim(5)}>
+                <Field
+                  id="contactPref"
+                  label="Yanıtı nereden almak istersiniz?"
+                  input={
+                    <div className="flex flex-wrap gap-2.5" role="radiogroup" aria-label="Yanıtı nereden almak istersiniz?">
+                      {CONTACT_OPTIONS.map((o) => {
+                        const active = o.value === contactPref;
+                        return (
+                          <button
+                            key={o.value}
+                            type="button"
+                            role="radio"
+                            aria-checked={active}
+                            onClick={() => setContactPref(o.value)}
+                            className={`inline-flex items-center gap-2 rounded-full px-4 py-2.5 font-sans text-[13px] font-medium border transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 ${
+                              active
+                                ? "bg-coral text-white border-coral"
+                                : "bg-transparent text-navy border-border hover:border-coral"
+                            }`}
+                          >
+                            <span aria-hidden="true">{o.emoji}</span>
+                            {o.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  }
+                  bare
+                />
+              </motion.div>
+
               {/* Note */}
-              <motion.div {...fieldAnim(4)}>
+              <motion.div {...fieldAnim(6)}>
                 <Field
                   id="note"
                   label="Not / Ek Bilgi"
@@ -216,7 +279,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
             </div>
 
             {/* Submit */}
-            <motion.div {...fieldAnim(5)} className="mt-10 border-t border-border pt-6 flex items-center justify-between flex-wrap gap-4">
+            <motion.div {...fieldAnim(7)} className="mt-10 border-t border-border pt-6 flex items-center justify-between flex-wrap gap-4">
               <div role="status" aria-live="assertive" className="min-h-[1em]">
                 {Object.keys(errors).length > 0 ? (
                   <motion.p
@@ -268,7 +331,18 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
           </form>
 
           <aside className="lg:col-span-5">
-            <WhatsAppPreview message={message} />
+            <FormPreview
+              ad={ad}
+              soyad={soyad}
+              email={email}
+              phone={phone}
+              country={country}
+              countryEmoji={selectedCountry?.flag_emoji ?? null}
+              travelDate={travelDate}
+              returnDate={returnDate}
+              contactPref={contactPref}
+              note={note}
+            />
           </aside>
         </div>
       </section>

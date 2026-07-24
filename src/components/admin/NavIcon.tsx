@@ -16,6 +16,13 @@ export function NavIcon({ name, className = 'w-4 h-4' }: Props) {
           <rect x="9" y="9" width="5" height="5" />
         </svg>
       )
+    case 'requests':
+      return (
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" className={className}>
+          <path d="M2 4h12v8H2z" />
+          <path d="M2 4l6 5 6-5" />
+        </svg>
+      )
     case 'countries':
       return (
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" className={className}>

@@ -1,12 +1,12 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import PageHead from "@/components/shared/PageHead/PageHead";
 import DateRangePicker from "./DateRangePicker";
 import CountryPicker from "./CountryPicker";
 import FormPreview from "./FormPreview";
-import { buildWhatsAppMessage, CONTACT_OPTIONS, type ContactPref } from "./buildWhatsAppMessage";
-import { SITE } from "@/data/site";
+import { CONTACT_OPTIONS, type ContactPref } from "./requestSummary";
+import { submitConsultationRequest } from "./actions";
 import type { DanismaCountry } from "@/lib/data/countries";
 import { EASE_OUT_EXPO } from "@/components/shared/motion/constants";
 
@@ -41,13 +41,10 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
   const [note, setNote] = useState("");
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [sent, setSent] = useState(false);
 
   const selectedCountry = countries.find((c) => c.name === country);
-
-  const message = useMemo(
-    () => buildWhatsAppMessage({ ad, soyad, email, phone, country, countryEmoji: selectedCountry?.flag_emoji ?? null, travelDate, returnDate, contactPref, note }),
-    [ad, soyad, email, phone, country, selectedCountry?.flag_emoji, travelDate, returnDate, contactPref, note]
-  );
 
   function validate(): Errors {
     const errs: Errors = {};
@@ -60,7 +57,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
     return errs;
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) {
@@ -68,10 +65,31 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
       return;
     }
     setErrors({});
+    setSubmitError("");
     setSubmitting(true);
-    const text = encodeURIComponent(message);
-    window.open(`${SITE.whatsappHref}?text=${text}`, "_blank", "noopener,noreferrer");
-    setTimeout(() => setSubmitting(false), 1200);
+    try {
+      const res = await submitConsultationRequest({
+        ad,
+        soyad,
+        email,
+        phone,
+        country,
+        countryEmoji: selectedCountry?.flag_emoji ?? null,
+        travelDate,
+        returnDate,
+        contactPref,
+        note,
+      });
+      if (res.ok) {
+        setSent(true);
+      } else {
+        setSubmitError(res.error);
+      }
+    } catch {
+      setSubmitError("Bir sorun oluştu. Lütfen tekrar deneyin.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -85,6 +103,30 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
       />
 
       <section className="container pt-20 pb-32">
+        {sent ? (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
+            className="max-w-2xl mx-auto rounded-2xl border border-border bg-white/70 backdrop-blur-sm shadow-[0_1px_0_rgba(0,0,0,0.04),0_24px_48px_-32px_rgba(15,23,42,0.18)] p-10 md:p-14 text-center"
+          >
+            <div className="w-14 h-14 rounded-2xl bg-coral/10 flex items-center justify-center mx-auto mb-6">
+              <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#309c9b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+            </div>
+            <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-3">
+              — Talebiniz Alındı
+            </div>
+            <h2 className="font-serif font-bold text-[clamp(24px,3.5vw,40px)] leading-[1.1] tracking-[-0.02em] text-navy">
+              Teşekkürler, talebiniz bize ulaştı.
+            </h2>
+            <p className="font-serif text-[16px] md:text-[18px] text-navy/80 mt-5 leading-[1.55]">
+              Danışmanlarımız en kısa sürede, seçtiğiniz iletişim tercihiyle sizinle iletişime
+              geçecek. E-posta kutunuza bir onay mesajı gönderdik.
+            </p>
+          </motion.div>
+        ) : (
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-14">
           <form
             onSubmit={handleSubmit}
@@ -281,7 +323,15 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
             {/* Submit */}
             <motion.div {...fieldAnim(7)} className="mt-10 border-t border-border pt-6 flex items-center justify-between flex-wrap gap-4">
               <div role="status" aria-live="assertive" className="min-h-[1em]">
-                {Object.keys(errors).length > 0 ? (
+                {submitError ? (
+                  <motion.p
+                    initial={{ opacity: 0, y: -2 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="font-mono text-[10px] uppercase tracking-[0.14em] text-coral"
+                  >
+                    {submitError}
+                  </motion.p>
+                ) : Object.keys(errors).length > 0 ? (
                   <motion.p
                     initial={{ opacity: 0, y: -2 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -301,9 +351,9 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
                 whileHover={submitting ? undefined : { scale: 1.03, y: -1 }}
                 whileTap={submitting ? undefined : { scale: 0.98 }}
                 transition={{ duration: 0.18, ease: EASE_OUT_EXPO }}
-                className="inline-flex items-center gap-3 font-sans font-semibold text-[14px] uppercase tracking-[0.12em] px-7 py-4 bg-whatsapp text-white border border-whatsapp hover:bg-transparent hover:text-whatsapp transition-colors duration-200 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 disabled:opacity-70 disabled:cursor-wait disabled:hover:bg-whatsapp disabled:hover:text-white"
+                className="inline-flex items-center gap-3 font-sans font-semibold text-[14px] uppercase tracking-[0.12em] px-7 py-4 bg-coral text-white border border-coral hover:bg-transparent hover:text-coral transition-colors duration-200 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 disabled:opacity-70 disabled:cursor-wait disabled:hover:bg-coral disabled:hover:text-white"
               >
-                {submitting ? (
+                {submitting && (
                   <motion.svg
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
@@ -319,13 +369,8 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
                   >
                     <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                   </motion.svg>
-                ) : (
-                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.114 1.522 5.847L.057 23.882a.5.5 0 0 0 .638.605l6.256-1.643A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.893a9.875 9.875 0 0 1-5.031-1.375l-.36-.214-3.733.979.997-3.639-.235-.374A9.855 9.855 0 0 1 2.107 12C2.107 6.58 6.58 2.107 12 2.107S21.893 6.58 21.893 12 17.42 21.893 12 21.893z" />
-                  </svg>
                 )}
-                {submitting ? "WhatsApp açılıyor…" : "WhatsApp'tan Gönder →"}
+                {submitting ? "Gönderiliyor…" : "Talebi Gönder →"}
               </motion.button>
             </motion.div>
           </form>
@@ -345,6 +390,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
             />
           </aside>
         </div>
+        )}
       </section>
     </>
   );

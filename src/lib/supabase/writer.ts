@@ -30,6 +30,7 @@ export type WritableTable =
   | 'country_faqs'
   | 'country_documents'
   | 'page_sections'
+  | 'consultation_requests'
 
 export function writer(supabase: SB, table: WritableTable): Writer {
   return supabase.from(table) as unknown as Writer

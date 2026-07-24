@@ -6,7 +6,7 @@ export const CONTACT_OPTIONS: { value: ContactPref; label: string; emoji: string
   { value: "phone", label: "Telefon Görüşmesi", emoji: "📞" },
 ];
 
-export interface WhatsAppFormInput {
+export interface RequestSummaryInput {
   ad: string;
   soyad: string;
   email: string;
@@ -24,7 +24,11 @@ function placeholder(value: string, fallback = "—") {
   return trimmed.length ? trimmed : fallback;
 }
 
-export function buildWhatsAppMessage(input: WhatsAppFormInput): string {
+/**
+ * Plain-text summary of a consultation request. Used as the fallback text body
+ * of the owner-notification email (the HTML body is built in the email module).
+ */
+export function buildRequestSummary(input: RequestSummaryInput): string {
   const adSoyad = [input.ad, input.soyad].map((p) => p.trim()).filter(Boolean).join(" ") || "—";
   const dates = input.travelDate
     ? input.returnDate
@@ -34,7 +38,7 @@ export function buildWhatsAppMessage(input: WhatsAppFormInput): string {
   const pref = CONTACT_OPTIONS.find((o) => o.value === input.contactPref);
 
   return [
-    "Merhaba, vize danışmanlığı talebim var.",
+    "Yeni danışma talebi.",
     "",
     `👤 Ad Soyad: ${adSoyad}`,
     `📧 E-posta: ${placeholder(input.email)}`,

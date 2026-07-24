@@ -365,6 +365,53 @@ export interface Database {
           created_at?: string
         }
       }
+      consultation_requests: {
+        Row: {
+          id: string
+          first_name: string
+          last_name: string
+          email: string
+          phone: string
+          country: string | null
+          country_emoji: string | null
+          travel_date: string | null
+          return_date: string | null
+          contact_pref: string
+          note: string | null
+          is_read: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          first_name: string
+          last_name: string
+          email: string
+          phone: string
+          country?: string | null
+          country_emoji?: string | null
+          travel_date?: string | null
+          return_date?: string | null
+          contact_pref: string
+          note?: string | null
+          is_read?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          first_name?: string
+          last_name?: string
+          email?: string
+          phone?: string
+          country?: string | null
+          country_emoji?: string | null
+          travel_date?: string | null
+          return_date?: string | null
+          contact_pref?: string
+          note?: string | null
+          is_read?: boolean
+          created_at?: string
+        }
+      }
       home_region_entries: {
         Row: {
           id: string

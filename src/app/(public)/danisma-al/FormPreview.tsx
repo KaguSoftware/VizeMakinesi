@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { CONTACT_OPTIONS, type ContactPref } from "./buildWhatsAppMessage";
+import { CONTACT_OPTIONS, type ContactPref } from "./requestSummary";
 import { formatDisplay } from "@/lib/dates/calendar";
 
 interface Props {

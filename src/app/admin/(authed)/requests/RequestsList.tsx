@@ -52,6 +52,7 @@ export default function RequestsList({ initial }: { initial: RequestRow[] }) {
   useEffect(() => {
     const supabase = createClient()
     let channel: ReturnType<typeof supabase.channel> | null = null
+    let cancelled = false
 
     ;(async () => {
       // CRITICAL: an RLS table streams nothing on an anon socket even though the
@@ -59,6 +60,11 @@ export default function RequestsList({ initial }: { initial: RequestRow[] }) {
       const { data } = await supabase.auth.getSession()
       const token = data.session?.access_token
       if (token) await supabase.realtime.setAuth(token)
+
+      // The effect can be torn down (e.g. React Strict Mode's double-invoke)
+      // while we were awaiting above. Bail before touching a channel with a
+      // topic Supabase will dedupe against an already-subscribed instance.
+      if (cancelled) return
 
       channel = supabase
         .channel('consultation_requests_admin')
@@ -92,6 +98,7 @@ export default function RequestsList({ initial }: { initial: RequestRow[] }) {
     })()
 
     return () => {
+      cancelled = true
       if (channel) supabase.removeChannel(channel)
     }
   }, [showToast])

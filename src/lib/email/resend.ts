@@ -2,8 +2,11 @@ import 'server-only'
 import { Resend } from 'resend'
 import { CONTACT_OPTIONS } from '@/app/(public)/danisma-al/requestSummary'
 
-// DNS verified on gezimakinesi.com — send from a subdomain-free verified sender.
-const FROM = 'Vize Makinesi <talep@gezimakinesi.com>'
+// The sender domain must be the one verified in Resend (Domains tab) —
+// anything else is rejected with a 403. vizemakinesi.com is verified
+// (DKIM + SPF, eu-west-1). The recipient needs no verification, so the
+// owner alert still goes to the gezimakinesi.com inbox.
+const FROM = 'Vize Makinesi <talep@vizemakinesi.com>'
 const OWNER_TO = 'vize@gezimakinesi.com'
 
 let client: Resend | null = null
@@ -86,13 +89,21 @@ export async function sendOwnerRequestEmail(d: RequestEmailData): Promise<void> 
   </div>`
 
   try {
-    await r.emails.send({
+    // Resend returns { data, error } — it does NOT throw on an API-level
+    // rejection, so the error has to be read off the result or the send
+    // fails completely silently.
+    const { data, error } = await r.emails.send({
       from: FROM,
       to: OWNER_TO,
       replyTo: d.email,
       subject: `Yeni danışma talebi — ${name}${d.country ? ` (${d.country})` : ''}`,
       html,
     })
+    if (error) {
+      console.error('[email] owner notification rejected by Resend', error)
+    } else {
+      console.log('[email] owner notification sent', data?.id)
+    }
   } catch (err) {
     console.error('[email] owner notification failed', err)
   }
@@ -124,12 +135,17 @@ export async function sendCustomerConfirmationEmail(d: RequestEmailData): Promis
   </div>`
 
   try {
-    await r.emails.send({
+    const { data, error } = await r.emails.send({
       from: FROM,
       to: d.email,
       subject: 'Danışma talebiniz alındı — Vize Makinesi',
       html,
     })
+    if (error) {
+      console.error('[email] customer confirmation rejected by Resend', error)
+    } else {
+      console.log('[email] customer confirmation sent', data?.id)
+    }
   } catch (err) {
     console.error('[email] customer confirmation failed', err)
   }

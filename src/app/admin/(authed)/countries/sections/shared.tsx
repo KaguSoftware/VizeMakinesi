@@ -6,6 +6,7 @@ import type { ValidationError } from '../validation'
 export interface TextItem extends RepeatableItem { text: string }
 export interface FaqItem extends RepeatableItem { question: string; answer: string }
 export interface DocumentItem extends RepeatableItem { label: string; pdf_url: string }
+export interface ProcessStepItem extends RepeatableItem { title: string; description: string }
 
 export function mkText(text = ''): TextItem {
   return { id: crypto.randomUUID(), text }
@@ -17,6 +18,10 @@ export function mkFaq(question = '', answer = ''): FaqItem {
 
 export function mkDoc(label = '', pdf_url = ''): DocumentItem {
   return { id: crypto.randomUUID(), label, pdf_url }
+}
+
+export function mkProcessStep(title = '', description = ''): ProcessStepItem {
+  return { id: crypto.randomUUID(), title, description }
 }
 
 export function slugify(s: string) {
@@ -74,6 +79,7 @@ export const FORM_SECTIONS = [
   { id: 'bayrak', label: 'Bayrak' },
   { id: 'mozaik', label: 'Ana Sayfa Mozaik' },
   { id: 'genel-bilgi', label: 'Genel Bilgi' },
+  { id: 'basvuru-sureci', label: 'Başvuru Süreci' },
   { id: 'pdf-belgeler', label: 'PDF Belgeler' },
   { id: 'sss', label: 'SSS' },
   { id: 'turizm', label: 'Turizm İçeriği' },

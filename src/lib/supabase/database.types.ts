@@ -172,6 +172,29 @@ export interface Database {
           sort_order?: number
         }
       }
+      country_process_steps: {
+        Row: {
+          id: string
+          country_id: string
+          title: string
+          description: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          country_id: string
+          title: string
+          description: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          country_id?: string
+          title?: string
+          description?: string
+          sort_order?: number
+        }
+      }
       mega_menu_categories: {
         Row: {
           id: string

@@ -9,7 +9,6 @@ import SchengenCountryGrid from '@/components/visa/SchengenCountryGrid/SchengenC
 import WarningList from '@/components/schengen/WarningList/WarningList';
 import BasvuruSureci from '@/components/visa/BasvuruSureci/BasvuruSureci';
 import GerekliEvraklar from '@/components/visa/GerekliEvraklar/GerekliEvraklar';
-import VizeReddi from '@/components/visa/VizeReddi/VizeReddi';
 import CountryCTA from '@/components/visa/CountryCTA/CountryCTA';
 import { SCHENGEN_SLUG_MAP } from '@/data/schengen';
 import { SCHENGEN_REJECTION_REASONS } from '@/components/schengen/SchengenMembers/constants';
@@ -62,9 +61,6 @@ export default async function CountryPage({ params }: Props) {
 
         {/* 03 — Nasıl Yapılır */}
         <BasvuruSureci countryName={stub.name} />
-
-        {/* 04 — Vize Reddi */}
-        <VizeReddi countryName={stub.name} />
 
         {/* 05 — FAQ */}
         {stub.faqs.length > 0 && (
@@ -168,10 +164,10 @@ export default async function CountryPage({ params }: Props) {
       />
 
       {/* 03 — Nasıl Yapılır */}
-      <BasvuruSureci countryName={country.name} />
-
-      {/* 04 — Vize Reddi */}
-      <VizeReddi countryName={country.name} />
+      <BasvuruSureci
+        countryName={country.name}
+        steps={country.process_steps.map((s) => ({ title: s.title, description: s.description }))}
+      />
 
       {/* 05 — FAQ */}
       <FAQ

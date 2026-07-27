@@ -8,40 +8,52 @@ import type { HomeRegionEntry } from '@/lib/data/homeRegions';
 
 const VIZE_TURLERI = [
     {
-        icon: '🔄',
-        tag: 'Tip A',
-        title: 'Havalimanı Transit Vizesi',
-        desc: 'Schengen bölgesine giriş yapmaksızın yalnızca havalimanı transit alanında bekleyecekler için gereklidir. Bazı ülke pasaport sahiplerine zorunlu tutulur.',
+        icon: '🏖️',
+        tag: 'Tip C',
+        title: 'Turistik Vize',
+        desc: 'Gezi, tatil ve bireysel seyahatler için 180 gün içinde en fazla 90 güne kadar kalış hakkı sağlayan kısa süreli C tipi Schengen vizesidir.',
     },
     {
-        icon: '✈️',
+        icon: '💼',
         tag: 'Tip C',
-        title: 'Kısa Süreli Vize',
-        desc: 'Herhangi bir 180 günlük dönemde en fazla 90 gün kalışa imkân tanır. Turizm, iş görüşmesi ve aile ziyaretini kapsar. Tek, çift veya çok girişli olabilir.',
+        title: 'Ticari Vize',
+        desc: 'İş görüşmesi, toplantı ve fuar gibi ticari organizasyonlara katılmak için başvurulan kısa süreli C tipi Schengen vizesidir.',
+    },
+    {
+        icon: '👨‍👩‍👧',
+        tag: 'Tip C',
+        title: 'Aile Ziyareti Vizesi',
+        desc: 'Yakınlarını veya aile bireylerini ziyaret etmek amacıyla davetiye ile başvurulan kısa süreli C tipi Schengen vizesidir.',
     },
     {
         icon: '🏠',
         tag: 'Tip D',
-        title: 'Uzun Süreli Ulusal Vize',
-        desc: '90 günü aşan kalışlar için hedef ülke tarafından verilen ulusal vizedir. Öğrenci, çalışma ve aile birleşimi başvuruları bu kategori altında değerlendirilir.',
+        title: 'Aile Birleşimi Vizesi',
+        desc: 'Yasal olarak ikamet eden aile bireylerinin yanına kalıcı olarak yerleşmek amacıyla başvurulan uzun süreli D tipi ulusal vizedir.',
     },
     {
         icon: '🎓',
-        tag: 'Tip D — Öğrenci',
+        tag: 'Tip D',
         title: 'Öğrenci Vizesi',
-        desc: 'Lisans, yüksek lisans veya dil okulu gibi uzun süreli eğitim programlarına katılmak isteyen bireyler için düzenlenen D tipi ulusal vizedir.',
+        desc: 'Üniversite veya dil kursu gibi uzun süreli eğitim programlarına katılacak kişilerin aldığı uzun süreli D tipi ulusal vizedir.',
     },
     {
-        icon: '💼',
-        tag: 'Tip D — Çalışma',
+        icon: '🛠️',
+        tag: 'Tip D',
         title: 'Çalışma Vizesi',
-        desc: 'Yurt dışında iş teklifi alan ve çalışma izni başvurusunda bulunan kişiler için hedef ülkenin yetkili makamlarınca verilen uzun süreli vizedir.',
+        desc: 'Bir ülkede yasal olarak istihdam edilmek ve çalışmak üzere resmi belgelerle başvurulan uzun süreli D tipi ulusal vizedir.',
     },
     {
-        icon: '👨‍👩‍👧',
-        tag: 'Tip D — Aile',
-        title: 'Aile Birleşimi Vizesi',
-        desc: 'Yurt dışında yasal ikamet eden aile üyelerine kavuşmak amacıyla başvurulan uzun süreli ulusal vizedir. Sponsor aile üyesinin belgesi zorunludur.',
+        icon: '🔄',
+        tag: 'Tip C',
+        title: 'Transit Vizesi',
+        desc: 'Bir ülkenin topraklarından geçerek başka bir ülkeye seyahat edecek yolcuların ihtiyaç duyduğu kısa süreli C tipi Schengen vizesidir.',
+    },
+    {
+        icon: '🎤',
+        tag: 'Tip C',
+        title: 'Fuar, Kültürel Etkinlik ve Konferans Vizesi',
+        desc: 'Uluslararası kongre, konferans, bilimsel veya kültürel etkinliklere katılacak kişilerin aldığı kısa süreli C tipi Schengen vizesidir.',
     },
 ];
 
@@ -210,7 +222,7 @@ export default function VizelerPageClient({ entries, settings }: Props) {
                     <h2 className="font-serif font-bold text-[clamp(24px,3.5vw,48px)] leading-none tracking-tight text-navy mb-10">
                         Genel Vize <em className="font-normal italic text-coral">Türleri</em>
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                         {VIZE_TURLERI.map((tur) => (
                             <div
                                 key={tur.title}

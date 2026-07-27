@@ -29,6 +29,7 @@ export type WritableTable =
   | 'country_handles'
   | 'country_faqs'
   | 'country_documents'
+  | 'country_process_steps'
   | 'page_sections'
   | 'consultation_requests'
 

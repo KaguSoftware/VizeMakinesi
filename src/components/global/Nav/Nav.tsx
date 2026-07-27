@@ -17,7 +17,7 @@ interface NavProps {
 
 function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
     return {
-        label: 'Vizeler',
+        label: 'Ülkeler',
         columns: [
             ...dbCategories.map((cat) => {
                 const isEurope = /avrupa|europe/i.test(cat.name);
@@ -170,7 +170,7 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                                 key={group.label}
                                 onMouseEnter={() => handleEnter(i)}
                             >
-                                {group.label === 'Vizeler' ? (
+                                {group.label === 'Ülkeler' ? (
                                     <Link
                                         href="/vizeler"
                                         aria-haspopup="true"

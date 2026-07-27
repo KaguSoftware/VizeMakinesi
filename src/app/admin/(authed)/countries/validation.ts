@@ -3,6 +3,7 @@ export interface ValidationError { field: string; message: string }
 export interface FaqInput { question: string; answer: string }
 export interface TextInput { text: string }
 export interface DocumentInput { label: string; pdf_url: string }
+export interface ProcessStepInput { title: string; description: string }
 
 export interface CountryFormData {
   name: string
@@ -28,6 +29,7 @@ export interface CountryFormData {
   handles?: TextInput[]
   faqs: FaqInput[]
   documents: DocumentInput[]
+  process_steps: ProcessStepInput[]
 }
 
 export function validateCountry(data: CountryFormData): ValidationError[] {

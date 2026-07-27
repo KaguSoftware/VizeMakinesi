@@ -55,6 +55,7 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
   if (!Array.isArray(data.requirements)) throw new AdminValidationError('requirements', 'Gerekli belgeler geçersiz')
   if (!Array.isArray(data.faqs)) throw new AdminValidationError('faqs', 'SSS geçersiz')
   if (!Array.isArray(data.documents)) throw new AdminValidationError('documents', 'PDF belgeler geçersiz')
+  if (!Array.isArray(data.process_steps)) throw new AdminValidationError('process_steps', 'Başvuru süreci adımları geçersiz')
 
   const handles: { text: string }[] = []
   const requirements = data.requirements
@@ -68,6 +69,10 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     .filter((d) => d && typeof d.label === 'string' && typeof d.pdf_url === 'string')
     .map((d) => ({ label: d.label.trim(), pdf_url: d.pdf_url.trim() }))
     .filter((d) => d.label.length > 0 && d.pdf_url.length > 0)
+  const process_steps = data.process_steps
+    .filter((s) => s && typeof s.title === 'string' && typeof s.description === 'string')
+    .map((s) => ({ title: s.title.trim(), description: s.description.trim() }))
+    .filter((s) => s.title.length > 0 && s.description.length > 0)
 
   return {
     name,
@@ -93,6 +98,7 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     handles,
     faqs,
     documents,
+    process_steps,
   }
 }
 
@@ -110,6 +116,7 @@ async function upsertChildren(supabase: SB, countryId: string, data: CountryForm
   await writer(supabase, 'country_requirements').delete().eq('country_id', countryId)
   await writer(supabase, 'country_faqs').delete().eq('country_id', countryId)
   await writer(supabase, 'country_documents').delete().eq('country_id', countryId)
+  await writer(supabase, 'country_process_steps').delete().eq('country_id', countryId)
 
   if (data.requirements.length > 0) {
     await writer(supabase, 'country_requirements').insert(
@@ -132,6 +139,16 @@ async function upsertChildren(supabase: SB, countryId: string, data: CountryForm
         country_id: countryId,
         label: d.label,
         pdf_url: d.pdf_url,
+        sort_order: i,
+      }))
+    )
+  }
+  if (data.process_steps.length > 0) {
+    await writer(supabase, 'country_process_steps').insert(
+      data.process_steps.map((s, i) => ({
+        country_id: countryId,
+        title: s.title,
+        description: s.description,
         sort_order: i,
       }))
     )

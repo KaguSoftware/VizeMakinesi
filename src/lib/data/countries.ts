@@ -7,13 +7,15 @@ type CountryRow = Database['public']['Tables']['countries']['Row'];
 type RequirementRow = Database['public']['Tables']['country_requirements']['Row'];
 type FaqRow = Database['public']['Tables']['country_faqs']['Row'];
 type DocumentRow = Database['public']['Tables']['country_documents']['Row'];
+type ProcessStepRow = Database['public']['Tables']['country_process_steps']['Row'];
 
-export type { DocumentRow };
+export type { DocumentRow, ProcessStepRow };
 
 export interface CountryWithRelations extends CountryRow {
   requirements: RequirementRow[];
   faqs: FaqRow[];
   documents: DocumentRow[];
+  process_steps: ProcessStepRow[];
 }
 
 async function attachRelations(countries: CountryRow[]): Promise<CountryWithRelations[]> {
@@ -22,22 +24,25 @@ async function attachRelations(countries: CountryRow[]): Promise<CountryWithRela
   const supabase = await createClient();
   const ids = countries.map((c) => c.id);
 
-  // Run the three relation queries in parallel — they're independent.
-  const [reqsResult, faqsResult, docsResult] = await Promise.all([
+  // Run the four relation queries in parallel — they're independent.
+  const [reqsResult, faqsResult, docsResult, stepsResult] = await Promise.all([
     supabase.from('country_requirements').select('*').in('country_id', ids).order('sort_order'),
     supabase.from('country_faqs').select('*').in('country_id', ids).order('sort_order'),
     supabase.from('country_documents').select('*').in('country_id', ids).order('sort_order'),
+    supabase.from('country_process_steps').select('*').in('country_id', ids).order('sort_order'),
   ]);
 
   const reqs = (reqsResult.data ?? []) as RequirementRow[];
   const faqs = (faqsResult.data ?? []) as FaqRow[];
   const docs = (docsResult.data ?? []) as DocumentRow[];
+  const steps = (stepsResult.data ?? []) as ProcessStepRow[];
 
   return countries.map((c) => ({
     ...c,
     requirements: reqs.filter((r) => r.country_id === c.id),
     faqs: faqs.filter((f) => f.country_id === c.id),
     documents: docs.filter((d) => d.country_id === c.id),
+    process_steps: steps.filter((s) => s.country_id === c.id),
   }));
 }
 

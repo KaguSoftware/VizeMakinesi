@@ -72,7 +72,7 @@ export default function MobileMenuOverlay({ open, pathname, navHeight, megaMenu,
                         className="mt-8 flex gap-6 font-mono text-[12px] tracking-widest uppercase pt-6 border-t border-border"
                     >
                         <a href={SITE.phoneHref}>{SITE.phone}</a>
-                        <a href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                        <a href="/danisma-al" onClick={onClose}>Danışma Formu</a>
                     </motion.div>
                 </motion.div>
             )}

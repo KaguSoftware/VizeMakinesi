@@ -24,7 +24,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     eyebrow: '— 03 / Bize Ulaşın',
     links: [
       { label: '+90 532 161 89 71', href: 'tel:+905321618971' },
-      { label: 'WhatsApp',         href: 'https://wa.me/905321618971' },
+      { label: 'Danışma Formu',    href: '/danisma-al' },
       { label: 'vizemakinesi@gezimakinesi.com', href: 'mailto:vizemakinesi@gezimakinesi.com' },
     ],
   },

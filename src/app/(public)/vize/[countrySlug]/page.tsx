@@ -55,8 +55,6 @@ export default async function CountryPage({ params }: Props) {
     const stub = SCHENGEN_SLUG_MAP.get(countrySlug);
     if (!stub) notFound();
 
-    const waText = encodeURIComponent(`Merhaba, ${stub.name} vizesi için başvurmak istiyorum.`);
-
     return (
       <>
         {/* 01 — Genel Bilgiler */}
@@ -81,12 +79,11 @@ export default async function CountryPage({ params }: Props) {
           />
         )}
 
-        <CountryCTA countryName={stub.name} waText={waText} />
+        <CountryCTA countryName={stub.name} />
       </>
     );
   }
 
-  const waText = encodeURIComponent(`Merhaba, ${country.name} vizesi için başvurmak istiyorum.`);
   const faqItems = country.faqs.map((f) => ({ q: f.question, a: f.answer }));
 
   return (
@@ -187,7 +184,7 @@ export default async function CountryPage({ params }: Props) {
         }
       />
 
-      <CountryCTA countryName={country.name} waText={waText} />
+      <CountryCTA countryName={country.name} />
     </>
   );
 }

@@ -21,6 +21,7 @@ export interface AdminNavSection {
 
 export type AdminNavIcon =
   | 'dashboard'
+  | 'requests'
   | 'countries'
   | 'mega-menu'
   | 'marquee'
@@ -32,6 +33,7 @@ export type AdminNavIcon =
 
 export const ADMIN_NAV: readonly AdminNavSection[] = [
   { label: 'Dashboard', href: '/admin', table: null, icon: 'dashboard', sidebarOnly: true },
+  { label: 'Talepler', href: '/admin/requests', table: 'consultation_requests', icon: 'requests' },
   { label: 'Ülkeler', href: '/admin/countries', table: 'countries', icon: 'countries' },
   { label: 'Mega Menü', href: '/admin/mega-menu', table: 'mega_menu_categories', hasVisibleFlag: true, icon: 'mega-menu' },
   { label: 'Marquee', href: '/admin/marquee', table: 'marquee_items', hasVisibleFlag: true, icon: 'marquee' },

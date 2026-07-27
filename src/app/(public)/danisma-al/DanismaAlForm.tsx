@@ -39,6 +39,8 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
   const [returnDate, setReturnDate] = useState("");
   const [contactPref, setContactPref] = useState<ContactPref>("whatsapp");
   const [note, setNote] = useState("");
+  // Honeypot — hidden from real users; only bots that fill every input touch it.
+  const [website, setWebsite] = useState("");
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -79,6 +81,7 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
         returnDate,
         contactPref,
         note,
+        website,
       });
       if (res.ok) {
         setSent(true);
@@ -135,6 +138,25 @@ export default function DanismaAlForm({ countries }: { countries: DanismaCountry
           >
             <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-6">
               — Danışma Formu
+            </div>
+
+            {/*
+              Honeypot. Positioned off-screen rather than display:none —
+              some bots skip hidden inputs but do fill positioned ones.
+              aria-hidden + tabIndex=-1 keep it away from real users and
+              assistive tech; a filled value is dropped server-side.
+            */}
+            <div aria-hidden="true" className="absolute -left-[9999px] top-auto w-px h-px overflow-hidden">
+              <label htmlFor="website">Web sitesi (doldurmayın)</label>
+              <input
+                id="website"
+                name="website"
+                type="text"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
             </div>
 
             <div className="space-y-7">

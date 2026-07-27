@@ -9,6 +9,7 @@ import {
   sendCustomerConfirmationEmail,
   type RequestEmailData,
 } from '@/lib/email/resend'
+import { consumeRateLimit, getClientIp } from '@/lib/rateLimit'
 import { CONTACT_OPTIONS, type ContactPref } from './requestSummary'
 
 export interface ConsultationInput {
@@ -22,13 +23,41 @@ export interface ConsultationInput {
   returnDate: string
   contactPref: ContactPref
   note: string
+  /** Honeypot — hidden from real users, so anything here means a bot. */
+  website?: string
 }
 
 type Result = { ok: true } | { ok: false; error: string }
 
 const VALID_PREFS = new Set(CONTACT_OPTIONS.map((o) => o.value))
 
+// Per-IP caps. A real visitor sends one request, maybe two if they made
+// a mistake; anything past this is a script or a spam-clicker.
+const MAX_PER_HOUR = 3
+const HOUR_SECONDS = 60 * 60
+const MAX_PER_DAY = 6
+const DAY_SECONDS = 24 * 60 * 60
+
+const RATE_LIMIT_MESSAGE =
+  'Çok fazla talep gönderdiniz. Lütfen bir süre sonra tekrar deneyin.'
+
 export async function submitConsultationRequest(input: ConsultationInput): Promise<Result> {
+  // Honeypot: the field is invisible in the form, so a filled value is a
+  // bot auto-completing every input. Report success so it doesn't retry.
+  if (input.website?.trim()) {
+    console.warn('[danisma-al] honeypot triggered, dropping submission')
+    return { ok: true }
+  }
+
+  // Throttle before touching the database or Resend — a blocked caller
+  // costs us one cheap RPC instead of a row plus two emails.
+  const ip = await getClientIp()
+  const underHourly = await consumeRateLimit(`danisma-al:ip:${ip}:h`, MAX_PER_HOUR, HOUR_SECONDS)
+  const underDaily = await consumeRateLimit(`danisma-al:ip:${ip}:d`, MAX_PER_DAY, DAY_SECONDS)
+  if (!underHourly || !underDaily) {
+    return { ok: false, error: RATE_LIMIT_MESSAGE }
+  }
+
   // Server-side validation — never trust the client.
   const ad = input.ad?.trim() ?? ''
   const soyad = input.soyad?.trim() ?? ''

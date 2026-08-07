@@ -26,20 +26,21 @@ export default function VizeTurleri({ countrySlug, hasItems, title, lead }: Prop
 
   return (
     <section className="container border-b border-border">
-      <div className="pt-16 pb-16">
+      <div className="pt-16 pb-16 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
         <FadeIn as="div">
           <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy">
             {title?.trim() || DEFAULT_VISA_TYPES_TITLE}
           </h2>
+        </FadeIn>
 
-          <p className="mt-5 max-w-3xl font-serif text-[17px] leading-relaxed text-navy/70">
+        <FadeIn as="div" delay={0.1}>
+          <p className="font-serif text-[17px] leading-relaxed text-navy/70">
             {lead?.trim() || DEFAULT_VISA_TYPES_LEAD}
           </p>
 
-          {/* Bağlantı kendi satırında durur — giriş cümlesiyle aynı satıra akmaz. */}
           <Link
             href={`/vize-turleri/${countrySlug}#ulke-vize-turleri`}
-            className="mt-2 inline-block font-serif text-[17px] text-coral underline underline-offset-4 hover:text-navy transition-colors"
+            className="mt-4 inline-block font-serif text-[17px] text-coral underline underline-offset-4 hover:text-navy transition-colors"
           >
             {LINK_LABEL} →
           </Link>

@@ -11,15 +11,15 @@ export default function GerekliEvraklar({ countryName, documents }: Props) {
 
   return (
     <section className="container border-b border-border">
-      <div className="pt-16 pb-20">
-        <FadeIn as="div" className="mb-12">
+      <div className="pt-16 pb-20 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
+        <FadeIn as="div">
           <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy">
             {countryName} Vize İşlemleri İçin{' '}
             <em className="font-normal italic text-coral">Gerekli Belgeler</em>
           </h2>
         </FadeIn>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {documents.map((doc, i) => (
             <FadeIn key={doc.id} as="div" delay={i * 0.05}>
               <a

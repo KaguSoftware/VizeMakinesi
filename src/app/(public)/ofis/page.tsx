@@ -33,12 +33,6 @@ const SECTIONS = [
     group: 'Ziyaret',
   },
   {
-    title: 'Vize Türleri',
-    desc: 'Turist, iş, öğrenci, çalışma, transit',
-    to: '/vize-turleri',
-    group: 'Vize Hizmetleri',
-  },
-  {
     title: 'Nasıl Çalışırız',
     desc: 'Beş adımlı ofis metodumuz',
     to: '/#nasil-calisiyoruz',

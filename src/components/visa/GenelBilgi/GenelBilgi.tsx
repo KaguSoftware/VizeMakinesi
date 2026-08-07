@@ -54,12 +54,12 @@ export default function GenelBilgi({ items, title, description }: Props) {
                 <span className="shrink-0 mt-1.5 w-5 h-5 rounded-full bg-coral/15 flex items-center justify-center">
                   <span className="w-1.5 h-1.5 rounded-full bg-coral block" />
                 </span>
-                <p>
+                <div>
                   {label && (
-                    <strong className="font-semibold text-navy">{label}: </strong>
+                    <strong className="block font-semibold text-navy">{label}</strong>
                   )}
-                  {body}
-                </p>
+                  <p>{body}</p>
+                </div>
               </StaggerItem>
             );
           })}

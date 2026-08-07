@@ -21,15 +21,7 @@ export default function BasvuruSureci({ countryName, steps }: Props) {
 
   return (
     <section className="container border-b border-border">
-      <div className="pt-8 pb-8">
-        <Link
-          href="/vize-turleri"
-          className="inline-block font-mono text-[12px] uppercase tracking-[0.18em] text-coral hover:text-navy transition-colors duration-200"
-        >
-          Vize türlerini öğrenin →
-        </Link>
-      </div>
-      <div className="pb-12 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
+      <div className="pt-16 pb-12 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
         <FadeIn as="div">
           <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy mb-6">
             {countryName ? `${countryName} Vize İşlemleri` : 'Başvuru ve rezervasyon'}<br />

@@ -28,9 +28,6 @@ export default function VizeTurleri({ countrySlug, hasItems, title, lead }: Prop
     <section className="container border-b border-border">
       <div className="pt-16 pb-16">
         <FadeIn as="div">
-          <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6">
-            — Vize türleri
-          </div>
           <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy">
             {title?.trim() || DEFAULT_VISA_TYPES_TITLE}
           </h2>

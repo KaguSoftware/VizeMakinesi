@@ -11,6 +11,9 @@ type StaggerProps = {
   delayChildren?: number;
   as?: Tag;
   className?: string;
+  /** Above-the-fold: start immediately instead of waiting to scroll into view.
+      Pair with `priority` on the child StaggerItems. See FadeIn. */
+  priority?: boolean;
 };
 
 export default function Stagger({
@@ -19,6 +22,7 @@ export default function Stagger({
   delayChildren = 0,
   as = "div",
   className,
+  priority = false,
 }: StaggerProps) {
   const reduced = useReducedMotion();
   const MotionTag = motion[as] as typeof motion.div;
@@ -31,8 +35,7 @@ export default function Stagger({
   return (
     <MotionTag
       initial="hidden"
-      whileInView="show"
-      viewport={VIEWPORT}
+      {...(priority ? { animate: 'show' } : { whileInView: 'show', viewport: VIEWPORT })}
       variants={{
         hidden: {},
         show: { transition: { staggerChildren: gap, delayChildren } },

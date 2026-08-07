@@ -14,9 +14,26 @@ interface Props {
   returnDate: string;
   onTravelDate: (v: string) => void;
   onReturnDate: (v: string) => void;
+  /** Slot captions. Default to the travel wording. */
+  startLabel?: string;
+  endLabel?: string;
+  /**
+   * Two unrelated dates rather than a range. Used by the ABD hızlandırma
+   * flow, where the wanted date is normally *earlier* than the current
+   * appointment — so no ordering constraint and no range band.
+   */
+  independent?: boolean;
 }
 
-export default function DateRangePicker({ travelDate, returnDate, onTravelDate, onReturnDate }: Props) {
+export default function DateRangePicker({
+  travelDate,
+  returnDate,
+  onTravelDate,
+  onReturnDate,
+  startLabel = "Gidiş",
+  endLabel = "Dönüş",
+  independent = false,
+}: Props) {
   const [todayYMD, setTodayYMD] = useState("");
   useEffect(() => {
     // Compute "today" on the client to avoid SSR/CSR mismatch on timezone boundaries.
@@ -31,8 +48,13 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
   const [viewMonth, setViewMonth] = useState(now.getMonth());
   const [hovered, setHovered] = useState<string | null>(null);
 
-  // selecting: null = picking start, "start" = picked start, waiting for end
+  // Range mode: null = picking start, "start" = picked start, waiting for end.
   const [picking, setPicking] = useState<"start" | null>(null);
+  // Independent mode: which of the two slots the next click fills.
+  const [slot, setSlot] = useState<"start" | "end">("start");
+
+  const startActive = independent ? slot === "start" : picking === null && !travelDate;
+  const endActive = independent ? slot === "end" : picking === "start";
 
   function prevMonth() {
     if (viewMonth === 0) { setViewMonth(11); setViewYear(y => y - 1); }
@@ -44,6 +66,17 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
   }
 
   function handleDayClick(ymd: string) {
+    if (independent) {
+      if (slot === "start") {
+        // Clicking the already-picked date clears it.
+        onTravelDate(ymd === travelDate ? "" : ymd);
+        if (ymd !== travelDate) setSlot("end");
+      } else {
+        onReturnDate(ymd === returnDate ? "" : ymd);
+      }
+      return;
+    }
+
     if (picking === null) {
       // first click — set start, clear end
       onTravelDate(ymd);
@@ -84,12 +117,17 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
     const isPast = todayYMD ? ymd < todayYMD : false;
     const isStart = ymd === travelDate;
     const isEnd = ymd === returnDate;
+    if (independent) return { isPast, isStart, isEnd, inRange: false };
     const start = travelDate;
     const end = picking === "start" ? (hovered && hovered > start ? hovered : returnDate) : returnDate;
     const inRange = start && end && ymd > start && ymd < end;
     return { isPast, isStart, isEnd, inRange };
   }
 
+  const slotBoxCls = (active: boolean) =>
+    `flex-1 min-w-0 text-left rounded-lg px-2.5 py-1.5 border transition-all duration-200 ${
+      active ? "border-coral shadow-[0_0_10px_3px_rgba(48,156,155,0.45)]" : "border-transparent"
+    }`;
 
   return (
     <div className="select-none">
@@ -118,21 +156,38 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
           </button>
         </div>
 
-        {/* Range display inside the box */}
+        {/* Slot display inside the box. In independent mode the slots are
+            buttons, so either date can be re-picked without clearing the other. */}
         <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border">
-          <div className={`flex-1 min-w-0 rounded-lg px-2.5 py-1.5 border transition-all duration-200 ${picking === null && !travelDate ? "border-coral shadow-[0_0_10px_3px_rgba(48,156,155,0.45)]" : "border-transparent"}`}>
-            <span className={`block font-mono text-[9px] uppercase tracking-[0.14em] transition-colors duration-150 ${picking === null && !travelDate ? "text-coral" : "text-muted"}`}>Gidiş</span>
-            <span className={`font-serif text-[13px] truncate ${travelDate ? "text-navy" : "text-muted/40"}`}>
-              {travelDate ? formatDisplay(travelDate) : "—"}
-            </span>
-          </div>
+          {independent ? (
+            <button
+              type="button"
+              onClick={() => setSlot("start")}
+              className={slotBoxCls(startActive)}
+              aria-pressed={startActive}
+            >
+              <SlotBody label={startLabel} value={travelDate} active={startActive} />
+            </button>
+          ) : (
+            <div className={slotBoxCls(startActive)}>
+              <SlotBody label={startLabel} value={travelDate} active={startActive} />
+            </div>
+          )}
           <span className="font-mono text-[9px] text-muted shrink-0">→</span>
-          <div className={`flex-1 min-w-0 rounded-lg px-2.5 py-1.5 border transition-all duration-200 ${picking === "start" ? "border-coral shadow-[0_0_10px_3px_rgba(48,156,155,0.45)]" : "border-transparent"}`}>
-            <span className={`block font-mono text-[9px] uppercase tracking-[0.14em] transition-colors duration-150 ${picking === "start" ? "text-coral" : "text-muted"}`}>Dönüş</span>
-            <span className={`font-serif text-[13px] truncate ${returnDate ? "text-navy" : "text-muted/40"}`}>
-              {returnDate ? formatDisplay(returnDate) : "—"}
-            </span>
-          </div>
+          {independent ? (
+            <button
+              type="button"
+              onClick={() => setSlot("end")}
+              className={slotBoxCls(endActive)}
+              aria-pressed={endActive}
+            >
+              <SlotBody label={endLabel} value={returnDate} active={endActive} />
+            </button>
+          ) : (
+            <div className={slotBoxCls(endActive)}>
+              <SlotBody label={endLabel} value={returnDate} active={endActive} />
+            </div>
+          )}
         </div>
 
         {/* Day labels */}
@@ -174,7 +229,7 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
                 aria-disabled={isPast || undefined}
                 className={wrapperCls}
               >
-                {showBand && <span className={bandCls} />}
+                {showBand && !independent && <span className={bandCls} />}
                 <span className={`${circleCls} ${hoverCls}`}>
                   {isToday && !isStart && !isEnd && (
                     <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-coral" />
@@ -191,7 +246,12 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
           <div className="border-t border-border px-4 py-2 flex justify-end">
             <button
               type="button"
-              onClick={() => { onTravelDate(""); onReturnDate(""); setPicking(null); }}
+              onClick={() => {
+                onTravelDate("");
+                onReturnDate("");
+                setPicking(null);
+                setSlot("start");
+              }}
               className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted hover:text-coral transition-colors"
             >
               Temizle
@@ -200,5 +260,18 @@ export default function DateRangePicker({ travelDate, returnDate, onTravelDate, 
         )}
       </div>
     </div>
+  );
+}
+
+function SlotBody({ label, value, active }: { label: string; value: string; active: boolean }) {
+  return (
+    <>
+      <span className={`block font-mono text-[9px] uppercase tracking-[0.14em] transition-colors duration-150 ${active ? "text-coral" : "text-muted"}`}>
+        {label}
+      </span>
+      <span className={`block font-serif text-[13px] truncate ${value ? "text-navy" : "text-muted/40"}`}>
+        {value ? formatDisplay(value) : "—"}
+      </span>
+    </>
   );
 }

@@ -23,7 +23,7 @@ export default async function RequestsPage() {
       <Breadcrumbs items={[{ label: 'Dashboard', href: '/admin' }, { label: 'Talepler' }]} />
       <div className="flex items-start justify-between mb-10 flex-wrap gap-4">
         <div>
-          <EyebrowText>— Danışma Talepleri</EyebrowText>
+          <EyebrowText>— Danışma & Hızlandırma Talepleri</EyebrowText>
           <h1 className="font-serif text-[36px] font-bold tracking-[-0.02em] text-navy mt-1">
             Talepler
             {unread > 0 && (

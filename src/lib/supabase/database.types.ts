@@ -32,6 +32,12 @@ export interface Database {
           tourism_hero_image_url: string | null
           appointment_days: string | null
           general_info: string[]
+          general_info_title: string | null
+          general_info_description: string | null
+          visa_types_title: string | null
+          visa_types_lead: string | null
+          visa_types_description: string | null
+          visa_types_hero_description: string | null
           created_at: string
           updated_at: string
         }
@@ -57,6 +63,12 @@ export interface Database {
           tourism_hero_image_url?: string | null
           appointment_days?: string | null
           general_info?: string[]
+          general_info_title?: string | null
+          general_info_description?: string | null
+          visa_types_title?: string | null
+          visa_types_lead?: string | null
+          visa_types_description?: string | null
+          visa_types_hero_description?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -82,6 +94,12 @@ export interface Database {
           tourism_hero_image_url?: string | null
           appointment_days?: string | null
           general_info?: string[]
+          general_info_title?: string | null
+          general_info_description?: string | null
+          visa_types_title?: string | null
+          visa_types_lead?: string | null
+          visa_types_description?: string | null
+          visa_types_hero_description?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -173,6 +191,29 @@ export interface Database {
         }
       }
       country_process_steps: {
+        Row: {
+          id: string
+          country_id: string
+          title: string
+          description: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          country_id: string
+          title: string
+          description: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          country_id?: string
+          title?: string
+          description?: string
+          sort_order?: number
+        }
+      }
+      country_visa_types: {
         Row: {
           id: string
           country_id: string
@@ -395,6 +436,7 @@ export interface Database {
           last_name: string
           email: string
           phone: string
+          request_type: string
           country: string | null
           country_emoji: string | null
           travel_date: string | null
@@ -410,6 +452,7 @@ export interface Database {
           last_name: string
           email: string
           phone: string
+          request_type?: string
           country?: string | null
           country_emoji?: string | null
           travel_date?: string | null
@@ -425,6 +468,7 @@ export interface Database {
           last_name?: string
           email?: string
           phone?: string
+          request_type?: string
           country?: string | null
           country_emoji?: string | null
           travel_date?: string | null

@@ -11,6 +11,9 @@ type StaggerItemProps = {
   duration?: number;
   as?: Tag;
   className?: string;
+  /** Above-the-fold: paint at full opacity immediately, animate position only.
+      See FadeIn for why. */
+  priority?: boolean;
 };
 
 export default function StaggerItem({
@@ -19,6 +22,7 @@ export default function StaggerItem({
   duration = DUR_BASE,
   as = "div",
   className,
+  priority = false,
 }: StaggerItemProps) {
   const reduced = useReducedMotion();
   const MotionTag = motion[as] as typeof motion.div;
@@ -31,7 +35,7 @@ export default function StaggerItem({
   return (
     <MotionTag
       variants={{
-        hidden: { opacity: 0, y },
+        hidden: { opacity: priority ? 1 : 0, y },
         show: {
           opacity: 1,
           y: 0,

@@ -35,7 +35,10 @@ export default function TeamMemberForm({ member }: Props) {
   const [saving, setSaving] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [submitted, setSubmitted] = useState(false)
-  const dirty = useDirtyFromSnapshot({ name, role, initials, photoUrl, visible })
+  // Bumped after every successful save so the dirty baseline re-captures the
+  // just-saved values — the form stays on the page after an update.
+  const [savedAt, setSavedAt] = useState(0)
+  const dirty = useDirtyFromSnapshot({ name, role, initials, photoUrl, visible }, savedAt)
 
   useUnsavedChanges(dirty && !saving && !submitted)
 
@@ -68,9 +71,19 @@ export default function TeamMemberForm({ member }: Props) {
       return
     }
 
-    showToast(isEdit ? 'Üye güncellendi' : 'Üye oluşturuldu')
+    if (isEdit) {
+      showToast('Üye güncellendi')
+      setSavedAt((n) => n + 1)
+      setSaving(false)
+      router.refresh()
+      return
+    }
+
+    showToast('Üye oluşturuldu')
+    // A new record has no edit route yet — move onto its own edit page so the
+    // next save updates instead of creating a duplicate.
     setSubmitted(true)
-    router.push('/admin/team')
+    router.push(`/admin/team/${'id' in result ? result.id : ''}/edit`)
   }
 
   return (

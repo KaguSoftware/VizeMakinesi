@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { getHomeRegionsData } from "@/lib/data/homeRegions";
 import VizelerPageClient from "@/components/vizeler/VizelerPageClient";
 
+// Bölge/ülke verisi DB'den gelir; ISR ile en fazla 60 sn eskiyebilir.
+export const revalidate = 60;
+
 export const metadata: Metadata = {
     title: "Hizmet Verdiğimiz Ülkeler",
     description: "Avrupa ve Schengen'den Amerika Kıtası'na, Asya ve Pasifik'e — 60+ ülke için vize danışmanlığı.",

@@ -45,11 +45,22 @@ export function useUnsavedChanges(dirty: boolean) {
  * captured on the first render. The current snapshot is memoized when the
  * input identity is stable to avoid re-stringifying large forms on every
  * keystroke.
+ *
+ * Pass `baselineKey` and change it (e.g. bump a counter after a successful
+ * save) to re-capture the snapshot from the current values — forms that stay
+ * on the page after saving need this, otherwise they'd read as dirty forever.
  */
-export function useDirtyFromSnapshot<T>(current: T): boolean {
+export function useDirtyFromSnapshot<T>(current: T, baselineKey: unknown = null): boolean {
   const currentJson = useMemo(() => JSON.stringify(current), [current])
-  const [initial] = useState(() => currentJson)
-  return initial !== currentJson
+  const [baseline, setBaseline] = useState({ key: baselineKey, json: currentJson })
+
+  // Re-baseline during render (React's "adjust state when a prop changes"
+  // pattern) rather than in an effect, so the flag is already correct on the
+  // render where the key changes — no dirty flicker after a save.
+  const stale = !Object.is(baseline.key, baselineKey)
+  if (stale) setBaseline({ key: baselineKey, json: currentJson })
+
+  return !stale && baseline.json !== currentJson
 }
 
 // ── Global dirty-form guard ──────────────────────────────────────────────────

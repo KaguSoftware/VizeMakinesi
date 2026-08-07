@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { getCountryBySlug, getCountrySlugsStatic } from '@/lib/data/countries';
 import CountryHero from '@/components/visa/CountryHero/CountryHero';
 import GenelBilgi from '@/components/visa/GenelBilgi/GenelBilgi';
+import VizeTurleri from '@/components/visa/VizeTurleri/VizeTurleri';
 import FAQ from '@/components/shared/FAQ/FAQ';
 import SchengenStubHero from '@/components/visa/SchengenStubHero/SchengenStubHero';
 import SchengenCountryGrid from '@/components/visa/SchengenCountryGrid/SchengenCountryGrid';
@@ -105,7 +106,11 @@ export default async function CountryPage({ params }: Props) {
         ]}
       />
 
-      <GenelBilgi countryName={country.name} items={country.general_info ?? []} />
+      <GenelBilgi
+        items={country.general_info ?? []}
+        title={country.general_info_title}
+        description={country.general_info_description}
+      />
 
       {country.appointment_days && (
         <section className="bg-coral/10 border-y border-coral/20">
@@ -157,16 +162,24 @@ export default async function CountryPage({ params }: Props) {
         </section>
       )}
 
-      {/* 02 — Gerekli Belgeler */}
-      <GerekliEvraklar
-        countryName={country.name}
-        documents={country.documents}
+      {/* 01b — Vize Türleri */}
+      <VizeTurleri
+        countrySlug={countrySlug}
+        hasItems={country.visa_types.length > 0}
+        title={country.visa_types_title}
+        lead={country.visa_types_lead}
       />
 
-      {/* 03 — Nasıl Yapılır */}
+      {/* 02 — Nasıl Yapılır */}
       <BasvuruSureci
         countryName={country.name}
         steps={country.process_steps.map((s) => ({ title: s.title, description: s.description }))}
+      />
+
+      {/* 03 — Gerekli Belgeler */}
+      <GerekliEvraklar
+        countryName={country.name}
+        documents={country.documents}
       />
 
       {/* 05 — FAQ */}

@@ -1,5 +1,5 @@
 import { cache } from 'react';
-import { createClient } from '@/lib/supabase/server';
+import { createPublicClient } from '@/lib/supabase/public';
 import { createStaticClient } from '@/lib/supabase/static';
 import type { Database } from '@/lib/supabase/database.types';
 
@@ -8,34 +8,38 @@ type RequirementRow = Database['public']['Tables']['country_requirements']['Row'
 type FaqRow = Database['public']['Tables']['country_faqs']['Row'];
 type DocumentRow = Database['public']['Tables']['country_documents']['Row'];
 type ProcessStepRow = Database['public']['Tables']['country_process_steps']['Row'];
+type VisaTypeRow = Database['public']['Tables']['country_visa_types']['Row'];
 
-export type { DocumentRow, ProcessStepRow };
+export type { DocumentRow, ProcessStepRow, VisaTypeRow };
 
 export interface CountryWithRelations extends CountryRow {
   requirements: RequirementRow[];
   faqs: FaqRow[];
   documents: DocumentRow[];
   process_steps: ProcessStepRow[];
+  visa_types: VisaTypeRow[];
 }
 
 async function attachRelations(countries: CountryRow[]): Promise<CountryWithRelations[]> {
   if (countries.length === 0) return [];
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const ids = countries.map((c) => c.id);
 
-  // Run the four relation queries in parallel — they're independent.
-  const [reqsResult, faqsResult, docsResult, stepsResult] = await Promise.all([
+  // Run the relation queries in parallel — they're independent.
+  const [reqsResult, faqsResult, docsResult, stepsResult, visaTypesResult] = await Promise.all([
     supabase.from('country_requirements').select('*').in('country_id', ids).order('sort_order'),
     supabase.from('country_faqs').select('*').in('country_id', ids).order('sort_order'),
     supabase.from('country_documents').select('*').in('country_id', ids).order('sort_order'),
     supabase.from('country_process_steps').select('*').in('country_id', ids).order('sort_order'),
+    supabase.from('country_visa_types').select('*').in('country_id', ids).order('sort_order'),
   ]);
 
   const reqs = (reqsResult.data ?? []) as RequirementRow[];
   const faqs = (faqsResult.data ?? []) as FaqRow[];
   const docs = (docsResult.data ?? []) as DocumentRow[];
   const steps = (stepsResult.data ?? []) as ProcessStepRow[];
+  const visaTypes = (visaTypesResult.data ?? []) as VisaTypeRow[];
 
   return countries.map((c) => ({
     ...c,
@@ -43,11 +47,12 @@ async function attachRelations(countries: CountryRow[]): Promise<CountryWithRela
     faqs: faqs.filter((f) => f.country_id === c.id),
     documents: docs.filter((d) => d.country_id === c.id),
     process_steps: steps.filter((s) => s.country_id === c.id),
+    visa_types: visaTypes.filter((v) => v.country_id === c.id),
   }));
 }
 
 export async function getAllCountries(): Promise<CountryWithRelations[]> {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from('countries')
     .select('*')
@@ -61,7 +66,7 @@ export async function getAllCountries(): Promise<CountryWithRelations[]> {
 // (e.g. generateMetadata + page component) only round-trips Supabase once.
 export const getCountryBySlug = cache(
   async (slug: string): Promise<CountryWithRelations | null> => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data, error } = await supabase
       .from('countries')
       .select('*')
@@ -75,7 +80,7 @@ export const getCountryBySlug = cache(
 );
 
 export async function getTourismCountries(): Promise<CountryWithRelations[]> {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from('countries')
     .select('*')
@@ -86,7 +91,7 @@ export async function getTourismCountries(): Promise<CountryWithRelations[]> {
 }
 
 export async function getCountrySlugs(): Promise<string[]> {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from('countries')
     .select('slug')
@@ -115,7 +120,7 @@ export interface CountryBlog {
 }
 
 export async function getAllCountriesForBlog(): Promise<CountryBlog[]> {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from('countries')
     .select('slug, name, flag_emoji, tourism_hero_image_url, tourism_intro')
@@ -134,7 +139,7 @@ export interface CountrySlim {
 }
 
 export async function getAllCountriesSlim(): Promise<CountrySlim[]> {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from('countries')
     .select('slug, name, flag_emoji, flag_type, flag_preset_key, flag_image_url')
@@ -152,7 +157,7 @@ export interface DanismaCountry {
 }
 
 export async function getDanismaCountries(): Promise<DanismaCountry[]> {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from('countries')
     .select('name, flag_emoji, flag_type, flag_preset_key, flag_image_url')

@@ -15,6 +15,7 @@ function tbl(supabase: SB, table: string): any {
 
 function revalidate() {
   revalidatePath('/hakkimizda')
+  revalidatePath('/ekibimiz')
 }
 
 export interface TeamMemberFormData {

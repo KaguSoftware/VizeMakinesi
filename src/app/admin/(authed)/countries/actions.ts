@@ -37,6 +37,12 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
   const general_info = Array.isArray(data.general_info)
     ? data.general_info.map((s) => (typeof s === 'string' ? s.trim() : '')).filter(Boolean)
     : []
+  const general_info_title = optString('general_info_title', data.general_info_title, { max: 160 })
+  const general_info_description = optString('general_info_description', data.general_info_description, { max: 1000 })
+  const visa_types_title = optString('visa_types_title', data.visa_types_title, { max: 160 })
+  const visa_types_lead = optString('visa_types_lead', data.visa_types_lead, { max: 600 })
+  const visa_types_description = optString('visa_types_description', data.visa_types_description, { max: 1000 })
+  const visa_types_hero_description = optString('visa_types_hero_description', data.visa_types_hero_description, { max: 1000 })
 
   let tourism_hero_image_url: string | null = null
   let tourism_intro: string[] = []
@@ -56,6 +62,7 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
   if (!Array.isArray(data.faqs)) throw new AdminValidationError('faqs', 'SSS geçersiz')
   if (!Array.isArray(data.documents)) throw new AdminValidationError('documents', 'PDF belgeler geçersiz')
   if (!Array.isArray(data.process_steps)) throw new AdminValidationError('process_steps', 'Başvuru süreci adımları geçersiz')
+  if (!Array.isArray(data.visa_types)) throw new AdminValidationError('visa_types', 'Vize türleri geçersiz')
 
   const handles: { text: string }[] = []
   const requirements = data.requirements
@@ -73,6 +80,10 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     .filter((s) => s && typeof s.title === 'string' && typeof s.description === 'string')
     .map((s) => ({ title: s.title.trim(), description: s.description.trim() }))
     .filter((s) => s.title.length > 0 && s.description.length > 0)
+  const visa_types = data.visa_types
+    .filter((v) => v && typeof v.title === 'string' && typeof v.description === 'string')
+    .map((v) => ({ title: v.title.trim(), description: v.description.trim() }))
+    .filter((v) => v.title.length > 0 && v.description.length > 0)
 
   return {
     name,
@@ -94,20 +105,30 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     tourism_best_time,
     appointment_days,
     general_info,
+    general_info_title,
+    general_info_description,
+    visa_types_title,
+    visa_types_lead,
+    visa_types_description,
+    visa_types_hero_description,
     requirements,
     handles,
     faqs,
     documents,
     process_steps,
+    visa_types,
   }
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
+// Ülke verisi yalnızca /vize, /blog gibi alt ağaçlarda değil, her sayfanın
+// üstündeki Nav mega menüsünde de görünür. Bu yüzden kök layout'un tamamı
+// yenilenir — aksi hâlde /iletisim, /ofis gibi statik sayfalarda eski ülke
+// adı/bayrağı takılı kalır. Aynı yaklaşım mega-menu ve marquee action'larında
+// da kullanılıyor.
 function revalidateAll() {
-  revalidatePath('/')
-  revalidatePath('/vize', 'layout')
-  revalidatePath('/blog', 'layout')
+  revalidatePath('/', 'layout')
 }
 
 type SB = Awaited<ReturnType<typeof createClient>>
@@ -117,6 +138,7 @@ async function upsertChildren(supabase: SB, countryId: string, data: CountryForm
   await writer(supabase, 'country_faqs').delete().eq('country_id', countryId)
   await writer(supabase, 'country_documents').delete().eq('country_id', countryId)
   await writer(supabase, 'country_process_steps').delete().eq('country_id', countryId)
+  await writer(supabase, 'country_visa_types').delete().eq('country_id', countryId)
 
   if (data.requirements.length > 0) {
     await writer(supabase, 'country_requirements').insert(
@@ -149,6 +171,16 @@ async function upsertChildren(supabase: SB, countryId: string, data: CountryForm
         country_id: countryId,
         title: s.title,
         description: s.description,
+        sort_order: i,
+      }))
+    )
+  }
+  if (data.visa_types.length > 0) {
+    await writer(supabase, 'country_visa_types').insert(
+      data.visa_types.map((v, i) => ({
+        country_id: countryId,
+        title: v.title,
+        description: v.description,
         sort_order: i,
       }))
     )
@@ -230,6 +262,12 @@ export async function createCountry(rawData: CountryFormData): Promise<{ id: str
     danisma_visible: data.danisma_visible,
     appointment_days: data.appointment_days || null,
     general_info: data.general_info,
+    general_info_title: data.general_info_title,
+    general_info_description: data.general_info_description,
+    visa_types_title: data.visa_types_title,
+    visa_types_lead: data.visa_types_lead,
+    visa_types_description: data.visa_types_description,
+    visa_types_hero_description: data.visa_types_hero_description,
     ...buildTourismPayload(data),
   }
 
@@ -291,6 +329,12 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
     danisma_visible: data.danisma_visible,
     appointment_days: data.appointment_days || null,
     general_info: data.general_info,
+    general_info_title: data.general_info_title,
+    general_info_description: data.general_info_description,
+    visa_types_title: data.visa_types_title,
+    visa_types_lead: data.visa_types_lead,
+    visa_types_description: data.visa_types_description,
+    visa_types_hero_description: data.visa_types_hero_description,
     ...buildTourismPayload(data),
   }
 
@@ -300,9 +344,11 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
   await upsertChildren(supabase, id, data)
   revalidateAll()
   revalidatePath(`/vize/${data.slug}`)
+  revalidatePath(`/vize-turleri/${data.slug}`)
   revalidatePath(`/blog/${data.slug}`)
   if (previousSlug && previousSlug !== data.slug) {
     revalidatePath(`/vize/${previousSlug}`)
+    revalidatePath(`/vize-turleri/${previousSlug}`)
     revalidatePath(`/blog/${previousSlug}`)
   }
   return {}

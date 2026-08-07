@@ -11,4 +11,7 @@ export interface PageHeadProps {
   contentClassName?: string;
   noBorder?: boolean;
   sectionClassName?: string;
+  /** Heroes paint immediately by default (LCP). Pass false to keep the
+      classic fade — e.g. when the head is re-keyed and should re-animate. */
+  priority?: boolean;
 }

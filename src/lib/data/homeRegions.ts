@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import type { Database } from '@/lib/supabase/database.types'
 
 export type RegionKey = 'avrupa' | 'populer' | 'asya' | 'amerika' | 'diger'
@@ -8,7 +8,7 @@ export type HomeRegionSetting = Database['public']['Tables']['home_region_settin
 const REGIONS: RegionKey[] = ['avrupa', 'populer', 'asya', 'amerika', 'diger']
 
 export async function getHomeRegionsData() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const [entriesResult, settingsResult] = await Promise.all([
     supabase

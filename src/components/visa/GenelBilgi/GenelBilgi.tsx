@@ -24,8 +24,8 @@ export default function GenelBilgi({ items, title, description }: Props) {
 
   return (
     <section className="container border-b border-border">
-      <div className="pt-16 pb-20">
-        <FadeIn as="div" className="mb-10">
+      <div className="pt-16 pb-20 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
+        <FadeIn as="div">
           <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy">
             {head}
             {tail && (
@@ -36,7 +36,7 @@ export default function GenelBilgi({ items, title, description }: Props) {
             )}
           </h2>
           {description && (
-            <p className="mt-5 max-w-3xl font-serif text-[17px] leading-relaxed text-navy/70">
+            <p className="mt-5 font-serif text-[17px] leading-relaxed text-navy/70">
               {description}
             </p>
           )}

@@ -49,7 +49,7 @@ export default function USExpeditePage() {
               <div className="mt-10 flex flex-col gap-3 max-w-[520px]">
                 <a
                   className="inline-flex items-center justify-center w-full font-sans font-medium text-[13px] uppercase tracking-[0.1em] px-8 py-[22px] bg-coral border border-coral text-white hover:bg-navy hover:text-white hover:border-navy transition-all duration-200 rounded-2xl"
-                  href="/danisma-al"
+                  href="/danisma-al?tip=hizlandirma"
                 >
                   <span className="text-lg">⚡</span> Hızlandırma Talebini Başlat →
                 </a>

@@ -4,6 +4,7 @@ export interface FaqInput { question: string; answer: string }
 export interface TextInput { text: string }
 export interface DocumentInput { label: string; pdf_url: string }
 export interface ProcessStepInput { title: string; description: string }
+export interface VisaTypeInput { title: string; description: string }
 
 export interface CountryFormData {
   name: string
@@ -25,11 +26,18 @@ export interface CountryFormData {
   tourism_best_time: string | null
   appointment_days: string | null
   general_info: string[]
+  general_info_title: string | null
+  general_info_description: string | null
+  visa_types_title: string | null
+  visa_types_lead: string | null
+  visa_types_description: string | null
+  visa_types_hero_description: string | null
   requirements: TextInput[]
   handles?: TextInput[]
   faqs: FaqInput[]
   documents: DocumentInput[]
   process_steps: ProcessStepInput[]
+  visa_types: VisaTypeInput[]
 }
 
 export function validateCountry(data: CountryFormData): ValidationError[] {

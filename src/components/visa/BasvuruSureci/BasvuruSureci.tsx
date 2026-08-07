@@ -23,7 +23,7 @@ export default function BasvuruSureci({ countryName, steps }: Props) {
     <section className="container border-b border-border">
       <div className="pt-8 pb-8">
         <Link
-          href="/vizeler#genel-vize-turleri"
+          href="/vize-turleri"
           className="inline-block font-mono text-[12px] uppercase tracking-[0.18em] text-coral hover:text-navy transition-colors duration-200"
         >
           Vize türlerini öğrenin →

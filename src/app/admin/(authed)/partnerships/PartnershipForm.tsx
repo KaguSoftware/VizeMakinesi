@@ -34,7 +34,13 @@ export default function PartnershipForm({ partnership }: Props) {
   const [saving, setSaving] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [submitted, setSubmitted] = useState(false)
-  const dirty = useDirtyFromSnapshot({ name, eyebrow, description, logoUrl, externalUrl, visible })
+  // Bumped after every successful save so the dirty baseline re-captures the
+  // just-saved values — the form stays on the page after an update.
+  const [savedAt, setSavedAt] = useState(0)
+  const dirty = useDirtyFromSnapshot(
+    { name, eyebrow, description, logoUrl, externalUrl, visible },
+    savedAt,
+  )
 
   useUnsavedChanges(dirty && !saving && !submitted)
 
@@ -67,9 +73,19 @@ export default function PartnershipForm({ partnership }: Props) {
       return
     }
 
-    showToast(isEdit ? 'Ortaklık güncellendi' : 'Ortaklık oluşturuldu')
+    if (isEdit) {
+      showToast('Ortaklık güncellendi')
+      setSavedAt((n) => n + 1)
+      setSaving(false)
+      router.refresh()
+      return
+    }
+
+    showToast('Ortaklık oluşturuldu')
+    // A new record has no edit route yet — move onto its own edit page so the
+    // next save updates instead of creating a duplicate.
     setSubmitted(true)
-    router.push('/admin/partnerships')
+    router.push(`/admin/partnerships/${'id' in result ? result.id : ''}/edit`)
   }
 
   return (

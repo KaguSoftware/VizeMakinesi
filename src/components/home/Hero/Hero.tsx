@@ -80,19 +80,19 @@ export default function Hero() {
             <h1 className="font-serif font-bold text-[clamp(32px,5.5vw,88px)] leading-[1.05] tracking-[-0.02em]">
               <motion.span
                 className="block"
-                variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
+                variants={{ hidden: { opacity: 1, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
               >
                 Vize Almanın
               </motion.span>
               <motion.span
                 className="block"
-                variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
+                variants={{ hidden: { opacity: 1, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
               >
                 En Hızlı, En Güvenilir ve
               </motion.span>
               <motion.span
                 className="block"
-                variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
+                variants={{ hidden: { opacity: 1, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
               >
                 <span className="text-coral">Garantili</span> Yolu.
               </motion.span>

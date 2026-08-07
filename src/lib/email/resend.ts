@@ -1,6 +1,6 @@
 import 'server-only'
 import { Resend } from 'resend'
-import { CONTACT_OPTIONS } from '@/app/(public)/danisma-al/requestSummary'
+import { CONTACT_OPTIONS, requestTypeMeta } from '@/app/(public)/danisma-al/requestSummary'
 
 // The sender domain must be the one verified in Resend (Domains tab) —
 // anything else is rejected with a 403. vizemakinesi.com is verified
@@ -18,6 +18,8 @@ function resend(): Resend | null {
 }
 
 export interface RequestEmailData {
+  /** 'vize' | 'hizlandirma' — decides the wording and which rows appear. */
+  requestType: string
   firstName: string
   lastName: string
   email: string
@@ -46,11 +48,6 @@ function fullName(d: RequestEmailData): string {
   return [d.firstName, d.lastName].map((p) => p.trim()).filter(Boolean).join(' ') || '—'
 }
 
-function dateRange(d: RequestEmailData): string {
-  if (!d.travelDate) return '—'
-  return d.returnDate ? `${d.travelDate} → ${d.returnDate}` : d.travelDate
-}
-
 function row(label: string, value: string): string {
   return `<tr>
     <td style="padding:10px 0;border-bottom:1px solid #eee;font:600 11px/1.4 monospace;letter-spacing:.08em;text-transform:uppercase;color:#309c9b;white-space:nowrap;vertical-align:top;padding-right:16px">${esc(label)}</td>
@@ -67,20 +64,23 @@ export async function sendOwnerRequestEmail(d: RequestEmailData): Promise<void> 
   }
   const name = fullName(d)
   const country = d.country ? `${d.countryEmoji ? `${d.countryEmoji} ` : ''}${d.country}` : '—'
+  const meta = requestTypeMeta(d.requestType)
+  const isExpedite = d.requestType === 'hizlandirma'
 
   const html = `<div style="background:#fdfbe5;padding:32px 0;font-family:-apple-system,system-ui,sans-serif">
     <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e5e5e5">
       <div style="background:#1a5c5b;padding:20px 28px;color:#fff">
         <div style="font:600 10px/1 monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px">— Yeni Talep</div>
-        <div style="font:600 18px/1.2 Georgia,serif">Danışma Başvurusu</div>
+        <div style="font:600 18px/1.2 Georgia,serif">${esc(meta.emoji)} ${esc(meta.label)}</div>
       </div>
       <div style="padding:8px 28px 24px">
         <table style="width:100%;border-collapse:collapse">
           ${row('Ad Soyad', name)}
           ${row('E-posta', d.email)}
           ${row('Telefon', d.phone)}
-          ${row('Gidilecek Ülke', country)}
-          ${row('Seyahat Tarihleri', dateRange(d))}
+          ${isExpedite ? '' : row('Gidilecek Ülke', country)}
+          ${row(meta.startLabel, d.travelDate || '—')}
+          ${row(meta.endLabel, d.returnDate || '—')}
           ${row('Dönüş Tercihi', prefLabel(d.contactPref))}
           ${row('Not', d.note?.trim() || '—')}
         </table>
@@ -96,7 +96,7 @@ export async function sendOwnerRequestEmail(d: RequestEmailData): Promise<void> 
       from: FROM,
       to: OWNER_TO,
       replyTo: d.email,
-      subject: `Yeni danışma talebi — ${name}${d.country ? ` (${d.country})` : ''}`,
+      subject: `Yeni ${meta.label.toLocaleLowerCase('tr-TR')} talebi — ${name}${d.country ? ` (${d.country})` : ''}`,
       html,
     })
     if (error) {
@@ -117,6 +117,7 @@ export async function sendCustomerConfirmationEmail(d: RequestEmailData): Promis
     return
   }
   const name = fullName(d)
+  const isExpedite = d.requestType === 'hizlandirma'
 
   const html = `<div style="background:#fdfbe5;padding:32px 0;font-family:-apple-system,system-ui,sans-serif">
     <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e5e5e5">
@@ -126,7 +127,7 @@ export async function sendCustomerConfirmationEmail(d: RequestEmailData): Promis
       </div>
       <div style="padding:24px 28px;color:#1a5c5b;font:15px/1.6 Georgia,serif">
         <p style="margin:0 0 16px">Merhaba ${esc(d.firstName.trim() || name)},</p>
-        <p style="margin:0 0 16px">Danışma talebiniz bize ulaştı. Danışmanlarımız en kısa sürede
+        <p style="margin:0 0 16px">${isExpedite ? 'ABD randevu hızlandırma talebiniz' : 'Danışma talebiniz'} bize ulaştı. Danışmanlarımız en kısa sürede
         <strong>${esc(prefLabel(d.contactPref))}</strong> yoluyla sizinle iletişime geçecek.</p>
         <p style="margin:0 0 16px">Vize sürecinizi Vize Makinesi hızıyla birlikte yönetelim.</p>
         <p style="margin:24px 0 0;font:600 12px/1.4 monospace;letter-spacing:.06em;color:#309c9b">— VİZE MAKİNESİ EKİBİ</p>
@@ -138,7 +139,9 @@ export async function sendCustomerConfirmationEmail(d: RequestEmailData): Promis
     const { data, error } = await r.emails.send({
       from: FROM,
       to: d.email,
-      subject: 'Danışma talebiniz alındı — Vize Makinesi',
+      subject: isExpedite
+        ? 'Hızlandırma talebiniz alındı — Vize Makinesi'
+        : 'Danışma talebiniz alındı — Vize Makinesi',
       html,
     })
     if (error) {

@@ -10,9 +10,10 @@ import {
   type RequestEmailData,
 } from '@/lib/email/resend'
 import { consumeRateLimit, getClientIp } from '@/lib/rateLimit'
-import { CONTACT_OPTIONS, type ContactPref } from './requestSummary'
+import { CONTACT_OPTIONS, isRequestType, type ContactPref, type RequestType } from './requestSummary'
 
 export interface ConsultationInput {
+  requestType: RequestType
   ad: string
   soyad: string
   email: string
@@ -63,20 +64,29 @@ export async function submitConsultationRequest(input: ConsultationInput): Promi
   const soyad = input.soyad?.trim() ?? ''
   const email = input.email?.trim() ?? ''
   const phone = input.phone?.trim() ?? ''
-  const country = input.country?.trim() ?? ''
   const travelDate = input.travelDate?.trim() ?? ''
+  const requestType: RequestType = isRequestType(input.requestType) ? input.requestType : 'vize'
+  const isExpedite = requestType === 'hizlandirma'
+  // The expedite flow has no destination country — never persist one for it,
+  // even if a client sends it.
+  const country = isExpedite ? '' : input.country?.trim() ?? ''
 
   if (!ad) return { ok: false, error: 'Adınızı girin.' }
   if (!soyad) return { ok: false, error: 'Soyadınızı girin.' }
   if (!/^\S+@\S+\.\S+$/.test(email)) return { ok: false, error: 'Geçerli bir e-posta girin.' }
   if (!/^\+\d{12}$/.test(phone)) return { ok: false, error: 'Telefon numarası + işaretinden sonra tam 12 rakam olmalı.' }
-  if (!country) return { ok: false, error: 'Ülke seçin.' }
-  if (!travelDate) return { ok: false, error: 'Gidiş tarihi seçin.' }
+  if (!isExpedite && !country) return { ok: false, error: 'Ülke seçin.' }
+  if (!travelDate) {
+    return {
+      ok: false,
+      error: isExpedite ? 'Mevcut randevu tarihinizi seçin.' : 'Gidiş tarihi seçin.',
+    }
+  }
 
   const contactPref: ContactPref = VALID_PREFS.has(input.contactPref) ? input.contactPref : 'phone'
   const returnDate = input.returnDate?.trim() || null
   const note = input.note?.trim() || null
-  const countryEmoji = input.countryEmoji?.trim() || null
+  const countryEmoji = isExpedite ? null : input.countryEmoji?.trim() || null
 
   // Prefer the service client (guaranteed insert on an unauthenticated write);
   // fall back to the anon server client (RLS allows anon insert) if the key
@@ -93,7 +103,8 @@ export async function submitConsultationRequest(input: ConsultationInput): Promi
     last_name: soyad,
     email,
     phone,
-    country,
+    request_type: requestType,
+    country: country || null,
     country_emoji: countryEmoji,
     travel_date: travelDate,
     return_date: returnDate,
@@ -108,11 +119,12 @@ export async function submitConsultationRequest(input: ConsultationInput): Promi
 
   // Emails run after the response ships — the submit isn't blocked on Resend.
   const emailData: RequestEmailData = {
+    requestType,
     firstName: ad,
     lastName: soyad,
     email,
     phone,
-    country,
+    country: country || null,
     countryEmoji,
     travelDate,
     returnDate,

@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createPublicClient } from '@/lib/supabase/public';
 import type { Database } from '@/lib/supabase/database.types';
 
 type CategoryRow = Database['public']['Tables']['mega_menu_categories']['Row'];
@@ -28,7 +28,7 @@ export interface MegaMenuCategory {
 type RawItem = ItemRow & { countries: Pick<CountryRow, 'slug' | 'name' | 'flag_emoji'> | null };
 
 export async function getMegaMenu(): Promise<MegaMenuCategory[]> {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
   const catResult = await supabase
     .from('mega_menu_categories')

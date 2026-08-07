@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import TeamGrid from '@/components/about/TeamGrid/TeamGrid';
 
+// Ekip verisi DB'den gelir; ISR ile en fazla 60 sn eskiyebilir.
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: 'Ekibimiz — Vize Makinesi',
   description: 'Dosyanızı okuyan danışmanlarımızla tanışın.',

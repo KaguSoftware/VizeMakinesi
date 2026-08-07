@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createPublicClient } from '@/lib/supabase/public';
 import type { Database } from '@/lib/supabase/database.types';
 
 export type MarqueeRow = Database['public']['Tables']['marquee_items']['Row'];
@@ -7,7 +7,7 @@ type MarqueeSettingRow = Database['public']['Tables']['marquee_settings']['Row']
 export async function getMarqueeItems(
   location: 'home' | 'nav_ticker'
 ): Promise<MarqueeRow[]> {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
   const settingResult = await supabase
     .from('marquee_settings')

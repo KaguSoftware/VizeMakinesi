@@ -1,13 +1,25 @@
 'use client'
 
 import { useEffect, useRef, useState, useTransition } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { createClient } from '@/lib/supabase/client'
 import { EmptyState, ConfirmDialog, useToast } from '@/components/admin/ui'
-import { CONTACT_OPTIONS } from '@/app/(public)/danisma-al/requestSummary'
+import {
+  CONTACT_OPTIONS,
+  REQUEST_TYPES,
+  requestTypeMeta,
+} from '@/app/(public)/danisma-al/requestSummary'
 import type { Database } from '@/lib/supabase/database.types'
 import { setRequestRead, deleteRequest } from './actions'
 
 type RequestRow = Database['public']['Tables']['consultation_requests']['Row']
+
+type Filter = 'all' | 'vize' | 'hizlandirma'
+
+const FILTERS: { value: Filter; label: string }[] = [
+  { value: 'all', label: 'Tümü' },
+  ...REQUEST_TYPES.map((t) => ({ value: t.value as Filter, label: t.label })),
+]
 
 function prefLabel(pref: string): string {
   const o = CONTACT_OPTIONS.find((c) => c.value === pref)
@@ -27,13 +39,10 @@ function relative(iso: string): string {
   return new Date(iso).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-function dateRange(r: RequestRow): string {
-  if (!r.travel_date) return '—'
-  return r.return_date ? `${r.travel_date} → ${r.return_date}` : r.travel_date
-}
-
 export default function RequestsList({ initial }: { initial: RequestRow[] }) {
+  const reduced = useReducedMotion()
   const [rows, setRows] = useState<RequestRow[]>(initial)
+  const [filter, setFilter] = useState<Filter>('all')
   const [confirmId, setConfirmId] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()
   const { showToast } = useToast()
@@ -75,7 +84,7 @@ export default function RequestsList({ initial }: { initial: RequestRow[] }) {
             const row = payload.new as RequestRow
             if (rowsRef.current.some((r) => r.id === row.id)) return
             setRows((prev) => [row, ...prev])
-            showToast('Yeni talep geldi.', 'success')
+            showToast(`Yeni talep geldi — ${requestTypeMeta(row.request_type ?? 'vize').label}.`, 'success')
           }
         )
         .on(
@@ -141,12 +150,68 @@ export default function RequestsList({ initial }: { initial: RequestRow[] }) {
     )
   }
 
+  const visible = filter === 'all' ? rows : rows.filter((r) => (r.request_type ?? 'vize') === filter)
+
   return (
     <>
+      {/* Type filter. Counts come from every row, not the filtered view. */}
+      <div className="flex flex-wrap gap-2 mb-5">
+        {FILTERS.map((f) => {
+          const count =
+            f.value === 'all'
+              ? rows.length
+              : rows.filter((r) => (r.request_type ?? 'vize') === f.value).length
+          const active = filter === f.value
+          return (
+            <button
+              key={f.value}
+              type="button"
+              onClick={() => setFilter(f.value)}
+              className={[
+                'relative isolate font-mono text-[10px] uppercase tracking-[0.14em] px-3 py-2 border transition-colors duration-200',
+                active
+                  ? 'border-coral text-white'
+                  : 'border-navy/20 text-navy/70 hover:border-coral hover:text-coral',
+              ].join(' ')}
+            >
+              {active && (
+                <motion.span
+                  layoutId="requests-filter-pill"
+                  aria-hidden="true"
+                  className="absolute inset-0 -z-10 bg-coral"
+                  transition={
+                    reduced
+                      ? { duration: 0 }
+                      : { type: 'spring', stiffness: 420, damping: 34, mass: 0.7 }
+                  }
+                />
+              )}
+              {f.label}
+              <span className={active ? 'ml-2 text-white/70' : 'ml-2 text-navy/40'}>{count}</span>
+            </button>
+          )
+        })}
+      </div>
+
+      {visible.length === 0 ? (
+        <EmptyState
+          title="Bu türde talep yok"
+          description="Seçtiğiniz talep türünde henüz kayıt bulunmuyor."
+        />
+      ) : (
       <div className="flex flex-col gap-3">
-        {rows.map((r) => (
-          <article
+        <AnimatePresence initial={false} mode="popLayout">
+        {visible.map((r) => {
+          const meta = requestTypeMeta(r.request_type ?? 'vize')
+          const isExpedite = (r.request_type ?? 'vize') === 'hizlandirma'
+          return (
+          <motion.article
             key={r.id}
+            layout={!reduced}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: reduced ? 0 : 0.2 }}
             className={[
               'border bg-white p-5 md:p-6 transition-colors',
               r.is_read ? 'border-navy/10' : 'border-coral',
@@ -160,6 +225,16 @@ export default function RequestsList({ initial }: { initial: RequestRow[] }) {
                       Yeni
                     </span>
                   )}
+                  <span
+                    className={[
+                      'font-mono text-[9px] font-bold uppercase tracking-[0.16em] px-1.5 py-0.5 rounded-sm border',
+                      isExpedite
+                        ? 'border-navy bg-navy text-white'
+                        : 'border-navy/20 text-navy/70',
+                    ].join(' ')}
+                  >
+                    {meta.emoji} {meta.label}
+                  </span>
                   <span className="font-mono text-[11px] text-navy/55">
                     {relative(r.created_at)}
                   </span>
@@ -196,7 +271,10 @@ export default function RequestsList({ initial }: { initial: RequestRow[] }) {
             <dl className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
               <Field label="E-posta" value={<a href={`mailto:${r.email}`} className="text-coral hover:underline break-all">{r.email}</a>} />
               <Field label="Telefon" value={<a href={`tel:${r.phone}`} className="text-coral hover:underline">{r.phone}</a>} />
-              <Field label="Seyahat Tarihleri" value={dateRange(r)} />
+              {/* The two dates mean different things per type — label them as
+                  the customer saw them rather than as a generic range. */}
+              <Field label={meta.startLabel} value={r.travel_date || '—'} />
+              <Field label={meta.endLabel} value={r.return_date || '—'} />
               <Field label="Dönüş Tercihi" value={prefLabel(r.contact_pref)} />
             </dl>
 
@@ -208,9 +286,12 @@ export default function RequestsList({ initial }: { initial: RequestRow[] }) {
                 </p>
               </div>
             )}
-          </article>
-        ))}
+          </motion.article>
+          )
+        })}
+        </AnimatePresence>
       </div>
+      )}
 
       {confirmId && (
         <ConfirmDialog

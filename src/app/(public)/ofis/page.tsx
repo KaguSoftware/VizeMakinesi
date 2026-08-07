@@ -35,7 +35,7 @@ const SECTIONS = [
   {
     title: 'Vize Türleri',
     desc: 'Turist, iş, öğrenci, çalışma, transit',
-    to: '/vizeler#genel-vize-turleri',
+    to: '/vize-turleri',
     group: 'Vize Hizmetleri',
   },
   {

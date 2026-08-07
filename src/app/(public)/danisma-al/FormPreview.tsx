@@ -1,9 +1,15 @@
 "use client";
-import { motion } from "framer-motion";
-import { CONTACT_OPTIONS, type ContactPref } from "./requestSummary";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  CONTACT_OPTIONS,
+  requestTypeMeta,
+  type ContactPref,
+  type RequestType,
+} from "./requestSummary";
 import { formatDisplay } from "@/lib/dates/calendar";
 
 interface Props {
+  requestType: RequestType;
   ad: string;
   soyad: string;
   email: string;
@@ -33,9 +39,15 @@ function Row({
         {icon}
       </span>
       <div className="min-w-0 flex-1">
-        <span className="block font-mono text-[9px] uppercase tracking-[0.16em] text-coral mb-1">
+        <motion.span
+          key={label}
+          initial={{ opacity: 0.35 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.18 }}
+          className="block font-mono text-[9px] uppercase tracking-[0.16em] text-coral mb-1"
+        >
           {label}
-        </span>
+        </motion.span>
         <motion.span
           key={value}
           initial={{ opacity: 0.35 }}
@@ -53,8 +65,10 @@ function Row({
 }
 
 export default function FormPreview(props: Props) {
-  const { ad, soyad, email, phone, country, countryEmoji, travelDate, returnDate, contactPref, note } = props;
+  const { requestType, ad, soyad, email, phone, country, countryEmoji, travelDate, returnDate, contactPref, note } = props;
 
+  const meta = requestTypeMeta(requestType);
+  const isExpedite = requestType === "hizlandirma";
   const adSoyad = [ad, soyad].map((p) => p.trim()).filter(Boolean).join(" ");
   const dates = travelDate
     ? returnDate
@@ -75,7 +89,20 @@ export default function FormPreview(props: Props) {
             VM
           </span>
           <div className="leading-tight">
-            <span className="block font-serif font-semibold text-[16px]">Danışma Başvurusu</span>
+            <span className="block font-serif font-semibold text-[16px] overflow-hidden">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={requestType}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.2 }}
+                  className="inline-block"
+                >
+                  {isExpedite ? "Hızlandırma Başvurusu" : "Danışma Başvurusu"}
+                </motion.span>
+              </AnimatePresence>
+            </span>
             <span className="block font-sans text-[11px] text-white/60">Vize Makinesi</span>
           </div>
         </div>
@@ -86,8 +113,23 @@ export default function FormPreview(props: Props) {
         <Row icon="👤" label="Ad Soyad" value={adSoyad} filled={Boolean(adSoyad)} />
         <Row icon="📧" label="E-posta" value={email.trim()} filled={Boolean(email.trim())} />
         <Row icon="📱" label="Telefon" value={phone.trim()} filled={Boolean(phone.trim())} />
-        <Row icon="🌍" label="Gidilecek Ülke" value={countryLabel} filled={Boolean(country)} />
-        <Row icon="🗓️" label="Seyahat Tarihleri" value={dates} filled={Boolean(travelDate)} />
+        {/* Country row and type row occupy the same slot — crossfade between them. */}
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={requestType}
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            transition={{ duration: 0.2 }}
+          >
+            {isExpedite ? (
+              <Row icon="⚡" label="Talep Türü" value={meta.label} filled />
+            ) : (
+              <Row icon="🌍" label="Gidilecek Ülke" value={countryLabel} filled={Boolean(country)} />
+            )}
+          </motion.div>
+        </AnimatePresence>
+        <Row icon="🗓️" label={meta.datesLabel} value={dates} filled={Boolean(travelDate)} />
 
         {/* Contact preference */}
         <div className="flex items-start gap-3 py-3.5 border-b border-border/70">

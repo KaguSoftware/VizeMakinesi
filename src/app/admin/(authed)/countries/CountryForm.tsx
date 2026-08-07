@@ -22,6 +22,7 @@ import {
   type ValidationError,
 } from './validation'
 import type { CountryWithRelations } from '@/lib/data/countries'
+import { joinLabeled, splitLabeled } from '@/lib/text/labeled'
 import {
   Divider,
   FORM_SECTIONS,
@@ -78,9 +79,31 @@ export default function CountryForm({ country }: CountryFormProps) {
     country?.requirements.map((r) => mkText(r.text)) ?? []
   )
 
-  // — 05 General Info
-  const [generalInfo, setGeneralInfo] = useState<TextItem[]>(
-    (country?.general_info ?? []).map((t) => mkText(t))
+  // — 05 General Info ("Başvuru Öncesi Bilmeniz Gerekenler" bölümü)
+  const [generalInfoTitle, setGeneralInfoTitle] = useState(country?.general_info_title ?? '')
+  const [generalInfoDescription, setGeneralInfoDescription] = useState(
+    country?.general_info_description ?? ''
+  )
+  // Maddeler DB'de tek metin olarak tutulur, formda başlık/açıklama ikilisine
+  // ayrılır. Bkz. src/lib/text/labeled.ts
+  const [generalInfo, setGeneralInfo] = useState<ProcessStepItem[]>(
+    (country?.general_info ?? []).map((t) => {
+      const { label, body } = splitLabeled(t)
+      return mkProcessStep(label, body)
+    })
+  )
+
+  // — 05a Vize türleri ("Hangi Vize Türüne Başvurmalısınız?" bölümü)
+  const [visaTypesTitle, setVisaTypesTitle] = useState(country?.visa_types_title ?? '')
+  const [visaTypesLead, setVisaTypesLead] = useState(country?.visa_types_lead ?? '')
+  const [visaTypesDescription, setVisaTypesDescription] = useState(
+    country?.visa_types_description ?? ''
+  )
+  const [visaTypesHeroDescription, setVisaTypesHeroDescription] = useState(
+    country?.visa_types_hero_description ?? ''
+  )
+  const [visaTypes, setVisaTypes] = useState<ProcessStepItem[]>(
+    country?.visa_types.map((v) => mkProcessStep(v.title, v.description)) ?? []
   )
 
   // — 05b Başvuru süreci adımları (numaralı adımlar, /vize/[slug])
@@ -120,13 +143,20 @@ export default function CountryForm({ country }: CountryFormProps) {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
+  // Bumped after every successful save so the dirty baseline re-captures the
+  // just-saved values — the form stays on the page, so it must stop reading
+  // as dirty.
+  const [savedAt, setSavedAt] = useState(0)
 
   // Derive dirty from a snapshot of the tracked data fields at mount.
   const dirty = useDirtyFromSnapshot({
     name, slug, flagEmoji, visaType, summary,
     flagType, flagPresetKey, flagImageUrl,
     mosaicVisible, mosaicSpan, danismaVisible,
-    generalInfo: generalInfo.map((t) => t.text),
+    generalInfoTitle, generalInfoDescription,
+    generalInfo: generalInfo.map((t) => ({ title: t.title, description: t.description })),
+    visaTypesTitle, visaTypesLead, visaTypesDescription, visaTypesHeroDescription,
+    visaTypes: visaTypes.map((v) => ({ title: v.title, description: v.description })),
     processSteps: processSteps.map((s) => ({ title: s.title, description: s.description })),
     requirements: requirements.map((r) => r.text),
     faqs: faqs.map((f) => ({ q: f.question, a: f.answer })),
@@ -136,7 +166,7 @@ export default function CountryForm({ country }: CountryFormProps) {
     tourismHighlights: tourismHighlights.map((t) => t.text),
     tourismTips: tourismTips.map((t) => t.text),
     tourismBestTime, appointmentDays,
-  })
+  }, savedAt)
 
   useUnsavedChanges(dirty && !saving && !submitted)
 
@@ -201,12 +231,21 @@ export default function CountryForm({ country }: CountryFormProps) {
       tourism_tips: hasTourism ? tourismTips.map((i) => i.text).filter(Boolean) : [],
       tourism_best_time: hasTourism ? (tourismBestTime || null) : null,
       appointment_days: appointmentDays || null,
-      general_info: generalInfo.map((t) => t.text).filter(Boolean),
+      general_info: generalInfo
+        .map((t) => joinLabeled(t.title, t.description))
+        .filter(Boolean),
+      general_info_title: generalInfoTitle || null,
+      general_info_description: generalInfoDescription || null,
       requirements: requirements.map((r) => ({ text: r.text })),
       handles: [],
       faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
       documents: documents.map((d) => ({ label: d.label, pdf_url: d.pdf_url })),
       process_steps: processSteps.map((s) => ({ title: s.title, description: s.description })),
+      visa_types_title: visaTypesTitle || null,
+      visa_types_lead: visaTypesLead || null,
+      visa_types_description: visaTypesDescription || null,
+      visa_types_hero_description: visaTypesHeroDescription || null,
+      visa_types: visaTypes.map((v) => ({ title: v.title, description: v.description })),
     }
 
     const errs = validateCountry(data)
@@ -236,13 +275,20 @@ export default function CountryForm({ country }: CountryFormProps) {
       if (isEdit) {
         const result = await updateCountry(country.id, data)
         if (result.error) { setSaveError(result.error); showToast(result.error, 'error'); return }
+        showToast('Ülke güncellendi')
+        // Stay on the form. Re-baseline the dirty check and pull the fresh
+        // server data so a later reload doesn't show stale content.
+        setSavedAt((n) => n + 1)
+        router.refresh()
       } else {
         const result = await createCountry(data)
         if ('error' in result) { setSaveError(result.error); showToast(result.error, 'error'); return }
+        showToast('Ülke oluşturuldu')
+        // A new record has no edit route yet — move onto its own edit page so
+        // the next save updates instead of trying to create a duplicate.
+        setSubmitted(true)
+        router.push(`/admin/countries/${result.id}/edit`)
       }
-      showToast(isEdit ? 'Ülke güncellendi' : 'Ülke oluşturuldu')
-      setSubmitted(true)
-      router.push('/admin/countries')
     } finally {
       setSaving(false)
     }
@@ -308,22 +354,122 @@ export default function CountryForm({ country }: CountryFormProps) {
           onMosaicSpanChange={setMosaicSpan}
         />
 
-        <Divider id="genel-bilgi" label="Genel Bilgi Maddeleri" />
-        <RepeatableList<TextItem>
+        <Divider id="genel-bilgi" label="Başvuru Öncesi Bilmeniz Gerekenler" />
+        <p className="-mt-2 mb-4 font-mono text-[11px] text-navy/55">
+          Ülke sayfasındaki maddeli bölüm. Bölüm başlığı boş bırakılırsa
+          “Başvuru Öncesi Bilmeniz Gerekenler” kullanılır; bölüm açıklaması boşsa gösterilmez.
+          Bölüm başlığının son iki kelimesi sitede italik/coral görünür. Her maddenin mini
+          başlığı sitede kalın yazılır, ardından açıklaması gelir.
+        </p>
+        <div className="flex flex-col gap-3 mb-6">
+          <AdminInput
+            label="Bölüm Başlığı"
+            value={generalInfoTitle}
+            onChange={(e) => setGeneralInfoTitle(e.target.value)}
+            placeholder="Başvuru Öncesi Bilmeniz Gerekenler"
+          />
+          <AdminTextarea
+            label="Bölüm Açıklaması"
+            value={generalInfoDescription}
+            onChange={(e) => setGeneralInfoDescription(e.target.value)}
+            rows={3}
+            placeholder="Örn: Başvurunuza başlamadan önce sürecin işleyişine dair bilmeniz gereken temel noktalar."
+          />
+        </div>
+        <RepeatableList<ProcessStepItem>
           items={generalInfo}
           onChange={setGeneralInfo}
-          onAdd={() => setGeneralInfo((prev) => [...prev, mkText()])}
+          onAdd={() => setGeneralInfo((prev) => [...prev, mkProcessStep()])}
           addLabel="Yeni Madde Ekle"
-          emptyText="Henüz genel bilgi maddesi eklenmedi"
+          emptyText="Henüz madde eklenmedi"
           renderItem={(item) => (
-            <AdminInput
-              label="Madde"
-              value={item.text}
-              onChange={(e) => setGeneralInfo((prev) =>
-                prev.map((t) => t.id === item.id ? { ...t, text: e.target.value } : t)
-              )}
-              placeholder="Örn: Vize başvurusu en az 15 iş günü öncesinde yapılmalıdır."
-            />
+            <div className="flex flex-col gap-3">
+              <AdminInput
+                label="Mini Başlık"
+                value={item.title}
+                onChange={(e) => setGeneralInfo((prev) =>
+                  prev.map((t) => t.id === item.id ? { ...t, title: e.target.value } : t)
+                )}
+                placeholder="Örn: Vize Zorunluluğu"
+              />
+              <AdminTextarea
+                label="Açıklama"
+                value={item.description}
+                onChange={(e) => setGeneralInfo((prev) =>
+                  prev.map((t) => t.id === item.id ? { ...t, description: e.target.value } : t)
+                )}
+                rows={3}
+                placeholder="Örn: Türkiye Cumhuriyeti umuma mahsus (bordo) pasaport sahipleri, Almanya'ya seyahat etmeden önce vize almak zorundadır."
+              />
+            </div>
+          )}
+        />
+
+        <Divider id="vize-turleri" label="Hangi Vize Türüne Başvurmalısınız?" />
+        <p className="-mt-2 mb-4 font-mono text-[11px] text-navy/55">
+          Ülke sayfasındaki açılır-kapanır vize türü listesi. Vize türü adı kalın başlık olarak
+          görünür, tıklandığında açıklaması açılır. Hiç vize türü eklenmezse bölüm gösterilmez.
+          Başlık ve giriş cümlesi boş bırakılırsa varsayılan metinler kullanılır. Giriş
+          cümlesinin sonundaki “Vize türlerini detaylı inceleyin →” bağlantısı sabittir ve
+          ülkenin vize türleri sayfasına gider. Bölüm açıklaması ile vize türü adları ve
+          açıklamaları yalnızca o sayfada görünür; hero açıklaması ise o sayfanın üst
+          bölümünde yer alır.
+        </p>
+        <div className="flex flex-col gap-3 mb-6">
+          <AdminInput
+            label="Bölüm Başlığı"
+            value={visaTypesTitle}
+            onChange={(e) => setVisaTypesTitle(e.target.value)}
+            placeholder="Hangi Vize Türüne Başvurmalısınız?"
+          />
+          <AdminTextarea
+            label="Giriş Cümlesi"
+            value={visaTypesLead}
+            onChange={(e) => setVisaTypesLead(e.target.value)}
+            rows={2}
+            placeholder="Doğru vize türüne başvurmak, başvuru sürecinin en önemli adımlarından biridir."
+          />
+          <AdminTextarea
+            label="Bölüm Açıklaması"
+            value={visaTypesDescription}
+            onChange={(e) => setVisaTypesDescription(e.target.value)}
+            rows={3}
+            placeholder="Örn: Almanya'ya yapacağınız seyahatin amacı, başvurmanız gereken vize türünü belirler."
+          />
+          <AdminTextarea
+            label="Vize Türleri Sayfası Hero Açıklaması"
+            value={visaTypesHeroDescription}
+            onChange={(e) => setVisaTypesHeroDescription(e.target.value)}
+            rows={3}
+            placeholder="Örn: Almanya, kısa süreli Schengen vizelerinin yanı sıra eğitim ve çalışma için Ulusal (D Tipi) vize seçenekleri de sunar."
+          />
+        </div>
+        <RepeatableList<ProcessStepItem>
+          items={visaTypes}
+          onChange={setVisaTypes}
+          onAdd={() => setVisaTypes((prev) => [...prev, mkProcessStep()])}
+          addLabel="Yeni Vize Türü Ekle"
+          emptyText="Henüz vize türü eklenmedi — bölüm gösterilmeyecek"
+          renderItem={(item) => (
+            <div className="flex flex-col gap-3">
+              <AdminInput
+                label="Vize Türü Adı"
+                value={item.title}
+                onChange={(e) => setVisaTypes((prev) =>
+                  prev.map((v) => v.id === item.id ? { ...v, title: e.target.value } : v)
+                )}
+                placeholder="Örn: Almanya Turistik Vizesi"
+              />
+              <AdminTextarea
+                label="Açıklama"
+                value={item.description}
+                onChange={(e) => setVisaTypes((prev) =>
+                  prev.map((v) => v.id === item.id ? { ...v, description: e.target.value } : v)
+                )}
+                rows={3}
+                placeholder="Örn: Tatil, gezi, kültürel etkinlikler ve bireysel seyahatler amacıyla Almanya'ya gitmek isteyen kişilerin başvurabileceği Schengen (C Tipi) vizedir."
+              />
+            </div>
           )}
         />
 

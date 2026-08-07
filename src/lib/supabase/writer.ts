@@ -30,6 +30,7 @@ export type WritableTable =
   | 'country_faqs'
   | 'country_documents'
   | 'country_process_steps'
+  | 'country_visa_types'
   | 'page_sections'
   | 'consultation_requests'
 

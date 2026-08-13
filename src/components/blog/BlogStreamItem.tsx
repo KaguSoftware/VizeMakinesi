@@ -7,6 +7,12 @@ interface Props {
   flagEmoji: string | null;
   imageUrl: string | null;
   excerpt: string;
+  /** Overrides the `/blog/{slug}` link target */
+  href?: string;
+  /** Küçük etiket — varsayılan "Gezi Rehberi" */
+  kicker?: string;
+  /** Başlıktaki italik ek — varsayılan " rehberi" */
+  titleSuffix?: string;
   /** 1-based position in the stream, rendered as the 01 / 02 / … marker */
   index: number;
   /** Mirrors the row so the stream zig-zags down the page */
@@ -21,11 +27,14 @@ export default function BlogStreamItem({
   flagEmoji,
   imageUrl,
   excerpt,
+  href: hrefProp,
+  kicker = 'Gezi Rehberi',
+  titleSuffix = ' rehberi',
   index,
   reverse = false,
   priority = false,
 }: Props) {
-  const href = `/blog/${slug}`;
+  const href = hrefProp ?? `/blog/${slug}`;
 
   return (
     <article className="group border-b border-border">
@@ -41,7 +50,7 @@ export default function BlogStreamItem({
               {imageUrl ? (
                 <Image
                   src={imageUrl}
-                  alt={`${name} gezi rehberi`}
+                  alt={`${name} — ${kicker}`}
                   fill
                   priority={priority}
                   className="object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
@@ -69,14 +78,14 @@ export default function BlogStreamItem({
             <span className="h-px flex-1 max-w-10 bg-border" />
             {flagEmoji && <span className="text-[20px] leading-none">{flagEmoji}</span>}
             <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-              Gezi Rehberi
+              {kicker}
             </span>
           </div>
 
           <h2 className="font-serif font-bold text-[clamp(30px,3.6vw,46px)] leading-[1.05] tracking-[-0.025em] mb-5">
             <Link href={href} className="group-hover:text-coral transition-colors duration-150">
               {name}
-              <em className="font-normal italic text-coral"> rehberi</em>
+              {titleSuffix && <em className="font-normal italic text-coral">{titleSuffix}</em>}
             </Link>
           </h2>
 

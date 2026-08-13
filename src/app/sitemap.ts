@@ -16,6 +16,7 @@ const STATIC_ROUTES = [
     "/iletisim",
     "/danisma-al",
     "/blog",
+    "/blog/schengen-vize-alma-rehberi",
 ] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

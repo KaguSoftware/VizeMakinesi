@@ -45,14 +45,11 @@ function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
                         : baseItems,
                 };
             }),
+            // Replaces the old promo box: a single entry pointing at the
+            // /vize-turleri landing page, which lists the types itself.
             {
-                kind: 'feature' as const,
-                feature: {
-                    eyebrow: '',
-                    title: 'Hangi Ülkeye Gitmek İstiyorsunuz?',
-                    body: 'Sınırlarını aşmak istediğiniz ülkeyi seçin; size uygun vize türünü, güncel başvuru şartlarını ve gerekli evrak listesini anında görüntüleyin.',
-                    to: '/vize/schengen',
-                },
+                title: 'Vize Türleri',
+                items: [{ to: '/vize-turleri', label: 'Tüm Vize Türleri', flag: '🛂' }],
             },
         ],
     };

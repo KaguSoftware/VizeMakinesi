@@ -155,16 +155,22 @@ export default async function CountryPage({ params }: Props) {
               </FadeIn>
             </div>
 
-            <FadeIn as="div" className="mt-16">
-              <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
+            <div className="mt-16">
+              <FadeIn as="div" className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
                 — Sık ret sebepleri
+              </FadeIn>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                <FadeIn as="div">
+                  <h3 className="font-serif font-bold text-[clamp(24px,3vw,40px)] leading-none tracking-[-0.03em] text-navy">
+                    Başvuruların reddedildiği{' '}
+                    <em className="font-normal italic text-coral">en yaygın nedenler.</em>
+                  </h3>
+                </FadeIn>
+                <FadeIn as="div" delay={0.1}>
+                  <WarningList items={SCHENGEN_REJECTION_REASONS} />
+                </FadeIn>
               </div>
-              <h3 className="font-serif font-bold text-[clamp(24px,3vw,40px)] leading-none tracking-[-0.03em] text-navy mb-2">
-                Başvuruların reddedildiği{' '}
-                <em className="font-normal italic text-coral">en yaygın nedenler.</em>
-              </h3>
-              <WarningList items={SCHENGEN_REJECTION_REASONS} />
-            </FadeIn>
+            </div>
           </div>
         </section>
       )}

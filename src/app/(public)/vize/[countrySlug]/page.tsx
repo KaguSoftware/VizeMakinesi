@@ -88,11 +88,18 @@ export default async function CountryPage({ params }: Props) {
       {/* 01 — Genel Bilgiler */}
       <CountryHero
         country={country}
+        // Schengen bölge sayfasının hero metinleri rehber dokümanına göre sabittir.
+        lead={countrySlug === 'schengen'
+          ? 'Doğru ve tutarlı bir başvuru dosyası, Schengen vize sürecinin temelini oluşturur.'
+          : undefined}
+        note={countrySlug === 'schengen'
+          ? 'Vize sürecinizi doğru planlama ve uzman desteğiyle yönetin.'
+          : undefined}
         bullets={countrySlug === 'schengen' ? [
-          'Schengen vize başvurunuzu şansa değil, profesyonellere bırakın.',
-          'Sürecin başından sonuna kadar uçtan uca uzman desteği',
-          'Konsolosluk standartlarına uygun, sıfır hatalı evrak hazırlığı',
-          'Yüksek onay oranı ve kanıtlanmış sektör tecrübesi',
+          'Randevu sürecinde hızlı ve doğru yönlendirme',
+          'Kişisel durumunuza özel stratejik dosya analizi',
+          'Başvurunun tüm aşamalarında planlı süreç yönetimi',
+          'Süreç boyunca ulaşabileceğiniz uzman desteği',
         ] : (countrySlug === 'america' || countrySlug === 'abd') ? [
           'Amerika vize başvurunuzu ve mülakat sürecinizi şansa değil, profesyonellere bırakın.',
           'Kusursuz DS-160 form hazırlığı ve uçtan uca uzman desteği',

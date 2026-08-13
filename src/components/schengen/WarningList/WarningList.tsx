@@ -3,7 +3,7 @@ import type { WarningListProps } from './types';
 
 export default function WarningList({ items }: WarningListProps) {
   return (
-    <Stagger as="ul" className="list-none mt-6 space-y-2" gap={0.05}>
+    <Stagger as="ul" className="list-none space-y-2" gap={0.05}>
       {items.map((r) => (
         <StaggerItem
           as="li"

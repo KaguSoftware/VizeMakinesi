@@ -389,6 +389,52 @@ export interface Database {
           created_at?: string
         }
       }
+      visa_type_documents: {
+        Row: {
+          id: string
+          page_key: string
+          label: string
+          pdf_url: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          page_key: string
+          label: string
+          pdf_url: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          page_key?: string
+          label?: string
+          pdf_url?: string
+          sort_order?: number
+        }
+      }
+      visa_type_faqs: {
+        Row: {
+          id: string
+          page_key: string
+          question: string
+          answer: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          page_key: string
+          question: string
+          answer: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          page_key?: string
+          question?: string
+          answer?: string
+          sort_order?: number
+        }
+      }
       page_sections: {
         Row: {
           key: string

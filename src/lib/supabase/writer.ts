@@ -32,6 +32,8 @@ export type WritableTable =
   | 'country_process_steps'
   | 'country_visa_types'
   | 'page_sections'
+  | 'visa_type_faqs'
+  | 'visa_type_documents'
   | 'consultation_requests'
 
 export function writer(supabase: SB, table: WritableTable): Writer {

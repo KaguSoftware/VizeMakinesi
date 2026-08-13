@@ -30,6 +30,14 @@ export function NavIcon({ name, className = 'w-4 h-4' }: Props) {
           <path d="M2 8h12M8 2c1.8 2 1.8 10 0 12M8 2c-1.8 2-1.8 10 0 12" />
         </svg>
       )
+    case 'visa-types':
+      return (
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" className={className}>
+          <rect x="2" y="3" width="12" height="10" rx="1.5" />
+          <circle cx="6" cy="7" r="1.5" />
+          <path d="M9.5 6.5h3M9.5 9h3M3.5 10.5c.6-1 1.6-1.5 2.5-1.5s1.9.5 2.5 1.5" />
+        </svg>
+      )
     case 'mega-menu':
       return (
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" className={className}>

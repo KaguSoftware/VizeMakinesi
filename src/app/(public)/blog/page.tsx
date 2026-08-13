@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getAllCountriesForBlog } from '@/lib/data/countries';
 import BlogStreamItem from '@/components/blog/BlogStreamItem';
 import { INTERLUDES } from '@/components/blog/interludes';
+import { SCHENGEN_GUIDE } from '@/data/schengenGuide';
 
 export const revalidate = 3600;
 
@@ -55,36 +56,42 @@ export default async function BlogPage() {
         </div>
       </section>
 
-      {countries.length === 0 ? (
-        <section className="container">
-          <div className="py-40 text-center">
-            <p className="font-serif italic text-[22px] text-navy/40">Henüz blog yazısı yok.</p>
-          </div>
-        </section>
-      ) : (
-        <>
-          {/* Tek kolon akış — aralara infografik/görsel blokları giriyor */}
-          {countries.map((country, i) => {
-            const position = i + 1;
-            const interlude = INTERLUDES.find((item) => item.after === position);
-            return (
-              <div key={country.slug}>
-                <BlogStreamItem
-                  slug={country.slug}
-                  name={country.name}
-                  flagEmoji={country.flag_emoji}
-                  imageUrl={country.tourism_hero_image_url}
-                  excerpt={(country.tourism_intro ?? [])[0] ?? ''}
-                  index={position}
-                  reverse={position % 2 === 0}
-                  priority={position === 1}
-                />
-                {interlude?.node}
-              </div>
-            );
-          })}
+      {/* 01 — Schengen rehberi: akışın en başındaki sabit yazı */}
+      <BlogStreamItem
+        slug={SCHENGEN_GUIDE.slug}
+        href={SCHENGEN_GUIDE.href}
+        name={SCHENGEN_GUIDE.name}
+        titleSuffix={SCHENGEN_GUIDE.titleSuffix}
+        kicker={SCHENGEN_GUIDE.kicker}
+        flagEmoji={SCHENGEN_GUIDE.flagEmoji}
+        imageUrl={null}
+        excerpt={SCHENGEN_GUIDE.excerpt}
+        index={1}
+        priority
+      />
 
-          {/* CTA */}
+      {/* Tek kolon akış — aralara infografik/görsel blokları giriyor */}
+      {countries.map((country, i) => {
+        const position = i + 2;
+        const interlude = INTERLUDES.find((item) => item.after === position);
+        return (
+          <div key={country.slug}>
+            <BlogStreamItem
+              slug={country.slug}
+              name={country.name}
+              flagEmoji={country.flag_emoji}
+              imageUrl={country.tourism_hero_image_url}
+              excerpt={(country.tourism_intro ?? [])[0] ?? ''}
+              index={position}
+              reverse={position % 2 === 0}
+              priority={position === 2}
+            />
+            {interlude?.node}
+          </div>
+        );
+      })}
+
+      {/* CTA */}
           <section className="cta-block bg-navy text-white">
             <div className="container">
               <div className="py-24 md:py-30 relative z-10">
@@ -114,8 +121,6 @@ export default async function BlogPage() {
               </div>
             </div>
           </section>
-        </>
-      )}
     </>
   );
 }

@@ -6,7 +6,6 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: 'Ülke Vizeleri', href: '/' },
       { label: 'Schengen',      href: '/vize/schengen' },
-      { label: 'Pasaport',      href: '/pasaport' },
       { label: 'Blog',          href: '/blog' },
       { label: 'Ortaklıklar',   href: '/ortakliklar' },
     ],

@@ -10,7 +10,6 @@ const STATIC_ROUTES = [
     "/hakkimizda",
     "/ekibimiz",
     "/ortakliklar",
-    "/pasaport",
     "/ucrete-dahil-hizmetler",
     "/abd-hizlandirma",
     "/iletisim",

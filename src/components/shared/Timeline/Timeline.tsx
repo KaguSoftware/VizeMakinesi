@@ -3,6 +3,7 @@
 import { Fragment, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TIMELINE_STEPS } from './constants';
+import type { TimelineStep } from './types';
 
 const COLORS = {
   coral: '#309c9b',
@@ -11,7 +12,7 @@ const COLORS = {
   white: '#ffffff',
 };
 
-function DetailPanel({ step }: { step: typeof TIMELINE_STEPS[number] }) {
+function DetailPanel({ step }: { step: TimelineStep }) {
   return (
     <div className="border border-border rounded-2xl px-5 py-6 md:px-10 md:py-8 bg-paper">
       <motion.div
@@ -29,10 +30,15 @@ function DetailPanel({ step }: { step: typeof TIMELINE_STEPS[number] }) {
   );
 }
 
-export default function Timeline() {
+/**
+ * `steps` defaults to the six-step home-page process. Other pages pass their
+ * own set; the `layoutId` glow is keyed off `id` so two timelines on one page
+ * don't share an indicator.
+ */
+export default function Timeline({ steps = TIMELINE_STEPS, id = 'timeline' }: { steps?: TimelineStep[]; id?: string }) {
   const [active, setActive] = useState<number | null>(0);
-  const activeStep = active !== null ? TIMELINE_STEPS[active] : null;
-  const nextStep = active !== null && active < TIMELINE_STEPS.length - 1 ? active + 1 : null;
+  const activeStep = active !== null ? steps[active] : null;
+  const nextStep = active !== null && active < steps.length - 1 ? active + 1 : null;
 
   // Mobile grid is 2 cols, so the row containing step i is Math.floor(i / 2).
   // We render a col-span-2 panel after each row's last cell, visible only on mobile,
@@ -45,7 +51,7 @@ export default function Timeline() {
       <div className="hidden md:block absolute top-40 left-[8%] right-[8%] border-t border-dashed border-border" />
 
       <div className="grid grid-cols-2 md:grid-cols-6 gap-6 relative">
-        {TIMELINE_STEPS.map((step, i) => {
+        {steps.map((step, i) => {
           const isActive = active === i;
           const isNext = nextStep === i;
 
@@ -54,7 +60,7 @@ export default function Timeline() {
           const targetColor = isActive ? COLORS.white : isNext ? COLORS.coral : COLORS.navy;
 
           const row = Math.floor(i / 2);
-          const isRowEndMobile = i % 2 === 1 || i === TIMELINE_STEPS.length - 1;
+          const isRowEndMobile = i % 2 === 1 || i === steps.length - 1;
           const showInlinePanel = isRowEndMobile && activeRow === row && activeStep !== null;
 
           return (
@@ -64,7 +70,7 @@ export default function Timeline() {
                   <AnimatePresence>
                     {isNext && (
                       <motion.span
-                        layoutId="timeline-next-indicator"
+                        layoutId={`${id}-next-indicator`}
                         className="absolute inset-0 rounded-full pointer-events-none"
                         initial={{ opacity: 0 }}
                         animate={{

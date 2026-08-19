@@ -24,7 +24,7 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
       {
         title: 'Vize Hizmetleri',
         items: [
-          { to: '/#nasil-calisiyoruz', label: 'Nasıl Çalışırız', desc: '6 adımlı ofis metodumuz' },
+          { to: '/nasil-calisiriz', label: 'Nasıl Çalışırız', desc: 'Randevudan sonuca ofis metodumuz' },
           { to: '/ucrete-dahil-hizmetler', label: 'Ücrete Dahil Hizmetler', desc: 'Her başvuruda ne sunuyoruz' },
         ],
       },
@@ -34,10 +34,10 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
 
 export const MOBILE_LINKS: MobileLink[] = [
   { to: '/', label: 'Ana Sayfa', end: true },
-  { to: '/vizeler', label: 'Vizeler' },
+  { to: '/vizeler', label: 'Ülkeler' },
   { to: '/vize-turleri', label: 'Vize Türleri' },
   { to: '/ofis', label: 'Ofis' },
-  { to: '/#nasil-calisiyoruz', label: 'Nasıl Çalışırız' },
+  { to: '/nasil-calisiriz', label: 'Nasıl Çalışırız' },
   { to: '/hakkimizda', label: 'Hakkımızda' },
   { to: '/ekibimiz', label: 'Ekibimiz' },
   { to: '/ucrete-dahil-hizmetler', label: 'Ücrete Dahil Hizmetler' },

@@ -19,8 +19,11 @@ export default function SchengenIntro({ title, children }: Props) {
 
   return (
     <section className="border-b border-border">
-      <div className="container pt-20 pb-12">
-        <FadeIn as="div">
+      {/* Dikey boşluk .container dışındaki sarmalayıcıda: globals.css'teki
+          `.container { padding: 0 48px }` katmansız olduğu için Tailwind'in
+          pt-/pb- yardımcılarını ezer. */}
+      <div className="pt-12 pb-8 md:pt-16 md:pb-10">
+        <FadeIn as="div" className="container">
           <h2 className="font-serif font-bold text-[clamp(32px,4vw,56px)] leading-none tracking-[-0.03em] text-navy">
             {head}
             {tail && (

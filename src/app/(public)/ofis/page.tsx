@@ -34,8 +34,8 @@ const SECTIONS = [
   },
   {
     title: 'Nasıl Çalışırız',
-    desc: 'Beş adımlı ofis metodumuz',
-    to: '/#nasil-calisiyoruz',
+    desc: 'Randevudan sonuca ofis metodumuz',
+    to: '/nasil-calisiriz',
     group: 'Vize Hizmetleri',
   },
   {

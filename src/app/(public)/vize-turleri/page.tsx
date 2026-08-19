@@ -1,12 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getVisaTypeFaqs } from '@/lib/data/visaTypeFaqs';
 import { VisaTypeCta } from '@/components/vizeTurleri/VisaTypeArticle';
-import FAQ from '@/components/shared/FAQ/FAQ';
 import {
     SHORT_STAY_TYPES,
     LONG_STAY_TYPES,
-    VIZE_TURLERI_FAQ_KEY,
     VIZE_TURLERI_HIGHLIGHTS,
     type VisaTypeContent,
 } from '@/data/visaTypes';
@@ -81,9 +78,7 @@ function VisaTypeGroup({
     );
 }
 
-export default async function VizeTurleriPage() {
-    const faqs = await getVisaTypeFaqs(VIZE_TURLERI_FAQ_KEY);
-
+export default function VizeTurleriPage() {
     return (
         <>
             {/* Hero */}
@@ -137,20 +132,6 @@ export default async function VizeTurleriPage() {
                     types={LONG_STAY_TYPES}
                 />
             </section>
-
-            {faqs.length > 0 && (
-                <FAQ
-                    items={faqs}
-                    title={
-                        <>
-                            Vize hakkında{' '}
-                            <em className="font-normal italic text-coral">
-                                sık sorulan sorular.
-                            </em>
-                        </>
-                    }
-                />
-            )}
 
             <VisaTypeCta
                 title="Vize başvurunuzu doğru adımlarla planlayın"

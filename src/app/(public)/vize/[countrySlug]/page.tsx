@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getCountryBySlug, getCountrySlugsStatic } from '@/lib/data/countries';
 import CountryHero from '@/components/visa/CountryHero/CountryHero';
@@ -6,13 +6,11 @@ import GenelBilgi from '@/components/visa/GenelBilgi/GenelBilgi';
 import VizeTurleri from '@/components/visa/VizeTurleri/VizeTurleri';
 import FAQ from '@/components/shared/FAQ/FAQ';
 import SchengenStubHero from '@/components/visa/SchengenStubHero/SchengenStubHero';
-import SchengenCountryGrid from '@/components/visa/SchengenCountryGrid/SchengenCountryGrid';
-import WarningList from '@/components/schengen/WarningList/WarningList';
 import BasvuruSureci from '@/components/visa/BasvuruSureci/BasvuruSureci';
 import GerekliEvraklar from '@/components/visa/GerekliEvraklar/GerekliEvraklar';
 import CountryCTA from '@/components/visa/CountryCTA/CountryCTA';
 import { SCHENGEN_SLUG_MAP } from '@/data/schengen';
-import { SCHENGEN_REJECTION_REASONS } from '@/components/schengen/SchengenMembers/constants';
+import { SCHENGEN_PATH } from '@/lib/routes';
 import { FadeIn } from '@/components/shared/motion';
 
 export const revalidate = 60;
@@ -25,7 +23,10 @@ export async function generateStaticParams() {
   const dbSlugs = await getCountrySlugsStatic();
   const dbSet = new Set(dbSlugs);
   const schengenSlugs = [...SCHENGEN_SLUG_MAP.keys()].filter((s) => !dbSet.has(s));
-  return [...dbSlugs, ...schengenSlugs].map((slug) => ({ countrySlug: slug }));
+  // Schengen bölge sayfası kök seviyede (/schengen) yayınlanır.
+  return [...dbSlugs, ...schengenSlugs]
+    .filter((slug) => slug !== 'schengen')
+    .map((slug) => ({ countrySlug: slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -49,6 +50,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CountryPage({ params }: Props) {
   const { countrySlug } = await params;
+  // Eski /vize/schengen adresi kalıcı olarak /schengen'e taşındı.
+  if (countrySlug === 'schengen') redirect(SCHENGEN_PATH);
+
   const country = await getCountryBySlug(countrySlug);
 
   if (!country) {
@@ -88,19 +92,7 @@ export default async function CountryPage({ params }: Props) {
       {/* 01 — Genel Bilgiler */}
       <CountryHero
         country={country}
-        // Schengen bölge sayfasının hero metinleri rehber dokümanına göre sabittir.
-        lead={countrySlug === 'schengen'
-          ? 'Doğru ve tutarlı bir başvuru dosyası, Schengen vize sürecinin temelini oluşturur.'
-          : undefined}
-        note={countrySlug === 'schengen'
-          ? 'Vize sürecinizi doğru planlama ve uzman desteğiyle yönetin.'
-          : undefined}
-        bullets={countrySlug === 'schengen' ? [
-          'Randevu sürecinde hızlı ve doğru yönlendirme',
-          'Kişisel durumunuza özel stratejik dosya analizi',
-          'Başvurunun tüm aşamalarında planlı süreç yönetimi',
-          'Süreç boyunca ulaşabileceğiniz uzman desteği',
-        ] : (countrySlug === 'america' || countrySlug === 'abd') ? [
+        bullets={(countrySlug === 'america' || countrySlug === 'abd') ? [
           'Amerika vize başvurunuzu ve mülakat sürecinizi şansa değil, profesyonellere bırakın.',
           'Kusursuz DS-160 form hazırlığı ve uçtan uca uzman desteği',
           'Konsolosluk beklentilerine uygun evrak yönetimi ve mülakat simülasyonu',
@@ -127,51 +119,6 @@ export default async function CountryPage({ params }: Props) {
               <span className="font-semibold text-coral">{country.appointment_days}</span> içinde alınabilir.
             </p>
           </FadeIn>
-        </section>
-      )}
-
-      {countrySlug === 'schengen' && <SchengenCountryGrid limitCollapsed />}
-
-      {countrySlug === 'schengen' && (
-        <section className="border-t border-border">
-          <div className="container py-20">
-            <FadeIn as="div" className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
-              — Schengen vizesi nedir
-            </FadeIn>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-              <FadeIn as="div">
-                <h2 className="font-serif font-bold text-[clamp(32px,4vw,56px)] leading-none tracking-[-0.03em] text-navy">
-                  Tek vize,{' '}
-                  <em className="font-normal italic text-coral">29 ülke.</em>
-                </h2>
-              </FadeIn>
-              <FadeIn as="div" delay={0.1} className="space-y-4 font-serif text-[17px] leading-relaxed text-navy/80">
-                <p>
-                  Avrupa sınırlarını tek bir belgeyle açan Schengen Vizesi; 29 üye ülkeyi kapsayan resmi ve standartlaştırılmış bir seyahat iznidir. İlgili vize, sahiplerine herhangi bir 180 günlük dönemde toplam 90 güne kadar serbest dolaşım özgürlüğü tanır.
-                </p>
-                <p>
-                  Vize prosedürleri gereği başvurular, seyahat planınızdaki asıl varış noktanız üzerinden yürütülür. Çoklu ülke ziyaretlerini kapsayan karmaşık rotalarda ise süreç, en uzun süre konaklayacağınız ülkenin diplomatik temsilcilikleri aracılığıyla yönetilmelidir.
-                </p>
-              </FadeIn>
-            </div>
-
-            <div className="mt-16">
-              <FadeIn as="div" className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
-                — Sık ret sebepleri
-              </FadeIn>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                <FadeIn as="div">
-                  <h3 className="font-serif font-bold text-[clamp(24px,3vw,40px)] leading-none tracking-[-0.03em] text-navy">
-                    Başvuruların reddedildiği{' '}
-                    <em className="font-normal italic text-coral">en yaygın nedenler.</em>
-                  </h3>
-                </FadeIn>
-                <FadeIn as="div" delay={0.1}>
-                  <WarningList items={SCHENGEN_REJECTION_REASONS} />
-                </FadeIn>
-              </div>
-            </div>
-          </div>
         </section>
       )}
 

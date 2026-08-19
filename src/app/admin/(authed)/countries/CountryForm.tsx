@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useDirtyFromSnapshot, useDirtyGuard, useUnsavedChanges } from '@/lib/hooks/useUnsavedChanges'
 import {
@@ -42,6 +43,9 @@ import FlagSection from './sections/FlagSection'
 import MosaicSection from './sections/MosaicSection'
 import TourismSection from './sections/TourismSection'
 
+/** Schengen kaydında gizlenen bölümler — içerikleri /admin/schengen'den yönetilir. */
+const SCHENGEN_HIDDEN_SECTIONS: string[] = ['genel-bilgi', 'basvuru-sureci', 'pdf-belgeler', 'sss']
+
 interface CountryFormProps {
   country?: CountryWithRelations
 }
@@ -52,6 +56,12 @@ export default function CountryForm({ country }: CountryFormProps) {
   const { confirmDiscard } = useDirtyGuard()
   const formRef = useRef<HTMLFormElement>(null)
   const isEdit = !!country
+  // /schengen sayfası kendi içerik tablosundan beslenir (bkz. /admin/schengen).
+  // Bu alanlar Schengen kaydında hiçbir sayfada görünmediği için gizlenir.
+  const isSchengen = country?.slug === 'schengen'
+  const visibleSections = isSchengen
+    ? FORM_SECTIONS.filter((s) => !SCHENGEN_HIDDEN_SECTIONS.includes(s.id))
+    : FORM_SECTIONS
 
   // — 01 Temel
   const [name, setName] = useState(country?.name ?? '')
@@ -304,7 +314,7 @@ export default function CountryForm({ country }: CountryFormProps) {
         <p className="font-mono text-[11px] tracking-widest uppercase text-navy/55 mb-2">
           — Bölümler
         </p>
-        {FORM_SECTIONS.map((s) => (
+        {visibleSections.map((s) => (
           <a
             key={s.id}
             href={`#${s.id}`}
@@ -316,6 +326,25 @@ export default function CountryForm({ country }: CountryFormProps) {
       </nav>
 
       <form ref={formRef} onSubmit={handleSubmit} className="flex-1 min-w-0 max-w-3xl">
+        {isSchengen && (
+          <div className="mb-8 border border-coral/40 bg-coral/5 rounded-lg p-5">
+            <p className="font-mono text-[11px] tracking-widest uppercase text-coral mb-2">
+              — Schengen kaydı
+            </p>
+            <p className="font-sans text-[13px] leading-relaxed text-navy/80">
+              Bu kayıt <strong>/schengen</strong> sayfasının hero bölümünü (ad, bayrak, özet) ve ana
+              sayfa mozaiğini besler. Sayfanın diğer bölümleri — giriş metni, ülke başlığı, temel
+              kurallar, C/D Tipi vize türleri, başvuru adımları ve SSS —{' '}
+              <Link href="/admin/schengen" className="text-coral underline hover:text-navy transition-colors">
+                Schengen Sayfası
+              </Link>{' '}
+              ekranından yönetilir. Bu nedenle Başvuru Öncesi, Başvuru Süreci, PDF Belgeler ve SSS
+              alanları burada gösterilmez. Vize Türleri alanı ise{' '}
+              <strong>/vize-turleri/schengen</strong> sayfasında kullanılmaya devam eder.
+            </p>
+          </div>
+        )}
+
         <TemelSection
           name={name}
           slug={slug}
@@ -333,6 +362,7 @@ export default function CountryForm({ country }: CountryFormProps) {
           onVisaTypeChange={setVisaType}
           onSummaryChange={setSummary}
           onAppointmentDaysChange={setAppointmentDays}
+          showAppointmentDays={!isSchengen}
         />
 
         <FlagSection
@@ -354,6 +384,7 @@ export default function CountryForm({ country }: CountryFormProps) {
           onMosaicSpanChange={setMosaicSpan}
         />
 
+        {!isSchengen && (<>
         <Divider id="genel-bilgi" label="Başvuru Öncesi Bilmeniz Gerekenler" />
         <p className="-mt-2 mb-4 font-mono text-[11px] text-navy/55">
           Ülke sayfasındaki maddeli bölüm. Bölüm başlığı boş bırakılırsa
@@ -404,6 +435,8 @@ export default function CountryForm({ country }: CountryFormProps) {
             </div>
           )}
         />
+
+        </>)}
 
         <Divider id="vize-turleri" label="Hangi Vize Türüne Başvurmalısınız?" />
         <p className="-mt-2 mb-4 font-mono text-[11px] text-navy/55">
@@ -473,6 +506,7 @@ export default function CountryForm({ country }: CountryFormProps) {
           )}
         />
 
+        {!isSchengen && (<>
         {/* "{Ülke} Vize İşlemleri nasıl yapılır?" bölümünün sağındaki
             numaralı adımlar. Boş bırakılırsa sitedeki varsayılan adımlar
             gösterilir. */}
@@ -564,6 +598,8 @@ export default function CountryForm({ country }: CountryFormProps) {
             </div>
           )}
         />
+
+        </>)}
 
         <TourismSection
           hasTourism={hasTourism}

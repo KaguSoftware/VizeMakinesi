@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FadeIn } from "@/components/shared/motion";
@@ -63,8 +64,18 @@ export default function CascadeCalculator({ compact }: { compact?: boolean }) {
             — Hesaplayıcı
           </div>
         </FadeIn>
+        {compact && (
+          <FadeIn delay={0.04}>
+            <Link
+              href="/cascade-kurali"
+              className="font-sans font-medium text-[12px] uppercase tracking-[0.14em] text-navy/70 hover:text-coral transition-colors duration-200 inline-flex items-center gap-1.5 mb-2"
+            >
+              Cascade Kuralı nedir? →
+            </Link>
+          </FadeIn>
+        )}
         <FadeIn delay={0.08}>
-          <h2 className={`font-serif font-bold ${compact ? 'text-[clamp(22px,3vw,36px)]' : 'text-[clamp(28px,4vw,48px)]'} leading-none tracking-tight text-navy mb-2`}>
+          <h2 className="font-serif font-bold text-[clamp(28px,4vw,48px)] leading-none tracking-tight text-navy mb-2">
             Cascade Kuralı Hesaplayıcısı
           </h2>
         </FadeIn>

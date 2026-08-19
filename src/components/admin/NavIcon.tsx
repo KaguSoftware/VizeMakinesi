@@ -38,6 +38,14 @@ export function NavIcon({ name, className = 'w-4 h-4' }: Props) {
           <path d="M9.5 6.5h3M9.5 9h3M3.5 10.5c.6-1 1.6-1.5 2.5-1.5s1.9.5 2.5 1.5" />
         </svg>
       )
+    case 'schengen':
+      return (
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" className={className}>
+          <circle cx="8" cy="8" r="6" />
+          <ellipse cx="8" cy="8" rx="2.6" ry="6" />
+          <path d="M2.3 6h11.4M2.3 10h11.4" />
+        </svg>
+      )
     case 'mega-menu':
       return (
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" className={className}>

@@ -24,6 +24,9 @@ No test framework is configured.
 
 - `src/app/` — Next.js App Router pages, split into route groups:
   - `(public)/` — all public-facing routes (home, visa pages, blog, contact, etc.) wrapped by Nav + Footer
+    - Country pages live at `/vize/[countrySlug]`. The Schengen region page is the exception: it lives at
+      `/schengen` (root level), `/vize/schengen` 308-redirects there (`next.config.ts`), and `countryHref()`
+      in `src/lib/routes.ts` is the single place that maps a country slug to its URL.
   - `admin/login/` — login page, no admin chrome, inherits bare root layout
   - `admin/(authed)/` — protected admin pages. Layout verifies session + `admin_profiles` membership; redirects to `/admin/login` if not authed. Sign-out at `POST /admin/signout`.
 - `src/components/` — Organized by page section (`home/`, `about/`, `visa/`, `schengen/`, etc.) plus `shared/` for reusable components, `global/` for Nav and Footer, and `admin/` for admin-only components
@@ -38,7 +41,7 @@ No test framework is configured.
 **Route structure:**
 - `/admin/login` — unauthenticated login page
 - `/admin/(authed)/*` — all protected pages share the layout in `src/app/admin/(authed)/layout.tsx`
-- Resources: `/admin/countries`, `/admin/mega-menu`, `/admin/marquee`, `/admin/partnerships`, `/admin/team`
+- Resources: `/admin/countries`, `/admin/schengen`, `/admin/mega-menu`, `/admin/marquee`, `/admin/partnerships`, `/admin/team`
 
 **Auth flow:**
 1. `src/proxy.ts` (Next.js middleware) matches `/admin/:path*`, refreshes Supabase session cookies
@@ -46,6 +49,18 @@ No test framework is configured.
 3. Every server action calls `requireAdmin()` which performs the same check and redirects rather than throwing.
 
 **Why the `(authed)` route group exists:** It lets the login page (`admin/login/`) share the bare root layout while all dashboard pages share a separate layout with the sidebar — without nesting login inside the auth-protected segment.
+
+### Schengen page
+
+- `/schengen` renders the sections of the Schengen guide document: hero → "Tek vize, 29 ülke" →
+  country grid → Temel Kurallar → C/D Tipi vize türleri → başvuru adımları → SSS.
+- Hero identity (name, flag, summary) comes from the `countries` row with slug `schengen`; every other
+  text comes from the singleton `schengen_page` table (`src/lib/data/schengenPage.ts`) and is edited at
+  `/admin/schengen`. `src/data/schengenPage.ts` holds the same copy as a fallback used when the table or
+  row is missing.
+- The page has exactly one FAQ source (`schengen_page.faqs`). The country row's general info, process
+  steps, PDF documents, FAQs and appointment days are unused for schengen, so `CountryForm` hides those
+  sections on the schengen record and links to `/admin/schengen` instead.
 
 ### Data layer
 

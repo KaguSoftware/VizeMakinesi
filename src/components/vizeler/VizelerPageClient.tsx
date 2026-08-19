@@ -97,7 +97,7 @@ export default function VizelerPageClient({ entries, settings }: Props) {
                                         </h2>
                                         {active === 'schengen' && (
                                             <Link
-                                                href="/vize/schengen"
+                                                href="/schengen"
                                                 className="inline-flex items-center gap-2 font-sans font-medium text-[12px] uppercase tracking-widest px-7 py-4 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200 rounded-2xl whitespace-nowrap"
                                             >
                                                 Schengen hakkında →

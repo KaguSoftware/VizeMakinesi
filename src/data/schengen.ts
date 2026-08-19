@@ -175,3 +175,12 @@ export const SCHENGEN_MEMBERS: SchengenMemberMeta[] = [
 
 export const SCHENGEN_SLUG_MAP = new Map(SCHENGEN_MEMBERS.map((m) => [m.slug, m]));
 export const SCHENGEN_NAME_TO_SLUG = new Map(SCHENGEN_MEMBERS.map((m) => [m.name, m.slug]));
+
+/**
+ * Ülke Schengen üyesi mi? Slug üzerinden eşleşmezse (DB slug'ı farklı
+ * yazılmış olabilir) ülke adına bakılır.
+ */
+export function isSchengenMember(slug: string, name?: string | null): boolean {
+  if (SCHENGEN_SLUG_MAP.has(slug)) return true;
+  return !!name && SCHENGEN_NAME_TO_SLUG.has(name.trim());
+}

@@ -41,10 +41,10 @@ export default async function EditCountryPage({ params }: { params: Promise<{ id
     <div>
       <Breadcrumbs items={[
         { label: 'Dashboard', href: '/admin' },
-        { label: 'Ülkeler', href: '/admin/countries' },
+        { label: 'Vizeler', href: '/admin/countries' },
         { label: full.name },
       ]} />
-      <EyebrowText>— 01 / Ülkeler</EyebrowText>
+      <EyebrowText>— 01 / Vizeler</EyebrowText>
       <h1 className="font-serif text-[36px] font-bold tracking-[-0.02em] text-navy mt-1 mb-2">
         {full.name}
       </h1>

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { getCountryBySlug, getCountrySlugsStatic } from '@/lib/data/countries';
 import CountryVisaTypesHero from '@/components/vizeTurleri/CountryVisaTypesHero';
 import CountryVisaTypesList from '@/components/vizeTurleri/CountryVisaTypesList';
+import { isSchengenMember } from '@/data/schengen';
 
 export const revalidate = 60;
 
@@ -39,6 +40,7 @@ export default async function CountryVisaTypesPage({ params }: Props) {
                 flagEmoji={country.flag_emoji}
                 flagPresetKey={country.flag_preset_key}
                 flagImageUrl={country.flag_image_url}
+                isSchengen={isSchengenMember(countrySlug, country.name)}
             />
 
             {/* Admin panelinden yönetilen vize türleri (Mini Başlık + Açıklama).

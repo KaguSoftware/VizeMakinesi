@@ -23,7 +23,7 @@ export default function SchengenStubHero({ name, flag, presetKey, summary }: Pro
       <div className="container relative z-10">
         <div className="font-mono text-[11px] tracking-[0.15em] text-muted uppercase mb-10">
           —{' '}
-          <Link href="/vize/schengen" className="hover:text-coral transition-colors">
+          <Link href="/schengen" className="hover:text-coral transition-colors">
             Schengen Vizesi
           </Link>
           &nbsp;/&nbsp;{name}

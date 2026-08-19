@@ -5,7 +5,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     eyebrow: '— 01 / Keşfet',
     links: [
       { label: 'Ülke Vizeleri', href: '/' },
-      { label: 'Schengen',      href: '/vize/schengen' },
+      { label: 'Schengen',      href: '/schengen' },
       { label: 'Blog',          href: '/blog' },
       { label: 'Ortaklıklar',   href: '/ortakliklar' },
     ],

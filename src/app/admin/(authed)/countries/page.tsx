@@ -18,12 +18,12 @@ export default async function CountriesPage() {
 
   return (
     <div>
-      <Breadcrumbs items={[{ label: 'Dashboard', href: '/admin' }, { label: 'Ülkeler' }]} />
+      <Breadcrumbs items={[{ label: 'Dashboard', href: '/admin' }, { label: 'Vizeler' }]} />
       <div className="flex items-start justify-between mb-10 flex-wrap gap-4">
         <div>
-          <EyebrowText>— 01 / Ülkeler</EyebrowText>
+          <EyebrowText>— 01 / Vizeler</EyebrowText>
           <h1 className="font-serif text-[36px] font-bold tracking-[-0.02em] text-navy mt-1">
-            Ülkeler
+            Vizeler
           </h1>
         </div>
         <Link href="/admin/countries/new">

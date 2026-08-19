@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import FlagBG from "@/components/shared/FlagBG/FlagBG";
 import { EASE_OUT_EXPO } from "@/components/shared/motion/constants";
 import type { MosaicCardProps } from "./types";
+import { countryHref } from '@/lib/routes';
 
 const MotionLink = motion.create(Link);
 
@@ -17,7 +18,7 @@ export default function MosaicCard({
 
     return (
         <MotionLink
-            href={`/vize/${country.slug}`}
+            href={countryHref(country.slug)}
             data-mosaic-row={rowIndex}
             className={`mosaic-cell ${span} border-b border-r border-border flex flex-col justify-between min-h-90 cursor-pointer relative bg-cream overflow-hidden`}
             whileHover={reduced ? undefined : { y: -3 }}

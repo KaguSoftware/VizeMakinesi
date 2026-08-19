@@ -34,7 +34,7 @@ export default async function AdminBlogPage() {
           </p>
         </div>
         <Link href="/admin/countries">
-          <AdminButton variant="secondary">Ülkeleri Yönet</AdminButton>
+          <AdminButton variant="secondary">Vizeleri Yönet</AdminButton>
         </Link>
       </div>
 

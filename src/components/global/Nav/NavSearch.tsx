@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import { countryHref } from '@/lib/routes';
 
 interface CountryResult {
     name: string;
@@ -61,7 +62,7 @@ export default function NavSearch() {
         else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex((i) => Math.max(i - 1, -1)); }
         else if (e.key === 'Enter') {
             const target = activeIndex >= 0 ? results[activeIndex] : results[0];
-            if (target) { router.push(`/vize/${target.slug}`); collapse(); }
+            if (target) { router.push(countryHref(target.slug)); collapse(); }
         }
         else if (e.key === 'Escape') collapse();
     };
@@ -112,7 +113,7 @@ export default function NavSearch() {
                                 {results.map((c, i) => (
                                     <li key={c.slug}>
                                         <Link
-                                            href={`/vize/${c.slug}`}
+                                            href={countryHref(c.slug)}
                                             onClick={() => collapse()}
                                             className={`flex items-center gap-3 px-4 py-2.5 font-sans text-[13px] text-navy border-b border-coral/10 last:border-0 hover:text-coral transition-colors ${i === activeIndex ? 'text-coral' : ''}`}
                                         >

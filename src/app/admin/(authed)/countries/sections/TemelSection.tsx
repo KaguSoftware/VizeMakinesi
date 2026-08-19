@@ -21,6 +21,8 @@ interface Props {
   onVisaTypeChange: (val: string) => void
   onSummaryChange: (val: string) => void
   onAppointmentDaysChange: (val: string) => void
+  /** Randevu süresi bölümü ilgili ülke sayfasında gösterilmiyorsa gizlenir (ör. Schengen). */
+  showAppointmentDays?: boolean
 }
 
 export default function TemelSection({
@@ -40,6 +42,7 @@ export default function TemelSection({
   onVisaTypeChange,
   onSummaryChange,
   onAppointmentDaysChange,
+  showAppointmentDays = true,
 }: Props) {
   return (
     <>
@@ -101,6 +104,7 @@ export default function TemelSection({
           <FieldError errors={errors} field="summary" />
         </div>
 
+        {showAppointmentDays && (
         <div>
           <AdminInput
             label="Tahmini Randevu Süresi"
@@ -112,6 +116,7 @@ export default function TemelSection({
             Boş bırakılırsa ilgili bölüm gösterilmez.
           </p>
         </div>
+        )}
       </div>
     </>
   )

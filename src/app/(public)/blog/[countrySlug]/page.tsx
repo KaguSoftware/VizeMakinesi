@@ -6,6 +6,7 @@ import { getCountryBySlug, getCountrySlugsStatic as getTourismSlugsStatic } from
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import ChecklistList from '@/components/shared/ChecklistList/ChecklistList';
 import NumberedList from '@/components/shared/NumberedList/NumberedList';
+import { countryHref } from '@/lib/routes';
 
 export const revalidate = 3600;
 
@@ -215,7 +216,7 @@ export default async function CountryBlogPage({ params }: Props) {
               </h2>
               <div>
                 <Link
-                  href={`/vize/${country.slug}`}
+                  href={countryHref(country.slug)}
                   className="block w-full text-center font-sans font-medium text-[13px] uppercase tracking-widest px-8 py-5.5 bg-cream border border-cream text-coral hover:bg-navy hover:text-cream hover:border-cream transition-all duration-200 rounded-2xl"
                 >
                   {country.name} vizesini incele →

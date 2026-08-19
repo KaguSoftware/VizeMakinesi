@@ -9,6 +9,8 @@ interface Props {
     flagEmoji: string | null;
     flagPresetKey: string | null;
     flagImageUrl: string | null;
+    /** Ülke Schengen üyesiyse hero'da Schengen etiketi gösterilir. */
+    isSchengen?: boolean;
 }
 
 export default function CountryVisaTypesHero({
@@ -17,6 +19,7 @@ export default function CountryVisaTypesHero({
     flagEmoji,
     flagPresetKey,
     flagImageUrl,
+    isSchengen = false,
 }: Props) {
     const words = name.split(' ');
     const first = words[0];
@@ -35,8 +38,18 @@ export default function CountryVisaTypesHero({
                 <div className="lg:w-1/2 lg:pr-8">
                     <FadeIn as="div" className="flex items-center gap-10 mb-7" duration={0.5} priority>
                         <div className="text-[80px] leading-none">{flagEmoji}</div>
-                        <div className="inline-block border border-navy px-4 py-2 font-mono font-medium text-[10px] uppercase tracking-[0.15em]">
-                            — Vize türleri
+                        <div className="flex flex-wrap items-center gap-3">
+                            <div className="inline-block border border-navy px-4 py-2 font-mono font-medium text-[10px] uppercase tracking-[0.15em]">
+                                — Vize türleri
+                            </div>
+                            {isSchengen && (
+                                <Link
+                                    href="/schengen"
+                                    className="inline-flex items-center gap-2 border border-coral text-coral px-4 py-2 font-mono font-medium text-[10px] uppercase tracking-[0.15em] hover:bg-coral hover:text-cream transition-colors duration-200"
+                                >
+                                    <span aria-hidden>🇪🇺</span> Schengen ülkesi
+                                </Link>
+                            )}
                         </div>
                     </FadeIn>
 

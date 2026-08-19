@@ -13,10 +13,14 @@ const nextConfig: NextConfig = {
       australia:   'avustralya',
       uae:         'bae',
     };
-    return Object.entries(slugMap).flatMap(([en, tr]) => [
-      { source: `/vize/${en}`,  destination: `/vize/${tr}`,  permanent: true },
-      { source: `/blog/${en}`,  destination: `/blog/${tr}`,  permanent: true },
-    ]);
+    return [
+      // Schengen bölge sayfası /vize/schengen'den kök seviyeye taşındı.
+      { source: '/vize/schengen', destination: '/schengen', permanent: true },
+      ...Object.entries(slugMap).flatMap(([en, tr]) => [
+        { source: `/vize/${en}`,  destination: `/vize/${tr}`,  permanent: true },
+        { source: `/blog/${en}`,  destination: `/blog/${tr}`,  permanent: true },
+      ]),
+    ];
   },
   images: {
     formats: ['image/avif', 'image/webp'],

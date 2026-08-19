@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+import { Fragment, useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { STATIC_MEGA_MENU } from "./constants";
@@ -9,6 +9,7 @@ import type { MegaMenuGroup } from "./types";
 import type { MegaMenuCategory } from "@/lib/data/megaMenu";
 import NavSearch from "./NavSearch";
 import MobileMenuOverlay from "./MobileMenuOverlay";
+import { countryHref } from '@/lib/routes';
 
 interface NavProps {
     dbCategories: MegaMenuCategory[];
@@ -17,7 +18,7 @@ interface NavProps {
 
 function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
     return {
-        label: 'Ülkeler',
+        label: 'Vizeler',
         columns: [
             ...dbCategories.map((cat) => {
                 const isEurope = /avrupa|europe/i.test(cat.name);
@@ -26,7 +27,7 @@ function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
                         kind: 'region-group' as const,
                         title: cat.name,
                         regions: [
-                            { label: 'Schengen Bölgelesi', to: '/vize/schengen', flag: '🇪🇺' },
+                            { label: 'Schengen Bölgelesi', to: '/schengen', flag: '🇪🇺' },
                             { label: 'İngiltere', to: '/vize/ingiltere', flag: '🇬🇧' },
                             { label: 'İrlanda', to: '/vize/irlanda', flag: '🇮🇪' },
                         ],
@@ -34,7 +35,7 @@ function buildVizelarGroup(dbCategories: MegaMenuCategory[]): MegaMenuGroup {
                 }
                 const isAmerica = /amerika|america/i.test(cat.name);
                 const baseItems = cat.items.map((it) => ({
-                    to: `/vize/${it.country.slug}`,
+                    to: countryHref(it.country.slug),
                     label: it.country.name,
                     flag: it.country.flag_emoji ?? undefined,
                 }));
@@ -163,11 +164,11 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                         onMouseLeave={handleLeave}
                     >
                         {megaMenu.map((group, i) => (
+                            <Fragment key={group.label}>
                             <div
-                                key={group.label}
                                 onMouseEnter={() => handleEnter(i)}
                             >
-                                {group.label === 'Ülkeler' ? (
+                                {group.label === 'Vizeler' ? (
                                     <Link
                                         href="/vizeler"
                                         aria-haspopup="true"
@@ -222,6 +223,16 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                                     </button>
                                 )}
                             </div>
+                            {group.label === 'Vizeler' && (
+                                <Link
+                                    href="/vize-turleri"
+                                    onMouseEnter={handleLeave}
+                                    className={`font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${pathname.startsWith('/vize-turleri') ? 'text-coral' : 'text-white hover:text-coral'}`}
+                                >
+                                    Vize Türleri
+                                </Link>
+                            )}
+                            </Fragment>
                         ))}
                         <Link
                             href="/blog"
@@ -229,19 +240,8 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
                         >
                             Blog
                         </Link>
-                        <Link
-                            href="/cascade-kurali"
-                            className={`font-sans font-bold text-[13.8px] uppercase tracking-widest px-4.5 py-3 inline-flex items-center gap-1.5 transition-colors duration-200 ${pathname.startsWith('/cascade-kurali') ? 'text-coral' : 'text-white hover:text-coral'}`}
-                        >
-                            Cascade Kuralı
-                        </Link>
                         <NavSearch />
-                        <Link href="/iletisim" className="ml-3 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-navy active:scale-[0.98] transition-transform">
-                            <span className="font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
-                                Bize Ulaşın
-                            </span>
-                        </Link>
-                        <Link href="/danisma-al" className="ml-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-navy active:scale-[0.98] transition-transform">
+                        <Link href="/danisma-al" className="ml-3 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-navy active:scale-[0.98] transition-transform">
                             <span className="font-sans font-bold text-[12px] uppercase tracking-widest px-4 py-2.5 bg-cream border border-cream text-coral hover:bg-transparent hover:text-white hover:border-white transition-colors duration-200 inline-flex items-center rounded-xl">
                                 Danışma Al →
                             </span>

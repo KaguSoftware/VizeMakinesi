@@ -15,6 +15,7 @@ import {
   reqArrayOfStrings,
 } from '@/lib/admin/validators'
 import { removeStorageObjects } from '@/lib/images/serverDelete'
+import { countryHref } from '@/lib/routes'
 
 function validateCountryServer(data: CountryFormData): CountryFormData {
   const name = reqString('Ad', data.name, { max: 100 })
@@ -343,11 +344,11 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
 
   await upsertChildren(supabase, id, data)
   revalidateAll()
-  revalidatePath(`/vize/${data.slug}`)
+  revalidatePath(countryHref(data.slug))
   revalidatePath(`/vize-turleri/${data.slug}`)
   revalidatePath(`/blog/${data.slug}`)
   if (previousSlug && previousSlug !== data.slug) {
-    revalidatePath(`/vize/${previousSlug}`)
+    revalidatePath(countryHref(previousSlug))
     revalidatePath(`/vize-turleri/${previousSlug}`)
     revalidatePath(`/blog/${previousSlug}`)
   }

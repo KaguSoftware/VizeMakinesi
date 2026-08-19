@@ -455,6 +455,77 @@ export interface Database {
           updated_at?: string
         }
       }
+      schengen_page: {
+        Row: {
+          id: number
+          hero_lead: string
+          hero_note: string
+          hero_bullets: string[]
+          intro_title: string
+          rules_title: string
+          rules_description: string
+          rules: Json
+          visa_types_title: string
+          visa_types_description: string
+          visa_types_c_title: string
+          visa_types_c: Json
+          visa_types_d_title: string
+          visa_types_d_description: string
+          visa_types_d: Json
+          process_title: string
+          process_description: string
+          process_steps: string[]
+          faq_title: string
+          faqs: Json
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          hero_lead?: string
+          hero_note?: string
+          hero_bullets?: string[]
+          intro_title?: string
+          rules_title?: string
+          rules_description?: string
+          rules?: Json
+          visa_types_title?: string
+          visa_types_description?: string
+          visa_types_c_title?: string
+          visa_types_c?: Json
+          visa_types_d_title?: string
+          visa_types_d_description?: string
+          visa_types_d?: Json
+          process_title?: string
+          process_description?: string
+          process_steps?: string[]
+          faq_title?: string
+          faqs?: Json
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          hero_lead?: string
+          hero_note?: string
+          hero_bullets?: string[]
+          intro_title?: string
+          rules_title?: string
+          rules_description?: string
+          rules?: Json
+          visa_types_title?: string
+          visa_types_description?: string
+          visa_types_c_title?: string
+          visa_types_c?: Json
+          visa_types_d_title?: string
+          visa_types_d_description?: string
+          visa_types_d?: Json
+          process_title?: string
+          process_description?: string
+          process_steps?: string[]
+          faq_title?: string
+          faqs?: Json
+          updated_at?: string
+        }
+      }
       admin_profiles: {
         Row: {
           id: string

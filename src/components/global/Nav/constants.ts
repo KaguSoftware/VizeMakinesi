@@ -34,17 +34,17 @@ export const STATIC_MEGA_MENU: MegaMenuGroup[] = [
 
 export const MOBILE_LINKS: MobileLink[] = [
   { to: '/', label: 'Ana Sayfa', end: true },
-  { to: '/vizeler', label: 'Ülkeler' },
+  { to: '/vizeler', label: 'Vizeler' },
+  { to: '/vize-turleri', label: 'Vize Türleri' },
   { to: '/ofis', label: 'Ofis' },
   { to: '/#nasil-calisiyoruz', label: 'Nasıl Çalışırız' },
   { to: '/hakkimizda', label: 'Hakkımızda' },
   { to: '/ekibimiz', label: 'Ekibimiz' },
   { to: '/ucrete-dahil-hizmetler', label: 'Ücrete Dahil Hizmetler' },
-  { to: '/vize/schengen', label: 'Schengen' },
+  { to: '/schengen', label: 'Schengen' },
   { to: '/blog', label: 'Blog' },
   { to: '/ortakliklar', label: 'Ortaklıklar' },
   { to: '/abd-hizlandirma', label: 'ABD Hızlandırma' },
-  { to: '/cascade-kurali', label: 'Cascade Kuralı' },
   { to: '/iletisim', label: 'İletişim' },
   { to: '/danisma-al', label: 'Danışma Al' },
 ];

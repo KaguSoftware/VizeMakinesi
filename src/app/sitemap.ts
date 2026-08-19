@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getCountrySlugsStatic, getTourismSlugsStatic } from "@/lib/data/countries";
 import { SCHENGEN_SLUG_MAP } from "@/data/schengen";
+import { countryHref } from "@/lib/routes";
 
 const SITE_URL = "https://vizemakinesi.com";
 
@@ -37,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     const countryEntries: MetadataRoute.Sitemap = [...countrySlugs, ...schengenStubs].map((slug) => ({
-        url: `${SITE_URL}/vize/${slug}`,
+        url: `${SITE_URL}${countryHref(slug)}`,
         lastModified: now,
         changeFrequency: "monthly",
         priority: 0.8,

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { EASE_OUT_EXPO } from '@/components/shared/motion/constants';
+import { countryHref } from '@/lib/routes';
 
 const MotionLink = motion.create(Link);
 
@@ -54,7 +55,7 @@ export default function Hero() {
     else if (e.key === 'Enter') {
       e.preventDefault();
       const target = activeIndex >= 0 ? results[activeIndex] : results[0];
-      if (target) { router.push(`/vize/${target.slug}`); setOpen(false); }
+      if (target) { router.push(countryHref(target.slug)); setOpen(false); }
     }
     else if (e.key === 'Escape') setOpen(false);
   };
@@ -62,7 +63,7 @@ export default function Hero() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const target = activeIndex >= 0 ? results[activeIndex] : results[0];
-    if (target) { router.push(`/vize/${target.slug}`); setOpen(false); }
+    if (target) { router.push(countryHref(target.slug)); setOpen(false); }
   };
 
   return (
@@ -164,7 +165,7 @@ export default function Hero() {
                         transition={{ duration: 0.12, delay: i * 0.04, ease: 'easeOut' }}
                       >
                         <Link
-                          href={`/vize/${country.slug}`}
+                          href={countryHref(country.slug)}
                           onClick={() => setOpen(false)}
                           className={`flex items-center gap-3 px-4 py-3 font-sans text-[14px] text-navy hover:bg-coral/10 transition-colors ${i === activeIndex ? 'bg-coral/10' : ''}`}
                         >

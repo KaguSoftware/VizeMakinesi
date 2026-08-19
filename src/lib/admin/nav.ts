@@ -31,13 +31,17 @@ export type AdminNavIcon =
   | 'team'
   | 'about'
   | 'visa-types'
+  | 'schengen'
 
 export const ADMIN_NAV: readonly AdminNavSection[] = [
   { label: 'Dashboard', href: '/admin', table: null, icon: 'dashboard', sidebarOnly: true },
   { label: 'Talepler', href: '/admin/requests', table: 'consultation_requests', icon: 'requests' },
-  { label: 'Ülkeler', href: '/admin/countries', table: 'countries', icon: 'countries' },
+  { label: 'Vizeler', href: '/admin/countries', table: 'countries', icon: 'countries' },
   // Counts the SSS rows behind /vize-turleri and its visa-type sub-pages.
   { label: 'Vize Türleri', href: '/admin/vize-turleri', table: 'visa_type_faqs', icon: 'visa-types' },
+  // Tek satırlık içerik tablosu — sayaç anlamsız olacağı için dashboard'da değil,
+  // yalnızca kenar çubuğunda görünür.
+  { label: 'Schengen Sayfası', href: '/admin/schengen', table: null, icon: 'schengen', sidebarOnly: true },
   { label: 'Mega Menü', href: '/admin/mega-menu', table: 'mega_menu_categories', hasVisibleFlag: true, icon: 'mega-menu' },
   { label: 'Marquee', href: '/admin/marquee', table: 'marquee_items', hasVisibleFlag: true, icon: 'marquee' },
   { label: 'Hızlı Ülke Filtreleme', href: '/admin/home-regions', table: 'home_region_entries', hasVisibleFlag: true, icon: 'home-regions' },

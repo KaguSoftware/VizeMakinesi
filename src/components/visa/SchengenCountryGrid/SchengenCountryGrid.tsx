@@ -8,6 +8,7 @@ import { SCHENGEN_MEMBERS } from '@/data/schengen';
 import { EASE_OUT_EXPO, STAGGER_GAP, VIEWPORT } from '@/components/shared/motion/constants';
 import { FadeIn } from '@/components/shared/motion';
 import { useMosaicScrollReveal } from '@/components/shared/useMosaicScrollReveal';
+import { countryHref } from '@/lib/routes';
 
 const MotionLink = motion.create(Link);
 
@@ -58,12 +59,12 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
     : [
         ...EXTRA_ENTRIES_FALLBACK.map((e) => ({
           name: e.name,
-          href: `/vize/${e.slug}`,
+          href: countryHref(e.slug),
           preset_key: e.presetKey,
         })),
         ...pinnedFallback.map((m) => ({
           name: m.name,
-          href: `/vize/${m.slug}`,
+          href: countryHref(m.slug),
           preset_key: m.presetKey,
         })),
       ];
@@ -72,7 +73,7 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
     ? entries!.filter((e) => !e.pinned)
     : restFallback.map((m) => ({
         name: m.name,
-        href: `/vize/${m.slug}`,
+        href: countryHref(m.slug),
         preset_key: m.presetKey,
       }));
 

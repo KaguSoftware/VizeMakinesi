@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getAllCountriesSlim } from '@/lib/data/countries';
 import { getVisaTypeFaqs } from '@/lib/data/visaTypeFaqs';
-import CountrySearch from '@/components/vizeTurleri/CountrySearch';
 import { VisaTypeCta } from '@/components/vizeTurleri/VisaTypeArticle';
 import FAQ from '@/components/shared/FAQ/FAQ';
 import {
@@ -85,10 +83,7 @@ function VisaTypeGroup({
 }
 
 export default async function VizeTurleriPage() {
-    const [countries, faqs] = await Promise.all([
-        getAllCountriesSlim(),
-        getVisaTypeFaqs(VIZE_TURLERI_FAQ_KEY),
-    ]);
+    const faqs = await getVisaTypeFaqs(VIZE_TURLERI_FAQ_KEY);
 
     return (
         <>
@@ -123,29 +118,6 @@ export default async function VizeTurleriPage() {
                                 ))}
                             </ul>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Country lookup — jumps to the per-country visa type breakdown. */}
-            {/* Vertical padding goes on the inner div: `.container` sets the
-                `padding` shorthand, which would zero out any py-* utility. */}
-            <section className="container">
-                <div className="py-16 border-b border-border grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start">
-                    {/* Left: heading */}
-                    <div>
-                        <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">
-                            — Ülkeye göre
-                        </div>
-                        <h2 className="font-serif font-bold text-[clamp(26px,3vw,40px)] leading-[1.1] tracking-[-0.025em] text-navy">
-                            Gideceğiniz ülkenin vize türlerini görün.
-                        </h2>
-                    </div>
-
-                    {/* Right: search. Padded down past the eyebrow (~13px +
-                        16px gap) so the field lines up with the heading. */}
-                    <div className="lg:pt-8">
-                        <CountrySearch countries={countries} />
                     </div>
                 </div>
             </section>

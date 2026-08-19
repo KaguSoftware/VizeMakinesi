@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getAllCountriesForBlog } from '@/lib/data/countries';
 import BlogStreamItem from '@/components/blog/BlogStreamItem';
-import { INTERLUDES } from '@/components/blog/interludes';
 import { SCHENGEN_GUIDE } from '@/data/schengenGuide';
 
 export const revalidate = 3600;
@@ -29,33 +27,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const allCountries = await getAllCountriesForBlog();
-  const countries = allCountries.filter((c) => c.slug !== 'schengen');
-
   return (
     <>
-      {/* Hero — tam ekran genişliği, alçak profil */}
-      <section className="pt-14 pb-10 border-b border-border">
-        <div className="w-full px-5.5 md:px-12">
-          <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-5">
-            — Ofis yazıları
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-8 lg:gap-16 items-end">
-            <div>
-              <h1 className="font-serif font-bold text-[clamp(38px,4.4vw,64px)] leading-[0.98] tracking-[-0.025em]">
-                Hangi ülkede{' '}
-                <em className="font-normal italic text-coral">ne yapılır?</em>
-              </h1>
-            </div>
-            <div className="pb-1">
-              <p className="font-serif text-[17px] text-navy leading-[1.55] border-l border-coral pl-6">
-                Nereye, ne zaman gidilir; hangi şehirde ne görülür? Ülke ülke gezi notları ve yerinde öğrenilen tavsiyeler.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 01 — Schengen rehberi: akışın en başındaki sabit yazı */}
       <BlogStreamItem
         slug={SCHENGEN_GUIDE.slug}
@@ -69,27 +42,6 @@ export default async function BlogPage() {
         index={1}
         priority
       />
-
-      {/* Tek kolon akış — aralara infografik/görsel blokları giriyor */}
-      {countries.map((country, i) => {
-        const position = i + 2;
-        const interlude = INTERLUDES.find((item) => item.after === position);
-        return (
-          <div key={country.slug}>
-            <BlogStreamItem
-              slug={country.slug}
-              name={country.name}
-              flagEmoji={country.flag_emoji}
-              imageUrl={country.tourism_hero_image_url}
-              excerpt={(country.tourism_intro ?? [])[0] ?? ''}
-              index={position}
-              reverse={position % 2 === 0}
-              priority={position === 2}
-            />
-            {interlude?.node}
-          </div>
-        );
-      })}
 
       {/* CTA */}
           <section className="cta-block bg-navy text-white">

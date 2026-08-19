@@ -8,7 +8,6 @@ import {
     LONG_STAY_TYPES,
     VIZE_TURLERI_FAQ_KEY,
     VIZE_TURLERI_HIGHLIGHTS,
-    VIZE_BASVURU_OZET,
     type VisaTypeContent,
 } from '@/data/visaTypes';
 
@@ -137,35 +136,6 @@ export default async function VizeTurleriPage() {
                     description="Eğitim, çalışma veya aile yanında uzun süreli yaşam gibi amaçlarla yapılan başvurular."
                     types={LONG_STAY_TYPES}
                 />
-            </section>
-
-            {/* How to apply */}
-            <section className="container">
-                <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-12 lg:gap-20 py-16 border-b border-border">
-                    <div>
-                        <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">
-                            — Süreç
-                        </div>
-                        <h2 className="font-serif font-bold text-[clamp(26px,3vw,40px)] leading-[1.1] tracking-[-0.025em] text-navy">
-                            Vize Başvurusu Nasıl Yapılır?
-                        </h2>
-                        <p className="text-muted text-base leading-relaxed mt-5">
-                            Vize başvurusu birkaç temel aşamadan oluşur.
-                        </p>
-                    </div>
-
-                    <div>
-                        <p className="text-muted text-base leading-relaxed max-w-[68ch]">
-                            {VIZE_BASVURU_OZET}
-                        </p>
-                        <Link
-                            href="/vize"
-                            className="inline-block mt-8 font-mono text-[11px] tracking-[0.18em] uppercase text-coral hover:text-navy transition-colors"
-                        >
-                            Süreci Detaylı İnceleyin →
-                        </Link>
-                    </div>
-                </div>
             </section>
 
             {faqs.length > 0 && (

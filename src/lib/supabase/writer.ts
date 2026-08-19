@@ -33,6 +33,7 @@ export type WritableTable =
   | 'country_visa_types'
   | 'page_sections'
   | 'schengen_page'
+  | 'blog_schengen_page'
   | 'visa_type_faqs'
   | 'visa_type_documents'
   | 'consultation_requests'

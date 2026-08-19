@@ -83,5 +83,4 @@ export const FORM_SECTIONS = [
   { id: 'basvuru-sureci', label: 'Başvuru Süreci' },
   { id: 'pdf-belgeler', label: 'PDF Belgeler' },
   { id: 'sss', label: 'SSS' },
-  { id: 'turizm', label: 'Turizm İçeriği' },
 ] as const

@@ -455,6 +455,35 @@ export interface Database {
           updated_at?: string
         }
       }
+      blog_schengen_page: {
+        Row: {
+          id: number
+          hero_kicker: string
+          hero_title: string
+          hero_title_em: string
+          hero_excerpt: string
+          sections: Json
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          hero_kicker?: string
+          hero_title?: string
+          hero_title_em?: string
+          hero_excerpt?: string
+          sections?: Json
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          hero_kicker?: string
+          hero_title?: string
+          hero_title_em?: string
+          hero_excerpt?: string
+          sections?: Json
+          updated_at?: string
+        }
+      }
       schengen_page: {
         Row: {
           id: number

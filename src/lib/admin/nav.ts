@@ -46,9 +46,9 @@ export const ADMIN_NAV: readonly AdminNavSection[] = [
   { label: 'Marquee', href: '/admin/marquee', table: 'marquee_items', hasVisibleFlag: true, icon: 'marquee' },
   { label: 'Hızlı Ülke Filtreleme', href: '/admin/home-regions', table: 'home_region_entries', hasVisibleFlag: true, icon: 'home-regions' },
   { label: 'Ortaklıklar', href: '/admin/partnerships', table: 'partnerships', hasVisibleFlag: true, icon: 'partnerships' },
-  // The "Blog" route is really a turizm index — the actual editor lives inside
-  // the country form's tourism section. Labelling it "Turizm" matches that flow.
-  { label: 'Turizm', href: '/admin/blog', table: 'countries', filter: { column: 'has_tourism', value: true }, icon: 'blog' },
+  // Blog bölümü iki içeriği yönetir: /blog/schengen-vize-alma-rehberi yazısı ve
+  // ülke turizm (blog) sayfaları. Sayaç, yayında olan turizm sayfalarını gösterir.
+  { label: 'Blog', href: '/admin/blog', table: 'countries', filter: { column: 'has_tourism', value: true }, icon: 'blog' },
   { label: 'Ekip', href: '/admin/team', table: 'team_members', hasVisibleFlag: true, icon: 'team' },
   { label: 'Hakkımızda', href: '/admin/about', table: null, icon: 'about' },
 ] as const

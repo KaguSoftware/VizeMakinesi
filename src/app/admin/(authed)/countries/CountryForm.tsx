@@ -41,7 +41,6 @@ import {
 import TemelSection from './sections/TemelSection'
 import FlagSection from './sections/FlagSection'
 import MosaicSection from './sections/MosaicSection'
-import TourismSection from './sections/TourismSection'
 
 /** Schengen kaydında gizlenen bölümler — içerikleri /admin/schengen'den yönetilir. */
 const SCHENGEN_HIDDEN_SECTIONS: string[] = ['genel-bilgi', 'basvuru-sureci', 'pdf-belgeler', 'sss']
@@ -131,20 +130,18 @@ export default function CountryForm({ country }: CountryFormProps) {
     country?.documents.map((d) => mkDoc(d.label, d.pdf_url)) ?? []
   )
 
-  // — 07 Tourism
   const [danismaVisible, setDanismaVisible] = useState(country?.danisma_visible ?? false)
-  const [hasTourism, setHasTourism] = useState(country?.has_tourism ?? false)
-  const [tourismHeroUrl, setTourismHeroUrl] = useState(country?.tourism_hero_image_url ?? '')
-  const [tourismIntro, setTourismIntro] = useState<TextItem[]>(
-    (country?.tourism_intro ?? []).map((t) => mkText(t))
-  )
-  const [tourismHighlights, setTourismHighlights] = useState<TextItem[]>(
-    (country?.tourism_highlights ?? []).map((t) => mkText(t))
-  )
-  const [tourismTips, setTourismTips] = useState<TextItem[]>(
-    (country?.tourism_tips ?? []).map((t) => mkText(t))
-  )
-  const [tourismBestTime, setTourismBestTime] = useState(country?.tourism_best_time ?? '')
+
+  // — 07 Turizm (blog) içeriği
+  // Bu alanlar artık /admin/blog altında düzenlenir. Ülke kaydı tek bir
+  // satırda tutulduğu için değerler burada okunup kaydederken olduğu gibi
+  // geri yazılır; aksi hâlde ülke kaydedildiğinde blog içeriği silinirdi.
+  const hasTourism = country?.has_tourism ?? false
+  const tourismHeroUrl = country?.tourism_hero_image_url ?? null
+  const tourismIntro = country?.tourism_intro ?? []
+  const tourismHighlights = country?.tourism_highlights ?? []
+  const tourismTips = country?.tourism_tips ?? []
+  const tourismBestTime = country?.tourism_best_time ?? null
 
   // — 08 Appointment days
   const [appointmentDays, setAppointmentDays] = useState(country?.appointment_days ?? '')
@@ -171,11 +168,7 @@ export default function CountryForm({ country }: CountryFormProps) {
     requirements: requirements.map((r) => r.text),
     faqs: faqs.map((f) => ({ q: f.question, a: f.answer })),
     documents: documents.map((d) => ({ label: d.label, pdf_url: d.pdf_url })),
-    hasTourism, tourismHeroUrl,
-    tourismIntro: tourismIntro.map((t) => t.text),
-    tourismHighlights: tourismHighlights.map((t) => t.text),
-    tourismTips: tourismTips.map((t) => t.text),
-    tourismBestTime, appointmentDays,
+    appointmentDays,
   }, savedAt)
 
   useUnsavedChanges(dirty && !saving && !submitted)
@@ -235,11 +228,11 @@ export default function CountryForm({ country }: CountryFormProps) {
       mosaic_span: mosaicSpan || null,
       has_tourism: hasTourism,
       danisma_visible: danismaVisible,
-      tourism_hero_image_url: hasTourism ? (tourismHeroUrl || null) : null,
-      tourism_intro: hasTourism ? tourismIntro.map((i) => i.text).filter(Boolean) : [],
-      tourism_highlights: hasTourism ? tourismHighlights.map((i) => i.text).filter(Boolean) : [],
-      tourism_tips: hasTourism ? tourismTips.map((i) => i.text).filter(Boolean) : [],
-      tourism_best_time: hasTourism ? (tourismBestTime || null) : null,
+      tourism_hero_image_url: hasTourism ? tourismHeroUrl : null,
+      tourism_intro: hasTourism ? tourismIntro : [],
+      tourism_highlights: hasTourism ? tourismHighlights : [],
+      tourism_tips: hasTourism ? tourismTips : [],
+      tourism_best_time: hasTourism ? tourismBestTime : null,
       appointment_days: appointmentDays || null,
       general_info: generalInfo
         .map((t) => joinLabeled(t.title, t.description))
@@ -601,21 +594,23 @@ export default function CountryForm({ country }: CountryFormProps) {
 
         </>)}
 
-        <TourismSection
-          hasTourism={hasTourism}
-          tourismHeroUrl={tourismHeroUrl}
-          tourismIntro={tourismIntro}
-          tourismHighlights={tourismHighlights}
-          tourismTips={tourismTips}
-          tourismBestTime={tourismBestTime}
-          errors={errors}
-          onHasTourismChange={setHasTourism}
-          onTourismHeroUrlChange={setTourismHeroUrl}
-          onTourismIntroChange={setTourismIntro}
-          onTourismHighlightsChange={setTourismHighlights}
-          onTourismTipsChange={setTourismTips}
-          onTourismBestTimeChange={setTourismBestTime}
-        />
+        {country && (
+          <div className="mt-12 border border-navy/15 bg-navy/[0.03] rounded-lg p-5">
+            <p className="font-mono text-[11px] tracking-widest uppercase text-navy/60 mb-2">
+              — Turizm / Blog İçeriği
+            </p>
+            <p className="font-sans text-[13px] leading-relaxed text-navy/80">
+              Bu ülkenin blog (turizm) sayfası artık{' '}
+              <Link
+                href={`/admin/blog/${country.id}`}
+                className="text-coral underline hover:text-navy transition-colors"
+              >
+                Blog
+              </Link>{' '}
+              bölümünden düzenlenir. Buradaki kayıt turizm içeriğini değiştirmez.
+            </p>
+          </div>
+        )}
 
         {/* Actions */}
         <div className="mt-12 pt-8 border-t border-navy/30 flex items-center gap-4">

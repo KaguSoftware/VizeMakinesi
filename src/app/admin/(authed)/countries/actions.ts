@@ -12,7 +12,6 @@ import {
   reqBool,
   reqSlug,
   reqEnum,
-  reqArrayOfStrings,
 } from '@/lib/admin/validators'
 import { removeStorageObjects } from '@/lib/images/serverDelete'
 import { countryHref } from '@/lib/routes'
@@ -32,7 +31,6 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     : null
   const mosaic_visible = reqBool('mosaic_visible', data.mosaic_visible)
   const mosaic_span = optString('mosaic_span', data.mosaic_span, { max: 80 })
-  const has_tourism = reqBool('has_tourism', data.has_tourism)
   const danisma_visible = reqBool('danisma_visible', data.danisma_visible)
   const appointment_days = optString('appointment_days', data.appointment_days, { max: 80 })
   const general_info = Array.isArray(data.general_info)
@@ -45,19 +43,6 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
   const visa_types_description = optString('visa_types_description', data.visa_types_description, { max: 1000 })
   const visa_types_hero_description = optString('visa_types_hero_description', data.visa_types_hero_description, { max: 1000 })
 
-  let tourism_hero_image_url: string | null = null
-  let tourism_intro: string[] = []
-  let tourism_highlights: string[] = []
-  let tourism_tips: string[] = []
-  let tourism_best_time: string | null = null
-
-  if (has_tourism) {
-    tourism_hero_image_url = optString('tourism_hero_image_url', data.tourism_hero_image_url, { max: 2048 })
-    tourism_intro = reqArrayOfStrings('Giriş paragrafları', data.tourism_intro, { minItems: 1, maxItems: 20, maxLen: 2000 })
-    tourism_highlights = reqArrayOfStrings('Öne çıkanlar', data.tourism_highlights, { minItems: 1, maxItems: 30, maxLen: 240 })
-    tourism_tips = reqArrayOfStrings('İpuçları', data.tourism_tips, { minItems: 1, maxItems: 30, maxLen: 240 })
-    tourism_best_time = optString('tourism_best_time', data.tourism_best_time, { max: 120 })
-  }
 
   if (!Array.isArray(data.requirements)) throw new AdminValidationError('requirements', 'Gerekli belgeler geçersiz')
   if (!Array.isArray(data.faqs)) throw new AdminValidationError('faqs', 'SSS geçersiz')
@@ -97,13 +82,7 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     summary,
     mosaic_visible,
     mosaic_span,
-    has_tourism,
     danisma_visible,
-    tourism_hero_image_url,
-    tourism_intro,
-    tourism_highlights,
-    tourism_tips,
-    tourism_best_time,
     appointment_days,
     general_info,
     general_info_title,
@@ -188,24 +167,9 @@ async function upsertChildren(supabase: SB, countryId: string, data: CountryForm
   }
 }
 
-function buildTourismPayload(data: CountryFormData) {
-  if (!data.has_tourism) {
-    return {
-      tourism_hero_image_url: null,
-      tourism_intro: null,
-      tourism_highlights: null,
-      tourism_tips: null,
-      tourism_best_time: null,
-    }
-  }
-  return {
-    tourism_hero_image_url: data.tourism_hero_image_url,
-    tourism_intro: data.tourism_intro,
-    tourism_highlights: data.tourism_highlights,
-    tourism_tips: data.tourism_tips,
-    tourism_best_time: data.tourism_best_time,
-  }
-}
+// Blog sütunları (has_tourism, tourism_*, blog_*) bilerek bu payload'ların
+// dışında bırakılır: ülke blogları /admin/blog altında yönetilir ve ülke
+// kaydının kaydedilmesi blog içeriğine dokunmaz.
 
 // ── Actions ───────────────────────────────────────────────────────────────────
 
@@ -259,7 +223,6 @@ export async function createCountry(rawData: CountryFormData): Promise<{ id: str
     mosaic_visible: data.mosaic_visible,
     mosaic_span: data.mosaic_span,
     mosaic_order: nextOrder,
-    has_tourism: data.has_tourism,
     danisma_visible: data.danisma_visible,
     appointment_days: data.appointment_days || null,
     general_info: data.general_info,
@@ -269,7 +232,6 @@ export async function createCountry(rawData: CountryFormData): Promise<{ id: str
     visa_types_lead: data.visa_types_lead,
     visa_types_description: data.visa_types_description,
     visa_types_hero_description: data.visa_types_hero_description,
-    ...buildTourismPayload(data),
   }
 
   // writer() avoids the Supabase-v2 `never` narrowing on insert payloads.
@@ -326,7 +288,6 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
     summary: data.summary,
     mosaic_visible: data.mosaic_visible,
     mosaic_span: data.mosaic_span,
-    has_tourism: data.has_tourism,
     danisma_visible: data.danisma_visible,
     appointment_days: data.appointment_days || null,
     general_info: data.general_info,
@@ -336,7 +297,6 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
     visa_types_lead: data.visa_types_lead,
     visa_types_description: data.visa_types_description,
     visa_types_hero_description: data.visa_types_hero_description,
-    ...buildTourismPayload(data),
   }
 
   const { error } = await writer(supabase, 'countries').update(payload).eq('id', id)

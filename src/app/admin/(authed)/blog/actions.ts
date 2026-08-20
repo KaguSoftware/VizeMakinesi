@@ -4,54 +4,45 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { writer } from '@/lib/supabase/writer'
 import { requireAdmin } from '@/lib/auth/requireAdmin'
-import {
-  AdminValidationError,
-  optString,
-  reqArrayOfStrings,
-  reqBool,
-} from '@/lib/admin/validators'
+import { AdminValidationError, optString, reqBool } from '@/lib/admin/validators'
+import { validateArticles } from '@/lib/admin/blogArticles'
+import type { BlogArticle } from '@/lib/blog/articles'
 
 /**
- * Ülke turizm (blog) içeriği — eskiden ülke formunun "Turizm İçeriği"
- * bölümüydü, artık /admin/blog altında düzenlenir. Yalnızca `countries`
- * satırının turizm sütunlarına dokunur; ülkenin diğer alanları
- * /admin/countries tarafında kalır.
+ * Ülke blogu — Schengen rehberiyle aynı yapı: kapak sayfası makaleleri
+ * listeler, her makale kendi alt sayfasında açılır.
+ *
+ * Yalnızca `countries` satırının blog sütunlarına dokunur; ülkenin vize
+ * bilgileri /admin/countries tarafında kalır.
  *
  * Revalidate edilen yollar:
- *   /blog            — yazı akışı
- *   /blog/[slug]     — yazının kendisi
- *   /admin/blog      — liste ve sayaç
+ *   /blog/[slug] + alt sayfaları — 'layout' modu makale sayfalarını da kapsar
+ *   /blog        — yazı akışı
+ *   /admin/blog  — liste ve sayaç
  */
-export interface TourismFormData {
+export interface CountryBlogFormData {
   has_tourism: boolean
-  tourism_hero_image_url: string | null
-  tourism_intro: string[]
-  tourism_highlights: string[]
-  tourism_tips: string[]
-  tourism_best_time: string | null
+  hero_image_url: string | null
+  excerpt: string | null
+  articles: BlogArticle[]
 }
 
-export async function updateCountryTourism(
+export async function updateCountryBlog(
   id: string,
   slug: string,
-  data: TourismFormData
+  data: CountryBlogFormData
 ): Promise<{ error?: string }> {
   await requireAdmin()
 
   let payload: Record<string, unknown>
   try {
-    const has_tourism = reqBool('has_tourism', data.has_tourism)
-    payload = has_tourism
-      ? {
-          has_tourism: true,
-          tourism_hero_image_url: optString('tourism_hero_image_url', data.tourism_hero_image_url, { max: 2048 }),
-          tourism_intro: reqArrayOfStrings('Giriş paragrafları', data.tourism_intro, { minItems: 1, maxItems: 20, maxLen: 2000 }),
-          tourism_highlights: reqArrayOfStrings('Öne çıkanlar', data.tourism_highlights, { minItems: 1, maxItems: 30, maxLen: 240 }),
-          tourism_tips: reqArrayOfStrings('İpuçları', data.tourism_tips, { minItems: 1, maxItems: 30, maxLen: 240 }),
-          tourism_best_time: optString('tourism_best_time', data.tourism_best_time, { max: 120 }),
-        }
-      : // Yayından kaldırıldığında içerik korunur; yalnızca bayrak düşer.
-        { has_tourism: false }
+    payload = {
+      has_tourism: reqBool('has_tourism', data.has_tourism),
+      tourism_hero_image_url: optString('Kapak görseli', data.hero_image_url, { max: 2048 }),
+      blog_excerpt: optString('Kapak özeti', data.excerpt, { max: 1000 }) ?? '',
+      // Yayından kaldırılan bir blogun içeriği korunur; yalnızca bayrak düşer.
+      blog_articles: validateArticles(data.articles),
+    }
   } catch (e) {
     if (e instanceof AdminValidationError) return { error: e.message }
     throw e
@@ -61,8 +52,8 @@ export async function updateCountryTourism(
   const { error } = await writer(supabase, 'countries').update(payload).eq('id', id)
   if (error) return { error: error.message }
 
+  revalidatePath(`/blog/${slug}`, 'layout')
   revalidatePath('/blog')
-  revalidatePath(`/blog/${slug}`)
   revalidatePath('/admin/blog')
   return {}
 }

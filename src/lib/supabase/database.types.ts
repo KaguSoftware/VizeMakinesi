@@ -30,6 +30,8 @@ export interface Database {
           tourism_tips: string[] | null
           tourism_best_time: string | null
           tourism_hero_image_url: string | null
+          blog_excerpt: string
+          blog_articles: Json
           appointment_days: string | null
           general_info: string[]
           general_info_title: string | null
@@ -61,6 +63,8 @@ export interface Database {
           tourism_tips?: string[] | null
           tourism_best_time?: string | null
           tourism_hero_image_url?: string | null
+          blog_excerpt?: string
+          blog_articles?: Json
           appointment_days?: string | null
           general_info?: string[]
           general_info_title?: string | null
@@ -92,6 +96,8 @@ export interface Database {
           tourism_tips?: string[] | null
           tourism_best_time?: string | null
           tourism_hero_image_url?: string | null
+          blog_excerpt?: string
+          blog_articles?: Json
           appointment_days?: string | null
           general_info?: string[]
           general_info_title?: string | null
@@ -462,7 +468,7 @@ export interface Database {
           hero_title: string
           hero_title_em: string
           hero_excerpt: string
-          sections: Json
+          articles: Json
           updated_at: string
         }
         Insert: {
@@ -471,7 +477,7 @@ export interface Database {
           hero_title?: string
           hero_title_em?: string
           hero_excerpt?: string
-          sections?: Json
+          articles?: Json
           updated_at?: string
         }
         Update: {
@@ -480,7 +486,7 @@ export interface Database {
           hero_title?: string
           hero_title_em?: string
           hero_excerpt?: string
-          sections?: Json
+          articles?: Json
           updated_at?: string
         }
       }

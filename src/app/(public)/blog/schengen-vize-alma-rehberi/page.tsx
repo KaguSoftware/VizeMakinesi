@@ -2,8 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SCHENGEN_GUIDE } from '@/data/schengenGuide';
 import { getBlogSchengenPage } from '@/lib/data/blogSchengenPage';
-import { readingMinutes } from '@/lib/text/readingTime';
-import GuideSections, { type GuideSectionItem } from '@/components/blog/GuideSections';
+import ArticleList from '@/components/blog/ArticleList';
 
 export const revalidate = 3600;
 
@@ -31,49 +30,23 @@ export const metadata: Metadata = {
   },
 };
 
-/** Bölüm başlığından "#ret-maddeleri" gibi bir çapa üretir. */
-function anchorOf(title: string, index: number): string {
-  const slug = title
-    .toLocaleLowerCase('tr')
-    .replace(/[ıİ]/g, 'i')
-    .replace(/ş/g, 's')
-    .replace(/ğ/g, 'g')
-    .replace(/ü/g, 'u')
-    .replace(/ö/g, 'o')
-    .replace(/ç/g, 'c')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-  return slug ? `${index + 1}-${slug}` : `bolum-${index + 1}`;
-}
-
 export default async function SchengenGuidePage() {
   const content = await getBlogSchengenPage();
 
-  // Okuma süreleri sunucuda hesaplanır — istemciye yalnızca sonuç gider.
-  const sections: GuideSectionItem[] = content.sections.map((section, i) => ({
-    ...section,
-    anchor: anchorOf(section.title, i),
-    minutes: readingMinutes([
-      section.title,
-      ...section.intro,
-      ...section.subsections.flatMap((sub) => [
-        sub.heading,
-        sub.quote,
-        ...sub.paragraphs,
-        ...sub.bullets,
-      ]),
-    ]),
-  }));
-  const totalMinutes = sections.reduce((sum, s) => sum + s.minutes, 0);
+  const articles = content.articles;
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: `${content.hero_title}${content.hero_title_em}`.trim(),
+    '@type': 'CollectionPage',
+    name: `${content.hero_title}${content.hero_title_em}`.trim(),
     description: DESCRIPTION,
     url: URL,
     inLanguage: 'tr',
-    articleSection: content.sections.map((s) => s.title),
+    hasPart: articles.map((article) => ({
+      '@type': 'Article',
+      headline: article.title,
+      url: `${URL}/${article.slug}`,
+    })),
     publisher: {
       '@type': 'Organization',
       name: 'Vize Makinesi',
@@ -117,21 +90,14 @@ export default async function SchengenGuidePage() {
               </p>
             </div>
           </div>
-
-          {/* Okuma süresi özeti — bölüm listesi aşağıdaki açılır başlıklardır. */}
-          <div className="mt-12 pt-6 border-t border-border flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10px] tracking-[0.2em] uppercase text-muted">
-            <span>{sections.length} bölüm</span>
-            <span aria-hidden className="text-border">/</span>
-            <span>Toplam ~{totalMinutes} dk okuma</span>
-          </div>
         </div>
       </section>
 
-      {/* Bölümler — her kırmızı başlık kendi açılır bölümü */}
-      <GuideSections sections={sections} />
+      {/* Makaleler — her yazı kendi sayfasında açılır */}
+      <ArticleList basePath={SCHENGEN_GUIDE.href} articles={articles} />
 
       {/* CTA */}
-      <section className="cta-block mt-30 bg-navy text-white">
+      <section className="cta-block bg-navy text-white">
         <div className="container">
           <div className="py-24 md:py-30 relative z-10">
             <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-12 pb-4 border-b border-white/30">

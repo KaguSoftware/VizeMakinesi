@@ -1,34 +1,20 @@
+import type { BlogArticle, BlogSubsection } from '@/lib/blog/articles';
+
+export type { BlogArticle, BlogSubsection };
+
 /**
- * /blog/schengen-vize-alma-rehberi sayfasının içeriği.
+ * Schengen rehberinin içeriği.
  *
- * Sayfa, rehber dokümanındaki dört ana yazıyı tek bir sayfada, her biri kendi
- * bölümü olacak şekilde taşır (dokümandaki kırmızı başlıklar = bölüm başlıkları).
+ * /blog/schengen-vize-alma-rehberi bir kapak sayfasıdır: yazıları listeler.
+ * Her yazı kendi alt sayfasında açılır —
+ * /blog/schengen-vize-alma-rehberi/<yazı-slug'ı>. Yazı sayısı sabit değildir;
+ * /admin/blog/schengen ekranından yazı eklenip çıkarılabilir.
+ *
  * İçerik `blog_schengen_page` tablosundan (id = 1) gelir; tablo veya alan boşsa
  * buradaki varsayılanlar kullanılır — sayfa hiçbir durumda boş kalmaz.
  *
  * Yönetim: /admin/blog/schengen
  */
-
-/** Bölüm içindeki alt başlık — dokümandaki kalın ara başlıklara karşılık gelir. */
-export interface BlogSubsection {
-  heading: string;
-  /** Ret kararında yer alan Türkçe ifade (yalnızca "Ret Maddeleri" bölümünde). */
-  quote: string;
-  /** Aynı ifadenin İngilizce orijinali. */
-  quote_en: string;
-  paragraphs: string[];
-  bullets: string[];
-}
-
-/** Dokümandaki kırmızı başlıklardan biri — sayfadaki bir ana bölüm. */
-export interface BlogSection {
-  /** Bölümün üstündeki küçük etiket, örn. "Ret gerekçeleri". */
-  kicker: string;
-  title: string;
-  /** Alt başlıklardan önce gelen giriş paragrafları. */
-  intro: string[];
-  subsections: BlogSubsection[];
-}
 
 export interface BlogSchengenContent {
   hero_kicker: string;
@@ -36,7 +22,7 @@ export interface BlogSchengenContent {
   /** Başlığın italik/coral görünen ikinci yarısı. */
   hero_title_em: string;
   hero_excerpt: string;
-  sections: BlogSection[];
+  articles: BlogArticle[];
 }
 
 /** Alt başlık üretici — opsiyonel alanları doldurur. */
@@ -61,17 +47,20 @@ export const BLOG_SCHENGEN_DEFAULTS: BlogSchengenContent = {
   hero_excerpt:
     'Ret nedenlerinden ret maddelerinin ne anlama geldiğine, ret sonrası izlenecek yoldan ilk başvurunun adımlarına kadar Schengen sürecinin tamamı tek sayfada.',
 
-  sections: [
+  articles: [
     // ── 01 ────────────────────────────────────────────────────────────────────
     {
+      slug: 'schengen-vize-reddi-nedenleri',
       kicker: 'Ret gerekçeleri',
       title: 'Schengen Vize Reddi Nedenleri',
+      excerpt:
+        'Belgelerin tamamı sunulmuş olsa bile bir başvuru neden reddedilebilir? Konsolosluğun birlikte değerlendirdiği yedi temel unsur.',
       intro: [
         'Schengen vizesi reddedildiğinde çoğu kişinin ilk düşündüğü şey aynıdır: “Acaba hangi belgeyi eksik verdim?”',
         'Oysa bir Schengen başvurusunda belgelerin büsbütün sunulmuş olması yeterli değildir. Konsolosluk; seyahatinizin amacını ve koşullarını, maddi durumunuzu ve seyahat sonunda Schengen bölgesinden ayrılacağınızı gösteren koşulları birlikte değerlendirir.',
         'Bu nedenle gerekli belgelerin tamamı sunulmuş olsa bile bir başvuru reddedilebilir. Sorun, başvurunun genelinde ortaya çıkan soru işaretlerinde veya belgelerin birlikte oluşturduğu tabloda olabilir.',
         'Schengen vize retleri belirli gerekçelere dayanır. Ancak ret formunda yer alan birkaç kelimelik bir gerekçe, başvurunun neden olumsuz değerlendirildiğini her zaman tek başına açıklamaz. Bunu anlamak için başvurunun bütününe ve konsolosluğun değerlendirdiği temel unsurlara bakmak gerekir.',
-        'Bu bölümde Schengen vizesinin hangi durumlarda reddedilebileceğini ve bir başvurunun hangi noktalarının soru işareti oluşturabileceğini ele alıyoruz.',
+        'Bu yazıda Schengen vizesinin hangi durumlarda reddedilebileceğini ve bir başvurunun hangi noktalarının soru işareti oluşturabileceğini ele alıyoruz.',
       ],
       subsections: [
         sub('1. Seyahat Amacının Yeterince Açıklanamaması', [
@@ -117,19 +106,22 @@ export const BLOG_SCHENGEN_DEFAULTS: BlogSchengenContent = {
         sub('Sonuç', [
           'Schengen vize reddi, her zaman tek bir belgenin eksik olmasıyla açıklanamaz. Seyahat amacı, seyahat planı, maddi durum, kişisel koşullar ve sunulan bilgilerin güvenilirliği gibi farklı unsurlar birlikte değerlendirilir.',
           'Bu nedenle bir başvuruyu hazırlarken yalnızca gerekli belgeleri tamamlamak değil, başvurunun bütününün tutarlı ve anlaşılır olmasına dikkat etmek gerekir.',
-          'Ret kararı aldıysanız, bir sonraki adım ise ret formunda belirtilen gerekçeyi doğru anlamaktır. Aşağıdaki “Schengen Vize Ret Maddeleri” bölümü her gerekçenin ne anlama geldiğini, “Schengen Vize Reddi Sonrası Ne Yapılmalı?” bölümü ise ret sonrasında izlenebilecek yolları ele alıyor.',
+          'Ret kararı aldıysanız, bir sonraki adım ise ret formunda belirtilen gerekçeyi doğru anlamaktır. “Schengen Vize Ret Maddeleri” yazımız her gerekçenin ne anlama geldiğini, “Schengen Vize Reddi Sonrası Ne Yapılmalı?” yazımız ise ret sonrasında izlenebilecek yolları ele alıyor.',
         ]),
       ],
     },
 
     // ── 02 ────────────────────────────────────────────────────────────────────
     {
+      slug: 'schengen-vize-ret-maddeleri',
       kicker: 'Ret formundaki maddeler',
       title: 'Schengen Vize Ret Maddeleri',
+      excerpt:
+        'Ret formunda yer alan standart gerekçeler, Türkçe ifadeleri ve İngilizce orijinalleriyle birlikte, tek tek açıklanıyor.',
       intro: [
         'Schengen vize başvurunuz reddedildiğinde, kararın gerekçesi size yazılı olarak bildirilir. Bu gerekçeler, Schengen Vize Kodu’nda yer alan değerlendirme kriterleri doğrultusunda belirlenir ve standart bir form üzerinden bildirilir.',
         'Ancak kararda yer alan ifadeler çoğu zaman kısa ve resmî olduğu için, hangi gerekçenin ne anlama geldiğini anlamak her zaman kolay olmayabilir. Bize yöneltilen en sık sorulardan biri de tam olarak budur: “Bu gerekçe ne anlama geliyor?”',
-        'Bu bölümde, Schengen vize başvurularında kullanılan ret gerekçelerini Türkçe ifadeleri ve İngilizce orijinalleriyle birlikte ele alıyor, her birinin arkasındaki değerlendirmeyi açıklıyoruz.',
+        'Bu yazıda, Schengen vize başvurularında kullanılan ret gerekçelerini Türkçe ifadeleri ve İngilizce orijinalleriyle birlikte ele alıyor, her birinin arkasındaki değerlendirmeyi açıklıyoruz.',
       ],
       subsections: [
         sub(
@@ -253,8 +245,11 @@ export const BLOG_SCHENGEN_DEFAULTS: BlogSchengenContent = {
 
     // ── 03 ────────────────────────────────────────────────────────────────────
     {
+      slug: 'schengen-vize-reddi-sonrasi-ne-yapilmali',
       kicker: 'Ret sonrası',
       title: 'Schengen Vize Reddi Sonrası Ne Yapılmalı?',
+      excerpt:
+        'İtiraz mı, yeniden başvuru mu? İki yolun hangi durumda mantıklı olduğu ve her birinin nasıl yürütüldüğü.',
       intro: [
         'Schengen vize başvurusunun reddedilmesi, sürecin tamamen sona erdiği anlamına gelmez. Ret kararının ardından önünüzde iki temel seçenek olabilir: karara itiraz etmek veya önceki başvurudaki sorunları gidererek yeniden başvurmak.',
         'Ret kararının dosyanızdaki bilgilerle çeliştiğini düşünüyorsanız itiraz yolu değerlendirilebilir. Önceki başvuruda gerçekten eksik kalan veya yeterince açıklanmayan noktalar varsa, bunları gidererek yeniden başvurmak daha uygun olabilir.',
@@ -288,11 +283,14 @@ export const BLOG_SCHENGEN_DEFAULTS: BlogSchengenContent = {
 
     // ── 04 ────────────────────────────────────────────────────────────────────
     {
+      slug: 'ilk-kez-schengen-vizesi-alacaklar-nereden-baslamali',
       kicker: 'İlk başvuru',
       title: 'İlk Kez Schengen Vizesi Alacaklar Nereden Başlamalı?',
+      excerpt:
+        'Hangi ülkeye başvurulur, hangi kategori seçilir, evraklar nasıl hazırlanır? İlk başvuru sekiz adımda.',
       intro: [
         'İlk kez Schengen vizesine başvuruyorsanız, önünüzde bir anda çok sayıda belge, form, randevu ve farklı bilgi bulabilirsiniz. Başvuru sürecine nereden ve hangi sırayla başlayacağınızı bilmek, bu süreci daha kolay yönetmenizi sağlar.',
-        'Bu bölümde ilk Schengen başvurunuzu ilk karardan başvurunun tamamlanmasına kadar adım adım ele alıyoruz.',
+        'Bu yazıda ilk Schengen başvurunuzu ilk karardan başvurunun tamamlanmasına kadar adım adım ele alıyoruz.',
       ],
       subsections: [
         sub('1. Nereye Gideceğinizi Netleştirin', [

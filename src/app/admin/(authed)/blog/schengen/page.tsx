@@ -28,7 +28,7 @@ export default async function BlogSchengenAdminPage() {
           >
             /blog/schengen-vize-alma-rehberi
           </Link>{' '}
-          yazısının tüm bölümleri.
+          kapak sayfası ve altındaki yazılar.
         </p>
       </div>
 

@@ -1,0 +1,26 @@
+-- ============================================================
+-- BLOG — SCHENGEN REHBERİ: bölümler → yazılar
+--
+-- Rehber artık tek uzun sayfa değil: /blog/schengen-vize-alma-rehberi
+-- yazıları listeleyen bir kapak sayfasıdır, her yazı kendi alt
+-- sayfasında açılır (/blog/schengen-vize-alma-rehberi/<slug>).
+--
+-- Bu nedenle `sections` sütunu `articles` olarak yeniden adlandırılır
+-- ve her öğeye bir `slug` (URL parçası) ile opsiyonel `excerpt`
+-- (kapak kartındaki özet) eklenir:
+--
+--   [{
+--     "slug":    "schengen-vize-reddi-nedenleri",
+--     "kicker":  "Ret gerekçeleri",
+--     "title":   "Schengen Vize Reddi Nedenleri",
+--     "excerpt": "Kapak kartında görünen özet",
+--     "intro":   ["giriş paragrafı", ...],
+--     "subsections": [{ "heading", "quote", "quote_en", "paragraphs", "bullets" }]
+--   }]
+--
+-- Slug'ı olmayan eski kayıtlar okunurken başlıktan türetilir
+-- (src/lib/data/blogSchengenPage.ts), bu yüzden veri dönüşümü gerekmez.
+--
+-- Yönetim: /admin/blog/schengen
+-- ============================================================
+ALTER TABLE blog_schengen_page RENAME COLUMN sections TO articles;

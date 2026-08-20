@@ -1,22 +1,31 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { getBlogSchengenPage } from '@/lib/data/blogSchengenPage'
 import { AdminButton, AdminCard, EyebrowText } from '@/components/admin/ui'
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
-import type { Database } from '@/lib/supabase/database.types'
+import { normalizeArticles } from '@/lib/blog/articles'
 
-type CountryRow = Pick<
-  Database['public']['Tables']['countries']['Row'],
-  'id' | 'name' | 'slug' | 'has_tourism' | 'tourism_hero_image_url'
->
+interface CountryRow {
+  id: string
+  name: string
+  slug: string
+  has_tourism: boolean
+  tourism_hero_image_url: string | null
+  blog_articles: unknown
+}
 
 export default async function AdminBlogPage() {
   const supabase = await createClient()
+  const guide = await getBlogSchengenPage()
   const { data } = await supabase
     .from('countries')
-    .select('id, name, slug, has_tourism, tourism_hero_image_url')
+    .select('id, name, slug, has_tourism, tourism_hero_image_url, blog_articles')
     .order('name', { ascending: true })
 
-  const countries = (data ?? []) as CountryRow[]
+  const countries = ((data ?? []) as CountryRow[]).map((c) => ({
+    ...c,
+    articleCount: normalizeArticles(c.blog_articles).length,
+  }))
   // Yayındakiler üstte; gerisi alfabetik sırada kalır, böylece kapalı bir ülkenin
   // blog sayfası buradan açılabilir.
   const sorted = [...countries].sort(
@@ -34,8 +43,8 @@ export default async function AdminBlogPage() {
             Blog
           </h1>
           <p className="font-mono text-[11px] text-navy/65 mt-2 max-w-md">
-            Blog yazıları ve ülke turizm sayfaları buradan düzenlenir. Ülke turizm içeriği
-            artık ülke formunda değil, bu bölümdedir.
+            Bütün bloglar aynı yapıdadır: kapak sayfası makaleleri listeler, her makale kendi
+            alt sayfasında açılır. Makaleler bu bölümden eklenip çıkarılır.
           </p>
         </div>
         <Link href="/blog">
@@ -51,8 +60,8 @@ export default async function AdminBlogPage() {
             <div>
               <h2 className="font-serif text-[22px] font-bold text-navy">Schengen Rehberi</h2>
               <p className="font-mono text-[11px] text-navy/65 mt-2 max-w-lg">
-                Ret nedenleri, ret maddeleri, ret sonrası ve ilk başvuru bölümlerinden oluşan
-                tek sayfalık rehber.{' '}
+                {guide.articles.length} yazı. Kapak sayfası yazıları listeler, her yazı kendi
+                alt sayfasında açılır. Yazı ekleyip çıkarmak da bu ekrandan yapılır.{' '}
                 <Link
                   href="/blog/schengen-vize-alma-rehberi"
                   className="text-coral hover:text-navy transition-colors"
@@ -68,9 +77,9 @@ export default async function AdminBlogPage() {
         </AdminCard>
       </div>
 
-      {/* Ülke turizm sayfaları */}
+      {/* Ülke blogları */}
       <div className="mb-4 flex items-baseline justify-between gap-4 flex-wrap">
-        <EyebrowText>— Ülke Turizm Sayfaları</EyebrowText>
+        <EyebrowText>— Ülke Blogları</EyebrowText>
         <p className="font-mono text-[10px] tracking-widest uppercase text-navy/50">
           {activeCount} / {countries.length} yayında
         </p>
@@ -80,7 +89,7 @@ export default async function AdminBlogPage() {
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b border-navy/10">
-              {['Ülke', 'Slug', 'Kapak', 'Durum', 'Yayın', ''].map((heading) => (
+              {['Ülke', 'Slug', 'Makale', 'Kapak', 'Durum', 'Yayın', ''].map((heading) => (
                 <th
                   key={heading}
                   className="py-3 px-4 text-left font-mono text-[10px] tracking-widest uppercase text-navy/60"
@@ -97,6 +106,15 @@ export default async function AdminBlogPage() {
                   {country.name}
                 </td>
                 <td className="py-3 px-4 font-mono text-[11px] text-navy/90">{country.slug}</td>
+                <td className="py-3 px-4">
+                  <span
+                    className={`font-mono text-[11px] ${
+                      country.articleCount > 0 ? 'text-navy/90' : 'text-navy/30'
+                    }`}
+                  >
+                    {country.articleCount}
+                  </span>
+                </td>
                 <td className="py-3 px-4">
                   <span className="font-mono text-[10px] tracking-widest uppercase text-navy/90">
                     {country.tourism_hero_image_url ? 'Var' : 'Yok'}

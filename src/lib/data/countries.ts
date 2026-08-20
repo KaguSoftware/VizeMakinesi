@@ -111,24 +111,6 @@ export async function getCountrySlugsStatic(): Promise<string[]> {
   return ((data ?? []) as { slug: string }[]).map((c) => c.slug);
 }
 
-export interface CountryBlog {
-  slug: string;
-  name: string;
-  flag_emoji: string | null;
-  tourism_hero_image_url: string | null;
-  tourism_intro: string[] | null;
-}
-
-export async function getAllCountriesForBlog(): Promise<CountryBlog[]> {
-  const supabase = createPublicClient();
-  const { data, error } = await supabase
-    .from('countries')
-    .select('slug, name, flag_emoji, tourism_hero_image_url, tourism_intro')
-    .order('name');
-  if (error) throw error;
-  return (data ?? []) as CountryBlog[];
-}
-
 export interface CountrySlim {
   slug: string;
   name: string;

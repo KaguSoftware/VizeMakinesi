@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import BlogStreamItem from '@/components/blog/BlogStreamItem';
 import { SCHENGEN_GUIDE } from '@/data/schengenGuide';
+import { getPublishedCountryBlogs } from '@/lib/data/countryBlog';
 
 export const revalidate = 3600;
 
@@ -27,6 +28,11 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
+  // Yayına alınan ülke blogları akışta Schengen rehberinin ardından listelenir.
+  // Liste tamamen `has_tourism` bayrağından gelir: /admin/blog üzerinden bir
+  // ülke yayına alındığı anda burada görünür.
+  const countryBlogs = await getPublishedCountryBlogs();
+
   return (
     <>
       {/* 01 — Schengen rehberi: akışın en başındaki sabit yazı */}
@@ -42,6 +48,22 @@ export default async function BlogPage() {
         index={1}
         priority
       />
+
+      {/* 02+ — yayındaki ülke blogları */}
+      {countryBlogs.map((blog, i) => (
+        <BlogStreamItem
+          key={blog.slug}
+          slug={blog.slug}
+          name={blog.name}
+          kicker="Gezi Rehberi"
+          titleSuffix=" rehberi"
+          flagEmoji={blog.flagEmoji}
+          imageUrl={blog.heroImageUrl}
+          excerpt={blog.excerpt}
+          index={i + 2}
+          reverse={i % 2 === 0}
+        />
+      ))}
 
       {/* CTA */}
           <section className="cta-block bg-navy text-white">

@@ -132,17 +132,6 @@ export default function CountryForm({ country }: CountryFormProps) {
 
   const [danismaVisible, setDanismaVisible] = useState(country?.danisma_visible ?? false)
 
-  // — 07 Turizm (blog) içeriği
-  // Bu alanlar artık /admin/blog altında düzenlenir. Ülke kaydı tek bir
-  // satırda tutulduğu için değerler burada okunup kaydederken olduğu gibi
-  // geri yazılır; aksi hâlde ülke kaydedildiğinde blog içeriği silinirdi.
-  const hasTourism = country?.has_tourism ?? false
-  const tourismHeroUrl = country?.tourism_hero_image_url ?? null
-  const tourismIntro = country?.tourism_intro ?? []
-  const tourismHighlights = country?.tourism_highlights ?? []
-  const tourismTips = country?.tourism_tips ?? []
-  const tourismBestTime = country?.tourism_best_time ?? null
-
   // — 08 Appointment days
   const [appointmentDays, setAppointmentDays] = useState(country?.appointment_days ?? '')
 
@@ -226,13 +215,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       summary: summary || null,
       mosaic_visible: mosaicVisible,
       mosaic_span: mosaicSpan || null,
-      has_tourism: hasTourism,
       danisma_visible: danismaVisible,
-      tourism_hero_image_url: hasTourism ? tourismHeroUrl : null,
-      tourism_intro: hasTourism ? tourismIntro : [],
-      tourism_highlights: hasTourism ? tourismHighlights : [],
-      tourism_tips: hasTourism ? tourismTips : [],
-      tourism_best_time: hasTourism ? tourismBestTime : null,
       appointment_days: appointmentDays || null,
       general_info: generalInfo
         .map((t) => joinLabeled(t.title, t.description))

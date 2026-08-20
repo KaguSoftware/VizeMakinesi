@@ -6,6 +6,8 @@ export interface DocumentInput { label: string; pdf_url: string }
 export interface ProcessStepInput { title: string; description: string }
 export interface VisaTypeInput { title: string; description: string }
 
+// NOT: blog alanları (has_tourism, tourism_*, blog_*) bu forma dahil değildir;
+// ülke bloglarının tamamı /admin/blog altında düzenlenir ve orada doğrulanır.
 export interface CountryFormData {
   name: string
   slug: string
@@ -17,13 +19,7 @@ export interface CountryFormData {
   summary: string | null
   mosaic_visible: boolean
   mosaic_span: string | null
-  has_tourism: boolean
   danisma_visible: boolean
-  tourism_hero_image_url: string | null
-  tourism_intro: string[]
-  tourism_highlights: string[]
-  tourism_tips: string[]
-  tourism_best_time: string | null
   appointment_days: string | null
   general_info: string[]
   general_info_title: string | null
@@ -51,11 +47,6 @@ export function validateCountry(data: CountryFormData): ValidationError[] {
   if (!data.summary?.trim()) errors.push({ field: 'summary', message: 'Özet zorunludur' })
   if (data.flag_type === 'preset' && !data.flag_preset_key) errors.push({ field: 'flag_preset_key', message: 'Hazır SVG seçilmelidir' })
   if (data.flag_type === 'image' && !data.flag_image_url) errors.push({ field: 'flag_image_url', message: 'Görsel yüklenmelidir' })
-  if (data.has_tourism) {
-    if (data.tourism_intro.length === 0) errors.push({ field: 'tourism_intro', message: 'En az bir giriş paragrafı gereklidir' })
-    if (data.tourism_highlights.length === 0) errors.push({ field: 'tourism_highlights', message: 'En az bir öne çıkan nokta gereklidir' })
-    if (data.tourism_tips.length === 0) errors.push({ field: 'tourism_tips', message: 'En az bir ipucu gereklidir' })
-  }
 
   return errors
 }

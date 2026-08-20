@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getCountryBlog } from '@/lib/data/countryBlog';
-import { getTourismSlugsStatic } from '@/lib/data/countries';
-import ArticleList from '@/components/blog/ArticleList';
+import { getCountryBlogArticle, getCountryBlogParamsStatic } from '@/lib/data/countryBlog';
+import { articleMinutes, articleSummary } from '@/lib/blog/articles';
+import ArticleBody from '@/components/blog/ArticleBody';
+import ArticleNav from '@/components/blog/ArticleNav';
 import FlagBG from '@/components/shared/FlagBG/FlagBG';
 import { countryHref } from '@/lib/routes';
 
@@ -13,24 +13,27 @@ export const revalidate = 3600;
 const SITE = 'https://vizemakinesi.com';
 
 interface Props {
-  params: Promise<{ countrySlug: string }>;
+  params: Promise<{ countrySlug: string; articleSlug: string }>;
 }
 
+/**
+ * Makale sayısı admin panelinden değiştiği için yollar içerikten okunur.
+ * Sonradan eklenen bir makale ilk istekte üretilir (ISR), bilinmeyen bir slug
+ * 404 döner.
+ */
 export async function generateStaticParams() {
-  const slugs = await getTourismSlugsStatic();
-  return slugs.map((slug: string) => ({ countrySlug: slug }));
+  return getCountryBlogParamsStatic();
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { countrySlug } = await params;
-  const country = await getCountryBlog(countrySlug);
-  if (!country) return {};
+  const { countrySlug, articleSlug } = await params;
+  const found = await getCountryBlogArticle(countrySlug, articleSlug);
+  if (!found) return {};
 
-  const title = `${country.name} Gezi Rehberi — Vize Makinesi Blog`;
-  const description =
-    country.excerpt.slice(0, 160) ||
-    `${country.name} hakkında seyahat rehberi, öneriler ve vize bilgileri.`;
-  const url = `${SITE}/blog/${country.slug}`;
+  const { country, article } = found;
+  const title = `${article.title} — ${country.name} | Vize Makinesi`;
+  const description = articleSummary(article).slice(0, 160);
+  const url = `${SITE}/blog/${country.slug}/${article.slug}`;
   const image = country.heroImageUrl;
 
   return {
@@ -44,9 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: 'Vize Makinesi',
       locale: 'tr_TR',
       type: 'article',
-      ...(image
-        ? { images: [{ url: image, width: 1360, height: 480, alt: `${country.name} gezi rehberi` }] }
-        : {}),
+      ...(image ? { images: [{ url: image, width: 1360, height: 480, alt: article.title }] } : {}),
     },
     twitter: {
       card: 'summary_large_image',
@@ -57,27 +58,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function CountryBlogPage({ params }: Props) {
-  const { countrySlug } = await params;
-  const country = await getCountryBlog(countrySlug);
-  if (!country) notFound();
+export default async function CountryBlogArticlePage({ params }: Props) {
+  const { countrySlug, articleSlug } = await params;
+  const found = await getCountryBlogArticle(countrySlug, articleSlug);
+  if (!found) notFound();
 
-  const first = country.name.split(' ')[0];
-  const rest = country.name.split(' ').slice(1).join(' ');
-  const url = `${SITE}/blog/${country.slug}`;
+  const { country, article, index } = found;
+  const basePath = `/blog/${country.slug}`;
+  const minutes = articleMinutes(article);
+  const prev = index > 0 ? country.articles[index - 1] : null;
+  const next = index < country.articles.length - 1 ? country.articles[index + 1] : null;
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: `${country.name} Gezi Rehberi`,
-    description: country.excerpt.slice(0, 160),
-    url,
+    '@type': 'Article',
+    headline: article.title,
+    description: articleSummary(article).slice(0, 160),
+    url: `${SITE}${basePath}/${article.slug}`,
     inLanguage: 'tr',
-    hasPart: country.articles.map((article) => ({
-      '@type': 'Article',
-      headline: article.title,
-      url: `${url}/${article.slug}`,
-    })),
+    isPartOf: { '@type': 'CollectionPage', url: `${SITE}${basePath}` },
     publisher: {
       '@type': 'Organization',
       name: 'Vize Makinesi',
@@ -109,57 +108,49 @@ export default async function CountryBlogPage({ params }: Props) {
             <Link href="/blog" className="hover:text-coral transition-colors">
               Blog
             </Link>
-            &nbsp;/&nbsp;Ülke Rehberi&nbsp;/&nbsp;{country.name}
+            &nbsp;/&nbsp;
+            <Link href={basePath} className="hover:text-coral transition-colors">
+              {country.name}
+            </Link>
+            &nbsp;/&nbsp;{String(index + 1).padStart(2, '0')}
           </div>
-
-          {country.heroImageUrl && (
-            <div className="relative w-full max-h-[280px] md:max-h-[480px] overflow-hidden mb-10">
-              <Image
-                src={country.heroImageUrl}
-                alt={country.name}
-                width={1360}
-                height={480}
-                className="w-full h-[280px] md:h-[480px] object-cover"
-                priority
-              />
-            </div>
-          )}
 
           <div className="grid grid-cols-1 lg:grid-cols-[8fr_4fr] gap-[60px] items-end">
             <div>
-              <div className="text-[80px] leading-none mb-7">{country.flagEmoji}</div>
               <div className="inline-block border border-navy px-4 py-2 font-mono font-medium text-[10px] uppercase tracking-[0.15em] mb-7">
-                — Turistik rehber
+                — {article.kicker || `${country.name} rehberi`}
               </div>
-              {/* Başlık ölçüsü Schengen rehberiyle aynı ölçekte tutulur. */}
-              <h1 className="font-serif font-bold text-[clamp(33px,5.25vw,82px)] leading-[0.92] tracking-[-0.04em]">
-                {first}
-                {rest && <em className="font-normal italic text-coral"> {rest}</em>}
+              <h1 className="font-serif font-bold text-[clamp(30px,4.4vw,68px)] leading-[0.98] tracking-[-0.03em]">
+                {article.title}
               </h1>
             </div>
             <div>
-              <p className="font-serif italic text-[20px] leading-relaxed text-navy">
-                {country.excerpt}
-              </p>
+              {article.excerpt && (
+                <p className="font-serif italic text-[20px] leading-relaxed text-navy">
+                  {article.excerpt}
+                </p>
+              )}
             </div>
+          </div>
+
+          <div className="mt-12 pt-6 border-t border-border flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10px] tracking-[0.2em] uppercase text-muted">
+            <span>~{minutes} dk okuma</span>
+            <span aria-hidden className="text-border">/</span>
+            <span>{article.subsections.length} başlık</span>
           </div>
         </div>
       </section>
 
-      {/* Makaleler */}
-      <ArticleList basePath={`/blog/${country.slug}`} articles={country.articles} />
+      <ArticleBody article={article} />
 
-      {country.articles.length === 0 && (
-        <section className="container">
-          <div className="py-20 border-b border-border">
-            <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted">
-              — Bu rehber için henüz makale yayınlanmadı.
-            </p>
-          </div>
-        </section>
-      )}
+      <ArticleNav
+        basePath={basePath}
+        prev={prev}
+        next={next}
+        backLabel={`Tüm ${country.name} yazıları`}
+      />
 
-      {/* CTA to visa page */}
+      {/* CTA */}
       <section className="cta-block bg-navy text-white">
         <div className="container">
           <div className="py-24 md:py-30 relative z-10">
@@ -181,10 +172,10 @@ export default async function CountryBlogPage({ params }: Props) {
                   {country.name} vizesini incele →
                 </Link>
                 <Link
-                  href="/blog"
+                  href={basePath}
                   className="block w-full text-center font-sans font-medium text-[13px] uppercase tracking-widest px-8 py-5.5 mt-3 border border-white/40 text-white hover:bg-cream hover:text-coral hover:border-cream transition-all duration-200 rounded-2xl"
                 >
-                  Diğer ülke rehberleri
+                  {country.name} rehberi
                 </Link>
               </div>
             </div>

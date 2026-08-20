@@ -16,39 +16,16 @@ export const metadata: Metadata = {
         'Turistik, ticari, aile ziyareti, aile birleşimi, öğrenci, çalışma, transit ve etkinlik vizeleri: seyahat amacınıza uygun vize türünü bulun.',
 };
 
-function VisaTypeGroup({
-    eyebrow,
-    title,
-    description,
-    types,
-}: {
-    eyebrow: string;
-    title: string;
-    description: string;
-    types: VisaTypeContent[];
-}) {
+function VisaTypeGroup({ types }: { types: (VisaTypeContent & { duration: string })[] }) {
     return (
-        <div className="py-16 border-b border-border grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start">
-            {/* Left: heading */}
-            <div>
-                <div className="font-mono text-[10px] tracking-[0.2em] text-coral uppercase mb-4">
-                    {eyebrow}
-                </div>
-                <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-[1.1] tracking-[-0.025em] text-navy">
-                    {title}
-                </h2>
-                <p className="text-muted text-base leading-relaxed mt-5">{description}</p>
-            </div>
-
-            {/* Right: visa type cards, one per row across the full column */}
-            {/* Horizontal rows: at full column width a stacked card wasted
-                vertical space, so icon / text / arrow sit on one line. */}
-            <div className="grid grid-cols-1 gap-3">
+        <div className="py-16 border-b border-border">
+            {/* Visa type cards, two per row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {types.map((type) => (
                     <Link
                         key={type.slug}
                         href={`/vize-turleri/${type.slug}`}
-                        className="group flex items-center gap-4 px-5 py-4 rounded-xl border border-navy/10 bg-white hover:border-coral/30 hover:bg-coral/5 transition-colors duration-200"
+                        className="group flex items-center gap-4 px-5 py-4 rounded-2xl border border-navy/10 bg-white hover:border-coral/30 hover:bg-coral/5 transition-colors duration-200"
                     >
                         <div className="shrink-0 w-9 h-9 rounded-lg bg-coral/10 flex items-center justify-center text-base">
                             {type.icon}
@@ -61,6 +38,9 @@ function VisaTypeGroup({
                                 </p>
                                 <span className="shrink-0 font-mono text-[9px] tracking-widest uppercase text-coral border border-coral/30 bg-coral/8 rounded px-1.5 py-0.5">
                                     {type.tag}
+                                </span>
+                                <span className="shrink-0 font-mono text-[9px] tracking-widest uppercase text-navy/60 border border-navy/20 bg-navy/5 rounded px-1.5 py-0.5">
+                                    {type.duration}
                                 </span>
                             </div>
                             <p className="font-sans text-[13px] text-navy/55 leading-snug mt-1">
@@ -119,17 +99,10 @@ export default function VizeTurleriPage() {
             {/* Visa type groups */}
             <section className="container">
                 <VisaTypeGroup
-                    eyebrow="— Kısa süreli vizeler"
-                    title="Kısa Süreli Vizeler"
-                    description="Belirli bir seyahat, ziyaret, etkinlik veya geçici faaliyet amacıyla yapılan başvurular."
-                    types={SHORT_STAY_TYPES}
-                />
-
-                <VisaTypeGroup
-                    eyebrow="— Uzun süreli vizeler"
-                    title="Uzun Süreli Vizeler"
-                    description="Eğitim, çalışma veya aile yanında uzun süreli yaşam gibi amaçlarla yapılan başvurular."
-                    types={LONG_STAY_TYPES}
+                    types={[
+                        ...SHORT_STAY_TYPES.map((t) => ({ ...t, duration: 'Kısa' })),
+                        ...LONG_STAY_TYPES.map((t) => ({ ...t, duration: 'Uzun' })),
+                    ]}
                 />
             </section>
 

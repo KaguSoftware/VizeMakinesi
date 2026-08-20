@@ -3,6 +3,8 @@ import Link from 'next/link';
 import BlogStreamItem from '@/components/blog/BlogStreamItem';
 import { SCHENGEN_GUIDE } from '@/data/schengenGuide';
 import { getPublishedCountryBlogs } from '@/lib/data/countryBlog';
+import { getBlogSchengenPage } from '@/lib/data/blogSchengenPage';
+import { articleTeasers } from '@/lib/blog/articles';
 
 export const revalidate = 3600;
 
@@ -31,7 +33,10 @@ export default async function BlogPage() {
   // Yayına alınan ülke blogları akışta Schengen rehberinin ardından listelenir.
   // Liste tamamen `has_tourism` bayrağından gelir: /admin/blog üzerinden bir
   // ülke yayına alındığı anda burada görünür.
-  const countryBlogs = await getPublishedCountryBlogs();
+  const [countryBlogs, schengen] = await Promise.all([
+    getPublishedCountryBlogs(),
+    getBlogSchengenPage(),
+  ]);
 
   return (
     <>
@@ -45,6 +50,7 @@ export default async function BlogPage() {
         flagEmoji={SCHENGEN_GUIDE.flagEmoji}
         imageUrl={null}
         excerpt={SCHENGEN_GUIDE.excerpt}
+        articles={articleTeasers(schengen.articles)}
         index={1}
         priority
       />
@@ -60,6 +66,7 @@ export default async function BlogPage() {
           flagEmoji={blog.flagEmoji}
           imageUrl={blog.heroImageUrl}
           excerpt={blog.excerpt}
+          articles={articleTeasers(blog.articles)}
           index={i + 2}
           reverse={i % 2 === 0}
         />

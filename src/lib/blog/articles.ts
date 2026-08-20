@@ -101,3 +101,13 @@ export function articleMinutes(article: BlogArticle): number {
 export function articleSummary(article: BlogArticle): string {
   return article.excerpt || article.intro[0] || '';
 }
+
+/** Blog akışındaki kart listesi için sadeleştirilmiş makale satırları. */
+export function articleTeasers(articles: BlogArticle[]) {
+  return articles.map((article) => ({
+    slug: article.slug,
+    title: article.title,
+    kicker: article.kicker,
+    minutes: articleMinutes(article),
+  }));
+}

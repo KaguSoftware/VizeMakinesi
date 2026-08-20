@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import ArticleTeaserList, { type ArticleTeaser } from './ArticleTeaserList';
 
 interface Props {
   slug: string;
@@ -19,6 +20,11 @@ interface Props {
   reverse?: boolean;
   /** Eager-loads the image — set on the first row only (LCP) */
   priority?: boolean;
+  /**
+   * Bloğun makaleleri. Doluysa kartın görsel sütununda kapak görseli/emoji
+   * yerine üçerli makale listesi gösterilir.
+   */
+  articles?: ArticleTeaser[];
 }
 
 export default function BlogStreamItem({
@@ -33,6 +39,7 @@ export default function BlogStreamItem({
   index,
   reverse = false,
   priority = false,
+  articles = [],
 }: Props) {
   const href = hrefProp ?? `/blog/${slug}`;
 
@@ -41,35 +48,45 @@ export default function BlogStreamItem({
       <div className="container grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 py-14 md:py-20 items-center">
         {/* Visual */}
         <div
-          className={`lg:col-span-7 lg:row-start-1 ${
-            reverse ? 'lg:col-start-6' : 'lg:col-start-1'
-          }`}
+          className={[
+            'lg:col-span-7 lg:row-start-1',
+            reverse ? 'lg:col-start-6' : 'lg:col-start-1',
+            // Mobilde makale listesi başlıktan sonra gelir; kartın adı önce
+            // okunmalı. Görselli kartlarda sıralama olduğu gibi kalır.
+            articles.length > 0 ? 'order-2 lg:order-none' : '',
+          ].join(' ')}
         >
-          <Link href={href} className="block overflow-hidden relative">
-            <div className="relative w-full aspect-video bg-[hsl(var(--color-navy)/0.04)]">
-              {imageUrl ? (
-                <Image
-                  src={imageUrl}
-                  alt={`${name} — ${kicker}`}
-                  fill
-                  priority={priority}
-                  className="object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
-                  sizes="(max-width: 1024px) 100vw, 58vw"
-                />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center border border-border">
-                  <span className="text-[64px] leading-none opacity-60">{flagEmoji}</span>
-                </div>
-              )}
-            </div>
-          </Link>
+          {articles.length > 0 ? (
+            <ArticleTeaserList basePath={href} teasers={articles} align={reverse ? 'right' : 'left'} />
+          ) : (
+            <Link href={href} className="block overflow-hidden relative">
+              <div className="relative w-full aspect-video bg-[hsl(var(--color-navy)/0.04)]">
+                {imageUrl ? (
+                  <Image
+                    src={imageUrl}
+                    alt={`${name} — ${kicker}`}
+                    fill
+                    priority={priority}
+                    className="object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+                    sizes="(max-width: 1024px) 100vw, 58vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center border border-border">
+                    <span className="text-[64px] leading-none opacity-60">{flagEmoji}</span>
+                  </div>
+                )}
+              </div>
+            </Link>
+          )}
         </div>
 
         {/* Text */}
         <div
-          className={`lg:col-span-5 lg:row-start-1 ${
-            reverse ? 'lg:col-start-1' : 'lg:col-start-8'
-          }`}
+          className={[
+            'lg:col-span-5 lg:row-start-1',
+            reverse ? 'lg:col-start-1' : 'lg:col-start-8',
+            articles.length > 0 ? 'order-1 lg:order-none' : '',
+          ].join(' ')}
         >
           <div className="flex items-center gap-4 mb-6">
             <span className="font-mono text-[11px] tracking-[0.2em] text-coral">

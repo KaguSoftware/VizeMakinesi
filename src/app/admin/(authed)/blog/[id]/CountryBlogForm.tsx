@@ -6,7 +6,6 @@ import {
   AdminButton,
   AdminCard,
   AdminLabel,
-  AdminTextarea,
   EyebrowText,
   ImageUploader,
   useToast,
@@ -27,13 +26,12 @@ export interface CountryBlogInitial {
   slug: string
   has_tourism: boolean
   hero_image_url: string | null
-  excerpt: string
   articles: BlogArticle[]
 }
 
 /**
- * Ülke blogunun düzenleyicisi — Schengen rehberiyle birebir aynı yapı:
- * kapak (yayın durumu, görsel, özet) + makale listesi.
+ * Ülke blogunun düzenleyicisi — Schengen rehberiyle aynı yapı: yayın durumu,
+ * paylaşım görseli ve makale listesi.
  */
 export default function CountryBlogForm({ initial }: { initial: CountryBlogInitial }) {
   const router = useRouter()
@@ -44,13 +42,10 @@ export default function CountryBlogForm({ initial }: { initial: CountryBlogIniti
 
   const [published, setPublished] = useState(initial.has_tourism)
   const [heroUrl, setHeroUrl] = useState(initial.hero_image_url ?? '')
-  const [excerpt, setExcerpt] = useState(initial.excerpt)
   const [articles, setArticles] = useState<ArticleItem[]>(toArticleItems(initial.articles))
 
-  const basePath = `/blog/${initial.slug}`
-
   const dirty = useDirtyFromSnapshot(
-    { published, heroUrl, excerpt, articles: articlesSnapshot(articles) },
+    { published, heroUrl, articles: articlesSnapshot(articles) },
     savedAt
   )
 
@@ -65,7 +60,6 @@ export default function CountryBlogForm({ initial }: { initial: CountryBlogIniti
       const result = await updateCountryBlog(initial.id, initial.slug, {
         has_tourism: published,
         hero_image_url: heroUrl || null,
-        excerpt: excerpt || null,
         articles: fromArticleItems(articles),
       })
 
@@ -82,7 +76,7 @@ export default function CountryBlogForm({ initial }: { initial: CountryBlogIniti
   return (
     <div className="flex flex-col gap-6">
       <AdminCard>
-        <EyebrowText className="mb-6">— Kapak Sayfası</EyebrowText>
+        <EyebrowText className="mb-6">— Yayın</EyebrowText>
         <div className="flex flex-col gap-6">
           <label className="flex items-center gap-3 cursor-pointer">
             <input
@@ -92,54 +86,46 @@ export default function CountryBlogForm({ initial }: { initial: CountryBlogIniti
               className="accent-coral w-4 h-4"
             />
             <span className="font-mono text-[11px] tracking-widest uppercase text-navy/85">
-              Blog sayfası yayında
+              Makaleler yayında
             </span>
           </label>
           <p className="font-mono text-[11px] text-navy/60 -mt-3">
-            Kapatıldığında {basePath} ve altındaki makaleler yayından kalkar; içerik silinmez.
+            Kapatıldığında bu ülkenin makaleleri /blog akışından ve kendi sayfalarından kalkar;
+            içerik silinmez.
           </p>
 
           <div className="flex flex-col gap-3">
-            <AdminLabel>Kapak Görseli</AdminLabel>
+            <AdminLabel>Paylaşım Görseli</AdminLabel>
             <ImageUploader
               bucket="country-tourism"
               value={heroUrl}
               onChange={setHeroUrl}
-              label="Kapak Görseli"
+              label="Paylaşım Görseli"
               previewClassName="w-48 h-28"
             />
+            <p className="font-mono text-[11px] text-navy/60">
+              Makale bağlantısı sosyal medyada paylaşıldığında görünen görsel.
+            </p>
           </div>
-
-          <AdminTextarea
-            label="Kapak Özeti (hero'nun sağındaki italik metin)"
-            rows={3}
-            value={excerpt}
-            placeholder="Boş bırakılırsa ilk makalenin özeti, o da yoksa ülkenin genel özeti kullanılır."
-            onChange={(e) => setExcerpt(e.target.value)}
-          />
-
-          <p className="font-mono text-[11px] text-navy/70">
-            Ülke adı ve bayrağı /admin/countries kaydından gelir.
-          </p>
         </div>
       </AdminCard>
 
       <AdminCard>
         <EyebrowText className="mb-3">— Makaleler</EyebrowText>
         <p className="font-mono text-[11px] text-navy/70 mb-6">
-          Her makale kapak sayfasında listelenir ve kendi alt sayfasında açılır. Makale ekleyip
-          çıkarabilir, sürükleyerek sıralarını değiştirebilirsiniz — kapak sayfasındaki sıra ile
-          makalelerin “önceki / sonraki” bağlantıları bu sırayı izler.
+          Makaleler /blog akışında listelenir ve her biri kendi sayfasında açılır. Makale ekleyip
+          çıkarabilir, sürükleyerek sıralarını değiştirebilirsiniz — akıştaki sıra ve makalelerin
+          “önceki / sonraki” bağlantıları bu sırayı izler.
         </p>
 
         <ArticlesEditor
-          basePath={basePath}
+          slugPrefix={initial.slug}
           articles={articles}
           onChange={setArticles}
           placeholders={{
             kicker: 'Gezi rehberi',
             title: `${initial.name} Gezi Rehberi`,
-            slug: 'gezi-rehberi',
+            slug: `${initial.slug}-gezi-rehberi`,
             heading: 'Kaçırmamanız gereken yerler',
           }}
         />

@@ -43,8 +43,8 @@ export default async function AdminBlogPage() {
             Blog
           </h1>
           <p className="font-mono text-[11px] text-navy/65 mt-2 max-w-md">
-            Bütün bloglar aynı yapıdadır: kapak sayfası makaleleri listeler, her makale kendi
-            alt sayfasında açılır. Makaleler bu bölümden eklenip çıkarılır.
+            Bütün makaleler /blog akışında tek listede görünür ve her biri kendi sayfasında
+            açılır. Makaleler bu bölümden eklenip çıkarılır.
           </p>
         </div>
         <Link href="/blog">
@@ -60,14 +60,11 @@ export default async function AdminBlogPage() {
             <div>
               <h2 className="font-serif text-[22px] font-bold text-navy">Schengen Rehberi</h2>
               <p className="font-mono text-[11px] text-navy/65 mt-2 max-w-lg">
-                {guide.articles.length} yazı. Kapak sayfası yazıları listeler, her yazı kendi
-                alt sayfasında açılır. Yazı ekleyip çıkarmak da bu ekrandan yapılır.{' '}
-                <Link
-                  href="/blog/schengen-vize-alma-rehberi"
-                  className="text-coral hover:text-navy transition-colors"
-                >
-                  /blog/schengen-vize-alma-rehberi
-                </Link>
+                {guide.articles.length} makale. Hepsi{' '}
+                <Link href="/blog" className="text-coral hover:text-navy transition-colors">
+                  /blog
+                </Link>{' '}
+                akışında listelenir; adresleri /blog/schengen-vize-alma-rehberi/… biçimindedir.
               </p>
             </div>
             <Link href="/admin/blog/schengen">
@@ -89,7 +86,7 @@ export default async function AdminBlogPage() {
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b border-navy/10">
-              {['Ülke', 'Slug', 'Makale', 'Kapak', 'Durum', 'Yayın', ''].map((heading) => (
+              {['Ülke', 'Slug', 'Makale', 'Görsel', 'Durum', 'Akış', ''].map((heading) => (
                 <th
                   key={heading}
                   className="py-3 px-4 text-left font-mono text-[10px] tracking-widest uppercase text-navy/60"
@@ -130,12 +127,12 @@ export default async function AdminBlogPage() {
                   </span>
                 </td>
                 <td className="py-3 px-4">
-                  {country.has_tourism ? (
+                  {country.has_tourism && country.articleCount > 0 ? (
                     <Link
-                      href={`/blog/${country.slug}`}
+                      href="/blog"
                       className="font-mono text-[10px] tracking-widest uppercase text-navy hover:text-coral transition-colors"
                     >
-                      Görüntüle
+                      Akışta gör
                     </Link>
                   ) : (
                     <span className="font-mono text-[10px] tracking-widest uppercase text-navy/30">

@@ -5,10 +5,10 @@ export type { BlogArticle, BlogSubsection };
 /**
  * Schengen rehberinin içeriği.
  *
- * /blog/schengen-vize-alma-rehberi bir kapak sayfasıdır: yazıları listeler.
- * Her yazı kendi alt sayfasında açılır —
- * /blog/schengen-vize-alma-rehberi/<yazı-slug'ı>. Yazı sayısı sabit değildir;
- * /admin/blog/schengen ekranından yazı eklenip çıkarılabilir.
+ * Kapak sayfası yoktur: makaleler /blog akışında listelenir ve her biri kendi
+ * sayfasında açılır — /blog/schengen-vize-alma-rehberi/<makale-slug'ı>.
+ * Makale sayısı sabit değildir; /admin/blog/schengen ekranından eklenip
+ * çıkarılabilir.
  *
  * İçerik `blog_schengen_page` tablosundan (id = 1) gelir; tablo veya alan boşsa
  * buradaki varsayılanlar kullanılır — sayfa hiçbir durumda boş kalmaz.
@@ -17,11 +17,6 @@ export type { BlogArticle, BlogSubsection };
  */
 
 export interface BlogSchengenContent {
-  hero_kicker: string;
-  hero_title: string;
-  /** Başlığın italik/coral görünen ikinci yarısı. */
-  hero_title_em: string;
-  hero_excerpt: string;
   articles: BlogArticle[];
 }
 
@@ -41,12 +36,6 @@ function sub(
 }
 
 export const BLOG_SCHENGEN_DEFAULTS: BlogSchengenContent = {
-  hero_kicker: 'Başvuru rehberi',
-  hero_title: 'Schengen vizesi',
-  hero_title_em: ' rehberi',
-  hero_excerpt:
-    'Ret nedenlerinden ret maddelerinin ne anlama geldiğine, ret sonrası izlenecek yoldan ilk başvurunun adımlarına kadar Schengen sürecinin tamamı tek sayfada.',
-
   articles: [
     // ── 01 ────────────────────────────────────────────────────────────────────
     {

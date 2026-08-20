@@ -5,13 +5,9 @@ import { normalizeArticles, type BlogArticle, type BlogSubsection } from '@/lib/
 
 type BlogSchengenRow = Database['public']['Tables']['blog_schengen_page']['Row'];
 
-function pick(value: string | null | undefined, fallback: string): string {
-  return value && value.trim() ? value : fallback;
-}
-
 /**
- * Schengen rehberinin içeriği. Tablo henüz uygulanmadıysa, satır yoksa veya
- * alan boşsa rehber dokümanının varsayılan metinleri döner.
+ * Schengen rehberinin makaleleri. Tablo henüz uygulanmadıysa, satır yoksa veya
+ * makale listesi boşsa rehber dokümanının varsayılan metinleri döner.
  */
 export async function getBlogSchengenPage(): Promise<BlogSchengenContent> {
   const supabase = createPublicClient();
@@ -22,18 +18,9 @@ export async function getBlogSchengenPage(): Promise<BlogSchengenContent> {
     .maybeSingle();
 
   const row = data as BlogSchengenRow | null;
-  if (!row) return BLOG_SCHENGEN_DEFAULTS;
+  const articles = row ? normalizeArticles(row.articles) : [];
 
-  const d = BLOG_SCHENGEN_DEFAULTS;
-  const articles = normalizeArticles(row.articles);
-
-  return {
-    hero_kicker: pick(row.hero_kicker, d.hero_kicker),
-    hero_title: pick(row.hero_title, d.hero_title),
-    hero_title_em: pick(row.hero_title_em, d.hero_title_em),
-    hero_excerpt: pick(row.hero_excerpt, d.hero_excerpt),
-    articles: articles.length > 0 ? articles : d.articles,
-  };
+  return { articles: articles.length > 0 ? articles : BLOG_SCHENGEN_DEFAULTS.articles };
 }
 
 /** Tek bir yazı — bulunamazsa null. */

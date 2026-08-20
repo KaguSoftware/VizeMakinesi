@@ -179,8 +179,13 @@ export function TextList({
 }
 
 interface Props {
-  /** Makalelerin yayınlandığı kök yol — slug önizlemesinde gösterilir. */
-  basePath: string
+  /**
+   * Blogun kimliği — 'schengen' veya ülke slug'ı. Başlıktan üretilen slug bu
+   * önekle başlamıyorsa öne eklenir: makalelerin adresleri bütün bloglarda
+   * ortak /blog altında olduğu için "gezi-rehberi" gibi genel bir slug iki
+   * ülkede çakışırdı.
+   */
+  slugPrefix: string
   articles: ArticleItem[]
   onChange: (articles: ArticleItem[]) => void
   /** Alt başlık alanlarında kullanılan örnek metinler. */
@@ -195,7 +200,7 @@ interface Props {
 }
 
 export default function ArticlesEditor({
-  basePath,
+  slugPrefix,
   articles,
   onChange,
   placeholders = {},
@@ -205,11 +210,19 @@ export default function ArticlesEditor({
     onChange(articles.map((a) => (a.id === id ? { ...a, ...patch } : a)))
   }
 
+  /** Başlıktan slug türetir; gerekiyorsa blog önekini ekler. */
+  function derivedSlug(title: string) {
+    const base = slugifyTr(title)
+    if (!base) return ''
+    const prefix = slugifyTr(slugPrefix)
+    return !prefix || base === prefix || base.startsWith(`${prefix}-`) ? base : `${prefix}-${base}`
+  }
+
   /** Başlık yazılırken slug'ı da türetir — slug elle değiştirilmediyse. */
   function handleTitleChange(article: ArticleItem, title: string) {
     patchArticle(article.id, {
       title,
-      ...(article.slugTouched ? {} : { slug: slugifyTr(title) }),
+      ...(article.slugTouched ? {} : { slug: derivedSlug(title) }),
     })
   }
 
@@ -262,17 +275,21 @@ export default function ArticlesEditor({
               placeholder={placeholders.slug ?? 'makale-basligi'}
               onChange={(e) => patchArticle(article.id, { slug: e.target.value, slugTouched: true })}
               onBlur={(e) =>
-                patchArticle(article.id, { slug: slugifyTr(e.target.value || article.title) })
+                patchArticle(article.id, {
+                  slug: e.target.value ? slugifyTr(e.target.value) : derivedSlug(article.title),
+                })
               }
             />
             <p className="font-mono text-[11px] text-navy/60 mt-2">
-              {basePath}/
+              /blog/
               <span className="text-coral">
-                {slugifyTr(article.slug || article.title) || 'makale-adresi'}
+                {(article.slug ? slugifyTr(article.slug) : derivedSlug(article.title)) ||
+                  'makale-adresi'}
               </span>
               {' — '}
-              başlıktan otomatik doldurulur; elle değiştirdiğinizde sabit kalır. Yayındaki bir
-              makalenin adresini değiştirmek eski bağlantıları kırar.
+              başlıktan otomatik doldurulur ({slugPrefix} öneki eklenir); elle değiştirdiğinizde
+              sabit kalır. Adres bütün bloglarda ortak olduğu için benzersiz olmalı ve yayındaki
+              bir makalenin adresini değiştirmek eski bağlantıları kırar.
             </p>
           </div>
 

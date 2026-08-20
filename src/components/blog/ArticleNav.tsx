@@ -2,21 +2,23 @@ import Link from 'next/link';
 import type { BlogArticle } from '@/lib/blog/articles';
 
 interface Props {
-  basePath: string;
   prev: BlogArticle | null;
   next: BlogArticle | null;
-  /** "— Tüm ... yazıları" bağlantısının metni. */
-  backLabel: string;
+  /** Geri bağlantısının metni. */
+  backLabel?: string;
 }
 
-/** Yazı sayfasının altındaki önceki / sonraki + kapak sayfasına dönüş. */
-export default function ArticleNav({ basePath, prev, next, backLabel }: Props) {
+/**
+ * Makale sayfasının altındaki önceki / sonraki bağlantıları ve akışa dönüş.
+ * Kapak sayfaları kaldırıldığı için geri bağlantısı doğrudan /blog'a gider.
+ */
+export default function ArticleNav({ prev, next, backLabel = 'Tüm makaleler' }: Props) {
   return (
     <section className="container">
       <div className="py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-6">
         {prev ? (
           <Link
-            href={`${basePath}/${prev.slug}`}
+            href={`/blog/${prev.slug}`}
             className="group block border border-border rounded-lg p-6 hover:border-coral transition-colors duration-200"
           >
             <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted">
@@ -32,7 +34,7 @@ export default function ArticleNav({ basePath, prev, next, backLabel }: Props) {
 
         {next && (
           <Link
-            href={`${basePath}/${next.slug}`}
+            href={`/blog/${next.slug}`}
             className="group block border border-border rounded-lg p-6 md:text-right hover:border-coral transition-colors duration-200"
           >
             <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted">
@@ -47,7 +49,7 @@ export default function ArticleNav({ basePath, prev, next, backLabel }: Props) {
 
       <div className="pb-16">
         <Link
-          href={basePath}
+          href="/blog"
           className="font-mono text-[10px] tracking-[0.2em] uppercase text-navy hover:text-coral transition-colors"
         >
           — {backLabel}

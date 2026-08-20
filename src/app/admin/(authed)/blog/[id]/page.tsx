@@ -12,7 +12,6 @@ interface CountryRow {
   slug: string
   has_tourism: boolean
   tourism_hero_image_url: string | null
-  blog_excerpt: string | null
   blog_articles: unknown
 }
 
@@ -22,7 +21,7 @@ export default async function EditCountryBlogPage({ params }: { params: Promise<
 
   const { data } = await supabase
     .from('countries')
-    .select('id, name, slug, has_tourism, tourism_hero_image_url, blog_excerpt, blog_articles')
+    .select('id, name, slug, has_tourism, tourism_hero_image_url, blog_articles')
     .eq('id', id)
     .single()
 
@@ -35,7 +34,6 @@ export default async function EditCountryBlogPage({ params }: { params: Promise<
     slug: row.slug,
     has_tourism: row.has_tourism,
     hero_image_url: row.tourism_hero_image_url,
-    excerpt: row.blog_excerpt ?? '',
     articles: normalizeArticles(row.blog_articles),
   }
 
@@ -54,10 +52,10 @@ export default async function EditCountryBlogPage({ params }: { params: Promise<
           {row.name}
         </h1>
         <p className="font-mono text-[12px] text-navy/70 mt-2">
-          <Link href={`/blog/${row.slug}`} className="text-coral hover:text-navy transition-colors">
-            /blog/{row.slug}
+          <Link href="/blog" className="text-coral hover:text-navy transition-colors">
+            /blog
           </Link>{' '}
-          kapak sayfası ve altındaki makaleler. Ülkenin vize bilgileri{' '}
+          akışında yayınlanan makaleler (adresleri /blog/{row.slug}/…). Ülkenin vize bilgileri{' '}
           <Link
             href={`/admin/countries/${row.id}/edit`}
             className="text-coral hover:text-navy transition-colors"

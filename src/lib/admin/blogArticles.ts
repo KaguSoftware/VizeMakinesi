@@ -5,7 +5,8 @@ import type { BlogArticle } from '@/lib/blog/articles'
 /**
  * Blog makalelerinin sunucu tarafı doğrulaması — Schengen rehberi ile ülke
  * blogları aynı kuralları paylaşır. Slug'lar normalleştirilir, boş bırakılan
- * slug başlıktan türetilir, aynı sayfada yinelenen slug reddedilir.
+ * slug başlıktan türetilir; hem aynı blogda hem de diğer bloglarda yinelenen
+ * slug reddedilir (makalelerin adresi ortak /blog altındadır).
  */
 
 const MAX_ARTICLES = 30
@@ -30,7 +31,7 @@ function textList(field: string, value: unknown, max: number, maxLen: number): s
 
 export function validateArticles(
   value: unknown,
-  opts: { requireAtLeastOne?: boolean } = {}
+  opts: { requireAtLeastOne?: boolean; takenSlugs?: string[] } = {}
 ): BlogArticle[] {
   if (!Array.isArray(value)) throw new AdminValidationError('articles', 'Makaleler geçersiz')
   if (opts.requireAtLeastOne && value.length === 0) {
@@ -41,6 +42,9 @@ export function validateArticles(
   }
 
   const seen = new Set<string>()
+  // Makaleler bütün bloglarda ortak /blog altında yayınlandığı için slug'lar
+  // yalnızca bu blogda değil, sitedeki diğer bloglarda da benzersiz olmalı.
+  const taken = new Set(opts.takenSlugs ?? [])
 
   return value.map((raw, i) => {
     const a = (raw ?? {}) as Record<string, unknown>
@@ -54,7 +58,7 @@ export function validateArticles(
     if (!slug) {
       throw new AdminValidationError('slug', `${label}: URL adresi üretilemedi, elle girin`)
     }
-    if (seen.has(slug)) {
+    if (seen.has(slug) || taken.has(slug)) {
       throw new AdminValidationError(
         'slug',
         `${label}: "${slug}" URL adresi başka bir makalede kullanılıyor`

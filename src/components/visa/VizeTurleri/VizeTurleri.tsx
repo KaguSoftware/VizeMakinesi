@@ -1,50 +1,68 @@
-import Link from 'next/link';
 import { FadeIn } from '@/components/shared/motion';
+import VisaTypeCard from '@/components/vizeTurleri/VisaTypeCard';
+import { getVisaType, isShortStayType } from '@/data/visaTypes';
 
 export const DEFAULT_VISA_TYPES_TITLE = 'Hangi Vize Türüne Başvurmalısınız?';
-export const DEFAULT_VISA_TYPES_LEAD =
-  'Doğru vize türüne başvurmak, başvuru sürecinin en önemli adımlarından biridir.';
-// Sabit metin; hedef, aynı ülkenin vize türleri sayfasıdır. Admin panelinde
-// düzenlenmez.
-const LINK_LABEL = 'Vize türlerini detaylı inceleyin';
+
+export interface CountryVisaTypeItem {
+  title: string;
+  description: string;
+  /** /vize-turleri kataloğu eşlemesi (ikon, rozet ve link kaynağı). */
+  visa_type_slug: string | null;
+}
 
 interface Props {
-  /** /vize-turleri/[countrySlug] bağlantısı için ülke slug'ı. */
-  countrySlug: string;
-  /** Ülkenin vize türü var mı — yoksa bölüm hiç gösterilmez. */
-  hasItems: boolean;
+  items: CountryVisaTypeItem[];
   title?: string | null;
   lead?: string | null;
 }
 
 /**
- * /vize/[slug] sayfasındaki kısa yönlendirme bölümü. Vize türlerinin adları ve
- * açıklamaları burada listelenmez; tamamı /vize-turleri/[slug] sayfasındadır.
+ * /vize/[slug] sayfasındaki vize türleri bölümü. Ülkeye özel vize türleri
+ * /vize-turleri listesiyle aynı kart tasarımında gösterilir; uzun süreli
+ * (Tip D) türler bu bölümde yer almaz.
  */
-export default function VizeTurleri({ countrySlug, hasItems, title, lead }: Props) {
-  if (!hasItems) return null;
+export default function VizeTurleri({ items, title, lead }: Props) {
+  const cards = items.filter((i) => !i.visa_type_slug || isShortStayType(i.visa_type_slug));
+  if (cards.length === 0) return null;
 
   return (
-    <section className="container border-b border-border">
-      <div className="pt-16 pb-16 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
-        <FadeIn as="div">
-          <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy">
-            {title?.trim() || DEFAULT_VISA_TYPES_TITLE}
-          </h2>
-        </FadeIn>
+    <section id="vize-turleri" className="container border-b border-border scroll-mt-8">
+      <div className="pt-16 pb-16">
+        {/* Giriş cümlesi opsiyoneldir: boşsa yalnızca başlık gösterilir. */}
+        <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
+          <FadeIn as="div">
+            <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy">
+              {title?.trim() || DEFAULT_VISA_TYPES_TITLE}
+            </h2>
+          </FadeIn>
 
-        <FadeIn as="div" delay={0.1}>
-          <p className="font-serif text-[17px] leading-relaxed text-navy/70">
-            {lead?.trim() || DEFAULT_VISA_TYPES_LEAD}
-          </p>
+          {lead?.trim() && (
+            <FadeIn as="div" delay={0.1}>
+              <p className="font-serif text-[17px] leading-relaxed text-navy/70">
+                {lead.trim()}
+              </p>
+            </FadeIn>
+          )}
+        </div>
 
-          <Link
-            href={`/vize-turleri/${countrySlug}#ulke-vize-turleri`}
-            className="mt-4 inline-block font-serif text-[17px] text-coral underline underline-offset-4 hover:text-navy transition-colors"
-          >
-            {LINK_LABEL} →
-          </Link>
-        </FadeIn>
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-3">
+          {cards.map((item, i) => {
+            const type = item.visa_type_slug ? getVisaType(item.visa_type_slug) : undefined;
+            return (
+              <FadeIn key={`${item.title}-${i}`} as="div" delay={i * 0.05}>
+                <VisaTypeCard
+                  href={type ? `/vize-turleri/${type.slug}` : undefined}
+                  icon={type?.icon}
+                  title={item.title}
+                  tag={type?.tag}
+                  duration={type ? 'Kısa' : undefined}
+                  description={item.description}
+                />
+              </FadeIn>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

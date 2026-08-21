@@ -15,6 +15,7 @@ import {
 } from '@/lib/admin/validators'
 import { removeStorageObjects } from '@/lib/images/serverDelete'
 import { countryHref } from '@/lib/routes'
+import { isShortStayType } from '@/data/visaTypes'
 
 function validateCountryServer(data: CountryFormData): CountryFormData {
   const name = reqString('Ad', data.name, { max: 100 })
@@ -40,8 +41,6 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
   const general_info_description = optString('general_info_description', data.general_info_description, { max: 1000 })
   const visa_types_title = optString('visa_types_title', data.visa_types_title, { max: 160 })
   const visa_types_lead = optString('visa_types_lead', data.visa_types_lead, { max: 600 })
-  const visa_types_description = optString('visa_types_description', data.visa_types_description, { max: 1000 })
-  const visa_types_hero_description = optString('visa_types_hero_description', data.visa_types_hero_description, { max: 1000 })
 
 
   if (!Array.isArray(data.requirements)) throw new AdminValidationError('requirements', 'Gerekli belgeler geçersiz')
@@ -66,9 +65,15 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     .filter((s) => s && typeof s.title === 'string' && typeof s.description === 'string')
     .map((s) => ({ title: s.title.trim(), description: s.description.trim() }))
     .filter((s) => s.title.length > 0 && s.description.length > 0)
+  // Katalog eşlemesi yalnızca kısa süreli (Tip C) türler için tutulur; tanınmayan
+  // bir slug gelirse kart ikonsuz/rozetsiz gösterilir.
   const visa_types = data.visa_types
     .filter((v) => v && typeof v.title === 'string' && typeof v.description === 'string')
-    .map((v) => ({ title: v.title.trim(), description: v.description.trim() }))
+    .map((v) => ({
+      title: v.title.trim(),
+      description: v.description.trim(),
+      visa_type_slug: isShortStayType(v.visa_type_slug) ? v.visa_type_slug : null,
+    }))
     .filter((v) => v.title.length > 0 && v.description.length > 0)
 
   return {
@@ -89,8 +94,6 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     general_info_description,
     visa_types_title,
     visa_types_lead,
-    visa_types_description,
-    visa_types_hero_description,
     requirements,
     handles,
     faqs,
@@ -161,6 +164,7 @@ async function upsertChildren(supabase: SB, countryId: string, data: CountryForm
         country_id: countryId,
         title: v.title,
         description: v.description,
+        visa_type_slug: v.visa_type_slug,
         sort_order: i,
       }))
     )
@@ -230,8 +234,6 @@ export async function createCountry(rawData: CountryFormData): Promise<{ id: str
     general_info_description: data.general_info_description,
     visa_types_title: data.visa_types_title,
     visa_types_lead: data.visa_types_lead,
-    visa_types_description: data.visa_types_description,
-    visa_types_hero_description: data.visa_types_hero_description,
   }
 
   // writer() avoids the Supabase-v2 `never` narrowing on insert payloads.
@@ -295,8 +297,6 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
     general_info_description: data.general_info_description,
     visa_types_title: data.visa_types_title,
     visa_types_lead: data.visa_types_lead,
-    visa_types_description: data.visa_types_description,
-    visa_types_hero_description: data.visa_types_hero_description,
   }
 
   const { error } = await writer(supabase, 'countries').update(payload).eq('id', id)
@@ -305,11 +305,9 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
   await upsertChildren(supabase, id, data)
   revalidateAll()
   revalidatePath(countryHref(data.slug))
-  revalidatePath(`/vize-turleri/${data.slug}`)
   revalidatePath(`/blog/${data.slug}`)
   if (previousSlug && previousSlug !== data.slug) {
     revalidatePath(countryHref(previousSlug))
-    revalidatePath(`/vize-turleri/${previousSlug}`)
     revalidatePath(`/blog/${previousSlug}`)
   }
   return {}

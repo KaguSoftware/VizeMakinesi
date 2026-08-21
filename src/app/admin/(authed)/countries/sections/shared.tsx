@@ -7,6 +7,12 @@ export interface TextItem extends RepeatableItem { text: string }
 export interface FaqItem extends RepeatableItem { question: string; answer: string }
 export interface DocumentItem extends RepeatableItem { label: string; pdf_url: string }
 export interface ProcessStepItem extends RepeatableItem { title: string; description: string }
+export interface VisaTypeItem extends RepeatableItem {
+  title: string
+  description: string
+  /** /vize-turleri kataloğu eşlemesi — ikon, "Tip C" rozeti ve link kaynağı. */
+  visa_type_slug: string | null
+}
 
 export function mkText(text = ''): TextItem {
   return { id: crypto.randomUUID(), text }
@@ -22,6 +28,10 @@ export function mkDoc(label = '', pdf_url = ''): DocumentItem {
 
 export function mkProcessStep(title = '', description = ''): ProcessStepItem {
   return { id: crypto.randomUUID(), title, description }
+}
+
+export function mkVisaType(title = '', description = '', visa_type_slug: string | null = null): VisaTypeItem {
+  return { id: crypto.randomUUID(), title, description, visa_type_slug }
 }
 
 export function slugify(s: string) {

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { VisaTypeCta } from '@/components/vizeTurleri/VisaTypeArticle';
+import VisaTypeCard from '@/components/vizeTurleri/VisaTypeCard';
 import {
     SHORT_STAY_TYPES,
     LONG_STAY_TYPES,
@@ -22,36 +22,15 @@ function VisaTypeGroup({ types }: { types: (VisaTypeContent & { duration: string
             {/* Visa type cards, two per row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {types.map((type) => (
-                    <Link
+                    <VisaTypeCard
                         key={type.slug}
                         href={`/vize-turleri/${type.slug}`}
-                        className="group flex items-center gap-4 px-5 py-4 rounded-2xl border border-navy/10 bg-white hover:border-coral/30 hover:bg-coral/5 transition-colors duration-200"
-                    >
-                        <div className="shrink-0 w-9 h-9 rounded-lg bg-coral/10 flex items-center justify-center text-base">
-                            {type.icon}
-                        </div>
-
-                        <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                                <p className="font-sans font-semibold text-[15px] text-navy group-hover:text-coral transition-colors">
-                                    {type.title}
-                                </p>
-                                <span className="shrink-0 font-mono text-[9px] tracking-widest uppercase text-coral border border-coral/30 bg-coral/8 rounded px-1.5 py-0.5">
-                                    {type.tag}
-                                </span>
-                                <span className="shrink-0 font-mono text-[9px] tracking-widest uppercase text-navy/60 border border-navy/20 bg-navy/5 rounded px-1.5 py-0.5">
-                                    {type.duration}
-                                </span>
-                            </div>
-                            <p className="font-sans text-[13px] text-navy/55 leading-snug mt-1">
-                                {type.cardDesc}
-                            </p>
-                        </div>
-
-                        <span className="shrink-0 text-coral text-[13px] transition-transform duration-200 group-hover:translate-x-1">
-                            →
-                        </span>
-                    </Link>
+                        icon={type.icon}
+                        title={type.title}
+                        tag={type.tag}
+                        duration={type.duration}
+                        description={type.cardDesc}
+                    />
                 ))}
             </div>
         </div>

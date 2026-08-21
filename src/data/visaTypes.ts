@@ -533,6 +533,14 @@ export function getVisaTypeOrThrow(slug: string): VisaTypeContent {
 export const SHORT_STAY_TYPES = VISA_TYPES.filter((t) => t.category === 'kisa');
 export const LONG_STAY_TYPES = VISA_TYPES.filter((t) => t.category === 'uzun');
 
+/**
+ * Ülke sayfasındaki vize türü kartlarında yalnızca kısa süreli (Tip C) türler
+ * gösterilir; uzun süreli (Tip D) vizeler /vize-turleri alt sayfalarında anlatılır.
+ */
+export function isShortStayType(slug: string | null | undefined): boolean {
+  return !!slug && SHORT_STAY_TYPES.some((t) => t.slug === slug);
+}
+
 /** Landing-page hero bullet list. */
 export const VIZE_TURLERI_HIGHLIGHTS = [
   'Doğru vize türünün belirlenmesi',

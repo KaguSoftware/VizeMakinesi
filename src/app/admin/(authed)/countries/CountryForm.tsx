@@ -7,6 +7,7 @@ import { useDirtyFromSnapshot, useDirtyGuard, useUnsavedChanges } from '@/lib/ho
 import {
   AdminButton,
   AdminInput,
+  AdminSelect,
   AdminTextarea,
   PdfUploader,
   RepeatableList,
@@ -32,18 +33,21 @@ import {
   mkFaq,
   mkProcessStep,
   mkText,
+  mkVisaType,
   slugify,
   type DocumentItem,
   type FaqItem,
   type ProcessStepItem,
   type TextItem,
+  type VisaTypeItem,
 } from './sections/shared'
 import TemelSection from './sections/TemelSection'
 import FlagSection from './sections/FlagSection'
 import MosaicSection from './sections/MosaicSection'
+import { SHORT_STAY_TYPES } from '@/data/visaTypes'
 
 /** Schengen kaydında gizlenen bölümler — içerikleri /admin/schengen'den yönetilir. */
-const SCHENGEN_HIDDEN_SECTIONS: string[] = ['genel-bilgi', 'basvuru-sureci', 'pdf-belgeler', 'sss']
+const SCHENGEN_HIDDEN_SECTIONS: string[] = ['genel-bilgi', 'vize-turleri', 'basvuru-sureci', 'pdf-belgeler', 'sss']
 
 interface CountryFormProps {
   country?: CountryWithRelations
@@ -105,14 +109,8 @@ export default function CountryForm({ country }: CountryFormProps) {
   // — 05a Vize türleri ("Hangi Vize Türüne Başvurmalısınız?" bölümü)
   const [visaTypesTitle, setVisaTypesTitle] = useState(country?.visa_types_title ?? '')
   const [visaTypesLead, setVisaTypesLead] = useState(country?.visa_types_lead ?? '')
-  const [visaTypesDescription, setVisaTypesDescription] = useState(
-    country?.visa_types_description ?? ''
-  )
-  const [visaTypesHeroDescription, setVisaTypesHeroDescription] = useState(
-    country?.visa_types_hero_description ?? ''
-  )
-  const [visaTypes, setVisaTypes] = useState<ProcessStepItem[]>(
-    country?.visa_types.map((v) => mkProcessStep(v.title, v.description)) ?? []
+  const [visaTypes, setVisaTypes] = useState<VisaTypeItem[]>(
+    country?.visa_types.map((v) => mkVisaType(v.title, v.description, v.visa_type_slug)) ?? []
   )
 
   // — 05b Başvuru süreci adımları (numaralı adımlar, /vize/[slug])
@@ -151,8 +149,8 @@ export default function CountryForm({ country }: CountryFormProps) {
     mosaicVisible, mosaicSpan, danismaVisible,
     generalInfoTitle, generalInfoDescription,
     generalInfo: generalInfo.map((t) => ({ title: t.title, description: t.description })),
-    visaTypesTitle, visaTypesLead, visaTypesDescription, visaTypesHeroDescription,
-    visaTypes: visaTypes.map((v) => ({ title: v.title, description: v.description })),
+    visaTypesTitle, visaTypesLead,
+    visaTypes: visaTypes.map((v) => ({ title: v.title, description: v.description, slug: v.visa_type_slug })),
     processSteps: processSteps.map((s) => ({ title: s.title, description: s.description })),
     requirements: requirements.map((r) => r.text),
     faqs: faqs.map((f) => ({ q: f.question, a: f.answer })),
@@ -229,9 +227,11 @@ export default function CountryForm({ country }: CountryFormProps) {
       process_steps: processSteps.map((s) => ({ title: s.title, description: s.description })),
       visa_types_title: visaTypesTitle || null,
       visa_types_lead: visaTypesLead || null,
-      visa_types_description: visaTypesDescription || null,
-      visa_types_hero_description: visaTypesHeroDescription || null,
-      visa_types: visaTypes.map((v) => ({ title: v.title, description: v.description })),
+      visa_types: visaTypes.map((v) => ({
+        title: v.title,
+        description: v.description,
+        visa_type_slug: v.visa_type_slug,
+      })),
     }
 
     const errs = validateCountry(data)
@@ -314,9 +314,8 @@ export default function CountryForm({ country }: CountryFormProps) {
               <Link href="/admin/schengen" className="text-coral underline hover:text-navy transition-colors">
                 Schengen Sayfası
               </Link>{' '}
-              ekranından yönetilir. Bu nedenle Başvuru Öncesi, Başvuru Süreci, PDF Belgeler ve SSS
-              alanları burada gösterilmez. Vize Türleri alanı ise{' '}
-              <strong>/vize-turleri/schengen</strong> sayfasında kullanılmaya devam eder.
+              ekranından yönetilir. Bu nedenle Başvuru Öncesi, Vize Türleri, Başvuru Süreci, PDF
+              Belgeler ve SSS alanları burada gösterilmez.
             </p>
           </div>
         )}
@@ -414,15 +413,20 @@ export default function CountryForm({ country }: CountryFormProps) {
 
         </>)}
 
+        {!isSchengen && (<>
         <Divider id="vize-turleri" label="Hangi Vize Türüne Başvurmalısınız?" />
         <p className="-mt-2 mb-4 font-mono text-[11px] text-navy/55">
-          Ülke sayfasındaki açılır-kapanır vize türü listesi. Vize türü adı kalın başlık olarak
-          görünür, tıklandığında açıklaması açılır. Hiç vize türü eklenmezse bölüm gösterilmez.
-          Başlık ve giriş cümlesi boş bırakılırsa varsayılan metinler kullanılır. Giriş
-          cümlesinin sonundaki “Vize türlerini detaylı inceleyin →” bağlantısı sabittir ve
-          ülkenin vize türleri sayfasına gider. Bölüm açıklaması ile vize türü adları ve
-          açıklamaları yalnızca o sayfada görünür; hero açıklaması ise o sayfanın üst
-          bölümünde yer alır.
+          Ülke sayfasındaki vize türü kartları. Her vize türü ayrı bir kart olarak iki sütunlu
+          bir ızgarada listelenir. Katalog seçimi karta ikonu, “Tip C” rozetini ve ilgili vize
+          türü sayfasına bağlantıyı ekler; boş bırakılırsa kart yalnızca ad ve açıklamayla
+          gösterilir. Yalnızca kısa süreli (Tip C) vizeler burada listelenir — D Tipi (uzun
+          süreli) vizeler{' '}
+          <Link href="/admin/vize-turleri" className="text-coral underline hover:text-navy transition-colors">
+            Vize Türleri
+          </Link>{' '}
+          ekranından yönetilir. Hiç vize türü eklenmezse bölüm gösterilmez. Başlık boş
+          bırakılırsa varsayılan metin kullanılır; giriş cümlesi boş bırakılırsa hiç
+          gösterilmez.
         </p>
         <div className="flex flex-col gap-3 mb-6">
           <AdminInput
@@ -436,27 +440,13 @@ export default function CountryForm({ country }: CountryFormProps) {
             value={visaTypesLead}
             onChange={(e) => setVisaTypesLead(e.target.value)}
             rows={2}
-            placeholder="Doğru vize türüne başvurmak, başvuru sürecinin en önemli adımlarından biridir."
-          />
-          <AdminTextarea
-            label="Bölüm Açıklaması"
-            value={visaTypesDescription}
-            onChange={(e) => setVisaTypesDescription(e.target.value)}
-            rows={3}
             placeholder="Örn: Almanya'ya yapacağınız seyahatin amacı, başvurmanız gereken vize türünü belirler."
           />
-          <AdminTextarea
-            label="Vize Türleri Sayfası Hero Açıklaması"
-            value={visaTypesHeroDescription}
-            onChange={(e) => setVisaTypesHeroDescription(e.target.value)}
-            rows={3}
-            placeholder="Örn: Almanya, kısa süreli Schengen vizelerinin yanı sıra eğitim ve çalışma için Ulusal (D Tipi) vize seçenekleri de sunar."
-          />
         </div>
-        <RepeatableList<ProcessStepItem>
+        <RepeatableList<VisaTypeItem>
           items={visaTypes}
           onChange={setVisaTypes}
-          onAdd={() => setVisaTypes((prev) => [...prev, mkProcessStep()])}
+          onAdd={() => setVisaTypes((prev) => [...prev, mkVisaType()])}
           addLabel="Yeni Vize Türü Ekle"
           emptyText="Henüz vize türü eklenmedi — bölüm gösterilmeyecek"
           renderItem={(item) => (
@@ -469,6 +459,20 @@ export default function CountryForm({ country }: CountryFormProps) {
                 )}
                 placeholder="Örn: Almanya Turistik Vizesi"
               />
+              <AdminSelect
+                label="Vize Türü (katalog)"
+                value={item.visa_type_slug ?? ''}
+                onChange={(e) => setVisaTypes((prev) =>
+                  prev.map((v) => v.id === item.id ? { ...v, visa_type_slug: e.target.value || null } : v)
+                )}
+              >
+                <option value="">— Katalog bağlantısı yok</option>
+                {SHORT_STAY_TYPES.map((t) => (
+                  <option key={t.slug} value={t.slug}>
+                    {t.icon} {t.title}
+                  </option>
+                ))}
+              </AdminSelect>
               <AdminTextarea
                 label="Açıklama"
                 value={item.description}
@@ -481,6 +485,7 @@ export default function CountryForm({ country }: CountryFormProps) {
             </div>
           )}
         />
+        </>)}
 
         {!isSchengen && (<>
         {/* "{Ülke} Vize İşlemleri nasıl yapılır?" bölümünün sağındaki

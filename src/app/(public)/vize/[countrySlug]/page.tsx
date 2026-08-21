@@ -124,8 +124,7 @@ export default async function CountryPage({ params }: Props) {
 
       {/* 01b — Vize Türleri */}
       <VizeTurleri
-        countrySlug={countrySlug}
-        hasItems={country.visa_types.length > 0}
+        items={country.visa_types}
         title={country.visa_types_title}
         lead={country.visa_types_lead}
       />

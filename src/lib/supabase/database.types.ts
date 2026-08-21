@@ -38,8 +38,6 @@ export interface Database {
           general_info_description: string | null
           visa_types_title: string | null
           visa_types_lead: string | null
-          visa_types_description: string | null
-          visa_types_hero_description: string | null
           created_at: string
           updated_at: string
         }
@@ -71,8 +69,6 @@ export interface Database {
           general_info_description?: string | null
           visa_types_title?: string | null
           visa_types_lead?: string | null
-          visa_types_description?: string | null
-          visa_types_hero_description?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -104,8 +100,6 @@ export interface Database {
           general_info_description?: string | null
           visa_types_title?: string | null
           visa_types_lead?: string | null
-          visa_types_description?: string | null
-          visa_types_hero_description?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -226,6 +220,7 @@ export interface Database {
           title: string
           description: string
           sort_order: number
+          visa_type_slug: string | null
         }
         Insert: {
           id?: string
@@ -233,6 +228,7 @@ export interface Database {
           title: string
           description: string
           sort_order?: number
+          visa_type_slug?: string | null
         }
         Update: {
           id?: string
@@ -240,6 +236,7 @@ export interface Database {
           title?: string
           description?: string
           sort_order?: number
+          visa_type_slug?: string | null
         }
       }
       mega_menu_categories: {

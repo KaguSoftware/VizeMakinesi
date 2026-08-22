@@ -16,7 +16,7 @@ export const revalidate = 60;
 /**
  * Schengen Bölgesi sayfası. Bölüm sırası rehber dokümanını izler:
  * hero → "Tek vize, 29 ülke" → ülkeler → temel kurallar → vize türleri →
- * başvuru adımları → SSS.
+ * başvuru süreci → SSS.
  *
  * Hero'nun ülke bilgileri (ad, bayrak, özet) `countries` tablosundaki
  * 'schengen' satırından; diğer tüm metinler `schengen_page` tablosundan
@@ -76,8 +76,8 @@ export default async function SchengenPage() {
 
       <SchengenProcess
         title={content.process_title}
+        lead={content.process_lead}
         description={content.process_description}
-        steps={content.process_steps}
       />
 
       {content.faqs.length > 0 && (

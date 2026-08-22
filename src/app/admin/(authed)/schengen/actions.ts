@@ -82,12 +82,8 @@ export async function updateSchengenPage(
       visa_types_d: listItems('D Tipi vize', input.visa_types_d),
 
       process_title: reqString('Başvuru bölümü başlığı', input.process_title, { max: 200 }),
-      process_description: optString('Başvuru bölümü açıklaması', input.process_description, { max: 2000 }) ?? '',
-      process_steps: reqArrayOfStrings('Başvuru adımları', input.process_steps, {
-        minItems: 1,
-        maxItems: 15,
-        maxLen: 300,
-      }),
+      process_lead: optString('Başvuru bölümü giriş cümlesi', input.process_lead, { max: 500 }) ?? '',
+      process_description: optString('Başvuru bölümü paragrafı', input.process_description, { max: 4000 }) ?? '',
 
       faq_title: reqString('SSS başlığı', input.faq_title, { max: 200 }),
       faqs: faqItems('SSS', input.faqs),

@@ -30,7 +30,7 @@ const SECTIONS = [
   { id: 'giris', label: 'Giriş' },
   { id: 'kurallar', label: 'Temel Kurallar' },
   { id: 'vize-turleri', label: 'Vize Türleri' },
-  { id: 'basvuru', label: 'Başvuru Adımları' },
+  { id: 'basvuru', label: 'Başvuru Süreci' },
   { id: 'sss', label: 'SSS' },
 ] as const
 
@@ -189,12 +189,10 @@ export default function SchengenForm({ initial }: { initial: SchengenPageContent
   const [dDescription, setDDescription] = useState(initial.visa_types_d_description)
   const [dItems, setDItems] = useState<PairItem[]>(initial.visa_types_d.map((v) => mkPair(v.title, v.description)))
 
-  // — Başvuru adımları
+  // — Başvuru süreci
   const [processTitle, setProcessTitle] = useState(initial.process_title)
+  const [processLead, setProcessLead] = useState(initial.process_lead)
   const [processDescription, setProcessDescription] = useState(initial.process_description)
-  const [processSteps, setProcessSteps] = useState<TextItem[]>(
-    initial.process_steps.map((t) => mkText(t))
-  )
 
   // — SSS
   const [faqTitle, setFaqTitle] = useState(initial.faq_title)
@@ -210,8 +208,7 @@ export default function SchengenForm({ initial }: { initial: SchengenPageContent
       visaTypesTitle, visaTypesDescription,
       cTitle, cItems: cItems.map((r) => ({ t: r.title, d: r.description })),
       dTitle, dDescription, dItems: dItems.map((r) => ({ t: r.title, d: r.description })),
-      processTitle, processDescription,
-      processSteps: processSteps.map((s) => s.text),
+      processTitle, processLead, processDescription,
       faqTitle, faqs: faqs.map((f) => ({ q: f.question, a: f.answer })),
     },
     savedAt
@@ -241,8 +238,8 @@ export default function SchengenForm({ initial }: { initial: SchengenPageContent
         visa_types_d: dItems.map((r) => ({ title: r.title, description: r.description })),
 
         process_title: processTitle,
+        process_lead: processLead,
         process_description: processDescription,
-        process_steps: processSteps.map((s) => s.text).filter(Boolean),
 
         faq_title: faqTitle,
         faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
@@ -371,22 +368,28 @@ export default function SchengenForm({ initial }: { initial: SchengenPageContent
 
       <SectionCard id="basvuru" eyebrow="Schengen Vize Başvurusu Nasıl Yapılır?">
         <AdminInput
-          label="Başlık"
+          label="Başlık (1. satır)"
           value={processTitle}
+          placeholder="Schengen Vize İşlemleri"
           onChange={(e) => setProcessTitle(e.target.value)}
         />
         <AdminTextarea
-          label="Açıklama"
-          rows={4}
-          value={processDescription}
-          onChange={(e) => setProcessDescription(e.target.value)}
+          label="Sol sütun giriş cümlesi (italik)"
+          rows={2}
+          value={processLead}
+          onChange={(e) => setProcessLead(e.target.value)}
         />
-        <TextList
-          label="Adımlar"
-          items={processSteps}
-          onChange={setProcessSteps}
-          addLabel="Adım Ekle"
-          placeholder="Vize türünü belirleyin"
+        <p className="-mt-2 font-mono text-[11px] text-navy/55">
+          Bölüm, ülke sayfalarındaki “Vize İşlemleri nasıl yapılır?” düzenini kullanır: solda iki
+          satırlık başlık (2. satır “nasıl yapılır?” sabittir) ve italik giriş cümlesi, sağda paragraf. Boş satır bırakarak birden fazla paragraf
+          yazabilirsiniz; metnin altına “Süreci Detaylı İnceleyin” bağlantısı otomatik eklenir.
+        </p>
+        <AdminTextarea
+          label="Süreç Metni (sağ sütun)"
+          rows={8}
+          value={processDescription}
+          placeholder="Schengen vize başvurusu; seyahat amacının ve vize türünün belirlenmesi…"
+          onChange={(e) => setProcessDescription(e.target.value)}
         />
       </SectionCard>
 

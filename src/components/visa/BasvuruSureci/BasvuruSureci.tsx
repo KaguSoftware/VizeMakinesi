@@ -52,7 +52,7 @@ export default function BasvuruSureci({ countryName, text }: Props) {
           </div>
 
           <Link
-            href="/#nasil-calisiyoruz"
+            href="/nasil-calisiriz"
             className="mt-8 inline-flex items-center gap-2 font-sans font-medium text-[13px] uppercase tracking-[0.15em] text-navy hover:text-coral transition-colors duration-200"
           >
             Süreci Detaylı İnceleyin →

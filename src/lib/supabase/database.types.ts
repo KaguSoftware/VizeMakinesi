@@ -508,8 +508,8 @@ export interface Database {
           visa_types_d_description: string
           visa_types_d: Json
           process_title: string
+          process_lead: string
           process_description: string
-          process_steps: string[]
           faq_title: string
           faqs: Json
           updated_at: string
@@ -531,8 +531,8 @@ export interface Database {
           visa_types_d_description?: string
           visa_types_d?: Json
           process_title?: string
+          process_lead?: string
           process_description?: string
-          process_steps?: string[]
           faq_title?: string
           faqs?: Json
           updated_at?: string
@@ -554,8 +554,8 @@ export interface Database {
           visa_types_d_description?: string
           visa_types_d?: Json
           process_title?: string
+          process_lead?: string
           process_description?: string
-          process_steps?: string[]
           faq_title?: string
           faqs?: Json
           updated_at?: string

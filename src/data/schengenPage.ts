@@ -38,8 +38,10 @@ export interface SchengenPageContent {
   visa_types_d: SchengenListItem[];
 
   process_title: string;
+  /** Sol sütundaki italik giriş cümlesi. */
+  process_lead: string;
+  /** Sağ sütundaki paragraf(lar); boş satırla ayrılır. */
   process_description: string;
-  process_steps: string[];
 
   faq_title: string;
   faqs: SchengenFaqItem[];
@@ -139,17 +141,11 @@ export const SCHENGEN_PAGE_DEFAULTS: SchengenPageContent = {
     },
   ],
 
-  process_title: 'Schengen Vize Başvurusu Nasıl Yapılır?',
+  process_title: 'Schengen Vize İşlemleri',
+  process_lead:
+    'İlk görüşmeden pasaport teslimine kadar her adımı biz yönetiyoruz. Hiçbir ayrıntı gözden kaçmaz.',
   process_description:
     'Schengen vize başvurusu; seyahat amacının ve vize türünün belirlenmesi, doğru başvuru ülkesinin seçilmesi, gerekli belgelerin hazırlanması, randevu ve biyometri işlemlerinin tamamlanması ve başvurunun değerlendirilmesi aşamalarından oluşur. Başvuru şartları ve prosedürler, başvuracağınız ülkeye göre değişebilir.',
-  process_steps: [
-    'Vize türünü belirleyin',
-    'Başvuru ülkesini seçin',
-    'Belgeleri hazırlayın',
-    'Randevu ve biyometri işlemlerini tamamlayın',
-    'Başvurunuzu teslim edin',
-    'Sonucu bekleyin',
-  ],
 
   faq_title: 'Schengen Vizesi Hakkında Sıkça Sorulan Sorular',
   faqs: [

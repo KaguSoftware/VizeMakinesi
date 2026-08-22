@@ -53,7 +53,10 @@ No test framework is configured.
 ### Schengen page
 
 - `/schengen` renders the sections of the Schengen guide document: hero → "Tek vize, 29 ülke" →
-  country grid → Temel Kurallar → C/D Tipi vize türleri → başvuru adımları → SSS.
+  country grid → Temel Kurallar → C/D Tipi vize türleri → başvuru süreci → SSS.
+- The "Schengen Vize Başvurusu Nasıl Yapılır?" section uses the same layout as the country pages'
+  `BasvuruSureci`: heading + italic lead on the left, `process_description` paragraph(s) on the right
+  with a link to `/#nasil-calisiyoruz`. The old numbered `process_steps` column is unused (kept in the DB).
 - Hero identity (name, flag, summary) comes from the `countries` row with slug `schengen`; every other
   text comes from the singleton `schengen_page` table (`src/lib/data/schengenPage.ts`) and is edited at
   `/admin/schengen`. `src/data/schengenPage.ts` holds the same copy as a fallback used when the table or

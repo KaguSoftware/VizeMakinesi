@@ -1,86 +1,65 @@
-'use client';
-
-import { motion, useReducedMotion } from 'framer-motion';
+import Link from 'next/link';
 import { FadeIn } from '@/components/shared/motion';
-import { EASE_OUT_EXPO, VIEWPORT } from '@/components/shared/motion/constants';
-import { splitHeading } from '@/lib/text/heading';
 
 interface Props {
+  /** Başlığın ilk satırı — koyu (navy). İkinci satır ("nasıl yapılır?") sabittir. */
   title: string;
+  /** Sol sütundaki italik giriş cümlesi. */
+  lead?: string;
+  /** Sağ sütundaki paragraf(lar); admin panelinde boş satırla ayrılır. */
   description?: string;
-  steps: string[];
 }
 
-const STEP_GAP = 0.12;
-
 /**
- * "Schengen Vize Başvurusu Nasıl Yapılır?" — adımlar sırayla soldan kayarak
- * girer; solundaki coral ray yukarıdan aşağıya çizilerek akışı gösterir.
- * (Rehberdeki ok akışının hareketli karşılığı — ayrıca ok işareti kullanılmaz.)
+ * "Schengen Vize İşlemleri nasıl yapılır?" — ülke sayfalarındaki
+ * `BasvuruSureci` ile birebir aynı düzen: solda iki satırlık başlık ve italik
+ * giriş cümlesi, sağda admin panelinden yönetilen paragraf ve altında süreç
+ * sayfasına giden bağlantı.
  */
-export default function SchengenProcess({ title, description, steps }: Props) {
-  const reduced = useReducedMotion();
-
-  if (steps.length === 0) return null;
-
-  const [head, tail] = splitHeading(title);
+export default function SchengenProcess({ title, lead, description }: Props) {
+  const body = description?.trim();
 
   return (
     <section className="container border-b border-border">
       <div className="pt-16 pb-20 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
         <FadeIn as="div">
-          <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy">
-            {head}
-            {tail && (
-              <>
-                {' '}
-                <em className="font-normal italic text-coral">{tail}</em>
-              </>
-            )}
+          <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy mb-6">
+            {title}
+            <br />
+            <em className="font-normal italic text-coral">nasıl yapılır?</em>
           </h2>
-          {description && (
-            <p className="mt-5 font-serif text-[17px] leading-relaxed text-navy/70">
-              {description}
+          {lead?.trim() && (
+            <p className="font-serif italic text-[18px] text-navy/70 leading-relaxed max-w-sm">
+              {lead}
             </p>
           )}
         </FadeIn>
 
-        <div className="relative">
-          {/* Adımları birbirine bağlayan ray — adımlarla birlikte çizilir. */}
-          <motion.span
-            aria-hidden
-            className="absolute left-[13px] top-2 bottom-2 w-px bg-coral/30 origin-top"
-            initial={reduced ? undefined : { scaleY: 0 }}
-            whileInView={reduced ? undefined : {
-              scaleY: 1,
-              transition: { duration: steps.length * STEP_GAP + 0.5, ease: 'linear' },
-            }}
-            viewport={reduced ? undefined : VIEWPORT}
-          />
+        <FadeIn as="div" delay={0.1}>
+          {body && (
+            <div className="flex flex-col gap-5">
+              {body
+                .split(/\n\s*\n/)
+                .map((p) => p.trim())
+                .filter(Boolean)
+                .map((paragraph, i) => (
+                  <p
+                    key={i}
+                    className="font-serif text-[17px] leading-relaxed text-navy/80 whitespace-pre-line"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+            </div>
+          )}
 
-          <ol className="relative flex flex-col">
-            {steps.map((step, i) => (
-              <motion.li
-                key={`${step}-${i}`}
-                className="flex items-center gap-5 py-4"
-                initial={reduced ? undefined : { opacity: 0, x: -28 }}
-                whileInView={reduced ? undefined : {
-                  opacity: 1,
-                  x: 0,
-                  transition: { duration: 0.5, ease: EASE_OUT_EXPO, delay: i * STEP_GAP },
-                }}
-                viewport={reduced ? undefined : VIEWPORT}
-              >
-                <span className="shrink-0 grid place-items-center w-7 h-7 rounded-full border border-coral bg-cream font-mono text-[11px] font-bold tracking-[0.05em] text-coral">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <span className="font-sans font-medium text-[15px] leading-snug text-navy">
-                  {step}
-                </span>
-              </motion.li>
-            ))}
-          </ol>
-        </div>
+          <Link
+            href="/nasil-calisiriz"
+            className="mt-8 inline-flex items-center gap-2 font-sans font-medium text-[13px] uppercase tracking-[0.15em] text-navy hover:text-coral transition-colors duration-200"
+          >
+            Süreci Detaylı İnceleyin →
+          </Link>
+        </FadeIn>
       </div>
     </section>
   );

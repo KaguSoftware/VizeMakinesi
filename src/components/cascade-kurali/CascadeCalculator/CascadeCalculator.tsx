@@ -64,7 +64,7 @@ export default function CascadeCalculator({ compact, embedded }: { compact?: boo
   return (
     <section
       id="cascade-hesaplayici"
-      className={embedded ? 'h-full' : `${compact ? 'py-8' : 'py-12'} bg-cream border-t border-border`}
+      className={embedded ? 'w-full' : `${compact ? 'py-8' : 'py-12'} bg-cream border-t border-border`}
     >
       <div className={embedded ? '' : 'container'}>
         {!embedded && (
@@ -335,9 +335,6 @@ export default function CascadeCalculator({ compact, embedded }: { compact?: boo
                   <label className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral block">
                     Önceki Vizenizin Geçerlilik Tarihleri
                   </label>
-                  <p className="font-serif text-[12px] text-coral/70 leading-snug">
-                    Son Schengen vizenizin etiketinde yazan tarihleri GG.AA.YYYY olarak girin.
-                  </p>
                 </div>
               )}
 

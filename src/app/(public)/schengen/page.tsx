@@ -76,7 +76,6 @@ export default async function SchengenPage() {
 
       <SchengenProcess
         title={content.process_title}
-        lead={content.process_lead}
         description={content.process_description}
       />
 

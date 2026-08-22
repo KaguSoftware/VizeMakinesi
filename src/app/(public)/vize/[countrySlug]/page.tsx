@@ -130,7 +130,11 @@ export default async function CountryPage({ params }: Props) {
       />
 
       {/* 02 — Nasıl Yapılır */}
-      <BasvuruSureci countryName={country.name} text={country.process_text} />
+      <BasvuruSureci
+        countryName={country.name}
+        title={country.process_title}
+        text={country.process_text}
+      />
 
       {/* 03 — Gerekli Belgeler */}
       <GerekliEvraklar

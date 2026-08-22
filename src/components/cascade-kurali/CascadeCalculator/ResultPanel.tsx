@@ -77,9 +77,9 @@ export default function ResultPanel({ result, visible, compact }: Props) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className={`border border-navy/10 flex items-center justify-center bg-white ${compact ? 'px-3 py-2' : 'p-6 min-h-32'}`}
+          className={`border border-navy/10 flex items-center justify-center bg-white ${compact ? 'px-3 py-3' : 'p-6 min-h-32'}`}
         >
-          <p className={`font-serif text-coral/50 text-center ${compact ? 'text-[12px] leading-snug' : 'text-[14px]'}`}>
+          <p className={`font-serif text-coral/70 text-center ${compact ? 'text-[14px] leading-snug' : 'text-[14px]'}`}>
             {compact
               ? "Alanları doldurun, sonuç burada görünsün."
               : "Tüm alanları doldurun ve tarih aralığı seçerek hesaplama yapın."}

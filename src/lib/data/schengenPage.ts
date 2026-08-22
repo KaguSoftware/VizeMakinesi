@@ -61,7 +61,6 @@ function fromRow(row: SchengenPageRow): SchengenPageContent {
     visa_types_d: pick(toListItems(row.visa_types_d), d.visa_types_d),
 
     process_title: pick(row.process_title, d.process_title),
-    process_lead: pick(row.process_lead, d.process_lead),
     process_description: pick(row.process_description, d.process_description),
 
     faq_title: pick(row.faq_title, d.faq_title),

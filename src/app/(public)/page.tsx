@@ -18,7 +18,7 @@ export default async function HomePage() {
         <>
             {/* Üst bölüm: solda hero + popüler vizeler, sağda cascade hesaplayıcı */}
             <section className="container border-b border-border pt-10 pb-14">
-                <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-10 lg:gap-14 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-10 lg:gap-14 items-start lg:items-stretch">
                     {/* Sol sütun */}
                     <div className="flex flex-col">
                         <Hero compact hideCta />
@@ -55,7 +55,7 @@ export default async function HomePage() {
                     </div>
 
                     {/* Sağ sütun: hesaplayıcı paneli */}
-                    <aside className="bg-cream border border-border rounded-2xl p-6">
+                    <aside className="bg-cream border border-border rounded-2xl p-6 lg:p-4 lg:[zoom:0.9] flex flex-col justify-center">
                         <CascadeCalculator embedded />
                     </aside>
                 </div>

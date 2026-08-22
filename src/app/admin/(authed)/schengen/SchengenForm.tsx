@@ -191,7 +191,6 @@ export default function SchengenForm({ initial }: { initial: SchengenPageContent
 
   // — Başvuru süreci
   const [processTitle, setProcessTitle] = useState(initial.process_title)
-  const [processLead, setProcessLead] = useState(initial.process_lead)
   const [processDescription, setProcessDescription] = useState(initial.process_description)
 
   // — SSS
@@ -208,7 +207,7 @@ export default function SchengenForm({ initial }: { initial: SchengenPageContent
       visaTypesTitle, visaTypesDescription,
       cTitle, cItems: cItems.map((r) => ({ t: r.title, d: r.description })),
       dTitle, dDescription, dItems: dItems.map((r) => ({ t: r.title, d: r.description })),
-      processTitle, processLead, processDescription,
+      processTitle, processDescription,
       faqTitle, faqs: faqs.map((f) => ({ q: f.question, a: f.answer })),
     },
     savedAt
@@ -238,7 +237,6 @@ export default function SchengenForm({ initial }: { initial: SchengenPageContent
         visa_types_d: dItems.map((r) => ({ title: r.title, description: r.description })),
 
         process_title: processTitle,
-        process_lead: processLead,
         process_description: processDescription,
 
         faq_title: faqTitle,
@@ -368,24 +366,19 @@ export default function SchengenForm({ initial }: { initial: SchengenPageContent
 
       <SectionCard id="basvuru" eyebrow="Schengen Vize Başvurusu Nasıl Yapılır?">
         <AdminInput
-          label="Başlık (1. satır)"
+          label="Bölüm Başlığı"
           value={processTitle}
-          placeholder="Schengen Vize İşlemleri"
+          placeholder="Schengen Vize İşlemleri Nasıl Yapılır?"
           onChange={(e) => setProcessTitle(e.target.value)}
         />
-        <AdminTextarea
-          label="Sol sütun giriş cümlesi (italik)"
-          rows={2}
-          value={processLead}
-          onChange={(e) => setProcessLead(e.target.value)}
-        />
         <p className="-mt-2 font-mono text-[11px] text-navy/55">
-          Bölüm, ülke sayfalarındaki “Vize İşlemleri nasıl yapılır?” düzenini kullanır: solda iki
-          satırlık başlık (2. satır “nasıl yapılır?” sabittir) ve italik giriş cümlesi, sağda paragraf. Boş satır bırakarak birden fazla paragraf
-          yazabilirsiniz; metnin altına “Süreci Detaylı İnceleyin” bağlantısı otomatik eklenir.
+          Bölüm, ülke sayfalarındaki başvuru süreci düzenini kullanır: solda bölüm başlığı
+          (son iki kelimesi sitede italik/coral görünür), sağda bölüm açıklaması. Boş satır
+          bırakarak birden fazla paragraf yazabilirsiniz; metnin altına “Süreci Detaylı İnceleyin”
+          bağlantısı otomatik eklenir.
         </p>
         <AdminTextarea
-          label="Süreç Metni (sağ sütun)"
+          label="Bölüm Açıklaması"
           rows={8}
           value={processDescription}
           placeholder="Schengen vize başvurusu; seyahat amacının ve vize türünün belirlenmesi…"

@@ -39,6 +39,7 @@ export interface Database {
           visa_types_title: string | null
           visa_types_lead: string | null
           process_text: string | null
+          process_title: string | null
           created_at: string
           updated_at: string
         }
@@ -71,6 +72,7 @@ export interface Database {
           visa_types_title?: string | null
           visa_types_lead?: string | null
           process_text?: string | null
+          process_title?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -103,6 +105,7 @@ export interface Database {
           visa_types_title?: string | null
           visa_types_lead?: string | null
           process_text?: string | null
+          process_title?: string | null
           created_at?: string
           updated_at?: string
         }

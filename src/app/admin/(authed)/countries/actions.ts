@@ -41,6 +41,7 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
   const general_info_description = optString('general_info_description', data.general_info_description, { max: 1000 })
   const visa_types_title = optString('visa_types_title', data.visa_types_title, { max: 160 })
   const visa_types_lead = optString('visa_types_lead', data.visa_types_lead, { max: 600 })
+  const process_title = optString('process_title', data.process_title, { max: 160 })
   const process_text = optString('process_text', data.process_text, { max: 4000 })
 
 
@@ -90,6 +91,7 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     general_info_description,
     visa_types_title,
     visa_types_lead,
+    process_title,
     process_text,
     requirements,
     handles,
@@ -219,6 +221,7 @@ export async function createCountry(rawData: CountryFormData): Promise<{ id: str
     general_info_description: data.general_info_description,
     visa_types_title: data.visa_types_title,
     visa_types_lead: data.visa_types_lead,
+    process_title: data.process_title,
     process_text: data.process_text,
   }
 
@@ -283,6 +286,7 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
     general_info_description: data.general_info_description,
     visa_types_title: data.visa_types_title,
     visa_types_lead: data.visa_types_lead,
+    process_title: data.process_title,
     process_text: data.process_text,
   }
 

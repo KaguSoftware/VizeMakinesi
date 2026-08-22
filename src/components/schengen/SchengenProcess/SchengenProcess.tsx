@@ -2,37 +2,41 @@ import Link from 'next/link';
 import { FadeIn } from '@/components/shared/motion';
 
 interface Props {
-  /** Başlığın ilk satırı — koyu (navy). İkinci satır ("nasıl yapılır?") sabittir. */
+  /** Bölüm başlığı; son iki kelimesi coral italik gösterilir. */
   title: string;
-  /** Sol sütundaki italik giriş cümlesi. */
-  lead?: string;
-  /** Sağ sütundaki paragraf(lar); admin panelinde boş satırla ayrılır. */
+  /** Bölüm açıklaması; admin panelinde boş satırla paragraflara ayrılır. */
   description?: string;
 }
 
+// Diğer bölümlerle aynı iki tonlu başlık: son iki kelime coral italik.
+function splitHeading(title: string): [string, string] {
+  const words = title.trim().split(/\s+/);
+  if (words.length < 3) return [title.trim(), ''];
+  return [words.slice(0, -2).join(' '), words.slice(-2).join(' ')];
+}
+
 /**
- * "Schengen Vize İşlemleri nasıl yapılır?" — ülke sayfalarındaki
- * `BasvuruSureci` ile birebir aynı düzen: solda iki satırlık başlık ve italik
- * giriş cümlesi, sağda admin panelinden yönetilen paragraf ve altında süreç
- * sayfasına giden bağlantı.
+ * Schengen başvuru süreci bölümü — ülke sayfalarındaki `BasvuruSureci` ile
+ * birebir aynı düzen: solda bölüm başlığı, sağda bölüm açıklaması ve altında
+ * süreç sayfasına giden bağlantı.
  */
-export default function SchengenProcess({ title, lead, description }: Props) {
+export default function SchengenProcess({ title, description }: Props) {
   const body = description?.trim();
+  const [head, tail] = splitHeading(title);
 
   return (
     <section className="container border-b border-border">
       <div className="pt-16 pb-20 grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 items-start">
         <FadeIn as="div">
-          <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy mb-6">
-            {title}
-            <br />
-            <em className="font-normal italic text-coral">nasıl yapılır?</em>
+          <h2 className="font-serif font-bold text-[clamp(28px,3.5vw,48px)] leading-none tracking-tight text-navy">
+            {head}
+            {tail && (
+              <>
+                {' '}
+                <em className="font-normal italic text-coral">{tail}</em>
+              </>
+            )}
           </h2>
-          {lead?.trim() && (
-            <p className="font-serif italic text-[18px] text-navy/70 leading-relaxed max-w-sm">
-              {lead}
-            </p>
-          )}
         </FadeIn>
 
         <FadeIn as="div" delay={0.1}>

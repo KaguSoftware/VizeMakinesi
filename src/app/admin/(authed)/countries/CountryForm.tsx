@@ -114,6 +114,7 @@ export default function CountryForm({ country }: CountryFormProps) {
   )
 
   // — 05b Başvuru süreci paragrafı ("Vize İşlemleri nasıl yapılır?" sağ sütunu)
+  const [processTitle, setProcessTitle] = useState(country?.process_title ?? '')
   const [processText, setProcessText] = useState(country?.process_text ?? '')
 
   // — 06 FAQs
@@ -222,6 +223,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       handles: [],
       faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
       documents: documents.map((d) => ({ label: d.label, pdf_url: d.pdf_url })),
+      process_title: processTitle || null,
       process_text: processText || null,
       visa_types_title: visaTypesTitle || null,
       visa_types_lead: visaTypesLead || null,
@@ -486,18 +488,23 @@ export default function CountryForm({ country }: CountryFormProps) {
         </>)}
 
         {!isSchengen && (<>
-        {/* "{Ülke} Vize İşlemleri nasıl yapılır?" bölümünün sağ sütunundaki
-            paragraf. Boş bırakılırsa sitedeki varsayılan metin gösterilir. */}
         <Divider id="basvuru-sureci" label="Başvuru Süreci" />
         <p className="-mt-2 mb-4 font-mono text-[11px] text-navy/55">
-          Ülke sayfasındaki “Vize İşlemleri nasıl yapılır?” bölümünün sağ sütununda gösterilen
-          metin. Boş bırakılırsa varsayılan metin gösterilir. Boş satır bırakarak birden fazla
-          paragraf yazabilirsiniz; metnin altına “Süreci Detaylı İnceleyin” bağlantısı otomatik
-          eklenir.
+          Ülke sayfasındaki başvuru süreci bölümü. Bölüm başlığı boş bırakılırsa
+          “Ülke Adı + Vize İşlemleri Nasıl Yapılır?” kullanılır; başlığın son iki kelimesi sitede
+          italik/coral görünür. Bölüm açıklaması boşsa varsayılan metin gösterilir; boş satır
+          bırakarak birden fazla paragraf yazabilirsiniz. Metnin altına “Süreci Detaylı İnceleyin”
+          bağlantısı otomatik eklenir.
         </p>
-        <div className="mb-6">
+        <div className="flex flex-col gap-3 mb-6">
+          <AdminInput
+            label="Bölüm Başlığı"
+            value={processTitle}
+            onChange={(e) => setProcessTitle(e.target.value)}
+            placeholder="Örn: Almanya Vize İşlemleri Nasıl Yapılır?"
+          />
           <AdminTextarea
-            label="Süreç Metni"
+            label="Bölüm Açıklaması"
             value={processText}
             onChange={(e) => setProcessText(e.target.value)}
             rows={10}

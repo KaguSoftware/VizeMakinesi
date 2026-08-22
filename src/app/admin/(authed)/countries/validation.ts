@@ -25,7 +25,9 @@ export interface CountryFormData {
   general_info_description: string | null
   visa_types_title: string | null
   visa_types_lead: string | null
-  /** "… Vize İşlemleri nasıl yapılır?" bölümünün sağ sütunundaki paragraf. */
+  /** Başvuru süreci bölümünün başlığı. */
+  process_title: string | null
+  /** Başvuru süreci bölümünün açıklaması. */
   process_text: string | null
   requirements: TextInput[]
   handles?: TextInput[]

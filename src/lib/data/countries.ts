@@ -7,16 +7,14 @@ type CountryRow = Database['public']['Tables']['countries']['Row'];
 type RequirementRow = Database['public']['Tables']['country_requirements']['Row'];
 type FaqRow = Database['public']['Tables']['country_faqs']['Row'];
 type DocumentRow = Database['public']['Tables']['country_documents']['Row'];
-type ProcessStepRow = Database['public']['Tables']['country_process_steps']['Row'];
 type VisaTypeRow = Database['public']['Tables']['country_visa_types']['Row'];
 
-export type { DocumentRow, ProcessStepRow, VisaTypeRow };
+export type { DocumentRow, VisaTypeRow };
 
 export interface CountryWithRelations extends CountryRow {
   requirements: RequirementRow[];
   faqs: FaqRow[];
   documents: DocumentRow[];
-  process_steps: ProcessStepRow[];
   visa_types: VisaTypeRow[];
 }
 
@@ -27,18 +25,16 @@ async function attachRelations(countries: CountryRow[]): Promise<CountryWithRela
   const ids = countries.map((c) => c.id);
 
   // Run the relation queries in parallel — they're independent.
-  const [reqsResult, faqsResult, docsResult, stepsResult, visaTypesResult] = await Promise.all([
+  const [reqsResult, faqsResult, docsResult, visaTypesResult] = await Promise.all([
     supabase.from('country_requirements').select('*').in('country_id', ids).order('sort_order'),
     supabase.from('country_faqs').select('*').in('country_id', ids).order('sort_order'),
     supabase.from('country_documents').select('*').in('country_id', ids).order('sort_order'),
-    supabase.from('country_process_steps').select('*').in('country_id', ids).order('sort_order'),
     supabase.from('country_visa_types').select('*').in('country_id', ids).order('sort_order'),
   ]);
 
   const reqs = (reqsResult.data ?? []) as RequirementRow[];
   const faqs = (faqsResult.data ?? []) as FaqRow[];
   const docs = (docsResult.data ?? []) as DocumentRow[];
-  const steps = (stepsResult.data ?? []) as ProcessStepRow[];
   const visaTypes = (visaTypesResult.data ?? []) as VisaTypeRow[];
 
   return countries.map((c) => ({
@@ -46,7 +42,6 @@ async function attachRelations(countries: CountryRow[]): Promise<CountryWithRela
     requirements: reqs.filter((r) => r.country_id === c.id),
     faqs: faqs.filter((f) => f.country_id === c.id),
     documents: docs.filter((d) => d.country_id === c.id),
-    process_steps: steps.filter((s) => s.country_id === c.id),
     visa_types: visaTypes.filter((v) => v.country_id === c.id),
   }));
 }

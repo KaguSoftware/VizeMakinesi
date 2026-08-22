@@ -29,8 +29,8 @@ export interface MegaMenuGroup {
   columns: MegaColumn[];
 }
 
-export interface MobileLink {
-  to: string;
-  label: string;
-  end?: boolean;
-}
+/** One row of the mobile menu: either a plain link or a collapsible group
+ *  that mirrors a desktop mega-menu panel (columns + their items). */
+export type MobileNavEntry =
+  | { kind: 'link'; to: string; label: string }
+  | { kind: 'group'; label: string; to: string };

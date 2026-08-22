@@ -8,7 +8,7 @@ interface Props {
   onChange: (name: string) => void;
 }
 
-export default function CountryDropdown({ value, onChange }: Props) {
+export default function CountryDropdown({ value, onChange, compact }: Props & { compact?: boolean }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -30,13 +30,13 @@ export default function CountryDropdown({ value, onChange }: Props) {
 
   return (
     <div>
-      <label className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral mb-2 block">Ülke</label>
+      <label className={`font-mono text-[11px] uppercase tracking-[0.18em] text-coral block ${compact ? "mb-1" : "mb-2"}`}>Ülke</label>
       <div className="relative" ref={dropdownRef}>
         <motion.button
           type="button"
           onClick={() => setOpen((v) => !v)}
           whileTap={{ scale: 0.99 }}
-          className="w-full flex items-center justify-between gap-3 px-4 py-2.5 border border-navy/20 bg-white text-left hover:border-coral transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-1"
+          className={`w-full flex items-center justify-between gap-3 px-4 border border-navy/20 bg-white text-left hover:border-coral ${compact ? "py-2" : "py-2.5"} transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-1`}
         >
           <AnimatePresence mode="wait">
             {selected ? (

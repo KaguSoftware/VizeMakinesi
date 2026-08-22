@@ -3,7 +3,6 @@ export interface ValidationError { field: string; message: string }
 export interface FaqInput { question: string; answer: string }
 export interface TextInput { text: string }
 export interface DocumentInput { label: string; pdf_url: string }
-export interface ProcessStepInput { title: string; description: string }
 export interface VisaTypeInput { title: string; description: string; visa_type_slug: string | null }
 
 // NOT: blog alanları (has_tourism, tourism_*, blog_*) bu forma dahil değildir;
@@ -26,11 +25,12 @@ export interface CountryFormData {
   general_info_description: string | null
   visa_types_title: string | null
   visa_types_lead: string | null
+  /** "… Vize İşlemleri nasıl yapılır?" bölümünün sağ sütunundaki paragraf. */
+  process_text: string | null
   requirements: TextInput[]
   handles?: TextInput[]
   faqs: FaqInput[]
   documents: DocumentInput[]
-  process_steps: ProcessStepInput[]
   visa_types: VisaTypeInput[]
 }
 

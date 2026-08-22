@@ -81,12 +81,50 @@ export default function Nav({ dbCategories, tickerItems }: NavProps) {
         return () => ro.disconnect();
     }, []);
 
+    // Scroll lock. Two things defeat the usual `body { overflow: hidden }`:
+    // globals.css puts `overflow-x: clip` on <html>, so body's overflow no
+    // longer propagates to the viewport, and iOS Safari ignores an overflow
+    // lock on <html>/<body> for touch scrolling anyway. So we pin the body in
+    // place at its current offset — the only technique that holds on iOS — and
+    // put the scroll position back on close. The sticky header still sticks to
+    // the top of the viewport because the pinned body box spans it.
     useEffect(() => {
-        document.body.style.overflow = open ? "hidden" : "";
-        document.body.classList.toggle("nav-menu-open", open);
+        if (!open) return;
+        const html = document.documentElement;
+        const body = document.body;
+        const scrollY = window.scrollY;
+        const lockedPath = window.location.pathname;
+        const prev = {
+            htmlOverflow: html.style.overflow,
+            position: body.style.position,
+            top: body.style.top,
+            left: body.style.left,
+            right: body.style.right,
+            width: body.style.width,
+            overflow: body.style.overflow,
+        };
+
+        html.style.overflow = "hidden";
+        body.style.position = "fixed";
+        body.style.top = `-${scrollY}px`;
+        body.style.left = "0";
+        body.style.right = "0";
+        body.style.width = "100%";
+        body.style.overflow = "hidden";
+        body.classList.add("nav-menu-open");
+
         return () => {
-            document.body.style.overflow = "";
-            document.body.classList.remove("nav-menu-open");
+            html.style.overflow = prev.htmlOverflow;
+            body.style.position = prev.position;
+            body.style.top = prev.top;
+            body.style.left = prev.left;
+            body.style.right = prev.right;
+            body.style.width = prev.width;
+            body.style.overflow = prev.overflow;
+            body.classList.remove("nav-menu-open");
+            // Don't fight Next's scroll-to-top when the menu closed because a
+            // link inside it navigated away.
+            if (window.location.pathname === lockedPath) window.scrollTo(0, scrollY);
         };
     }, [open]);
 

@@ -16,24 +16,50 @@ export default async function HomePage() {
 
     return (
         <>
-            <Hero />
+            {/* Üst bölüm: solda hero + popüler vizeler, sağda cascade hesaplayıcı */}
+            <section className="container border-b border-border pt-10 pb-14">
+                <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-10 lg:gap-14 items-start">
+                    {/* Sol sütun */}
+                    <div className="flex flex-col">
+                        <Hero compact hideCta />
 
-            {/* Ana başlık */}
-            <div className="container mt-20">
-                <div className="flex justify-between items-end flex-wrap gap-4 border-b border-border pb-7 mb-14">
-                    <h2 className="font-serif font-bold text-[clamp(28px,4vw,48px)] leading-none tracking-[-0.03em]">
-                        Popüler Vizeler
-                    </h2>
-                    <Link
-                        href="/vizeler"
-                        className="inline-flex items-center gap-2 font-sans font-medium text-[11px] uppercase tracking-widest px-5 py-3 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200 rounded-xl whitespace-nowrap"
-                    >
-                        Tüm ülkeler →
-                    </Link>
+                        <div>
+                            <div className="flex justify-between items-end flex-wrap gap-4 border-b border-border pb-4 mb-6">
+                                <h2 className="font-serif font-bold text-[clamp(22px,2.4vw,32px)] leading-none tracking-[-0.03em]">
+                                    Popüler Vizeler
+                                </h2>
+                                <div className="flex items-center gap-3">
+                                    <Link
+                                        href="/danisma-al"
+                                        className="inline-flex items-center gap-2 font-sans font-medium text-[11px] uppercase tracking-widest px-4 py-2.5 border border-coral text-coral hover:bg-navy hover:text-white hover:border-navy transition-all duration-200 rounded-xl whitespace-nowrap"
+                                    >
+                                        Danışma Al →
+                                    </Link>
+                                    <Link
+                                        href="/vizeler"
+                                        className="inline-flex items-center gap-2 font-sans font-medium text-[11px] uppercase tracking-widest px-4 py-2.5 border border-navy text-navy hover:bg-navy hover:text-white transition-all duration-200 rounded-xl whitespace-nowrap"
+                                    >
+                                        Tüm ülkeler →
+                                    </Link>
+                                </div>
+                            </div>
+
+                            <SchengenCountryGrid
+                                entries={popularEntries}
+                                hideHeader
+                                compact
+                                paginate
+                                pageSize={6}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Sağ sütun: hesaplayıcı paneli */}
+                    <aside className="bg-cream border border-border rounded-2xl p-6">
+                        <CascadeCalculator embedded />
+                    </aside>
                 </div>
-            </div>
-
-            <SchengenCountryGrid entries={popularEntries} hideHeader limitCollapsed />
+            </section>
 
             <Marquee />
 
@@ -46,8 +72,6 @@ export default async function HomePage() {
                 </div>
                 <Timeline />
             </section>
-
-            <CascadeCalculator compact />
 
             <BigCTA />
         </>

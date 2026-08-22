@@ -473,3 +473,15 @@ html {
   background: #fdfbe5;
   border-radius: 50%;
 }
+
+/* Süreç şeridi — yatay kaydırma, scrollbar gizli (oklar ve dokunmatik kaydırma kullanılıyor). */
+.timeline-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+}
+
+.timeline-track::-webkit-scrollbar {
+  display: none;
+}

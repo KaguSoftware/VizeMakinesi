@@ -113,10 +113,8 @@ export default function CountryForm({ country }: CountryFormProps) {
     country?.visa_types.map((v) => mkVisaType(v.title, v.description, v.visa_type_slug)) ?? []
   )
 
-  // — 05b Başvuru süreci adımları (numaralı adımlar, /vize/[slug])
-  const [processSteps, setProcessSteps] = useState<ProcessStepItem[]>(
-    country?.process_steps.map((s) => mkProcessStep(s.title, s.description)) ?? []
-  )
+  // — 05b Başvuru süreci paragrafı ("Vize İşlemleri nasıl yapılır?" sağ sütunu)
+  const [processText, setProcessText] = useState(country?.process_text ?? '')
 
   // — 06 FAQs
   const [faqs, setFaqs] = useState<FaqItem[]>(
@@ -151,7 +149,7 @@ export default function CountryForm({ country }: CountryFormProps) {
     generalInfo: generalInfo.map((t) => ({ title: t.title, description: t.description })),
     visaTypesTitle, visaTypesLead,
     visaTypes: visaTypes.map((v) => ({ title: v.title, description: v.description, slug: v.visa_type_slug })),
-    processSteps: processSteps.map((s) => ({ title: s.title, description: s.description })),
+    processText,
     requirements: requirements.map((r) => r.text),
     faqs: faqs.map((f) => ({ q: f.question, a: f.answer })),
     documents: documents.map((d) => ({ label: d.label, pdf_url: d.pdf_url })),
@@ -224,7 +222,7 @@ export default function CountryForm({ country }: CountryFormProps) {
       handles: [],
       faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
       documents: documents.map((d) => ({ label: d.label, pdf_url: d.pdf_url })),
-      process_steps: processSteps.map((s) => ({ title: s.title, description: s.description })),
+      process_text: processText || null,
       visa_types_title: visaTypesTitle || null,
       visa_types_lead: visaTypesLead || null,
       visa_types: visaTypes.map((v) => ({
@@ -488,42 +486,24 @@ export default function CountryForm({ country }: CountryFormProps) {
         </>)}
 
         {!isSchengen && (<>
-        {/* "{Ülke} Vize İşlemleri nasıl yapılır?" bölümünün sağındaki
-            numaralı adımlar. Boş bırakılırsa sitedeki varsayılan adımlar
-            gösterilir. */}
-        <Divider id="basvuru-sureci" label="Başvuru Süreci Adımları" />
+        {/* "{Ülke} Vize İşlemleri nasıl yapılır?" bölümünün sağ sütunundaki
+            paragraf. Boş bırakılırsa sitedeki varsayılan metin gösterilir. */}
+        <Divider id="basvuru-sureci" label="Başvuru Süreci" />
         <p className="-mt-2 mb-4 font-mono text-[11px] text-navy/55">
-          Ülke sayfasındaki “Vize İşlemleri nasıl yapılır?” bölümünün sağındaki numaralı adımlar.
-          Boş bırakılırsa varsayılan adımlar gösterilir. Numaralar sıraya göre otomatik verilir.
+          Ülke sayfasındaki “Vize İşlemleri nasıl yapılır?” bölümünün sağ sütununda gösterilen
+          metin. Boş bırakılırsa varsayılan metin gösterilir. Boş satır bırakarak birden fazla
+          paragraf yazabilirsiniz; metnin altına “Süreci Detaylı İnceleyin” bağlantısı otomatik
+          eklenir.
         </p>
-        <RepeatableList<ProcessStepItem>
-          items={processSteps}
-          onChange={setProcessSteps}
-          onAdd={() => setProcessSteps((prev) => [...prev, mkProcessStep()])}
-          addLabel="Yeni Adım Ekle"
-          emptyText="Henüz adım eklenmedi — varsayılan adımlar gösterilecek"
-          renderItem={(item) => (
-            <div className="flex flex-col gap-3">
-              <AdminInput
-                label="Başlık"
-                value={item.title}
-                onChange={(e) => setProcessSteps((prev) =>
-                  prev.map((s) => s.id === item.id ? { ...s, title: e.target.value } : s)
-                )}
-                placeholder="Örn: İlk Görüşme ve Stratejik Planlama"
-              />
-              <AdminTextarea
-                label="Açıklama"
-                value={item.description}
-                onChange={(e) => setProcessSteps((prev) =>
-                  prev.map((s) => s.id === item.id ? { ...s, description: e.target.value } : s)
-                )}
-                rows={3}
-                placeholder="Örn: Uzman danışmanlarımızla yapacağınız ilk görüşmede profilinizi, seyahat amacınızı ve tarihlerinizi analiz ediyoruz."
-              />
-            </div>
-          )}
-        />
+        <div className="mb-6">
+          <AdminTextarea
+            label="Süreç Metni"
+            value={processText}
+            onChange={(e) => setProcessText(e.target.value)}
+            rows={10}
+            placeholder="Örn: Almanya vize başvurunuzda süreç, ilk görüşmede profilinizin ve seyahat amacınızın analiz edilmesiyle başlar…"
+          />
+        </div>
 
         <Divider id="pdf-belgeler" label="PDF Belgeler" />
         <RepeatableList<DocumentItem>

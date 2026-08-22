@@ -10,7 +10,6 @@ type CountryRow = Database['public']['Tables']['countries']['Row']
 type RequirementRow = Database['public']['Tables']['country_requirements']['Row']
 type FaqRow = Database['public']['Tables']['country_faqs']['Row']
 type DocumentRow = Database['public']['Tables']['country_documents']['Row']
-type ProcessStepRow = Database['public']['Tables']['country_process_steps']['Row']
 type VisaTypeRow = Database['public']['Tables']['country_visa_types']['Row']
 
 export default async function EditCountryPage({ params }: { params: Promise<{ id: string }> }) {
@@ -20,11 +19,10 @@ export default async function EditCountryPage({ params }: { params: Promise<{ id
   const { data: country } = await supabase.from('countries').select('*').eq('id', id).single()
   if (!country) notFound()
 
-  const [reqsRes, faqsRes, docsRes, stepsRes, visaTypesRes] = await Promise.all([
+  const [reqsRes, faqsRes, docsRes, visaTypesRes] = await Promise.all([
     supabase.from('country_requirements').select('*').eq('country_id', id).order('sort_order'),
     supabase.from('country_faqs').select('*').eq('country_id', id).order('sort_order'),
     supabase.from('country_documents').select('*').eq('country_id', id).order('sort_order'),
-    supabase.from('country_process_steps').select('*').eq('country_id', id).order('sort_order'),
     supabase.from('country_visa_types').select('*').eq('country_id', id).order('sort_order'),
   ])
 
@@ -33,7 +31,6 @@ export default async function EditCountryPage({ params }: { params: Promise<{ id
     requirements: (reqsRes.data ?? []) as RequirementRow[],
     faqs: (faqsRes.data ?? []) as FaqRow[],
     documents: (docsRes.data ?? []) as DocumentRow[],
-    process_steps: (stepsRes.data ?? []) as ProcessStepRow[],
     visa_types: (visaTypesRes.data ?? []) as VisaTypeRow[],
   }
 

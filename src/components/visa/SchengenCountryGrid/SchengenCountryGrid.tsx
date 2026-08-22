@@ -44,10 +44,21 @@ interface Props {
   entries?: SchengenEntry[];
   hideHeader?: boolean;
   limitCollapsed?: boolean;
+  /** Bare, denser variant used inside the home page split layout. */
+  compact?: boolean;
+  /** Number of cards shown before the "+N" tile (defaults to HOME_VISIBLE_COUNT). */
+  visibleCount?: number;
+  /**
+   * Home-page variant: show a fixed page of `pageSize` cards with prev/next arrows
+   * underneath instead of the "+N ülke daha" expand tile.
+   */
+  paginate?: boolean;
+  pageSize?: number;
 }
 
-export default function SchengenCountryGrid({ entries, hideHeader, limitCollapsed }: Props) {
+export default function SchengenCountryGrid({ entries, hideHeader, limitCollapsed, compact, visibleCount, paginate, pageSize = 6 }: Props) {
   const [expanded, setExpanded] = useState(false);
+  const [page, setPage] = useState(0);
   const reduced = useReducedMotion();
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -82,19 +93,31 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
   const effectivePinned = noPinned ? restEntries : pinnedEntries;
   const effectiveRest = noPinned ? [] : restEntries;
 
-  const collapsedPinned = limitCollapsed ? effectivePinned.slice(0, HOME_VISIBLE_COUNT) : effectivePinned;
-  const visibleCards = expanded ? [...effectivePinned, ...effectiveRest] : collapsedPinned;
+  const collapsedCount = visibleCount ?? HOME_VISIBLE_COUNT;
+  const collapsedPinned = limitCollapsed ? effectivePinned.slice(0, collapsedCount) : effectivePinned;
+
+  // Paginated mode walks the full list `pageSize` cards at a time.
+  const allEntries = [...effectivePinned, ...effectiveRest];
+  const pageCount = Math.max(1, Math.ceil(allEntries.length / pageSize));
+  const safePage = Math.min(page, pageCount - 1);
+  const pagedCards = allEntries.slice(safePage * pageSize, safePage * pageSize + pageSize);
+
+  const visibleCards = paginate
+    ? pagedCards
+    : expanded
+      ? allEntries
+      : collapsedPinned;
   const hiddenCount = limitCollapsed && !expanded
-    ? effectiveRest.length + Math.max(0, effectivePinned.length - HOME_VISIBLE_COUNT)
+    ? effectiveRest.length + Math.max(0, effectivePinned.length - collapsedCount)
     : effectiveRest.length;
 
-  useMosaicScrollReveal(gridRef, [expanded, visibleCards.length]);
+  useMosaicScrollReveal(gridRef, [expanded, safePage, visibleCards.length]);
 
   function renderCard(entry: { name: string; href: string; preset_key: string }, key: string, index: number) {
     // Cards revealed by expansion are already in the viewport — no stagger delay needed.
     // Initial cards use index-based delay to reproduce the scroll stagger effect.
     const isExpandedCard = expanded && index >= collapsedPinned.length;
-    const delay = isExpandedCard ? 0 : index * STAGGER_GAP;
+    const delay = isExpandedCard || (paginate && safePage > 0) ? 0 : index * STAGGER_GAP;
 
     return (
       <MotionLink
@@ -115,12 +138,12 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
         <div className="flag-overlay-light" />
         <div className="flag-overlay-dark" />
 
-        <div className="relative z-10 flex flex-col justify-between h-full p-6 min-h-44">
+        <div className={`relative z-10 flex flex-col justify-between h-full ${compact ? 'p-4 min-h-32' : 'p-6 min-h-44'}`}>
           <div className="font-mono text-[10px] sm:text-[9px] tracking-[0.18em] uppercase hv-white transition-colors duration-700 text-muted">
             — Vize Bilgisi
           </div>
           <div>
-            <h3 className="font-serif font-semibold text-[24px] leading-[1.1] tracking-[-0.01em] hv-white transition-colors duration-700 text-navy">
+            <h3 className={`font-serif font-semibold leading-[1.1] tracking-[-0.01em] hv-white transition-colors duration-700 text-navy ${compact ? 'text-[17px]' : 'text-[24px]'}`}>
               {entry.name}
             </h3>
             <div className="font-mono text-[10px] sm:text-[9px] uppercase tracking-[0.18em] text-coral hv-coral transition-colors duration-700 mt-1">
@@ -133,7 +156,7 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
   }
 
   return (
-    <section className="border-t border-border">
+    <section className={compact ? '' : 'border-t border-border'}>
       {!hideHeader && (
         <FadeIn as="div" className="container py-20">
           <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-coral mb-6 pb-4 border-b border-navy/20">
@@ -146,19 +169,19 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
         </FadeIn>
       )}
 
-      <div className="container">
-        <div ref={gridRef} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-l border-border">
+      <div className={compact ? '' : 'container'}>
+        <div ref={gridRef} className={`grid border-t border-l border-border ${compact ? 'grid-cols-2 sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4'}`}>
           {visibleCards.map((entry, i) => renderCard(entry, `${entry.href}-${i}`, i))}
 
-          {!expanded && hiddenCount > 0 && (
+          {!paginate && !expanded && hiddenCount > 0 && (
             <button
               onClick={() => setExpanded(true)}
               className="relative border-b border-r border-border bg-cream overflow-hidden group cursor-pointer active:bg-coral/5 transition-colors focus-visible:outline-2 focus-visible:outline-coral focus-visible:-outline-offset-2"
               aria-label={`${hiddenCount} ülke daha göster`}
             >
-              <div className="relative z-10 flex flex-col items-center justify-center h-full min-h-44 gap-3">
-                <div className="w-14 h-14 rounded-full border-2 border-navy/30 group-hover:border-coral group-active:scale-95 flex items-center justify-center transition-all duration-300">
-                  <span className="font-serif text-[32px] leading-none text-navy/40 group-hover:text-coral transition-colors duration-300">+</span>
+              <div className={`relative z-10 flex flex-col items-center justify-center h-full gap-3 ${compact ? 'min-h-32 gap-2' : 'min-h-44'}`}>
+                <div className={`rounded-full border-2 border-navy/30 group-hover:border-coral group-active:scale-95 flex items-center justify-center transition-all duration-300 ${compact ? 'w-9 h-9' : 'w-14 h-14'}`}>
+                  <span className={`font-serif leading-none text-navy/40 group-hover:text-coral transition-colors duration-300 ${compact ? 'text-[22px]' : 'text-[32px]'}`}>+</span>
                 </div>
                 <div className="font-mono text-[10px] sm:text-[9px] uppercase tracking-[0.18em] text-navy/40 group-hover:text-coral transition-colors duration-300 text-center px-4">
                   {hiddenCount} ülke daha
@@ -167,6 +190,32 @@ export default function SchengenCountryGrid({ entries, hideHeader, limitCollapse
             </button>
           )}
         </div>
+
+        {paginate && pageCount > 1 && (
+          <div className="flex items-center justify-center gap-3 mt-4">
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              disabled={safePage === 0}
+              aria-label="Önceki ülkeler"
+              className="w-10 h-10 flex items-center justify-center border border-border text-navy rounded-xl transition-colors duration-200 hover:border-coral hover:text-coral disabled:opacity-30 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-coral focus-visible:outline-offset-2"
+            >
+              ←
+            </button>
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-navy/40 w-12 text-center">
+              {safePage + 1} / {pageCount}
+            </span>
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+              disabled={safePage === pageCount - 1}
+              aria-label="Sonraki ülkeler"
+              className="w-10 h-10 flex items-center justify-center border border-border text-navy rounded-xl transition-colors duration-200 hover:border-coral hover:text-coral disabled:opacity-30 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-coral focus-visible:outline-offset-2"
+            >
+              →
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

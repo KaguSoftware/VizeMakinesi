@@ -552,3 +552,30 @@ export const VIZE_TURLERI_HIGHLIGHTS = [
 /** "Vize Başvurusu Nasıl Yapılır?" block on the landing page. */
 export const VIZE_BASVURU_OZET =
   'Vize başvurusu; seyahat veya yerleşim amacının belirlenmesi, başvuru koşullarının incelenmesi ve kişisel durumunuza uygun bir dosyanın hazırlanmasıyla başlar. Başvuru formu ve destekleyici belgeler hazırlandıktan sonra randevu ve gerekli biyometrik işlemler tamamlanır. Dosya ilgili makama sunulduktan sonra değerlendirme süreci başlar; gerekli görülmesi halinde ek belge veya mülakat talep edilebilir.';
+
+/**
+ * Ülke sayfasındaki vize türü kartlarında katalog bağlantısı seçilmemiş
+ * kayıtlar için ikon üretir. Karta yalnızca ikon eklenir; rozet ve link
+ * yine sadece gerçek katalog eşleşmesinden gelir.
+ */
+const ICON_KEYWORDS: ReadonlyArray<[readonly string[], string]> = [
+  [['transit', 'aktarma'], '🔄'],
+  [['fuar', 'konferans', 'etkinlik', 'kültür', 'sanat', 'spor', 'sempozyum'], '🎤'],
+  [['aile birleşimi', 'birleşim'], '🏠'],
+  [['aile', 'arkadaş', 'akraba', 'ziyaret', 'davet'], '👨‍👩‍👧'],
+  [['ticari', 'iş ', 'işadamı', 'business', 'toplantı'], '💼'],
+  [['öğrenci', 'eğitim', 'dil ', 'okul', 'staj'], '🎓'],
+  [['çalışma', 'işçi', 'work'], '🛠️'],
+  [['turistik', 'turist', 'tatil', 'gezi', 'seyahat'], '🏖️'],
+];
+
+/** Hiçbir anahtar kelime eşleşmediğinde kullanılan genel vize ikonu. */
+export const FALLBACK_VISA_TYPE_ICON = '🛂';
+
+export function guessVisaTypeIcon(title: string): string {
+  const t = title.toLocaleLowerCase('tr');
+  for (const [keywords, icon] of ICON_KEYWORDS) {
+    if (keywords.some((k) => t.includes(k))) return icon;
+  }
+  return FALLBACK_VISA_TYPE_ICON;
+}

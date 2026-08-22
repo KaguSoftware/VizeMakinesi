@@ -41,12 +41,12 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
   const general_info_description = optString('general_info_description', data.general_info_description, { max: 1000 })
   const visa_types_title = optString('visa_types_title', data.visa_types_title, { max: 160 })
   const visa_types_lead = optString('visa_types_lead', data.visa_types_lead, { max: 600 })
+  const process_text = optString('process_text', data.process_text, { max: 4000 })
 
 
   if (!Array.isArray(data.requirements)) throw new AdminValidationError('requirements', 'Gerekli belgeler geçersiz')
   if (!Array.isArray(data.faqs)) throw new AdminValidationError('faqs', 'SSS geçersiz')
   if (!Array.isArray(data.documents)) throw new AdminValidationError('documents', 'PDF belgeler geçersiz')
-  if (!Array.isArray(data.process_steps)) throw new AdminValidationError('process_steps', 'Başvuru süreci adımları geçersiz')
   if (!Array.isArray(data.visa_types)) throw new AdminValidationError('visa_types', 'Vize türleri geçersiz')
 
   const handles: { text: string }[] = []
@@ -61,10 +61,6 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     .filter((d) => d && typeof d.label === 'string' && typeof d.pdf_url === 'string')
     .map((d) => ({ label: d.label.trim(), pdf_url: d.pdf_url.trim() }))
     .filter((d) => d.label.length > 0 && d.pdf_url.length > 0)
-  const process_steps = data.process_steps
-    .filter((s) => s && typeof s.title === 'string' && typeof s.description === 'string')
-    .map((s) => ({ title: s.title.trim(), description: s.description.trim() }))
-    .filter((s) => s.title.length > 0 && s.description.length > 0)
   // Katalog eşlemesi yalnızca kısa süreli (Tip C) türler için tutulur; tanınmayan
   // bir slug gelirse kart ikonsuz/rozetsiz gösterilir.
   const visa_types = data.visa_types
@@ -94,11 +90,11 @@ function validateCountryServer(data: CountryFormData): CountryFormData {
     general_info_description,
     visa_types_title,
     visa_types_lead,
+    process_text,
     requirements,
     handles,
     faqs,
     documents,
-    process_steps,
     visa_types,
   }
 }
@@ -120,7 +116,6 @@ async function upsertChildren(supabase: SB, countryId: string, data: CountryForm
   await writer(supabase, 'country_requirements').delete().eq('country_id', countryId)
   await writer(supabase, 'country_faqs').delete().eq('country_id', countryId)
   await writer(supabase, 'country_documents').delete().eq('country_id', countryId)
-  await writer(supabase, 'country_process_steps').delete().eq('country_id', countryId)
   await writer(supabase, 'country_visa_types').delete().eq('country_id', countryId)
 
   if (data.requirements.length > 0) {
@@ -144,16 +139,6 @@ async function upsertChildren(supabase: SB, countryId: string, data: CountryForm
         country_id: countryId,
         label: d.label,
         pdf_url: d.pdf_url,
-        sort_order: i,
-      }))
-    )
-  }
-  if (data.process_steps.length > 0) {
-    await writer(supabase, 'country_process_steps').insert(
-      data.process_steps.map((s, i) => ({
-        country_id: countryId,
-        title: s.title,
-        description: s.description,
         sort_order: i,
       }))
     )
@@ -234,6 +219,7 @@ export async function createCountry(rawData: CountryFormData): Promise<{ id: str
     general_info_description: data.general_info_description,
     visa_types_title: data.visa_types_title,
     visa_types_lead: data.visa_types_lead,
+    process_text: data.process_text,
   }
 
   // writer() avoids the Supabase-v2 `never` narrowing on insert payloads.
@@ -297,6 +283,7 @@ export async function updateCountry(id: string, rawData: CountryFormData): Promi
     general_info_description: data.general_info_description,
     visa_types_title: data.visa_types_title,
     visa_types_lead: data.visa_types_lead,
+    process_text: data.process_text,
   }
 
   const { error } = await writer(supabase, 'countries').update(payload).eq('id', id)

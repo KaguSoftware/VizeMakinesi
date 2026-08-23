@@ -24,7 +24,7 @@ import {
   type ValidationError,
 } from './validation'
 import type { CountryWithRelations } from '@/lib/data/countries'
-import { joinLabeled, splitLabeled } from '@/lib/text/labeled'
+import { joinLabeled, joinLabeledBlocks, splitLabeled, splitLabeledBlocks } from '@/lib/text/labeled'
 import {
   Divider,
   FORM_SECTIONS,
@@ -113,9 +113,15 @@ export default function CountryForm({ country }: CountryFormProps) {
     country?.visa_types.map((v) => mkVisaType(v.title, v.description, v.visa_type_slug)) ?? []
   )
 
-  // — 05b Başvuru süreci paragrafı ("Vize İşlemleri nasıl yapılır?" sağ sütunu)
+  // — 05b Başvuru süreci ("Vize İşlemleri nasıl yapılır?" sağ sütunu)
   const [processTitle, setProcessTitle] = useState(country?.process_title ?? '')
-  const [processText, setProcessText] = useState(country?.process_text ?? '')
+  // Maddeler DB'de tek metin sütununda, boş satırla ayrılmış "Başlık: açıklama"
+  // blokları olarak tutulur. Bkz. src/lib/text/labeled.ts
+  const [processItems, setProcessItems] = useState<ProcessStepItem[]>(
+    splitLabeledBlocks(country?.process_text).map(({ label, body }) =>
+      mkProcessStep(label, body)
+    )
+  )
 
   // — 06 FAQs
   const [faqs, setFaqs] = useState<FaqItem[]>(
@@ -150,7 +156,8 @@ export default function CountryForm({ country }: CountryFormProps) {
     generalInfo: generalInfo.map((t) => ({ title: t.title, description: t.description })),
     visaTypesTitle, visaTypesLead,
     visaTypes: visaTypes.map((v) => ({ title: v.title, description: v.description, slug: v.visa_type_slug })),
-    processText,
+    processTitle,
+    processItems: processItems.map((t) => ({ title: t.title, description: t.description })),
     requirements: requirements.map((r) => r.text),
     faqs: faqs.map((f) => ({ q: f.question, a: f.answer })),
     documents: documents.map((d) => ({ label: d.label, pdf_url: d.pdf_url })),
@@ -224,7 +231,10 @@ export default function CountryForm({ country }: CountryFormProps) {
       faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
       documents: documents.map((d) => ({ label: d.label, pdf_url: d.pdf_url })),
       process_title: processTitle || null,
-      process_text: processText || null,
+      process_text:
+        joinLabeledBlocks(
+          processItems.map((t) => ({ label: t.title, body: t.description }))
+        ) || null,
       visa_types_title: visaTypesTitle || null,
       visa_types_lead: visaTypesLead || null,
       visa_types: visaTypes.map((v) => ({
@@ -492,9 +502,10 @@ export default function CountryForm({ country }: CountryFormProps) {
         <p className="-mt-2 mb-4 font-mono text-[11px] text-navy/55">
           Ülke sayfasındaki başvuru süreci bölümü. Bölüm başlığı boş bırakılırsa
           “Ülke Adı + Vize İşlemleri Nasıl Yapılır?” kullanılır; başlığın son iki kelimesi sitede
-          italik/coral görünür. Bölüm açıklaması boşsa varsayılan metin gösterilir; boş satır
-          bırakarak birden fazla paragraf yazabilirsiniz. Metnin altına “Süreci Detaylı İnceleyin”
-          bağlantısı otomatik eklenir.
+          italik/coral görünür. Sağ sütun mini başlıklı maddelerden oluşur: her maddenin başlığı
+          kalın, açıklaması hemen altında gösterilir. Mini başlık boş bırakılırsa madde düz
+          paragraf olarak görünür. Hiç madde eklenmezse varsayılan metin gösterilir. Metnin
+          altına “Süreci Detaylı İnceleyin” bağlantısı otomatik eklenir.
         </p>
         <div className="flex flex-col gap-3 mb-6">
           <AdminInput
@@ -503,14 +514,35 @@ export default function CountryForm({ country }: CountryFormProps) {
             onChange={(e) => setProcessTitle(e.target.value)}
             placeholder="Örn: Almanya Vize İşlemleri Nasıl Yapılır?"
           />
-          <AdminTextarea
-            label="Bölüm Açıklaması"
-            value={processText}
-            onChange={(e) => setProcessText(e.target.value)}
-            rows={10}
-            placeholder="Örn: Almanya vize başvurunuzda süreç, ilk görüşmede profilinizin ve seyahat amacınızın analiz edilmesiyle başlar…"
-          />
         </div>
+        <RepeatableList<ProcessStepItem>
+          items={processItems}
+          onChange={setProcessItems}
+          onAdd={() => setProcessItems((prev) => [...prev, mkProcessStep()])}
+          addLabel="Yeni Madde Ekle"
+          emptyText="Henüz madde eklenmedi — varsayılan metin gösterilecek"
+          renderItem={(item) => (
+            <div className="flex flex-col gap-3">
+              <AdminInput
+                label="Mini Başlık"
+                value={item.title}
+                onChange={(e) => setProcessItems((prev) =>
+                  prev.map((t) => t.id === item.id ? { ...t, title: e.target.value } : t)
+                )}
+                placeholder="Örn: Ön Değerlendirme"
+              />
+              <AdminTextarea
+                label="Açıklama"
+                value={item.description}
+                onChange={(e) => setProcessItems((prev) =>
+                  prev.map((t) => t.id === item.id ? { ...t, description: e.target.value } : t)
+                )}
+                rows={4}
+                placeholder="Örn: Süreç, ilk görüşmede profilinizin ve seyahat amacınızın analiz edilmesiyle başlar."
+              />
+            </div>
+          )}
+        />
 
         <Divider id="pdf-belgeler" label="PDF Belgeler" />
         <RepeatableList<DocumentItem>

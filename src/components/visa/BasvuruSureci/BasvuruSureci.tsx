@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { FadeIn } from '@/components/shared/motion';
+import { splitLabeledBlocks } from '@/lib/text/labeled';
 
 /** `text` boşken gösterilen genel açıklama. */
 export const DEFAULT_PROCESS_TEXT =
@@ -31,10 +32,10 @@ interface Props {
 
 /**
  * /vize/[slug] sayfasındaki başvuru süreci bölümü: solda bölüm başlığı,
- * sağda bölüm açıklaması ve altında süreç sayfasına giden bağlantı.
+ * sağda mini başlıklı maddeler ve altında süreç sayfasına giden bağlantı.
  */
 export default function BasvuruSureci({ countryName, title, text }: Props) {
-  const body = text?.trim() || DEFAULT_PROCESS_TEXT;
+  const blocks = splitLabeledBlocks(text?.trim() || DEFAULT_PROCESS_TEXT);
   const [head, tail] = splitHeading(title?.trim() || defaultProcessTitle(countryName));
 
   return (
@@ -53,20 +54,28 @@ export default function BasvuruSureci({ countryName, title, text }: Props) {
         </FadeIn>
 
         <FadeIn as="div" delay={0.1}>
-          {/* Paragraflar admin panelinde boş satırla ayrılır. */}
-          <div className="flex flex-col gap-5">
-            {body
-              .split(/\n\s*\n/)
-              .map((p) => p.trim())
-              .filter(Boolean)
-              .map((paragraph, i) => (
-                <p
-                  key={i}
-                  className="font-serif text-[17px] leading-relaxed text-navy/80 whitespace-pre-line"
-                >
-                  {paragraph}
-                </p>
-              ))}
+          {/* Maddeler admin panelinde "Mini Başlık + Açıklama" olarak girilir ve
+              DB'de boş satırla ayrılmış "Başlık: açıklama" blokları olarak tutulur.
+              Başlıksız bloklar düz paragraf olarak gösterilir. */}
+          <div className="flex flex-col gap-7">
+            {blocks.map(({ label, body }, i) => (
+              <div key={i}>
+                {label && (
+                  <h3 className="font-serif font-semibold text-[19px] leading-snug text-navy">
+                    {label}
+                  </h3>
+                )}
+                {body && (
+                  <p
+                    className={`font-serif text-[17px] leading-relaxed text-navy/80 whitespace-pre-line${
+                      label ? ' mt-2' : ''
+                    }`}
+                  >
+                    {body}
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
 
           <Link

@@ -26,3 +26,22 @@ export function joinLabeled(label: string, body: string): string {
   if (!b) return l
   return `${l}: ${b}`
 }
+
+// Blok biçimi: birden fazla "Başlık: açıklama" maddesi tek bir metin sütununda
+// (ör. `countries.process_text`) boş satırla ayrılmış bloklar olarak tutulur.
+// Başlıksız bloklar düz paragraf olarak kalır — eski düz metinler bozulmaz.
+
+export function splitLabeledBlocks(raw: string | null | undefined): Labeled[] {
+  return (raw ?? '')
+    .split(/\n\s*\n/)
+    .map((b) => b.trim())
+    .filter(Boolean)
+    .map(splitLabeled)
+}
+
+export function joinLabeledBlocks(items: Labeled[]): string {
+  return items
+    .map(({ label, body }) => joinLabeled(label, body))
+    .filter(Boolean)
+    .join('\n\n')
+}

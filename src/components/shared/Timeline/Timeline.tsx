@@ -15,6 +15,16 @@ const COLORS = {
 /** Şerit tek ekrana bu adım sayısına kadar sığar; fazlası yatay kaydırmaya döner. */
 const FIT_LIMIT = 6;
 
+/** Kartın daire merkezinden aşağı kayması (absolute `top` değeriyle aynı). */
+const CARD_TOP = 88;
+/**
+ * Şeridin sabit yüksekliği. Kart `absolute` durduğu için yüksekliğe katkı vermez;
+ * burası hangi adım açık olursa olsun aynı kalır, böylece bölüm tıklamalarda
+ * yerinden oynamaz. Değer en uzun karta göre seçildi (CARD_TOP + kart + pay);
+ * adım metinleri uzatılırsa buranın da büyütülmesi gerekir.
+ */
+const STRIP_H = 371;
+
 /** Seçili adımın dairesinin yanında açılan detay kartı. */
 function DetailCard({ step }: { step: TimelineStep }) {
   return (
@@ -126,7 +136,7 @@ export default function Timeline({
     : 'w-[152px] shrink-0 md:w-auto md:flex-1 md:min-w-0';
 
   return (
-    <div className="py-6 md:py-14 relative">
+    <div className="py-6 md:pt-10 md:pb-5 relative">
       {/* Yatay şerit yalnızca md+ ekranda; mobilde aşağıdaki dikey liste kullanılır. */}
       <div className="hidden md:flex items-start gap-3">
         <div className={`hidden ${scrolls ? 'md:flex' : ''} pt-[26px]`}>
@@ -139,7 +149,8 @@ export default function Timeline({
           className={`timeline-track flex-1 overflow-x-auto ${scrolls ? '' : 'md:overflow-x-visible'}`}
         >
           <div
-            className={`relative flex items-start min-h-[190px] md:min-h-[330px] ${
+            style={{ minHeight: STRIP_H }}
+            className={`relative flex items-start ${
               scrolls ? 'min-w-max' : 'min-w-max md:min-w-0 md:w-full'
             }`}
           >
@@ -159,7 +170,7 @@ export default function Timeline({
                     />
                   )}
 
-                  <div className="relative z-30 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                  <div className="relative z-30 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
                     <AnimatePresence>
                       {isActive && (
                         <motion.span
@@ -246,7 +257,8 @@ export default function Timeline({
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 6, scale: 0.98 }}
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className={`hidden md:block absolute top-[100px] z-20 text-left w-[min(80vw,400px)] ${
+                        style={{ top: CARD_TOP }}
+                        className={`hidden md:block absolute z-20 text-left w-[min(80vw,400px)] ${
                           flip ? 'right-1/2 -mr-10' : 'left-1/2 -ml-10'
                         }`}
                       >

@@ -69,9 +69,30 @@ export default function VisaTypeArticle({
                 </p>
               ))}
 
+              {/* Unordered list: belge listeleri, "kimler başvurabilir" maddeleri. */}
               {section.bullets && (
                 <ul className="list-none mt-1">
                   {section.bullets.map((b, i) => (
+                    <li
+                      key={i}
+                      className="grid grid-cols-[22px_1fr] gap-3 py-[14px] border-t border-border text-base leading-relaxed first:border-t-0"
+                    >
+                      <span
+                        aria-hidden
+                        className="text-coral text-[13px] leading-[1.7] font-mono"
+                      >
+                        —
+                      </span>
+                      <span className="text-navy">{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {/* Ordered list: başvuru adımları, sırası anlamlı olduğu için numaralı. */}
+              {section.steps && (
+                <ol className="list-none mt-1">
+                  {section.steps.map((step, i) => (
                     <li
                       key={i}
                       className="grid grid-cols-[60px_1fr] gap-4 py-[18px] border-t border-border text-base leading-relaxed first:border-t-0"
@@ -79,10 +100,10 @@ export default function VisaTypeArticle({
                       <span className="font-mono text-[11px] tracking-[0.15em] text-coral font-medium pt-[5px]">
                         — {String(i + 1).padStart(2, '0')}
                       </span>
-                      <span className="text-navy">{b}</span>
+                      <span className="text-navy">{step}</span>
                     </li>
                   ))}
-                </ul>
+                </ol>
               )}
 
               {/* Same PDF cards as the documents section on /vize/[slug]. */}

@@ -4,7 +4,6 @@ import type { CountryHeroProps } from './types';
 
 const DEFAULT_LEAD =
   'Başarılı bir vize başvurusu, evrakları tamamlamakla değil; doğru ve tutarlı bir başvuru dosyası hazırlamakla başlar.';
-const DEFAULT_NOTE = '(Vize danışmanlığı ≠ evrak toplama işi.)';
 
 const DEFAULT_BULLETS = [
   'Uzman danışmanlarımız her adımda yanınızda',
@@ -45,16 +44,18 @@ export default function CountryHero({ country, bullets, lead, note }: CountryHer
             </p>
           </FadeIn>
 
-          <Stagger as="div" className="mt-10 flex flex-col gap-3 border-l-2 border-coral pl-5" delayChildren={0.3} priority>
+          <Stagger as="div" className="mt-10 flex flex-col gap-6" delayChildren={0.3} priority>
             <StaggerItem priority>
               <p className="font-sans font-medium text-[15px] text-navy leading-snug">
                 {lead ?? DEFAULT_LEAD}
               </p>
-              <p className="font-mono text-[11px] text-muted mt-1 tracking-wide">
-                {note ?? DEFAULT_NOTE}
-              </p>
+              {note && (
+                <p className="font-mono text-[11px] text-muted mt-1 tracking-wide">
+                  {note}
+                </p>
+              )}
             </StaggerItem>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col gap-2 border-l-2 border-coral pl-5">
               {activeBullets.map((item) => (
                 <StaggerItem as="li" key={item} priority className="font-sans text-[14px] text-muted flex items-start gap-2">
                   <span className="text-coral mt-0.5">✓</span>

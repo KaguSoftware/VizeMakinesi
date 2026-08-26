@@ -9,8 +9,13 @@
 export interface VisaTypeSection {
   heading: string;
   paragraphs: string[];
-  /** Optional bulleted document list rendered under the paragraphs. */
+  /** Optional unordered list (belge listeleri, "kimler başvurabilir" vb.). */
   bullets?: string[];
+  /**
+   * Optional ordered list rendered as numbered steps. Used by the
+   * "Başvuru Nasıl Yapılır?" sections, where the order matters.
+   */
+  steps?: string[];
   /**
    * Marks the "Gerekli Belgeler" section. That section additionally renders
    * the admin-uploaded PDF cards from `visa_type_documents`, matching the
@@ -55,28 +60,46 @@ export const VISA_TYPES: VisaTypeContent[] = [
     tag: 'Tip C',
     cardDesc: 'Tatil, gezi ve kısa süreli bireysel seyahatler.',
     heroSubtitle:
-      'Turistik vize başvurunuzda hangi koşulların, belgelerin ve değerlendirme kriterlerinin belirleyici olduğunu öğrenin.',
+      'Tatil planınızı hayata geçirmek için turistik vize başvuru sürecini ve tüm detayları inceleyin.',
     sections: [
       {
         heading: 'Turistik Vize Nedir ve Kimler Başvurabilir?',
         paragraphs: [
-          'Turistik vize; tatil, gezi, kültürel keşif ve kısa süreli bireysel seyahatler amacıyla başka bir ülkeye gitmek isteyen kişilerin başvurduğu vize türüdür. Turistik vizeye; tatil veya bireysel seyahat planlayanların yanı sıra organize tur programlarına katılacak, arkadaşlarını veya yakınlarını ziyaret edecek ya da kültürel, sanatsal ve sportif etkinlikleri izleyici olarak takip edecek kişiler de başvurabilir.',
+          'Turistik vize; tatil, gezi, kültürel keşif ve kısa süreli bireysel seyahatler amacıyla başka bir ülkeye gitmek isteyen kişilerin başvurduğu vize türüdür.',
+          'Bu vizeye kimler başvurabilir?',
+        ],
+        bullets: [
+          'Tatil veya bireysel seyahat planlayanlar',
+          'Organize tur programlarına katılacak olanlar',
+          'Arkadaş veya yakınlarını ziyaret edecekler',
+          'Kültürel, sanatsal ya da sportif etkinlikleri izleyici olarak takip etmek isteyenler',
         ],
       },
       {
         heading: 'Turistik Vize İçin Gerekli Belgeler',
         isDocuments: true,
         paragraphs: [
-          'Turistik vize başvurularında istenen belgeler; başvurulan ülkeye ve başvuru sahibinin kişisel durumuna göre değişebilir. Ancak başvurunun temelini oluşturan belgeler genellikle kimlik ve pasaport bilgilerini, seyahat planını, konaklama düzenlemelerini ve seyahatin finansal olarak karşılanabileceğini gösteren evrakları kapsar.',
-          'Başvuru sahibinin çalışma, eğitim, şirket, sponsorluk veya aile durumuna ilişkin belgeler de kişisel koşullara bağlı olarak dosyaya eklenebilir. Hazırlanacak belgelerin başvuru formundaki bilgilerle ve seyahat planıyla birbiriyle uyumlu olması önemlidir.',
+          'Her ülkenin vize politikası ve her başvuranın mesleki durumu farklı olduğu için istenen belgeler de değişiklik gösterebilir. Ancak başarılı bir turistik vize dosyasında mutlaka yer alması gereken temel unsurlar şunlardır:',
+        ],
+        bullets: [
+          'Kimlik ve Pasaport Bilgileri',
+          'Seyahat ve Konaklama Planı',
+          'Seyahat Sağlık Sigortası',
+          'Finansal Belgeler',
+          'Mesleki ve Kişisel Durum Belgeleri',
         ],
       },
       {
         heading: 'Turistik Vize Başvurusu Nasıl Yapılır?',
         paragraphs: [
-          'Turistik vize başvurusu, seyahat planının belirlenmesi ve başvurulacak ülkenin güncel vize koşullarının kontrol edilmesiyle başlar. Ardından başvuru için gerekli belgeler hazırlanır ve ilgili ülkenin belirlediği başvuru kanalı üzerinden başvuru gerçekleştirilir.',
-          'Başvuru formunun doldurulması, gerekli ücretin ödenmesi ve başvuru türüne göre randevu alınarak biyometrik işlemlerin tamamlanması gerekebilir. Bazı ülkelerde başvuru ve belge teslimi tamamen veya kısmen çevrim içi yürütülebilir.',
-          'Başvuru tamamlandıktan sonra dosya ilgili makam tarafından incelenir. Gerekli görülmesi halinde başvuru sahibinden ek belge, bilgi veya mülakat talep edilebilir. Değerlendirme tamamlandığında başvuru sonucu bildirilir.',
+          'Turistik vize almak için önce seyahat rotanızı netleştirip hedef ülkenin güncel kurallarını incelemeniz gerekir. Kurallar netleştikten sonra pasaport, konaklama ve finansal evraklarınızı eksiksiz şekilde bir araya getirmelisiniz.',
+          'Evraklar hazır olduktan sonra başvuru süreci şu adımlarla ilerler:',
+        ],
+        steps: [
+          'İlgili kurumun sisteminden başvuru formunun doldurulması ve harcın yatırılması',
+          'Ülkenin prosedürüne göre randevu alınıp biyometrik işlemlerin (parmak izi) tamamlanması (bazı ülkelerde bu süreç tamamen dijital üzerinden yürütülür)',
+          'Dosyanın konsolosluğa teslim edilip incelemeye alınması (bu aşamada ek evrak istenebilir veya mülakata çağrılabilir)',
+          'Tüm değerlendirmelerin ardından vize sonucunun açıklanması',
         ],
       },
       {
@@ -103,29 +126,46 @@ export const VISA_TYPES: VisaTypeContent[] = [
     tag: 'Tip C',
     cardDesc: 'İş görüşmeleri, şirket ziyaretleri ve ticari faaliyetler.',
     heroSubtitle:
-      'Ticari vize başvurunuzda hangi koşulların, belgelerin ve değerlendirme kriterlerinin belirleyici olduğunu öğrenin.',
+      'İş seyahatlerinizi hayata geçirmek için ticari vize başvuru sürecini ve tüm detayları inceleyin.',
     sections: [
       {
         heading: 'Ticari Vize Nedir ve Kimler Başvurabilir?',
         paragraphs: [
-          'Ticari vize; iş görüşmeleri, şirket ziyaretleri, toplantılar, fuarlar, konferanslar ve iş bağlantıları kurmaya yönelik kısa süreli seyahatler amacıyla başka bir ülkeye gitmek isteyen kişilerin başvurduğu vize türüdür. Ticari vizeye, planlanan iş faaliyetini destekleyen bilgi ve belgelere sahip olan kişiler başvurabilir.',
+          'Ticari vize; iş görüşmeleri, şirket ziyaretleri, toplantılar, fuarlar, konferanslar ve iş bağlantıları kurmaya yönelik kısa süreli seyahatler amacıyla başka bir ülkeye gitmek isteyen kişilerin başvurduğu vize türüdür.',
+          'Bu vizeye kimler başvurabilir?',
+        ],
+        bullets: [
+          'İş görüşmesi veya şirket ziyareti yapacak çalışanlar ve yöneticiler',
+          'Uluslararası fuar, kongre, seminer veya konferanslara katılacak olanlar',
+          'Yeni ticari ortaklıklar ve iş bağlantıları kurmak isteyen girişimciler',
+          'Şirket içi eğitim, montaj veya teknik incelemeler için seyahat edecek uzmanlar',
         ],
       },
       {
         heading: 'Ticari Vize İçin Gerekli Belgeler',
         isDocuments: true,
         paragraphs: [
-          'Ticari vize başvurularında istenen belgeler; başvurulan ülkeye, başvuru sahibinin mesleki durumuna ve planlanan ticari faaliyetin niteliğine göre değişebilir. Başvurunun temelini, kimlik ve pasaport bilgileriyle birlikte seyahatin amacını ve ticari niteliğini gösteren belgeler oluşturur.',
-          'Başvuruya göre iş görüşmesi, şirket ziyareti, fuar veya konferans gibi planlanan faaliyeti destekleyen davet, kayıt veya organizasyon belgeleri; başvuru sahibinin çalıştığını veya ticari faaliyet yürüttüğünü gösteren mesleki belgeler ve seyahat masraflarının nasıl karşılanacağını gösteren finansal belgeler talep edilebilir.',
-          'Hazırlanan belgelerin başvuru formundaki bilgilerle, seyahat planıyla ve başvurunun ticari amacıyla birbiriyle uyumlu olması önemlidir.',
+          'Her ülkenin vize politikası ve başvuranın/şirketin durumu farklı olduğu için istenen belgeler değişiklik gösterebilir. Ancak başarılı bir ticari vize dosyasında mutlaka yer alması gereken temel unsurlar şunlardır:',
+        ],
+        bullets: [
+          'Kimlik ve Pasaport Bilgileri',
+          'Şirket ve Mesleki Belgeler',
+          'Ticari Davetiye ve Etkinlik Belgeleri',
+          'Finansal Belgeler',
+          'Seyahat ve Konaklama Planı',
         ],
       },
       {
         heading: 'Ticari Vize Başvurusu Nasıl Yapılır?',
         paragraphs: [
-          'Ticari vize başvurusu, planlanan iş seyahatinin ve başvuru koşullarının belirlenmesiyle başlar. Ardından seyahatin amacını ve ticari faaliyetleri destekleyen belgeler hazırlanır ve başvurulan ülkenin belirlediği başvuru kanalı üzerinden başvuru gerçekleştirilir.',
-          'Başvuru formunun doldurulması, gerekli ücretin ödenmesi ve başvuru türüne göre randevu alınarak biyometrik işlemlerin tamamlanması gerekebilir. Bazı ülkelerde başvuru ve belge teslimi tamamen veya kısmen çevrim içi yürütülebilir.',
-          'Başvuru tamamlandıktan sonra dosya ilgili makam tarafından incelenir. Gerekli görülmesi halinde başvuru sahibinden ek belge, bilgi veya mülakat talep edilebilir. Değerlendirme tamamlandığında başvuru sonucu bildirilir.',
+          'Ticari vize almak için önce seyahat rotanızı ve iş planınızı netleştirip hedef ülkenin güncel kurallarını incelemeniz gerekir. Kurallar netleştikten sonra pasaport, mesleki evraklar ve ticari davetinizi eksiksiz şekilde bir araya getirmelisiniz.',
+          'Evraklar hazır olduktan sonra başvuru süreci şu adımlarla ilerler:',
+        ],
+        steps: [
+          'İlgili kurumun sisteminden başvuru formunun doldurulması ve harcın yatırılması',
+          'Ülkenin prosedürüne göre randevu alınıp biyometrik işlemlerin (parmak izi) tamamlanması (bazı ülkelerde bu süreç tamamen dijital üzerinden yürütülür)',
+          'Dosyanın konsolosluğa teslim edilip incelemeye alınması (bu aşamada ek ticari evrak istenebilir veya mülakata çağrılabilir)',
+          'Tüm değerlendirmelerin ardından vize sonucunun açıklanması',
         ],
       },
       {
@@ -139,7 +179,7 @@ export const VISA_TYPES: VisaTypeContent[] = [
     ],
     cta: {
       title: 'Ticari Vize Başvurunuzu Planlayın',
-      text: 'İş seyahatinizin amacını, ticari bağlantılarınızı ve başvuru koşullarınızı birlikte değerlendirerek dosyanız için izlemeniz gereken yolu belirleyelim.',
+      text: 'Seyahat planınızı ve ticari durumunuzu birlikte değerlendirerek ticari vize başvurunuz için izlemeniz gereken yolu belirleyelim.',
       label: 'Ticari Vize Başvurunuzu Planlayın',
     },
     faqTitle: 'Ticari vize —',
@@ -154,30 +194,47 @@ export const VISA_TYPES: VisaTypeContent[] = [
     cardDesc:
       'Yurt dışında yaşayan aile bireylerini ve yakınları ziyaret etmeye yönelik başvurular.',
     heroSubtitle:
-      'Aile ziyareti vize başvurunuzda hangi koşulların, belgelerin ve değerlendirme kriterlerinin önemli olduğunu öğrenin.',
+      'Yurt dışında yaşayan aile üyelerinizi, akrabalarınızı veya arkadaşlarınızı ziyaret etmek için aile ziyareti vizesi başvuru sürecini ve tüm detayları inceleyin.',
     sections: [
       {
         heading: 'Aile Ziyareti Vizesi Nedir ve Kimler Başvurabilir?',
         paragraphs: [
-          'Aile ziyareti vizesi; yurt dışında yaşayan aile bireylerini veya yakınlarını kısa süreli olarak ziyaret etmek isteyen kişilerin başvurduğu vize türüdür. Ziyaretin amacı, süresi ve başvuru sahibinin ziyaret edeceği kişiyle olan ilişkisi başvurunun değerlendirilmesinde dikkate alınabilir.',
-          'Aile ziyareti vizesine; eşini, çocuklarını, anne veya babasını, kardeşlerini ya da diğer yakınlarını kısa süreli ziyaret etmek isteyen kişiler başvurabilir. Ziyaretin niteliğine göre davet eden kişinin ülkedeki yasal statüsünü ve başvuru sahibiyle olan ilişkisini gösteren belgeler de talep edilebilir.',
+          'Aile ziyareti vizesi; başka bir ülkede yasal olarak ikamet eden aile üyelerini, akrabaları veya yakın tanıdıkları ziyaret etmek amacıyla kısa süreli seyahat etmek isteyen kişilerin başvurduğu vize türüdür.',
+          'Bu vizeye kimler başvurabilir?',
+        ],
+        bullets: [
+          'Yurt dışında yaşayan anne, baba, kardeş, çocuk veya eşini ziyaret edecek olanlar',
+          'Diğer yakın akrabalarını ya da aile dostlarını kısa süreliğine ziyaret etmek isteyenler',
+          'Yurt dışındaki düğün, nişan, mezuniyet veya benzeri ailevi etkinliklere katılacak olanlar',
+          'Doğum, hastalık veya özel mazeretler nedeniyle acil aile ziyareti gerçekleştirecek bireyler',
         ],
       },
       {
         heading: 'Aile Ziyareti Vizesi İçin Gerekli Belgeler',
         isDocuments: true,
         paragraphs: [
-          'Aile ziyareti vize başvurularında istenen belgeler; başvurulan ülkeye, ziyaret edilecek kişinin statüsüne ve başvuru sahibinin kişisel durumuna göre değişebilir. Başvurunun temelini kimlik ve pasaport belgeleri, seyahat planı, konaklama düzenlemeleri ve seyahatin finansal olarak karşılanabileceğini gösteren belgeler oluşturur.',
-          'Aile ziyaretinin amacını desteklemek için davet mektubu, ziyaret edilecek kişinin kimlik veya oturum durumunu gösteren belgeler ve başvuru sahibiyle arasındaki aile bağını ortaya koyan resmi belgeler talep edilebilir.',
-          'Başvuru sahibinin çalışma, eğitim, şirket veya sponsorluk durumuna ilişkin belgeler de kişisel koşullara ve başvurulan ülkenin uygulamalarına göre dosyaya eklenebilir. Sunulan belgelerin başvuru formundaki bilgilerle, seyahat planıyla ve ziyaretin amacıyla birbiriyle uyumlu olması önemlidir.',
+          'Her ülkenin vize politikası ve başvuranın durumu farklı olduğu için istenen belgeler değişiklik gösterebilir. Ancak başarılı bir aile ziyareti vizesi dosyasında mutlaka yer alması gereken temel unsurlar şunlardır:',
+        ],
+        bullets: [
+          'Kimlik ve Pasaport Bilgileri',
+          'Mesleki ve Kişisel Durum Belgeleri',
+          'Resmi Davetiye ve İkamet Belgeleri',
+          'Akrabalık ve Bağlantı Belgeleri',
+          'Finansal Belgeler',
+          'Seyahat ve Konaklama Planı',
         ],
       },
       {
         heading: 'Aile Ziyareti Vizesi Başvurusu Nasıl Yapılır?',
         paragraphs: [
-          'Aile ziyareti vize başvurusu, ziyaretin amacı ve başvuru koşullarının belirlenmesiyle başlar. Ardından başvuru sahibinin ve ziyaret edilecek kişinin durumunu destekleyen belgeler hazırlanır ve başvurulan ülkenin belirlediği başvuru kanalı üzerinden başvuru gerçekleştirilir.',
-          'Başvuru formunun doldurulması, gerekli ücretin ödenmesi ve başvuru türüne göre randevu alınarak biyometrik işlemlerin tamamlanması gerekebilir. Bazı ülkelerde başvuru ve belge teslimi tamamen veya kısmen çevrim içi yürütülebilir.',
-          'Başvuru tamamlandıktan sonra dosya ilgili makam tarafından incelenir. Gerekli görülmesi halinde başvuru sahibinden veya davet eden kişiden ek belge, bilgi ya da mülakat talep edilebilir.',
+          'Aile ziyareti vizesi almak için öncelikle seyahat tarihlerinizi ve davet eden kişiyle olan planınızı netleştirip hedef ülkenin güncel kurallarını incelemeniz gerekir. Kurallar netleştikten sonra pasaport, davetiye ve akrabalık bağını kanıtlayan evrakları bir araya getirmelisiniz.',
+          'Evraklar hazır olduktan sonra başvuru süreci şu adımlarla ilerler:',
+        ],
+        steps: [
+          'İlgili kurumun sisteminden başvuru formunun doldurulması ve harcın yatırılması',
+          'Ülkenin prosedürüne göre randevu alınıp biyometrik işlemlerin (parmak izi) tamamlanması (bazı ülkelerde bu süreç tamamen dijital üzerinden yürütülür)',
+          'Dosyanın konsolosluğa teslim edilip incelemeye alınması (bu aşamada ek akrabalık belgesi veya davetiye detayları istenebilir)',
+          'Tüm değerlendirmelerin ardından vize sonucunun açıklanması',
         ],
       },
       {
@@ -191,8 +248,8 @@ export const VISA_TYPES: VisaTypeContent[] = [
     ],
     cta: {
       title: 'Aile Ziyareti Vize Başvurunuzu Planlayın',
-      text: 'Ziyaretinizin amacını, aile bağınızı ve başvuru koşullarınızı birlikte değerlendirerek dosyanız için izlemeniz gereken yolu belirleyelim.',
-      label: 'Aile Ziyareti Başvurunuzu Planlayın',
+      text: 'Seyahat planınızı ve akrabalık/kişisel durumunuzu birlikte değerlendirerek aile ziyareti vizesi başvurunuz için izlemeniz gereken yolu belirleyelim.',
+      label: 'Aile Ziyareti Vize Başvurunuzu Planlayın',
     },
     faqTitle: 'Aile ziyareti vizesi —',
   },
@@ -205,38 +262,46 @@ export const VISA_TYPES: VisaTypeContent[] = [
     tag: 'Tip C',
     cardDesc: 'Başka bir ülkeye seyahat sırasında transit geçiş gerektiren durumlar.',
     heroSubtitle:
-      'Transit vize başvurunuzda hangi durumlarda vize gerektiğini, hangi koşulların ve belgelerin önemli olduğunu öğrenin.',
+      'Başka bir ülkeye seyahat ederken aktarma yapacağınız havalimanında veya ülkede sorun yaşamamak için transit vize süreçlerini ve detaylarını inceleyin.',
     sections: [
       {
         heading: 'Transit Vize Nedir ve Kimler Başvurabilir?',
         paragraphs: [
-          'Transit vize; bir ülkeye asıl seyahat noktası olarak gitmeden, başka bir ülkeye ulaşmak amacıyla transit geçiş yapan yolcular için düzenlenen vize türüdür. Transit geçiş, havalimanında aktarma yapılması veya belirli durumlarda bir ülkenin topraklarından kısa süreli geçilmesi şeklinde gerçekleşebilir.',
-          'Transit vize gerekip gerekmediği; seyahat güzergâhına, aktarma yapılan ülkeye, yolcunun vatandaşlığına ve transit sırasında ülkeye giriş yapılıp yapılmadığına göre değişebilir. Özellikle havalimanlarında uluslararası transit alanından ayrılmadan yapılan aktarmalar ile ülkeye giriş gerektiren aktarmalar aynı şekilde değerlendirilmez.',
-          'Schengen ülkelerinde havalimanı transit vizesi, uluslararası transit alanından ayrılmadan başka bir ülkeye devam edilen belirli aktarmalarda uygulanır. Havalimanı transit vizesi, kural olarak Schengen bölgesine giriş hakkı vermez.',
+          'Transit vize; nihai varış noktasına ulaşmak için aradaki bir ülkenin havaalanından (havaalanı transit vizesi) veya kara/deniz yoluyla geçiş yapacak yolcuların alması gereken vize türüdür.',
+          'Bu vizeye kimler başvurabilir?',
+        ],
+        bullets: [
+          'Uçuşu sırasında belirli ülkelerin havalimanlarında transit bölgeden dışarı çıkacak veya terminal değiştirecek olanlar',
+          'Aktarmalı uçuşunda havayolu veya bilet koşulları gereği pasaport kontrolünden geçerek ülkeye girmesi gerekenler',
+          'Kara yolu veya demir yoluyla bir ülkeden başka bir ülkeye geçiş yapacak yolcular',
+          'Gemi seyahatleri (kruvaziyer) öncesinde veya sırasında ilgili ülke limanlarından geçiş yapacak olanlar',
         ],
       },
       {
         heading: 'Transit Vize İçin Gerekli Belgeler',
         isDocuments: true,
         paragraphs: [
-          'Transit vize başvurularında istenen belgeler; aktarma yapılan ülkeye, seyahat güzergâhına ve başvuru sahibinin durumuna göre değişebilir. Başvurunun temelini genellikle geçerli pasaport, seyahat güzergâhını gösteren belgeler ve gidilecek ülkeye devam edileceğini gösteren seyahat belgeleri oluşturur.',
-          'Başvurunun niteliğine göre aşağıdaki belgeler talep edilebilir:',
+          'Her ülkenin vize politikası ve başvuranın rotası farklı olduğu için istenen belgeler değişiklik gösterebilir. Ancak başarılı bir transit vize dosyasında mutlaka yer alması gereken temel unsurlar şunlardır:',
         ],
         bullets: [
-          'Geçerli pasaport ve kimlik bilgilerini gösteren belgeler',
-          'Uçuş veya ulaşım rezervasyonları',
-          'Transit geçiş yapılacak ülkeye ilişkin seyahat bilgileri',
-          'Nihai varış ülkesine giriş hakkını gösteren vize veya izin',
-          'Gerekli durumlarda konaklama ve finansal durumu gösteren belgeler',
-          'Seyahatin amacını veya transit geçişin koşullarını destekleyen ek belgeler',
+          'Kimlik ve Pasaport Bilgileri',
+          'Nihai Hedef Ülkenin Vizesi veya Seyahat Belgeleri',
+          'Uçuş ve Ulaşım Rezervasyonları',
+          'Konaklama Planı',
+          'Finansal Belgeler',
         ],
       },
       {
         heading: 'Transit Vize Başvurusu Nasıl Yapılır?',
         paragraphs: [
-          'Transit vize başvurusu, seyahat güzergâhının ve transit geçiş yapılacak ülkenin vize koşullarının belirlenmesiyle başlar. Öncelikle aktarma sırasında ülkeye giriş yapılıp yapılmayacağı ve başvuru sahibinin vatandaşlığı açısından transit vize gerekip gerekmediği kontrol edilir.',
-          'Gerekli olması halinde başvuru formu ve destekleyici belgeler hazırlanarak ilgili konsolosluk veya yetkilendirilmiş başvuru kanalı üzerinden başvuru yapılır. Başvuru türüne göre randevu alınması ve biyometrik işlemlerin tamamlanması gerekebilir.',
-          'Başvuru sırasında seyahat güzergâhının, aktarma noktalarının ve nihai varış ülkesine ilişkin bilgilerin birbiriyle uyumlu şekilde sunulması önemlidir.',
+          'Transit vize almak için öncelikle uçuş rotanızı ve transit geçiş yapacağınız ülkenin kurallarını netleştirmeniz gerekir. Bazı ülkeler sadece havalimanı içinde kalındığında transit vize istemezken, bazıları pasaport kontrolünden geçilmese bile vize talep edebilir. Kurallar netleştikten sonra pasaport, uçak biletleri ve nihai hedef ülke vizenizi bir araya getirmelisiniz.',
+          'Evraklar hazır olduktan sonra başvuru süreci şu adımlarla ilerler:',
+        ],
+        steps: [
+          'İlgili kurumun sisteminden başvuru formunun doldurulması ve harcın yatırılması',
+          'Ülkenin prosedürüne göre randevu alınıp işlemlerin tamamlanması (bazı ülkelerde bu süreç tamamen dijital veya online üzerinden yürütülür)',
+          'Dosyanın konsolosluğa teslim edilip incelemeye alınması (bu aşamada uçuş detayları veya ek seyahat belgeleri istenebilir)',
+          'Tüm değerlendirmelerin ardından vize sonucunun açıklanması',
         ],
       },
       {
@@ -250,7 +315,7 @@ export const VISA_TYPES: VisaTypeContent[] = [
     ],
     cta: {
       title: 'Transit Vize Başvurunuzu Planlayın',
-      text: 'Seyahat güzergâhınızı ve aktarma koşullarınızı birlikte değerlendirerek transit vize gerekliliğinizi ve izlemeniz gereken yolu belirleyelim.',
+      text: 'Uçuş rotanızı ve transit geçiş yapacağınız ülkenin kurallarını birlikte değerlendirerek transit vize başvurunuz için izlemeniz gereken yolu belirleyelim.',
       label: 'Transit Vize Başvurunuzu Planlayın',
     },
     faqTitle: 'Transit vize —',
@@ -264,38 +329,46 @@ export const VISA_TYPES: VisaTypeContent[] = [
     tag: 'Tip C',
     cardDesc: 'Fuar, konferans, kongre ve benzeri etkinliklere katılım.',
     heroSubtitle:
-      'Fuar, konferans veya kültürel etkinlik katılımınız için hangi koşulların, belgelerin ve değerlendirme kriterlerinin önemli olduğunu öğrenin.',
+      'Uluslararası fuarlara, akademik konferanslara, sanatsal gösterilere veya kültürel organizasyonlara katılmak için vize başvuru sürecini ve tüm detayları inceleyin.',
     sections: [
       {
         heading: 'Fuar, Kültürel Etkinlik ve Konferans Vizesi Nedir ve Kimler Başvurabilir?',
         paragraphs: [
-          'Fuar, kültürel etkinlik ve konferans vizesi; yurt dışında düzenlenen fuar, konferans, kongre, seminer, kültürel veya benzeri etkinliklere kısa süreli olarak katılmak isteyen kişilerin başvurduğu vize türüdür.',
-          'Bu kapsamda fuarları ziyaret edecek veya katılımcı olarak yer alacak kişiler, konferans ve kongrelere katılacak profesyoneller, kültürel etkinlikleri takip edecek kişiler ve etkinliğin niteliğine göre sanat veya spor organizasyonlarına katılacak kişiler başvurabilir.',
-          'Başvurunun niteliği, katılım şekli ve etkinliğin amacı; sunulması gereken belgeleri ve başvurunun değerlendirilmesini etkileyebilir.',
+          'Fuar, kültürel etkinlik ve konferans vizesi; ticari fuarlar, endüstriyel sergiler, akademik kongreler, bilimsel sempozyumlar, sanatsal festivaller, konserler veya uluslararası spor müsabakaları gibi özel amaçlı organizasyonlara katılmak amacıyla başka bir ülkeye gitmek isteyen kişilerin başvurduğu vize türüdür.',
+          'Bu vizeye kimler başvurabilir?',
+        ],
+        bullets: [
+          'Uluslararası fuarlara stant açarak katılımcı veya ziyaretçi olarak gidecek olan iş insanları ve çalışanlar',
+          'Akademik kongre, sempozyum veya konferanslarda sunum yapacak, konuşmacı olacak veya araştırmasını paylaşacak akademisyen ve öğrenciler',
+          'Tiyatro, müzik, sinema veya sergi gibi kültürel ve sanatsal projelere katılacak sanatçılar ve organizasyon ekipleri',
+          'Uluslararası spor müsabakalarına, turnuvalara veya kamplara katılacak sporcular, antrenörler ve teknik heyet',
         ],
       },
       {
         heading: 'Fuar, Kültürel Etkinlik ve Konferans Vizesi İçin Gerekli Belgeler',
         isDocuments: true,
         paragraphs: [
-          'Bu tür vize başvurularında gerekli belgeler; etkinliğin niteliğine, başvurulan ülkeye ve başvuru sahibinin etkinliğe katılım şekline göre değişebilir. Başvurunun temelini genellikle kimlik ve pasaport belgeleri, seyahat planı ve seyahatin finansal olarak karşılanabileceğini gösteren belgeler oluşturur.',
-          'Etkinliğin amacını ve katılımı desteklemek için aşağıdaki belgelerden biri veya birkaçı talep edilebilir:',
+          'Her ülkenin vize politikası ve başvuranın etkinliğe katılım statüsü farklı olduğu için istenen belgeler değişiklik gösterebilir. Ancak başarılı bir etkinlik vizesi dosyasında mutlaka yer alması gereken temel unsurlar şunlardır:',
         ],
         bullets: [
-          'Etkinlik organizatöründen davet veya katılım yazısı',
-          'Fuar, konferans veya kongre kayıt belgesi',
-          'Giriş bileti veya katılımcı kartı',
-          'Etkinlik programı ve etkinliğin tarihlerini gösteren belgeler',
-          'Stant, katılımcılık veya organizasyona ilişkin sözleşme ve belgeler',
-          'Etkinliğe ilişkin profesyonel veya kurumsal bağlantıyı gösteren belgeler',
+          'Kimlik ve Pasaport Bilgileri',
+          'Mesleki ve Kurumsal Durum Belgeleri',
+          'Etkinlik Davetiye, Kayıt ve Kabul Belgeleri',
+          'Finansal Belgeler',
+          'Seyahat ve Konaklama Planı',
         ],
       },
       {
         heading: 'Fuar, Kültürel Etkinlik ve Konferans Vizesi Başvurusu Nasıl Yapılır?',
         paragraphs: [
-          'Başvuru, öncelikle katılacağınız etkinliğin ve seyahat amacının belirlenmesiyle başlar. Etkinliğin tarihleri, düzenlendiği yer, katılım şekliniz ve seyahat süresi belirlendikten sonra başvuru için gerekli belgeler hazırlanır.',
-          'Başvuru formu ve destekleyici belgeler, başvurulan ülkenin belirlediği konsolosluk veya yetkilendirilmiş başvuru kanalı üzerinden sunulur. Başvuru türüne göre randevu alınması ve biyometrik işlemlerin tamamlanması gerekebilir.',
-          'Başvuruda etkinlik bilgileri, seyahat planı, konaklama ve finansal duruma ilişkin bilgilerin birbiriyle uyumlu olması önemlidir.',
+          'Bu vizeyi almak için öncelikle katılacağınız etkinliğin tarihini, yerini ve etkinlikle olan kurumsal/bireysel bağınızı netleştirip hedef ülkenin güncel kurallarını incelemeniz gerekir. Kurallar netleştikten sonra pasaport, kurumunuzdan alınacak görev yazısı ve etkinliğe katılımınızı kanıtlayan resmi evrakları bir araya getirmelisiniz.',
+          'Evraklar hazır olduktan sonra başvuru süreci şu adımlarla ilerler:',
+        ],
+        steps: [
+          'İlgili kurumun sisteminden başvuru formunun doldurulması ve harcın yatırılması',
+          'Ülkenin prosedürüne göre randevu alınıp biyometrik işlemlerin (parmak izi) tamamlanması (bazı ülkelerde bu süreç tamamen dijital üzerinden yürütülür)',
+          'Dosyanın konsolosluğa teslim edilip incelemeye alınması (bu aşamada ek etkinlik programı veya sunum detayları istenebilir)',
+          'Tüm değerlendirmelerin ardından vize sonucunun açıklanması',
         ],
       },
       {
@@ -308,9 +381,9 @@ export const VISA_TYPES: VisaTypeContent[] = [
       },
     ],
     cta: {
-      title: 'Etkinlik Vize Başvurunuzu Planlayın',
-      text: 'Katılacağınız etkinliği, katılım şeklinizi ve başvuru koşullarınızı birlikte değerlendirerek dosyanız için izlemeniz gereken yolu belirleyelim.',
-      label: 'Etkinlik Vize Başvurunuzu Planlayın',
+      title: 'Fuar, Konferans ve Etkinlik Vize Başvurunuzu Planlayın',
+      text: 'Seyahat planınızı ve uluslararası etkinlik katılım durumunuzu birlikte değerlendirerek vize başvurunuz için izlemeniz gereken yolu belirleyelim.',
+      label: 'Fuar, Konferans ve Etkinlik Vize Başvurunuzu Planlayın',
     },
     faqTitle: 'Fuar, etkinlik ve konferans vizesi —',
   },
@@ -327,39 +400,46 @@ export const VISA_TYPES: VisaTypeContent[] = [
     cardDesc:
       'Yurt dışında yaşayan aile bireyinin yanına uzun süreli yerleşmeye yönelik başvurular.',
     heroSubtitle:
-      'Aile birleşimi vizesi başvurunuzda hangi koşulların, belgelerin ve değerlendirme kriterlerinin önemli olduğunu öğrenin.',
+      'Yurt dışında yaşayan eşinizin veya aile bireyinizin yanına yerleşmek için aile birleşimi vizesi başvuru sürecini ve tüm detayları inceleyin.',
     sections: [
       {
         heading: 'Aile Birleşimi Vizesi Nedir ve Kimler Başvurabilir?',
         paragraphs: [
-          'Aile birleşimi vizesi; başka bir ülkede yasal olarak yaşayan aile bireyinin yanına uzun süreli olarak yerleşmek isteyen kişilerin başvurduğu vize türüdür. Başvurunun amacı, aile bireylerinin aynı ülkede birlikte yaşayabilmesini sağlamaktır.',
-          'Aile birleşimi kapsamında başvuru yapabilecek kişiler ve başvurunun şartları, gidilecek ülkenin göç mevzuatına ve aile bireyleri arasındaki hukuki ilişkiye göre değişebilir. Eşler, çocuklar ve bazı durumlarda diğer aile bireyleri için farklı koşullar uygulanabilir.',
-          'Başvuru sahibinin aile ilişkisini, aile birleşimi hakkının bulunduğunu ve ilgili ülkenin uzun süreli yerleşim şartlarını karşıladığını gösteren belgeler talep edilebilir.',
+          'Aile birleşimi vizesi; başka bir ülkede vatandaşlık veya yasal oturum izniyle ikamet eden bir kişinin, aile bireylerinin de kendi yanında yaşayabilmesi amacıyla başvurduğu uzun süreli (D tipi / Ulusal) vize türüdür.',
+          'Bu vizeye kimler başvurabilir?',
+        ],
+        bullets: [
+          'Yurt dışında yaşayan yasal eşinin yanına yerleşmek isteyen evli bireyler',
+          'Yurt dışındaki ebeveynlerinin yanına gitmek isteyen 18 yaş altı reşit olmayan çocuklar',
+          'Belirli şartlar altında yurt dışındaki çocuklarının yanına yerleşmek isteyen bakmakla yükümlü olunan ebeveynler',
+          'Evlilik hazırlığı yapıp hedef ülkede evlenecek olan nişanlılar (evlilik vizesi kapsamında)',
         ],
       },
       {
         heading: 'Aile Birleşimi Vizesi İçin Gerekli Belgeler',
         isDocuments: true,
         paragraphs: [
-          'Aile birleşimi başvurularında gerekli belgeler; başvurulan ülkeye, başvuru sahibinin aile ilişkisine ve ülkede yaşayan aile bireyinin statüsüne göre değişiklik gösterebilir.',
-          'Başvurularda genellikle aşağıdaki belge grupları talep edilir:',
+          'Uzun süreli bir yerleşim vizesi olduğu için istenen evraklar hem başvuranın hem de yurt dışındaki sponsorun (eşin/akrabanın) resmi durumunu kapsamalıdır. Başarılı bir aile birleşimi dosyasında mutlaka yer alması gereken temel unsurlar şunlardır:',
         ],
         bullets: [
-          'Geçerli pasaport ve kimlik belgeleri',
-          'Evlilik veya aile bağını gösteren resmi belgeler',
-          'Başvuru sahibinin ve aile bireyinin kişisel durumunu gösteren belgeler',
-          'Ülkede yaşayan aile bireyinin oturum veya vatandaşlık durumunu gösteren belgeler',
-          'Konut ve yaşam koşullarına ilişkin belgeler',
-          'Gelir veya finansal yeterliliği gösteren belgeler',
-          'Gerekli durumlarda sağlık sigortası ve diğer destekleyici belgeler',
+          'Kimlik ve Pasaport Bilgileri',
+          'Evlilik / Akrabalık Bağını Kanıtlayan Uluslararası Belgeler (Formül B vb.)',
+          'Dil Yeterlilik Sertifikaları (ilgili ülkenin zorunlu tuttuğu dil seviye belgeleri)',
+          'Sponsorun (Yurt Dışındaki Eş/Akraba) Oturum ve Vatandaşlık Belgeleri',
+          'Sponsorun Gelir ve Konaklama Belgeleri (Mali Yeterlilik ve Kira Sözleşmesi)',
         ],
       },
       {
-        heading: 'Aile Birleşimi Vizesi Başvurusu Nasıl Yapılır?',
+        heading: 'Aile Birleşimi Vize Başvurusu Nasıl Yapılır?',
         paragraphs: [
-          'Aile birleşimi başvurusu, öncelikle başvuru sahibinin ve yurt dışında yaşayan aile bireyinin aile birleşimi şartlarını karşılayıp karşılamadığının belirlenmesiyle başlar.',
-          'Gerekli belgeler hazırlandıktan sonra başvuru, ilgili ülkenin belirlediği konsolosluk, büyükelçilik veya yetkilendirilmiş başvuru kanalı üzerinden yapılır. Başvuru türüne göre randevu, biyometrik işlemler, mülakat veya ek belge sunulması gerekebilir.',
-          'Bazı ülkelerde aile birleşimi sürecinin bir bölümü, başvuru sahibinin bulunduğu ülkeden değil, aile bireyinin yaşadığı ülkedeki göç makamları tarafından yürütülebilir. Bu nedenle başvuru sürecinin yalnızca vize başvurusu olarak değil, ilgili ülkenin aile birleşimi prosedürünün tamamı olarak değerlendirilmesi gerekir.',
+          'Aile birleşimi vizesi, turistik veya ticari vizelerden farklı olarak doğrudan uzun süreli ulusal (D tipi) vize kategorisinde değerlendirilir. Süreç genellikle hedef ülkenin konsolosluğu veya yetkili aracı kurumları üzerinden yürütülür.',
+          'Evraklar hazır olduktan sonra başvuru süreci şu adımlarla ilerler:',
+        ],
+        steps: [
+          'Hedef ülkenin konsolosluk sisteminden uzun süreli vize randevusunun alınması ve başvuru formunun doldurulması',
+          'Uluslararası evrakların (evlenme cüzdanı, nüfus kayıt örneği vb.) apostilli ve tercüme edilmiş hallerinin hazırlanması',
+          'Randevu günü şahsen başvuru merkezine gidilerek biyometrik işlemlerin ve varsa yabancı dil mülakatının tamamlanması',
+          "Dosyanın hedef ülkedeki ilgili Yabancılar Şubesi'ne (Ausländerbehörde vb.) gönderilerek onay sürecinin beklenmesi",
         ],
       },
       {
@@ -373,9 +453,9 @@ export const VISA_TYPES: VisaTypeContent[] = [
       },
     ],
     cta: {
-      title: 'Aile Birleşimi Sürecinizi Planlayın',
-      text: 'Aile ilişkinizi, yurt dışındaki aile bireyinizin statüsünü ve başvuru koşullarınızı değerlendirerek aile birleşimi sürecinizi doğru adımlarla planlayalım.',
-      label: 'Vize Başvurunuzu Planlayın',
+      title: 'Aile Birleşimi Vize Başvurunuzu Planlayın',
+      text: 'Eş ve aile birleşimi sürecinizi, dil belgelerinizi ve sponsorluk şartlarını birlikte değerlendirerek başvurunuz için en doğru adımları atalım.',
+      label: 'Aile Birleşimi Vize Başvurunuzu Planlayın',
     },
     faqTitle: 'Aile birleşimi vizesi —',
   },
@@ -388,40 +468,48 @@ export const VISA_TYPES: VisaTypeContent[] = [
     tag: 'Tip D',
     cardDesc: 'Yurt dışında eğitim, dil okulu ve akademik programlar.',
     heroSubtitle:
-      'Yurt dışında eğitim alacak öğrenciler için hangi koşulların, belgelerin ve başvuru adımlarının önemli olduğunu öğrenin.',
+      'Yurt dışında lisans, yüksek lisans, doktora eğitimi almak, dil okuluna gitmek veya uluslararası değişim programlarına katılmak için öğrenci vizesi başvuru sürecini ve tüm detayları inceleyin.',
     sections: [
       {
         heading: 'Öğrenci Vizesi Nedir ve Kimler Başvurabilir?',
         paragraphs: [
-          'Öğrenci vizesi; yurt dışında eğitim almak, akademik bir programa katılmak veya belirli süreli bir eğitim programında bulunmak isteyen kişilerin başvurduğu uzun süreli vize türüdür.',
-          'Öğrenci vizesine üniversite, yüksek lisans veya doktora programlarına kabul edilen öğrencilerin yanı sıra, ülkenin uygulamalarına bağlı olarak dil eğitimi, mesleki eğitim veya diğer uzun süreli eğitim programlarına katılacak kişiler de başvurabilir.',
-          'Başvurunun yapılabilmesi için genellikle eğitim kurumundan alınmış resmi bir kabul veya kayıt belgesinin bulunması gerekir. Vize şartları; eğitimin türüne, süresine ve başvurulan ülkenin eğitim ve göç mevzuatına göre değişebilir.',
+          'Öğrenci vizesi; başka bir ülkede akredite edilmiş bir eğitim kurumunda tam zamanlı akademik eğitim, mesleki kurs, dil eğitimi veya değişim programı görmek amacıyla uzun süreli (D tipi / Ulusal) ikamet etmek isteyen kişilerin başvurduğu vize türüdür.',
+          'Bu vizeye kimler başvurabilir?',
+        ],
+        bullets: [
+          'Yurt dışındaki bir üniversiteden lisans, yüksek lisans (master) veya doktora kabulü almış olanlar',
+          'Üniversite eğitimi öncesi dil hazırlık eğitimi veya şartlı kabul alan öğrenciler',
+          'Yurt dışındaki sertifikalı dil okullarına veya meslek kurslarına kayıt yaptıranlar',
+          'Erasmus, AIESEC veya benzeri uluslararası değişim programlarıyla gidecek olan öğrenciler',
+          'Yatay geçiş veya staj programları kapsamında yurt dışındaki bir eğitim kurumunda bulunacaklar',
         ],
       },
       {
         heading: 'Öğrenci Vizesi İçin Gerekli Belgeler',
         isDocuments: true,
         paragraphs: [
-          'Öğrenci vizesi başvurularında talep edilen belgeler; eğitim programına, başvurulan ülkeye ve öğrencinin kişisel durumuna göre değişiklik gösterebilir.',
-          'Başvurularda genellikle aşağıdaki belge grupları talep edilir:',
+          'Uzun süreli bir eğitim ve yerleşim vizesi olduğu için dosyanın hem akademik altyapıyı hem de güçlü bir finansal planı kanıtlaması gerekir. Başarılı bir öğrenci vizesi dosyasında mutlaka yer alması gereken temel unsurlar şunlardır:',
         ],
         bullets: [
-          'Geçerli pasaport ve kimlik belgeleri',
-          'Eğitim kurumundan alınmış kabul veya kayıt belgesi',
-          'Eğitim programının süresini ve niteliğini gösteren belgeler',
-          'Eğitim ve yaşam giderlerinin karşılanabileceğini gösteren finansal belgeler',
-          'Konaklama bilgileri',
-          'Gerekli durumlarda sağlık sigortası',
-          'Eğitim geçmişini gösteren diploma, transkript veya benzeri belgeler',
-          'Başvuru formu ve gerekli diğer başvuru belgeleri',
+          'Kimlik ve Pasaport Bilgileri',
+          'Eğitim Kabul ve Kayıt Belgeleri (Üniversite Kabul Mektubu veya Kurs Kayıt Belgesi)',
+          'Dil Yeterlilik Sertifikaları (IELTS, TOEFL, TestDaF, Goethe vb.)',
+          'Geçmiş Eğitim Belgeleri (Diplomalar, Transkriptler ve Not Dökümleri)',
+          'Finansal Yeterlilik ve Sponsorluk Belgeleri (Bloke Hesap, Banka Dökümleri veya Burs Belgeleri)',
+          'Sağlık Sigortası ve Konaklama Planı',
         ],
       },
       {
-        heading: 'Öğrenci Vizesi Başvurusu Nasıl Yapılır?',
+        heading: 'Öğrenci Vize Başvurusu Nasıl Yapılır?',
         paragraphs: [
-          'Öğrenci vizesi başvurusu, öncelikle eğitim kurumundan kabul veya kayıt alınmasıyla başlar. Eğitim programının başlangıç tarihi, süresi ve eğitim koşulları belirlendikten sonra başvuru için gerekli belgeler hazırlanır.',
-          'Başvuru formu ve destekleyici belgeler, başvurulan ülkenin belirlediği konsolosluk, büyükelçilik veya yetkilendirilmiş başvuru kanalı üzerinden sunulur. Başvuru türüne göre randevu, biyometrik işlemler, mülakat veya ek belge sunulması gerekebilir.',
-          'Başvurunun eğitim başlangıç tarihinden önce sonuçlanabilmesi için randevu ve işlem sürelerinin önceden dikkate alınması önemlidir.',
+          'Öğrenci vizesi, turistik veya ticari vizelerden farklı olarak doğrudan uzun süreli ulusal (D tipi) vize kategorisinde değerlendirilir. Süreç, okuldan kabul alınmasıyla başlar ve hedef ülkenin konsolosluk veya yetkili aracı kurumları üzerinden yürütülür.',
+          'Kabul belgesi alındıktan sonra başvuru süreci şu adımlarla ilerler:',
+        ],
+        steps: [
+          'Hedef ülkenin konsolosluk sisteminden uzun süreli öğrenci vizesi randevusunun alınması ve başvuru formunun doldurulması',
+          'Finansal garantinin (bloke hesap veya sponsor belgeleri) ve dil belgelerinin eksiksiz olarak hazırlanması',
+          'Randevu günü şahsen başvuru merkezine gidilerek biyometrik işlemlerin ve niyet mülakatının tamamlanması',
+          "Dosyanın hedef ülkedeki ilgili Yabancılar Şubesi'ne veya eğitim makamlarına gönderilerek onay sürecinin beklenmesi",
         ],
       },
       {
@@ -435,9 +523,9 @@ export const VISA_TYPES: VisaTypeContent[] = [
       },
     ],
     cta: {
-      title: 'Eğitiminiz İçin Vize Sürecinizi Planlayın',
-      text: 'Eğitim programınızı, başvuru koşullarınızı ve gerekli belgeleri değerlendirerek öğrenci vize sürecinizi doğru adımlarla planlayalım.',
-      label: 'Vize Başvurunuzu Planlayın',
+      title: 'Öğrenci Vize Başvurunuzu Planlayın',
+      text: 'Kabul belgelerinizi, bloke hesap süreçlerinizi ve niyet mektubunuzu birlikte değerlendirerek eğitim yolculuğunuz için en doğru adımları atalım.',
+      label: 'Öğrenci Vize Başvurunuzu Planlayın',
     },
     faqTitle: 'Öğrenci vizesi —',
   },
@@ -450,43 +538,48 @@ export const VISA_TYPES: VisaTypeContent[] = [
     tag: 'Tip D',
     cardDesc: 'Yurt dışında yasal olarak çalışmaya yönelik başvurular.',
     heroSubtitle:
-      'Yurt dışında çalışmak için vize başvurunuzda hangi koşulların, belgelerin ve başvuru adımlarının önemli olduğunu öğrenin.',
+      'Yurt dışında bir iş teklifi almak, kariyerinizi uluslararası boyuta taşımak ve yasal olarak çalışmak için çalışma vizesi başvuru sürecini ve tüm detayları inceleyin.',
     sections: [
       {
         heading: 'Çalışma Vizesi Nedir ve Kimler Başvurabilir?',
         paragraphs: [
-          'Çalışma vizesi; başka bir ülkede yasal olarak çalışmak isteyen kişilerin, ilgili ülkenin çalışma ve göç mevzuatı kapsamında başvurduğu vize türüdür.',
-          'Çalışma vizesine, yurt dışında bir işverenden iş teklifi veya iş sözleşmesi alan kişiler başta olmak üzere, ülkenin uygulamalarına göre belirli mesleki veya nitelikli çalışma programlarına kabul edilen kişiler başvurabilir.',
-          'Çalışma vizesinin şartları; yapılacak işin niteliğine, işverenin durumuna, başvuru sahibinin mesleki yeterliliklerine, çalışma süresine ve başvurulan ülkenin göç mevzuatına göre değişiklik gösterebilir.',
-          'Bazı ülkelerde vize başvurusundan önce işverenin çalışma izni, işgücü onayı veya benzeri bir prosedürü tamamlaması gerekebilir.',
+          'Çalışma vizesi; başka bir ülkede yerleşik bir işverenden resmi iş teklifi alan veya uluslararası şirket içi nakil yoluyla görevlendirilen kişilerin, hedef ülkede yasal olarak ikamet edip çalışabilmesini sağlayan uzun süreli (D tipi / Ulusal) vize türüdür.',
+          'Bu vizeye kimler başvurabilir?',
+        ],
+        bullets: [
+          'Yurt dışındaki bir şirketten resmi iş sözleşmesi veya iş teklifi (Job Offer) almış olan profesyoneller',
+          'Avrupa Mavi Kart (EU Blue Card) veya nitelikli göçmenlik yasaları kapsamında şartları sağlayan uzmanlar',
+          'Sağlık personeli, mühendis, IT uzmanı gibi özel meslek gruplarında kabul gören kalifiye çalışanlar',
+          'Uluslararası firmaların yurt dışı şubelerine şirket içi nakil (Intra-company transfer) ile gidecek olanlar',
+          'Belirli ülkelerin sunduğu serbest meslek, freelance çalışma veya girişimci vizesi programlarına hak kazananlar',
         ],
       },
       {
         heading: 'Çalışma Vizesi İçin Gerekli Belgeler',
         isDocuments: true,
         paragraphs: [
-          'Çalışma vizesi başvurularında talep edilen belgeler; çalışılacak ülkeye, mesleğe, işverenin durumuna ve çalışma programının niteliğine göre değişebilir.',
-          'Başvurularda genellikle aşağıdaki belge grupları talep edilir:',
+          'Uzun süreli bir yerleşim ve çalışma vizesi olduğu için dosyanın hem işverenin kurumsal altyapısını hem de başvuranın mesleki yeterliliğini kanıtlaması gerekir. Başarılı bir çalışma vizesi dosyasında mutlaka yer alması gereken temel unsurlar şunlardır:',
         ],
         bullets: [
-          'Geçerli pasaport ve kimlik belgeleri',
-          'İş sözleşmesi veya resmi iş teklifi',
-          'İşveren tarafından sağlanan çalışma veya istihdam belgeleri',
-          'Çalışma izni, onay veya ilgili makam tarafından verilen izin belgesi',
-          'Eğitim ve mesleki yeterlilik belgeleri',
-          'Özgeçmiş ve çalışma deneyimini gösteren belgeler',
-          'Gerekli durumlarda dil yeterliliğini gösteren belgeler',
-          'Gerekli durumlarda sağlık sigortası ve sağlık raporları',
-          'Başvuru formu ve diğer destekleyici belgeler',
+          'Kimlik ve Pasaport Bilgileri',
+          'İş Sözleşmesi ve İşverenden Alınan Resmi Görevlendirme Belgeleri',
+          'Diploma, Transkript ve Mesleki Denklik (Recognition) Belgeleri',
+          'Özgeçmiş (CV) ve İş Tecrübesini Kanıtlayan Hizmet/SGK Dökümleri',
+          'Dil Yeterlilik Sertifikaları (ilgili ülkenin zorunlu kıldığı mesleki dil seviyesi)',
+          'Uluslararası Sağlık Sigortası ve Konaklama Planı',
         ],
       },
       {
         heading: 'Çalışma Vizesi Başvurusu Nasıl Yapılır?',
         paragraphs: [
-          'Çalışma vizesi başvurusu, öncelikle başvuru sahibinin ilgili ülkede çalışmasını sağlayacak iş veya çalışma programının belirlenmesiyle başlar.',
-          'İş teklifi veya iş sözleşmesi alındıktan sonra, çalışılacak ülkenin mevzuatına göre işveren tarafından çalışma izni, istihdam onayı veya benzeri bir prosedürün tamamlanması gerekebilir.',
-          'Gerekli izin ve belgeler hazırlandıktan sonra vize başvurusu, ilgili konsolosluk, büyükelçilik veya yetkilendirilmiş başvuru kanalı üzerinden yapılır. Başvuru türüne göre randevu, biyometrik işlemler, mülakat veya ek belge sunulması gerekebilir.',
-          'Başvurunun, iş sözleşmesi, çalışma izni ve diğer destekleyici belgelerde yer alan bilgilerle tutarlı şekilde hazırlanması önemlidir.',
+          'Çalışma vizesi, turistik veya ticari vizelerden farklı olarak doğrudan uzun süreli ulusal (D tipi) vize kategorisinde değerlendirilir. Süreç genellikle iş teklifinin alınması ve hedef ülkedeki resmi kurumların (örneğin Çalışma Ajansı / Yabancılar Dairesi) ön onayıyla başlar.',
+          'Ön onay alındıktan sonra başvuru süreci şu adımlarla ilerler:',
+        ],
+        steps: [
+          'Hedef ülkenin konsolosluk sisteminden uzun süreli çalışma vizesi randevusunun alınması ve başvuru formunun doldurulması',
+          'İş sözleşmesinin, diplomaların ve mesleki denklik belgelerinin eksiksiz olarak hazırlanması',
+          'Randevu günü şahsen başvuru merkezine gidilerek biyometrik işlemlerin ve mülakatın tamamlanması',
+          'Dosyanın hedef ülkedeki ilgili yerel makamlara gönderilerek nihai oturum ve çalışma izni onayının beklenmesi',
         ],
       },
       {
@@ -499,9 +592,9 @@ export const VISA_TYPES: VisaTypeContent[] = [
       },
     ],
     cta: {
-      title: 'Çalışma Vize Sürecinizi Planlayın',
-      text: 'İş teklifinizi, çalışma koşullarınızı ve kişisel durumunuzu değerlendirerek çalışma vize süreciniz için gerekli adımları birlikte planlayalım.',
-      label: 'Vize Başvurunuzu Planlayın',
+      title: 'Çalışma Vizesi Başvurunuzu Planlayın',
+      text: 'İş sözleşmenizi, mesleki denklik belgelerinizi ve kariyer planınızı birlikte değerlendirerek çalışma vizesi başvurunuz için en doğru adımları atalım.',
+      label: 'Çalışma Vizesi Başvurunuzu Planlayın',
     },
     faqTitle: 'Çalışma vizesi —',
   },

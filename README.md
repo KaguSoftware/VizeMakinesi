@@ -9,8 +9,7 @@ For full architecture details see [CLAUDE.md](./CLAUDE.md).
 ## Quick start
 
 ```bash
-cp .env.example .env.local
-# Fill in the three Supabase variables (see below)
+# Create .env.local with the variables listed below
 npm install
 npm run dev
 ```
@@ -29,8 +28,7 @@ Admin panel at [http://localhost:3000/admin](http://localhost:3000/admin).
 ### 2. Run migrations
 
 In the SQL editor, run each file in `supabase/migrations/` in order:
-- `0001_initial_schema.sql`
-- `0002_storage.sql`
+- every file `0001_…` through `0028_…` (lexical order; there are two `0014_*` files, run both)
 
 ### 3. Configure Storage buckets
 
@@ -56,13 +54,14 @@ Create these four buckets in Storage → Buckets (set each to **Public**):
 
 ## Environment variables
 
-Copy `.env.example` to `.env.local` and fill in:
+Create `.env.local` and fill in:
 
 | Variable | Where to find |
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | Project Settings → API → Project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Project Settings → API → anon/public key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Project Settings → API → service_role key (keep secret, server-only) |
+| `RESEND_API_KEY` | Resend dashboard → API Keys (consultation request emails) |
 
 > `npm run build` will error with "supabaseUrl is required" if `.env.local` is missing — this is expected. The build requires live Supabase credentials.
 
@@ -82,5 +81,14 @@ Copy `.env.example` to `.env.local` and fill in:
 npm run dev      # Dev server at http://localhost:3000
 npm run build    # Production build (requires env vars)
 npm run lint     # ESLint
+npm run typecheck # tsc --noEmit
 npm start        # Serve production build locally
 ```
+
+---
+
+## CI
+
+GitHub Actions (`.github/workflows/ci.yml`) runs on every push to `main` and on pull requests:
+`npm ci` → `npm run lint` → `npm run typecheck` → `npm run build` (with placeholder Supabase env vars).
+There is no test framework configured.

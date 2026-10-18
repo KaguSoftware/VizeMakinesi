@@ -88,7 +88,7 @@ export default function CountryForm({ country }: CountryFormProps) {
   const [mosaicSpan, setMosaicSpan] = useState(country?.mosaic_span ?? MOSAIC_SPANS[0].value)
 
   // — 04 Requirements
-  const [requirements, setRequirements] = useState<TextItem[]>(
+  const [requirements] = useState<TextItem[]>(
     country?.requirements.map((r) => mkText(r.text)) ?? []
   )
 

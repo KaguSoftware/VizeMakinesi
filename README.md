@@ -90,5 +90,5 @@ npm start        # Serve production build locally
 ## CI
 
 GitHub Actions (`.github/workflows/ci.yml`) runs on every push to `main` and on pull requests:
-`npm ci` → `npm run lint` → `npm run typecheck` → `npm run build` (with placeholder Supabase env vars).
+`npm ci` → `npm run lint` → `npm run typecheck` → `next build --experimental-build-mode compile` (no live Supabase needed).
 There is no test framework configured.

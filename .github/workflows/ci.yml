@@ -21,4 +21,5 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
-      - run: npm run build
+      # compile-only: full prerender needs live Supabase data
+      - run: npx next build --experimental-build-mode compile

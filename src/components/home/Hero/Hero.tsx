@@ -89,13 +89,13 @@ export default function Hero({ compact, hideCta }: { compact?: boolean; hideCta?
                 className="block"
                 variants={{ hidden: { opacity: 1, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
               >
-                En Hızlı, En Güvenilir ve
+                Profesyonel, Güvenilir ve
               </motion.span>
               <motion.span
                 className="block"
                 variants={{ hidden: { opacity: 1, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
               >
-                <span className="text-coral">Garantili</span> Yolu.
+                <span className="text-coral">Şeffaf</span> Yolu.
               </motion.span>
             </h1>
           </motion.div>
@@ -189,8 +189,8 @@ export default function Hero({ compact, hideCta }: { compact?: boolean; hideCta?
               variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT_EXPO } } }}
             >
               {compact
-                ? "60+ ülke için hatasız evrak hazırlığı ve hızlı randevu garantisiyle tüm vize sürecinizi güvence altına alıyoruz."
-                : "Turistikten ticari ve aile ziyaretlerine kadar tüm vize ihtiyaçlarınızda profesyonel çözüm ortağınız. 60+ ülke için hatasız evrak hazırlığı ve hızlı randevu garantisiyle sürecinizi güvence altına alıyoruz."}
+                ? "60+ ülke için titiz evrak hazırlığı ve randevu sürecinde yönlendirmeyle tüm vize sürecinizde yanınızdayız."
+                : "Turistikten ticari ve aile ziyaretlerine kadar tüm vize ihtiyaçlarınızda profesyonel çözüm ortağınız. 60+ ülke için titiz evrak hazırlığı ve randevu sürecinde yönlendirmeyle sürecinizin her adımında yanınızdayız."}
             </motion.p>
             {!hideCta && (
             <MotionLink

@@ -78,24 +78,18 @@ export default function Hero({ compact, hideCta }: { compact?: boolean; hideCta?
             animate="show"
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } } }}
           >
-            <h1 className={`font-serif font-bold leading-[1.05] tracking-[-0.02em] ${compact ? "text-[clamp(30px,3.6vw,54px)]" : "text-[clamp(32px,5.5vw,88px)]"}`}>
+            <h1 className={`font-serif font-bold leading-[1.05] tracking-[-0.02em] ${compact ? "text-[clamp(16px,5.4vw,40px)] lg:text-[clamp(30px,3vw,46px)]" : "text-[clamp(32px,5.5vw,88px)]"}`}>
               <motion.span
                 className="block"
                 variants={{ hidden: { opacity: 1, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
               >
-                Vize Almanın
+                Vize Almanın Profesyonel,
               </motion.span>
               <motion.span
                 className="block"
                 variants={{ hidden: { opacity: 1, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
               >
-                Profesyonel, Güvenilir ve
-              </motion.span>
-              <motion.span
-                className="block"
-                variants={{ hidden: { opacity: 1, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT_EXPO } } }}
-              >
-                <span className="text-coral">Şeffaf</span> Yolu.
+                Güvenilir ve <span className="text-coral">Şeffaf</span> Yolu.
               </motion.span>
             </h1>
           </motion.div>

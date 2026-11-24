@@ -17,8 +17,8 @@ export default async function HomePage() {
     return (
         <>
             {/* Üst bölüm: solda hero + popüler vizeler, sağda cascade hesaplayıcı */}
-            <section className="container border-b border-border pt-10 pb-14">
-                <div className="grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-10 lg:gap-14 items-start lg:items-stretch">
+            <section className="container border-b border-border pb-14">
+                <div className="pt-10 lg:pt-14 grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-10 lg:gap-14 items-start lg:items-stretch">
                     {/* Sol sütun */}
                     <div className="flex flex-col">
                         <Hero compact hideCta />

@@ -19,8 +19,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Dosya çok büyük (en fazla 20 MB)' }, { status: 413 })
   }
 
-  const doc = await PDFDocument.load(buffer, { ignoreEncryption: true })
-  const compressed = await doc.save({ useObjectStreams: true, addDefaultPage: false })
+  let compressed: Uint8Array
+  try {
+    const doc = await PDFDocument.load(buffer, { ignoreEncryption: true })
+    compressed = await doc.save({ useObjectStreams: true, addDefaultPage: false })
+  } catch {
+    return NextResponse.json({ error: 'Geçersiz PDF dosyası' }, { status: 422 })
+  }
 
   return new NextResponse(Buffer.from(compressed), {
     headers: {

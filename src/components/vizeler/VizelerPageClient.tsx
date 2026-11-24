@@ -34,7 +34,7 @@ interface Props {
 }
 
 
-export default function VizelerPageClient({ entries, settings }: Props) {
+export default function VizelerPageClient({ entries }: Props) {
     const [active, setActive] = useState<FilterKey | null>(null);
 
     const populerEntries = entries.populer;
